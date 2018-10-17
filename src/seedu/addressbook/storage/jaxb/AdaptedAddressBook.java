@@ -8,9 +8,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import seedu.addressbook.data.AddressBook;
 import seedu.addressbook.data.exception.IllegalValueException;
+import seedu.addressbook.data.person.Assessment;
 import seedu.addressbook.data.person.Person;
+import seedu.addressbook.data.person.UniqueAssessmentsList;
 import seedu.addressbook.data.person.UniquePersonList;
-
 
 /**
  * JAXB-friendly adapted address book data holder class.
@@ -20,6 +21,9 @@ public class AdaptedAddressBook {
 
     @XmlElement
     private List<AdaptedPerson> persons = new ArrayList<>();
+
+    @XmlElement
+    private List<Assessment> assessments = new ArrayList<>();
 
 
     @XmlElement(defaultValue = "default_pw")
@@ -65,7 +69,12 @@ public class AdaptedAddressBook {
         for (AdaptedPerson person : persons) {
             personList.add(person.toModelType());
         }
+        final List<Assessment> assessmentList = new ArrayList<>();
+        for (Assessment assessment : assessments) {
+            assessmentList.add(assessment);
+        }
         final String masterPassword = password.getPassword();
-        return new AddressBook(new UniquePersonList(personList), masterPassword);
+        return new AddressBook(new UniquePersonList(personList), new UniqueAssessmentsList(assessmentList),
+                masterPassword);
     }
 }

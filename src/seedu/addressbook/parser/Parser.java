@@ -18,6 +18,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import seedu.addressbook.commands.AddAccountCommand;
+import seedu.addressbook.commands.AddAssessmentCommand;
 import seedu.addressbook.commands.AddAssignmentStatistics;
 import seedu.addressbook.commands.AddCommand;
 import seedu.addressbook.commands.AddExamCommand;
@@ -26,6 +27,7 @@ import seedu.addressbook.commands.ClearCommand;
 import seedu.addressbook.commands.ClearExamsCommand;
 import seedu.addressbook.commands.Command;
 import seedu.addressbook.commands.DeleteAccountCommand;
+import seedu.addressbook.commands.DeleteAssessmentCommand;
 import seedu.addressbook.commands.DeleteCommand;
 import seedu.addressbook.commands.DeleteExamCommand;
 import seedu.addressbook.commands.EditExamCommand;
@@ -35,6 +37,7 @@ import seedu.addressbook.commands.ExitCommand;
 import seedu.addressbook.commands.FindCommand;
 import seedu.addressbook.commands.HelpCommand;
 import seedu.addressbook.commands.IncorrectCommand;
+import seedu.addressbook.commands.ListAssessmentCommand;
 import seedu.addressbook.commands.ListCommand;
 import seedu.addressbook.commands.LoginCommand;
 import seedu.addressbook.commands.LogoutCommand;
@@ -104,6 +107,9 @@ public class Parser {
                     + "(st/(?<examStartTime>[^/]+))*"
                     + "(et/(?<examEndTime>[^/]+))*"
                     + "(dt/(?<examDetails>[^/]+))*");
+
+    public static final Pattern ASSESSMENT_DATA_ARGS_FORMAT = // '/' forward slashes are reserved for delimiter prefixes
+            Pattern.compile("(?<examName>[^/]+)");
 
     /**
      * Used for initial separation of command word and args.
@@ -214,6 +220,15 @@ public class Parser {
 
         case EditExamCommand.COMMAND_WORD:
             return prepareEditExam(arguments);
+
+        case AddAssessmentCommand.COMMAND_WORD:
+            return prepareAddAssessment(arguments);
+
+        case DeleteAssessmentCommand.COMMAND_WORD:
+            return prepareDeleteAssessment(arguments);
+
+        case ListAssessmentCommand.COMMAND_WORD:
+            return new ListAssessmentCommand();
 
         case HelpCommand.COMMAND_WORD: // Fallthrough
         default:
@@ -699,6 +714,45 @@ public class Parser {
             return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditExamCommand.MESSAGE_USAGE));
         }
     }
+
+    /**
+     * Parses arguments in the context of the add assessment command.
+     *
+     * @param args full command args string
+     * @return the prepared command
+     */
+    private Command prepareAddAssessment (String args) {
+        final Matcher matcher = ASSESSMENT_DATA_ARGS_FORMAT.matcher(args.trim());
+        // Validate arg string format
+        if (!matcher.matches()) {
+            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                    AddAssessmentCommand.MESSAGE_USAGE));
+        }
+        try {
+            return new AddAssessmentCommand(
+                    matcher.group("examName")
+            );
+        } catch (IllegalValueException ive) {
+            return new IncorrectCommand(ive.getMessage());
+        }
+    }
+
+    /**
+     * Parses arguments in the context of the delete assessment command.
+     *
+     * @param args full command args string
+     * @return the prepared command
+     */
+    private Command prepareDeleteAssessment(String args) {
+        try {
+            final int targetIndex = parseArgsAsDisplayedIndex(args);
+            return new DeleteAssessmentCommand(targetIndex);
+        } catch (ParseException | NumberFormatException e) {
+            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                    DeleteAssessmentCommand.MESSAGE_USAGE));
+        }
+    }
+
 
     /**
      * Stores the new values of exam to be edited to.

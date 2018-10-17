@@ -8,6 +8,7 @@ import seedu.addressbook.common.Messages;
 import seedu.addressbook.data.AddressBook;
 import seedu.addressbook.data.ExamBook;
 import seedu.addressbook.data.StatisticsBook;
+import seedu.addressbook.data.person.Assessment;
 import seedu.addressbook.data.person.ReadOnlyExam;
 import seedu.addressbook.data.person.ReadOnlyPerson;
 import seedu.addressbook.privilege.Privilege;
@@ -24,6 +25,7 @@ public abstract class Command {
         PRIVILEGE,
         GENERAL,
         ACCOUNT,
+        ASSESSMENT,
         EXAM
     }
 
@@ -32,6 +34,7 @@ public abstract class Command {
     protected ExamBook examBook;
     protected StatisticsBook statisticsBook;
     protected List<? extends ReadOnlyPerson> relevantPersons;
+    protected List<? extends Assessment> relevantAssessments;
     protected List<? extends ReadOnlyExam> relevantExams;
     private int targetIndex = -1;
 
@@ -53,6 +56,16 @@ public abstract class Command {
      */
     public static String getMessageForPersonListShownSummary(List<? extends ReadOnlyPerson> personsDisplayed) {
         return String.format(Messages.MESSAGE_PERSONS_LISTED_OVERVIEW, personsDisplayed.size());
+    }
+
+    /**
+     * Constructs a feedback message to summarise an operation that displayed a listing of assessments.
+     *
+     * @param assessmentsDisplayed used to generate summary
+     * @return summary message for persons displayed
+     */
+    public static String getMessageForAssessmentListShownSummary(List<? extends Assessment> assessmentsDisplayed) {
+        return String.format(Messages.MESSAGE_ASSESSMENTS_LISTED_OVERVIEW, assessmentsDisplayed.size());
     }
 
     /**
@@ -82,11 +95,12 @@ public abstract class Command {
     }
 
     public void setData(AddressBook addressBook, List<? extends ReadOnlyPerson> relevantPersons,
-                        List<? extends ReadOnlyExam> relevantExams, Privilege privilege,
-                        ExamBook exambook, StatisticsBook statisticsBook) {
+                        List<? extends ReadOnlyExam> relevantExams, List<? extends Assessment> relevantAssessments,
+                        Privilege privilege, ExamBook exambook, StatisticsBook statisticsBook) {
         setData(addressBook, statisticsBook, relevantPersons, privilege);
         this.examBook = exambook;
         this.relevantExams = relevantExams;
+        this.relevantAssessments = relevantAssessments;
     }
 
     /**
@@ -97,6 +111,16 @@ public abstract class Command {
     protected ReadOnlyPerson getTargetPerson() throws IndexOutOfBoundsException {
         return relevantPersons.get(getTargetIndex() - DISPLAYED_INDEX_OFFSET);
     }
+
+    /**
+     * Extracts the the target person in the last shown list from the given arguments.
+     *
+     * @throws IndexOutOfBoundsException if the target index is out of bounds of the last viewed listing
+     */
+    protected Assessment getTargetAssessment() throws IndexOutOfBoundsException {
+        return relevantAssessments.get(getTargetIndex() - DISPLAYED_INDEX_OFFSET);
+    }
+
 
     public int getTargetIndex() {
         return targetIndex;

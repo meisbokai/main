@@ -2,11 +2,17 @@ package seedu.addressbook.data;
 
 import java.util.Optional;
 
+import seedu.addressbook.data.person.Assessment;
 import seedu.addressbook.data.person.Person;
 import seedu.addressbook.data.person.ReadOnlyPerson;
+import seedu.addressbook.data.person.UniqueAssessmentsList;
+import seedu.addressbook.data.person.UniqueAssessmentsList.AssessmentNotFoundException;
+import seedu.addressbook.data.person.UniqueAssessmentsList.DuplicateAssessmentException;
 import seedu.addressbook.data.person.UniquePersonList;
 import seedu.addressbook.data.person.UniquePersonList.DuplicatePersonException;
 import seedu.addressbook.data.person.UniquePersonList.PersonNotFoundException;
+
+
 
 /**
  * Represents the entire address book. Contains the data of the address book.
@@ -15,6 +21,7 @@ public class AddressBook {
 
     public static final String DEFAULT_MASTER_PASSWORD = "default_pw";
     private final UniquePersonList allPersons;
+    private final UniqueAssessmentsList allAssessments;
     private String masterPassword;
 
     /**
@@ -22,6 +29,7 @@ public class AddressBook {
      */
     public AddressBook() {
         allPersons = new UniquePersonList();
+        allAssessments = new UniqueAssessmentsList();
         masterPassword = DEFAULT_MASTER_PASSWORD;
     }
 
@@ -31,8 +39,9 @@ public class AddressBook {
      * @param persons external changes to this will not affect this address book
      * @param masterPassword
      */
-    public AddressBook(UniquePersonList persons, String masterPassword) {
+    public AddressBook(UniquePersonList persons, UniqueAssessmentsList assessments, String masterPassword) {
         allPersons = new UniquePersonList(persons);
+        allAssessments = new UniqueAssessmentsList(assessments);
         this.masterPassword = Optional.ofNullable(masterPassword)
                 .orElse(DEFAULT_MASTER_PASSWORD);
     }
@@ -55,6 +64,15 @@ public class AddressBook {
     }
 
     /**
+     * Adds an assessment to the address book.
+     *
+     * @throws DuplicateAssessmentException if an equivalent person already exists.
+     */
+    public void addAssessment(Assessment toAdd) throws DuplicateAssessmentException {
+        allAssessments.add(toAdd);
+    }
+
+    /**
      * Checks if an equivalent person exists in the address book.
      */
     public boolean containsPerson(ReadOnlyPerson key) {
@@ -68,6 +86,15 @@ public class AddressBook {
      */
     public void removePerson(ReadOnlyPerson toRemove) throws PersonNotFoundException {
         allPersons.remove(toRemove);
+    }
+
+    /**
+     * Removes the equivalent assessment from the address book.
+     *
+     * @throws AssessmentNotFoundException if no such Assessment could be found.
+     */
+    public void removeAssessment(Assessment toRemove) throws AssessmentNotFoundException {
+        allAssessments.remove(toRemove);
     }
 
     public Person findPersonByUsername(String username) throws PersonNotFoundException {
@@ -99,6 +126,13 @@ public class AddressBook {
      */
     public UniquePersonList getAllPersons() {
         return new UniquePersonList(allPersons);
+    }
+
+    /**
+     * Defensively copied UniqueAssessmentList of all assessments in the address book at the time of the call.
+     */
+    public UniqueAssessmentsList getAllAssessments() {
+        return new UniqueAssessmentsList(allAssessments);
     }
 
     public String getMasterPassword() {

@@ -21,6 +21,7 @@ import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
 import seedu.addressbook.TestDataHelper;
+import seedu.addressbook.commands.AddAssessmentCommand;
 import seedu.addressbook.commands.AddAssignmentStatistics;
 import seedu.addressbook.commands.AddCommand;
 import seedu.addressbook.commands.AddExamCommand;
@@ -46,6 +47,7 @@ import seedu.addressbook.data.AddressBook;
 import seedu.addressbook.data.ExamBook;
 import seedu.addressbook.data.StatisticsBook;
 import seedu.addressbook.data.person.Address;
+import seedu.addressbook.data.person.Assessment;
 import seedu.addressbook.data.person.AssignmentStatistics;
 import seedu.addressbook.data.person.Email;
 import seedu.addressbook.data.person.Exam;
@@ -60,8 +62,6 @@ import seedu.addressbook.privilege.Privilege;
 import seedu.addressbook.privilege.user.AdminUser;
 import seedu.addressbook.storage.StorageFile;
 import seedu.addressbook.stubs.StorageStub;
-
-//import seedu.addressbook.data.person.Fees;
 
 public class LogicTest {
 
@@ -385,6 +385,38 @@ public class LogicTest {
         // execute command and verify result
         assertCommandBehavior(helper.generateAddAssignmentStatistics(toBeAdded),
                 AddAssignmentStatistics.MESSAGE_DUPLICATE_STATISTIC, expected, false);
+    }
+
+    @Test
+    public void executeAddAssessmentSuccessful() throws Exception {
+        // setup expectations
+        TestDataHelper helper = new TestDataHelper();
+        Assessment toBeAdded = helper.assess();
+        AddressBook expected = new AddressBook();
+        expected.addAssessment(toBeAdded);
+        List<? extends ReadOnlyPerson> dummyList = expected.getAllPersons().immutableListView();
+
+        // execute command and verify result
+        assertCommandBehavior(helper.generateAddAssessment(toBeAdded),
+                String.format(AddAssessmentCommand.MESSAGE_SUCCESS, toBeAdded), expected, false,
+                dummyList);
+    }
+
+    @Test
+    public void executeAddAssessmentDuplicateNotAllowed() throws Exception {
+        // setup expectations
+        TestDataHelper helper = new TestDataHelper();
+        Assessment toBeAdded = helper.assess();
+        AddressBook expected = new AddressBook();
+        expected.addAssessment(toBeAdded);
+        List<? extends ReadOnlyPerson> dummyList = expected.getAllPersons().immutableListView();
+
+        // setup starting state
+        addressBook.addAssessment(toBeAdded); // statistic already in internal statistic book
+
+        // execute command and verify result
+        assertCommandBehavior(helper.generateAddAssessment(toBeAdded),
+                AddAssessmentCommand.MESSAGE_DUPLICATE_ASSESSMENT, expected, false, dummyList);
     }
 
     @Test

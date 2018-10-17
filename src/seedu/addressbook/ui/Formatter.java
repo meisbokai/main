@@ -3,6 +3,7 @@ package seedu.addressbook.ui;
 import java.util.ArrayList;
 import java.util.List;
 
+import seedu.addressbook.data.person.Assessment;
 import seedu.addressbook.data.person.Printable;
 import seedu.addressbook.data.person.ReadOnlyExam;
 import seedu.addressbook.data.person.ReadOnlyPerson;
@@ -95,5 +96,15 @@ public class Formatter {
 
         }
         return format(asIndexedList(formattedExams));
+    }
+
+    /** Formats the given list of exams for displaying to the admin user. */
+    public String formatAssessments(List<? extends Assessment> assessments) {
+        final List<String> formattedAssessments = new ArrayList<>();
+        for (Assessment assessment : assessments) {
+            formattedAssessments.add(assessment.getAsTextShowAll());
+
+        }
+        return format(asIndexedList(formattedAssessments));
     }
 }

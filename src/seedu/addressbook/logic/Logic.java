@@ -12,6 +12,7 @@ import seedu.addressbook.commands.IncorrectCommand;
 import seedu.addressbook.data.AddressBook;
 import seedu.addressbook.data.ExamBook;
 import seedu.addressbook.data.StatisticsBook;
+import seedu.addressbook.data.person.Assessment;
 import seedu.addressbook.data.person.ReadOnlyExam;
 import seedu.addressbook.data.person.ReadOnlyPerson;
 import seedu.addressbook.parser.Parser;
@@ -31,6 +32,9 @@ public class Logic {
 
     /** The list of person shown to the user most recently.  */
     private List<? extends ReadOnlyPerson> lastShownList = Collections.emptyList();
+
+    /** The list of person shown to the user most recently.  */
+    private List<? extends Assessment> lastShownAssessmentList = Collections.emptyList();
 
     /** The list of exam shown to the user most recently.  */
     private List<? extends ReadOnlyExam> lastShownExamList = Collections.emptyList();
@@ -118,6 +122,17 @@ public class Logic {
     /**
      * Unmodifiable view of the current last shown exams list.
      */
+    public List<Assessment> getLastShownAssessmentList() {
+        return Collections.unmodifiableList(lastShownAssessmentList);
+    }
+
+    protected void setLastShownAssessmentList (List<? extends Assessment> newList) {
+        lastShownAssessmentList = newList;
+    }
+
+    /**
+     * Unmodifiable view of the current last shown exams list.
+     */
     public List<ReadOnlyExam> getLastShownExamList() {
         return Collections.unmodifiableList(lastShownExamList);
     }
@@ -148,7 +163,8 @@ public class Logic {
     private CommandResult execute(Command command) throws Exception {
         final CommandResult result;
 
-        command.setData(addressBook, lastShownList, lastShownExamList, privilege, examBook, statisticsBook);
+        command.setData(addressBook, lastShownList, lastShownExamList, lastShownAssessmentList, privilege, examBook,
+                statisticsBook);
 
         /** Checking instanceof IncorrectCommand to prevent overwriting the message of an incorrect command*/
         if (privilege.isAllowedCommand(command) || (command instanceof IncorrectCommand)) {
@@ -173,10 +189,13 @@ public class Logic {
     private void recordResult(CommandResult result) {
         final Optional<List<? extends ReadOnlyPerson>> personList = result.getRelevantPersons();
         final Optional<List<? extends ReadOnlyExam>> examList = result.getRelevantExams();
+        final Optional<List<? extends Assessment>> assessmentList = result.getRelevantAssessments();
         if (personList.isPresent()) {
             lastShownList = personList.get();
         } else if (examList.isPresent()) {
             lastShownExamList = examList.get();
+        } else if (assessmentList.isPresent()) {
+            lastShownAssessmentList = assessmentList.get();
         }
     }
 }

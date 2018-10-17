@@ -15,6 +15,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import seedu.addressbook.commands.CommandResult;
 import seedu.addressbook.commands.ExitCommand;
+import seedu.addressbook.data.person.Assessment;
 import seedu.addressbook.data.person.ReadOnlyExam;
 import seedu.addressbook.data.person.ReadOnlyPerson;
 import seedu.addressbook.logic.Logic;
@@ -60,10 +61,13 @@ public class MainWindow {
         clearOutputConsole();
         final Optional<List<? extends ReadOnlyPerson>> resultPersons = result.getRelevantPersons();
         final Optional<List<? extends ReadOnlyExam>> resultExams = result.getRelevantExams();
+        final Optional<List<? extends Assessment>> resultAssessment = result.getRelevantAssessments();
         if (resultPersons.isPresent()) {
             display(resultPersons.get());
         } else if (resultExams.isPresent()) {
             displayExams(resultExams.get());
+        } else if (resultAssessment.isPresent()) {
+            displayAssessments(resultAssessment.get());
         }
         display(result.feedbackToUser);
     }
@@ -96,6 +100,13 @@ public class MainWindow {
      */
     private void displayExams(List<? extends ReadOnlyExam> exams) {
         display(new Formatter().formatExam(exams));
+    }
+
+    /**
+     * Displays the list of exams in the output display area, formatted as an indexed list.
+     */
+    private void displayAssessments(List<? extends Assessment> assessments) {
+        display(new Formatter().formatAssessments(assessments));
     }
 
 

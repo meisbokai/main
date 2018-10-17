@@ -18,6 +18,7 @@ import seedu.addressbook.data.AddressBook;
 import seedu.addressbook.data.ExamBook;
 import seedu.addressbook.data.account.Account;
 import seedu.addressbook.data.person.Address;
+import seedu.addressbook.data.person.Assessment;
 import seedu.addressbook.data.person.AssignmentStatistics;
 import seedu.addressbook.data.person.Email;
 import seedu.addressbook.data.person.Exam;
@@ -74,6 +75,12 @@ public class TestDataHelper {
         Boolean isPrivate = false;
         return new AssignmentStatistics(subjectName, examName, topScorer, averageScore, totalExamTakers, numberAbsent,
                 totalPass, maxMin, isPrivate);
+    }
+
+    /** Test assessment for testing**/
+    public final Assessment assess () throws Exception {
+        String assessment = "CG2271 Midterm";
+        return new Assessment(assessment);
     }
 
     /**
@@ -246,6 +253,16 @@ public class TestDataHelper {
         cmd.add(numberAbsentField);
         cmd.add(totalPassField);
         cmd.add(maxMinField);
+        return cmd.toString();
+    }
+
+    /** Generates the correct addassess command based on the person given */
+    public String generateAddAssessment(Assessment a) {
+        StringJoiner cmd = new StringJoiner(" ");
+        String examName = a.getExamName();
+
+        cmd.add("addassess");
+        cmd.add(examName);
         return cmd.toString();
     }
 

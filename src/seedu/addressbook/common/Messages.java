@@ -26,5 +26,9 @@ public class Messages {
     public static final String MESSAGE_INVALID_EXAM_DISPLAYED_INDEX = "The exam index provided is invalid. "
             + "Run the examslist command to generate a list of exams.";
     public static final String MESSAGE_NO_ARGS_FOUND = "No arguments found!\n";
+
     public static final String MESSAGE_INVALID_DATE = "Input date is invalid\n";
-}
+    public static final String MESSAGE_INVALID_ASSESSMENT_DISPLAYED_INDEX = "The assessment index provided is invalid."
+            + "Run the list/find command to generate a list of assessments.";
+    public static final String MESSAGE_ASSESSMENT_NOT_IN_ADDRESSBOOK = "Assessment could not be found in address book!";
+    public static final String MESSAGE_ASSESSMENTS_LISTED_OVERVIEW = "%1$d assessments listed!";}
