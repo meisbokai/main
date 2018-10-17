@@ -611,7 +611,7 @@ public class Parser {
     }
 
     /**
-     * Parses arguments in the context of the update Attendance command.
+     * Parses arguments in the context of the replaceAttendance command.
      */
     private Command prepareReplaceAttendance(String args) {
 
