@@ -36,6 +36,7 @@ import seedu.addressbook.commands.EditPasswordCommand;
 import seedu.addressbook.commands.ExitCommand;
 import seedu.addressbook.commands.FindCommand;
 import seedu.addressbook.commands.HelpCommand;
+import seedu.addressbook.commands.ReplaceAttendanceCommand;
 import seedu.addressbook.commands.UpdateAttendanceCommand;
 import seedu.addressbook.commands.ViewAllCommand;
 import seedu.addressbook.commands.ViewAttendanceCommand;
@@ -909,6 +910,27 @@ public class LogicTest {
     }
 
     @Test
+    public void executeUpdateAttendanceDuplicateDate() throws Exception {
+        TestDataHelper helper = new TestDataHelper();
+        Person p1 = helper.generatePerson(1, false);
+
+        List<Person> personList = helper.generatePersonList(p1);
+
+        AddressBook expectedBook = helper.generateAddressBook(personList);
+
+        p1.updateAttendanceMethod("29-09-2018", true, false);
+
+        helper.addToAddressBook(addressBook, personList);
+        logic.setLastShownList(personList);
+
+        assertCommandBehavior("attendance 1 d/29-09-2018 att/1",
+                UpdateAttendanceCommand.MESSAGE_DUPLICATE_ATTENDANCE,
+                expectedBook,
+                false,
+                personList);
+    }
+
+    @Test
     public void executeViewAttendanceSuccess() throws Exception {
         TestDataHelper helper = new TestDataHelper();
         Person p1 = helper.generatePerson(1, false);
@@ -930,7 +952,28 @@ public class LogicTest {
                 false,
                 personListExpected);
     }
-    //TODO add in test for replace attendance
+
+    @Test
+    public void executeReplaceAttendanceSuccess() throws Exception {
+        TestDataHelper helper = new TestDataHelper();
+        Person p1 = helper.generatePerson(1, false);
+
+        List<Person> personList = helper.generatePersonList(p1);
+
+        AddressBook expectedBook = helper.generateAddressBook(personList);
+
+        p1.updateAttendanceMethod("29-09-2018", true, false);
+
+        helper.addToAddressBook(addressBook, personList);
+        logic.setLastShownList(personList);
+
+        assertCommandBehavior("replaceAtten 1 d/29-09-2018 att/1",
+                ReplaceAttendanceCommand.MESSAGE_SUCCESS + p1.getName(),
+                expectedBook,
+                false,
+                personList);
+    }
+
     @Test
     public void executeClearExamsSuccess() throws Exception {
         TestDataHelper helper = new TestDataHelper();
