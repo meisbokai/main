@@ -975,6 +975,25 @@ public class LogicTest {
     }
 
     @Test
+    public void executeReplaceAttendanceNoAttendanceYet() throws Exception {
+        TestDataHelper helper = new TestDataHelper();
+        Person p1 = helper.generatePerson(1, false);
+
+        List<Person> personList = helper.generatePersonList(p1);
+
+        AddressBook expectedBook = helper.generateAddressBook(personList);
+
+        helper.addToAddressBook(addressBook, personList);
+        logic.setLastShownList(personList);
+
+        assertCommandBehavior("replaceAtten 1 d/29-09-2018 att/1",
+                ReplaceAttendanceCommand.MESSAGE_NO_DUPLICATE_ATTENDANCE,
+                expectedBook,
+                false,
+                personList);
+    }
+
+    @Test
     public void executeClearExamsSuccess() throws Exception {
         TestDataHelper helper = new TestDataHelper();
         // TODO: refactor this elsewhere
