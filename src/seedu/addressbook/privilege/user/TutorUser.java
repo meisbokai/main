@@ -10,8 +10,8 @@ import seedu.addressbook.commands.DeleteCommand;
 import seedu.addressbook.commands.DeleteExamCommand;
 import seedu.addressbook.commands.EditExamCommand;
 import seedu.addressbook.commands.ExamsListCommand;
-import seedu.addressbook.commands.UpdateAttendanceCommand;
 import seedu.addressbook.commands.ReplaceAttendanceCommand;
+import seedu.addressbook.commands.UpdateAttendanceCommand;
 import seedu.addressbook.commands.ViewAttendanceCommand;
 
 

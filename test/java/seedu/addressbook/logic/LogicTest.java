@@ -1012,7 +1012,6 @@ public class LogicTest {
                 true);
     }
 
-
     @Test
     public void executeDeleteExamInvalidArgsFormat() throws Exception {
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteExamCommand.MESSAGE_USAGE);
