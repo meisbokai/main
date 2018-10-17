@@ -13,13 +13,21 @@ public class ViewAttendanceCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD + ":\n"
             + "Views the attendance of a student. \n"
             + "Parameters: indexOfStudent \n"
-            + "Example: " + COMMAND_WORD + " " + "1";
+            + "\tExample: " + COMMAND_WORD + " " + "1";
 
     public static final String MESSAGE_SUCCESS = "Attendance for student, ";
 
     // Constructor
     public ViewAttendanceCommand(int targetIndex) {
         super(targetIndex);
+    }
+
+    /**
+     * Constructor used for Privileges
+     * Command constructed has no functionality
+     * */
+    public ViewAttendanceCommand() {
+        // Does nothing
     }
 
     @Override

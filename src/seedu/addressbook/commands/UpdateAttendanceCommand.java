@@ -13,8 +13,8 @@ public class UpdateAttendanceCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD + ":\n"
             + "Updates the attendance of a student. \n"
             + "Parameters: indexOfPerson d/dd-mm-yyyy att/attendance \n"
-            + "Example: " + COMMAND_WORD + " " + "1 d/29-09-2018 att/1 \n"
-            + "To input today's date, input d/0";
+            + "\tExample: " + COMMAND_WORD + " " + "1 d/29-09-2018 att/1 \n"
+            + "\tTo input today's date, input d/0";
 
     public static final String MESSAGE_SUCCESS = "Attendance updated for: ";
     public static final String MESSAGE_DUPLICATE_ATTENDANCE = "Attendance has already been taken.\n"
@@ -28,6 +28,14 @@ public class UpdateAttendanceCommand extends Command {
         super(targetIndex); // super is calling the constructor of the parent function
         this.date = date;
         this.isPresent = isPresent;
+    }
+
+    /**
+     * Constructor used for Privileges
+     * Command constructed has no functionality
+     * */
+    public UpdateAttendanceCommand() {
+        // Does nothing
     }
 
     @Override
