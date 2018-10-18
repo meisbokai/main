@@ -954,7 +954,7 @@ public class LogicTest {
     }
 
     @Test
-    public void executeViewAttendanceNILAttendance() throws Exception {
+    public void executeViewAttendanceNilAttendance() throws Exception {
         TestDataHelper helper = new TestDataHelper();
         Person p1 = helper.generatePerson(1, false);
         Person p1Expected = helper.generatePerson(1, false);
@@ -972,8 +972,7 @@ public class LogicTest {
                         + ":\n" + p1Expected.viewAttendanceMethod(),
                 expectedBook,
                 false,
-                personList
-                );
+                personList);
     }
 
     @Test
