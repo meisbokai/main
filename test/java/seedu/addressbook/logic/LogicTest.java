@@ -954,6 +954,23 @@ public class LogicTest {
     }
 
     @Test
+    public void executeViewAttendanceNILAttendance() throws Exception {
+        TestDataHelper helper = new TestDataHelper();
+        Person p1 = helper.generatePerson(1, false);
+
+        List<Person> personList = helper.generatePersonList(p1);
+
+        helper.addToAddressBook(addressBook, personList);
+        logic.setLastShownList(personList);
+
+        // TODO update later
+        assertCommandBehavior("viewAtten 1",
+                ViewAttendanceCommand.MESSAGE_SUCCESS + p1.getName()
+                        + ":\n" + p1.viewAttendanceMethod()
+                );
+    }
+
+    @Test
     public void executeReplaceAttendanceSuccess() throws Exception {
         TestDataHelper helper = new TestDataHelper();
         Person p1 = helper.generatePerson(1, false);
