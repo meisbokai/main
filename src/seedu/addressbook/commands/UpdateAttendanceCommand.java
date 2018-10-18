@@ -42,8 +42,8 @@ public class UpdateAttendanceCommand extends Command {
     public CommandResult execute() {
         try {
             Person person = addressBook.findPerson(getTargetPerson());
-            boolean duplicateDate = person.updateAttendanceMethod(date, isPresent, true);
-            if (duplicateDate) {
+            boolean isDuplicateDate = person.updateAttendanceMethod(date, isPresent, true);
+            if (isDuplicateDate) {
                 return new CommandResult(String.format((MESSAGE_DUPLICATE_ATTENDANCE)));
             } else {
                 return new CommandResult(String.format(MESSAGE_SUCCESS) + person.getName());
