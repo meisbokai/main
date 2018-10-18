@@ -91,12 +91,12 @@ Returns Any person having names `Betsy`, `Tim`, or `John`.
 
 === Deleting a person : `delete`
 
-Deletes the specified person from the address book. Irreversible. +
+Deletes the specified person from the address book. Updates the exams the person is registered for in the exam book and for all persons registered for them in the address book. Irreversible. +
 Format: `delete INDEX`
 
 ****
 Deletes the person at the specified `INDEX`.
-The index refers to the index number shown in the most recent listing.
+The index refers to the index number shown in the most recent persons listing.
 ****
 
 Examples:
@@ -116,7 +116,7 @@ Format: `view INDEX`
 
 ****
 Views the person at the specified `INDEX`.
-The index refers to the index number shown in the most recent listing.
+The index refers to the index number shown in the most recent persons listing.
 ****
 
 Examples:
@@ -136,7 +136,7 @@ Format: `viewall INDEX`
 
 ****
 Views all details of the person at the specified `INDEX`.
-The index refers to the index number shown in the most recent listing.
+The index refers to the index number shown in the most recent persons listing.
 ****
 
 Examples:
@@ -152,34 +152,140 @@ Views all details of the 1st person in the results of the `find` command.
 
 === View your own details : `viewself`
 
-Displays the all the details of the user, provided the user is logged in. +
+Displays the all the details (including private details) of the user, provided the user is logged in. +
 Format: `viewself`
 
 === Clearing all entries : `clear`
 
-Clears all entries from the address book. +
+Clears all entries from the address book. Reset all the exams in the exam book. +
 Format: `clear`
 
 == Exam Commands
 Below are the commands that deals with exam data:
 
-=== Creating an exam : `createexam`
+=== Adding an exam : `addexam`
 
 Adds an exam to the exam book. +
-Format: `createexam SUBJECTNAME [p]n/EXAMNAME  d/EXAMDATE st/EXAMSTARTTIME et/EXAMENDTIME dt/EXAMDETAILS`
+Format: `addexam [p]e/EXAMNAME s/SUBJECTNAME d/EXAMDATE st/EXAMSTARTTIME et/EXAMENDTIME dt/EXAMDETAILS`
 
 ****
-Words in `UPPER_CASE` are the parameters, order of parameters are fixed.
+Words in `UPPER_CASE` are the parameters, items in SQUARE_BRACKETS are optional. Order of parameters are fixed.
 
-Put a `p` before the examname prefix to mark it as `private`. `private` details can only
-be seen using the `viewall` command.
+Put a `p` before the exam name prefix to mark the exam as `private`.
 ****
 
 Examples:
 
-* `createexam Mathematics n/Math Mid-terms d/01122018 st/0900 et/1200 dt/At MPSH` +
+* `addexam e/Math 2018 Finals s/Mathematics d/01-12-2018 st/09:00 et/12:00 dt/At MPSH` +
 
-* `createexam English n/Eng Finals d/012122017 st/0800 et/1000 dt/At School Hall`
+* `addexam pe/2017 English Finals Paper 2 s/English d/01-12-2017 st/08:00 et/10:00 dt/No Pencils Allowed`
+
+=== Deleting an exam : `deleteexam`
+Deletes the specified exam from the exam book. Irreversible. Persons registered for the corresponding exam will have the exam deleted as well. +
+Format: `deleteexam INDEX`
+
+****
+Deletes the exam at the specified `INDEX`.
+The index refers to the index number shown in the most recent exams listing.
+****
+
+Example:
+
+* `examslist` +
+`deleteexam 2` +
+Deletes the 2nd exam in the exam book.
+
+=== Editing an exam : `editexam`
+Edits the specified exam from the exam book. Persons registered for the corresponding exam will have the exam details updated as well. +
+Format: `editexam INDEX [p/PRIVATESTATUS] [e/EXAMNAME] [s/SUBJECTNAME] [d/EXAMDATE] [st/EXAMSTARTTIME] [et/EXAMENDTIME] [dt/EXAMDETAILS]`
+
+****
+Words in `UPPER_CASE` are the parameters, items in `SQUARE_BRACKETS` are optional,
+however at least 1 of the optional items must be present. Order of parameters are fixed.
+
+The index refers to the index number shown in the most recent exams listing.
+****
+
+[NOTE]
+====
+PRIVATESTATUS is denoted by `y` for private and `n` for non-private.
+====
+
+Examples:
+
+* `examslist` +
+`editexam 2 p/y e/English 2018 Finals dt/In MPSH`
+
+* `examslist` +
+`editexam 1 dt/Cancelled`
+
+=== Listing all exams : `examslist`
+
+Shows a list of all exams in the exam book. +
+Format: `examslist`
+
+=== Registering for an exam : `regexam`
+
+Registers a specified person for a specified exam. +
+Format: `regexam PERSONINDEX EXAMINDEX`
+
+****
+Registers a specified person for a specified exam.
+The person index refers to the index number shown in the most recent persons listing.
+The exam index refers to the index number shown in the most recent exams listing.
+****
+
+[NOTE]
+====
+Changes to an exam in the exam book will change the corresponding exam for all persons registered under it, be it an edit or a delete. 
+Exams registered for a person will not be shown in the `list` command and only viewable under the `viewall` and `viewexams` command.
+====
+
+Example:
+
+* `examslist` +
+`list` +
+`regexam 2` +
+Registers the 2nd person in the address book for the 2nd exam in the exam book.
+
+=== Deregistering for an exam : `deregexam`
+
+Deregister a specified person for a specified exam. +
+Format: `deregexam PERSONINDEX EXAMINDEX`
+
+****
+Degisters a specified person for a specified exam.
+The person index refers to the index number shown in the most recent persons listing.
+The exam index refers to the index number shown in the most recent exams listing.
+****
+
+Example:
+
+* `examslist` +
+`list` +
+`deregexam 2` +
+Deregisters the 2nd person in the address book for the 2nd exam in the exam book.
+
+=== Viewing exams : `viewexams`
+
+View the non-private exams for a person at the specified `INDEX`. +
+Format: `viewexams INDEX`
+
+****
+Views the exams of the person at the specified `INDEX`.
+The index refers to the index number shown in the most recent persons listing.
+****
+
+Example:
+
+* `list` +
+`viewexams 1` +
+Views the non-private exams of the 1st person in the address book.
+
+=== Clearing all entries : `clearexams`
+
+Clears all entries from the exam book. All exams will be cleared in the address book as well. +
+Format: `clearexams`
 
 == Fees Commands
 Below are the commands that deals with fees data:
@@ -246,7 +352,10 @@ Changes the master password. Requires the current master password and Admin priv
 Format: `editpw OLD_PASSWORD NEW_PASSWORD`
 
 Changes the master password to `NEW_PASSWORD`, if the provided `OLD_PASSWORD` is correct. +
-Default master password is "default_pw".
+[NOTE]
+====
+The default master password is "default_pw".
+====
 
 ****
 Examples:
@@ -261,9 +370,13 @@ Below are the commands that deals with accounts:
 === Add an account to a person: `addacc`
 Adds an account to the target person. +
 Format: `addacc INDEX USERNAME PASSWORD USER_TYPE` +
+
 Creates an account for the person with INDEX as specified by the last shown list. +
 USERNAME and PASSWORD will be used for logging in. +
+[NOTE]
+====
 USER_TYPE can be of type "Basic", "Tutor" or "Admin".
+====
 
 ****
 Examples:
@@ -359,6 +472,7 @@ Views the attendance of the first person in the list.
 
 = Saving the data
 
-Address book data are saved in the hard disk automatically after any command that changes the data.
+Address book, exam book and statistics book data are saved in the hard disk automatically after any command that changes the data.
 
-There is no need to save manually. Address book data are saved in a file called `addressbook.txt` in the project root folder.
+There is no need to save manually. In the project root folder, address book data are saved in a file called `addressbook.txt`,
+exam book data are saved in a file called `exams.txt` and statistics book data are saved in a file called `statistics.txt`.

@@ -1,4 +1,4 @@
-= ClassRep0 - Developer Guide
+= ClassRepo - Developer Guide
 :site-section: DeveloperGuide
 :no-site-header: 
 :toc:
@@ -15,24 +15,19 @@ ifdef::env-github[]
 endif::[]
 :repoURL: https://github.com/CS2113-AY1819S1-F10-1/main/tree/master
 
-By: `Team ???`      Since: `Jun 2016`      Licence: `NUS`
+By: `Team F10-1`      Since: `Oct 2018`      Licence: `NUS`
 
 == Setting up
 
 === Prerequisites
 
 . *JDK `9`* or later
-+
-[WARNING]
-JDK `10` on Windows will fail to run tests in <<UsingGradle#Running-Tests, headless mode>> due to a https://github.com/javafxports/openjdk-jfx/issues/66[JavaFX bug].
-Windows developers are highly recommended to use JDK `9`.
 
 . *IntelliJ* IDE
 +
 [NOTE]
 IntelliJ by default has Gradle and JavaFx plugins installed. +
 Do not disable them. If you have disabled them, go to `File` > `Settings` > `Plugins` to re-enable them.
-
 
 === Setting up the project in your computer
 
@@ -43,15 +38,16 @@ Do not disable them. If you have disabled them, go to `File` > `Settings` > `Plu
 .. Click `New...` and find the directory of the JDK
 . Click `Import Project`
 . Locate the `build.gradle` file and select it. Click `OK`
-. Click `Open as Project`
+. Click `Open`
 . Click `OK` to accept the default settings
-. Open a console and run the command `gradlew processResources` (Mac/Linux: `./gradlew processResources`). It should finish with the `BUILD SUCCESSFUL` message. +
-This will generate all resources required by the application and tests.
 
 === Verifying the setup
 
 . Run the `seedu.address.MainApp` and try a few commands
 . <<Testing,Run the tests>> to ensure they all pass.
+. Open the `StorageFile` file and check for any code errors
+.. Due to an ongoing https://youtrack.jetbrains.com/issue/IDEA-189060[issue] with some of the newer versions of IntelliJ, code errors may be detected even if the project can be built and run successfully
+.. To resolve this, place your cursor over any of the code section highlighted in red. Press kbd:[ALT + ENTER], and select `Add '--add-modules=java.xml.bind' to module compiler options`
 
 === Configurations to do before writing code
 
@@ -239,30 +235,163 @@ Classes used by multiple components are in the `seedu.addressbook.commons` packa
 
 This section describes some noteworthy details on how certain features are implemented.
 
-// tag::undoredo[]
-=== feature X
+// tag::Exam[]
+=== Exams Feature
+[[fig-ExamDiagram]]
+.Structure of the Exam Component
+image::Exam.png[width="800"]
+
 ==== Current Implementation
+There is a master ExamBook which contains all the exams. There are several features the ExamBook offers.
+The main features are:
+
+. `Adding a new exam`
+. `Deleting an exam`
+. `Editing an exam`
+. `Registering a person for an exam`
+. `Deregistering a person for an exam`
+
+Changes to the master ExamBook will affect the corresponding exams in the AddressBook. This is done through iterating through the AddressBook to update the change. Changes in the AddressBook will also affect the exams the persons registered for in the ExamBook and hence, for other persons in the AddressBook. This is also done through iterating.
+
+An Example of how feature 5 - `Registering a person for an exam` works:
+
+. First the specific exam and person will be identified from the most recent exams and persons listing respectively.
+. The specific exam and person is then extracted out of the ExamBook and AddressBook respectively.
+. A check is performed to ensure the specific person is not already registered for the exam.
+. A new exam is created to make a copy of the original exam, then have its number of exam takers increased by 1.
+. The original exam is added to the specific person.
+. For both the AddressBook and ExamBook, any copies of the original exam is removed and replaced with the new exam.
+
+This is demostrated by the following sequence diagram:
+[[fig-registerPersonDiagram]]
+.Sequence Diagram of registering person
+image::registerperson.png[width="800"]
 
 ==== Design Considerations
 
-===== Aspect: How X executes
+===== Aspect: How the exam data are being synchronised between the AddressBook and ExamBook
 
-* **Alternative 1 (current choice):** 
-** Pros: 
-** Cons: 
-* **Alternative 2:**
-** Pros:
-** Cons:
+* **Alternative 1 (current choice):** Each time there is a change in a field of an Exam, there has to be iteration through the whole AddressBook or ExamBook to update them. 
+** Pros: Less space is needed.
+** Cons: This can waste some time, if no changes need to be made for example.
+* **Alternative 2:** Store the persons registered for an exam for each exam.
+** Pros: This makes it faster to update any changes if needed.
+** Cons: More space is needed.
 
-===== Aspect: Data structure to support the X commands
+===== Aspect: How the exam data are being updated
 
-* **Alternative 1 (current choice):** 
-** Pros: 
-** Cons: 
-* **Alternative 2:** 
-** Pros: 
-** Cons: 
-// end::undoredo[]
+* **Alternative 1 (current choice):** Each time there is a change in a field of an Exam, a new Exam is created with the new details and added into the ExamBook and the old Exam is deleted from the ExamBook.
+** Pros: Allows exams to be encapsulated using interface.
+** Cons: Temporary increase in space for object created during method .
+* **Alternative 2:** Have no interface.
+** Pros: Easy access to set values.
+** Cons: No encapsulation.
+
+===== Aspect: Data structure to support the exam commands
+
+* **Alternative 1 (current choice):** Exams are stored in a set under each Person object in the AddressBook but stored as a list in the ExamBook.
+** Pros: In the Exambook, it is required to access an exam through an index to delete and edit, hence list is better. In the AddressBook, exams are only to be used for viewing and accessed to check for value. 
+** Cons: Exams stored under each Person in the AddressBook cannot be sorted.
+* **Alternative 2:** Exams are stored as a list in both ExamBook and AddressBook.
+** Pros: Exams stored under each Person in the AddressBook can be sorted.
+** Cons: It will take longer to check if a Person has a same Exam with the Exam to be updated.
+
+===== Aspect: Storage of ExamBook
+
+* **Alternative 1 (current choice):** Exams are stored in a separate txt file from AddressBook
+** Pros: This allows for clarity and easy access to find and see exams in raw XML format. 
+** Cons: Extra storage file and hence methods and file paths are needed, this may be confusing and cause much repetition of code.
+* **Alternative 2:** Exams are stored in same data file as AddressBook.
+** Pros: Only 1 storage file is needed. Less repetition and variables are needed.
+** Cons: May be harder for user to see exams in raw XML format.
+// end::exam[]
+
+// tag::privilege[]
+=== Privilege Feature
+[[fig-PrivilegeDiagram]]
+.Structure of the Privilege Component
+image::Privilege.png[width="800"]
+
+==== Current Implementation
+Logic is assigned to one Privilege object at all times. Privilege contains a User and a Person.
+The User interface defines what access level the Privilege object have, which is implemented by BasicUser, TutorUser and AdminUser. +
+BasicUser is the class with the lowest access level, and the ancestor to other 2 User classes. +
+To create an increasing level of access, each User of a higher level inherits from the successively lower one. +
+Each User level have their own list of new commands they can run, which is appended to the list inherited from their parent. +
+Account class, which contains its respective Privilege object, is the way to assign a privilege level to a Person. +
+Account also holds authentication details required for logging in. + 
+When switching Privilege levels, the Privilege attached to Logic will point its UserType and myPerson to that in the desired Privilege level, as seen below in the Object Diagram and Sequence Diagram. +
+
+[[fig-PrivilegeObjectDiagram]]
+.How switching Privilege is implemented (Object Diagram)
+image::PrivilegeObjectDiagram.png[width="900"]
+
+[[fig-LoginSequenceDiagram]]
+.Sequence Diagram for Login Command
+image::Login_Sequence_Diagram.png[width="600"]
+
+==== Design Considerations
+
+===== Aspect: How to define a privilege level of Privilege
+
+* **Alternative 1 (current choice):** Instantiate User's of the different access level. Privilege contains an enum UserType which point to each of these instantiated object.
+** Pros: Allow us to make use of inheritance to organize the list (higher access level User's list of allowed commands will always be a superset of that of a lower access level). +
+The usage of enums also allows us to keep a reference to the created User object, which allows us to point back to these object if need be, rather than having to instantiate new ones each time.
+** Cons: Requires the use of User class to represent the different access levels
+* **Alternative 2:** Use an enum to indicate the current access level. List of allowed commands will be generated base on the value of this enum.
+** Pros: Does not require a separate class to represent the different access levels.
+** Cons: Difficult to maintain the list of allowed commands. 
+* **Alternative 3:** Use a String to determine the Privilege level.
+** Pros: Easy to implement and parse.
+** Cons: Very prone to undetected bugs, like mispelling the Privilege levels.
+
+===== Aspect: How to define the access level required by the command
+
+* **Alternative 1 (current choice):** Each User holds a list of commands they can run
+** Pros: Easy to maintain the list of commands a User can run (just an Command Array).
+** Cons: Difficult to find what access level a command requires. Requires looping through the array to find the presence of the given command.
+
+* **Alternative 2:** Each command knows what access level is required to run it
+** Pros: Easy to find what access level a command requires
+** Cons: Difficult to see what commands a given User can run. Difficult to organize the commands by their required access level.
+
+* **Alternative 3:** Have both 1 and 2
+** Pros: Doing both the above operation becomes easy
+** Cons: Difficult to maintain both information. Access level information is now stored in 2 separate locations and needs to be in sync
+
+===== Aspect: How to update the privilege of Logic given an Account to log into
+
+* **Alternative 1 (current choice):** The Privilege object attached to Logic will copy the User and the Person attached to the given Account object, into its own user and myPerson respectively.
+** Pros: Does not require the Command to interact with Logic, thus reducing coupling.
+** Cons: A bit more awkward solution than the Alternative 2
+* **Alternative 2:** Change Logic to point to the new Privilege object inside of Account.
+** Pros: Quick to implement.
+** Cons: Higher level of coupling compared to Alternative 1. Also, would require storing or instantiating a default Privilege and making Logic point to this new object if Logout Command were to be called. 
+
+===== Aspect: Default required access levels for commands
+
+* **Alternative 1 (current choice):** Access level is set to Admin by default
+** Pros: If a developer forgets to give access level to a Command, it will to still be functional.
+** Cons: May mask the fact that the Command have the unintended access level of Admin.
+
+* **Alternative 2:** Enforce all Commands to be assigned a access level
+** Pros: Forces delevopers to be deliberate with their access level assignment to commands
+** Cons: Program will fail to integrate if any of the developer forgot to assign an access level to their newly developed commands.
+
+===== Aspect: Who throws InsufficientPrivilege Exception
+
+* **Alternative 1 (current choice):** Logic throws the Exception
+** Pros: It is a common starting point of commands, so it is easy to implement it to throw the Exception
+** Cons: Blurs the responsiblity of commands being the one throwing the Exception
+
+* **Alternative 2:** Each Command checks the Privilege level during execute()
+** Pros: Keeps to the responsibility of Commands being the one to throw the Exception when they are being executed
+** Cons: Requires backdating all the commands to include this function in their execute(). Also prone to errors as a developer may forget to call this function in their execute() of their newly developed Commands.
+
+* **Alternative 3:** Have a function that checks the Privilege level in parent Command that is called during execute()
+** Pros: Same as 2.
+** Cons: Same as 2, but instead of using individual functions, we are repeatedly using the inherited function instead
+// end::privilege[]
 
 == Documentation
 
@@ -390,6 +519,8 @@ b. Require developers to download those libraries manually (this creates extra w
 
 [appendix]
 == Product Scope
+*Target user*: +
+Students, teachers and staff of Secondary Schools. +
 
 *Target user profile*:
 
@@ -398,6 +529,7 @@ b. Require developers to download those libraries manually (this creates extra w
 * can type fast
 * prefers typing over mouse input
 * is reasonably comfortable using CLI apps
+* differences on how each group may interact with the system
 
 *Value proposition*: manage contacts faster than a typical mouse/GUI driven app
 
@@ -411,17 +543,17 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 |Priority |As a ... |I want to ... |So that I can...
 |`* * *` |new user |see usage instructions |refer to instructions when I forget how to use the App
 
-|`* * *` |user |add a new person |
-
-|`* * *` |user |delete a person |remove entries that I no longer need
-
-|`* * *` |user |find a person by name |locate details of persons without having to go through the entire list
-
 |`* * *` |user |login to my account |access my account
 
 |`* * *` |user |logout of my account |other people cannot use my account after logging out
 
+|`* * *` |user |find a person by name |locate details of persons without having to go through the entire list
+
 |`* * *` |first admin |raise my privilege to admin |have the initial privilege to access restricted commands
+
+|`* * *` |admin |add a new person |
+
+|`* * *` |admin |delete a person |remove entries that I no longer need
 
 |`* * *` |admin |change the master password |have a password that is more suitable/easier to remember
 
@@ -429,13 +561,29 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* * *` |admin |delete accounts from people |remove account from people who do not need it anymore
 
+|`* * *` |admin/tutor |add a new exam |
+
+|`* * *` |admin/tutor |delete an exam |remove entries that I no longer need
+
+|`* * *` |admin/tutor |edit an exam |update the details of exam entries
+
+|`* * *` |admin/tutor |register a user for an exam|allow the user to know of the exam and keep track of the number of exam-takers
+
+|`* * *` |admin/tutor |deregister a user for an exam|remove entries that I made wrongly or no longer need
+
+|`* * *` |admin/tutor |view the lists of exams|manage the exams
+
 |`* *` |user |view my privilege |know what commands I have access to
 
 |`* *` |user |view my own details |know my details
 
+|`* *` |student |view my non-private exams |know details of the exams I am going to take
+
 |`* *` |user |hide <<private-contact-detail,private contact details>> by default |minimize chance of someone else seeing them by accident
 
 |`*` |user with many persons in the address book |sort persons by name |locate a person easily
+
+|`*` |user with many exams in the exam book |sort exams by a specificied field |locate an exam easily
 |=======================================================================
 
 _{More to be added}_
@@ -445,15 +593,346 @@ _{More to be added}_
 
 (For all use cases below, the *System* is the `AddressBook` and the *Actor* is the `user`, unless specified otherwise)
 
+=== Use case: Add person
+[discrete]
+==== Actors: Tutor, Admin
+*MSS*
+
+1. User requests to add person.
+2. ClassRepo requests the details of the person to add.
+3. User enters the detail of the person.
+4. ClassRepo adds the person.
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 3a. The details entered is of an invalid format +
+** 3a1. ClassRepo shows an error message. +
+Use case ends. +
+[none]
+* 3b. The person to add already exists in ClassRepo. +
+** 3a1. ClassRepo shows an error message. +
+Use case ends.
+
 [discrete]
 === Use case: Delete person
 
 *MSS*
 
+1.  User requests to list persons.
+2.  ClassRepo shows a list of persons.
+3.  User requests to delete a specific person in the list.
+4.  ClassRepo deletes the person.
+5.  ClassRepo checks for all the exams the person is registered for and updates the number of exam takers in the ExamBook. Persons in the AddressBook registered under the exams will have their exams details updated. 
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 2a. The list is empty.
++
+Use case ends.
+
+* 3a. The given index is invalid.
++
+[none]
+** 3a1. ClassRepo shows an error message.
++
+Use case resumes at step 2.
+
+[discrete]
+=== Use case: Add exam
+[discrete]
+==== System: ExamBook
+[discrete]
+==== Actor: Admin,Tutor
+*MSS*
+
+1. User requests to add exam.
+2. ClassRepo requests the details of the exam to add.
+3. User enters the details of the exam.
+4. ClassRepo adds the exam in the ExamBook.
++
+Use case ends.
+
+*Extensions*
+ 
+[none]
+* 3a. The details entered is of an invalid format.
++
+** 3a1. ClassRepo shows an error message.
++
+Use case ends.
++
+[none]
+* 3b. The exam to add already exists in ClassRepo.
++
+** 3a1. ClassRepo shows an error message.
++
+Use case ends.
+
+[discrete]
+=== Use case: Delete exam
+[discrete]
+==== System: AdressBook,ExamBook
+[discrete]
+==== Actor: Admin,Tutor
+*MSS*
+
+1.  User requests to list exams.
+2.  ClassRepo shows a list of exams.
+3.  User requests to delete a specific exam in the list.
+4.  ClassRepo deletes the exam in the ExamBook.
+6.  ClassRepo deletes the exam for all persons registered for it in the AddressBook.
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 2a. The list is empty.
++
+Use case ends.
+
+* 3a. The given index is invalid.
++
+[none]
+** 3a1. ClassRepo shows an error message.
++
+Use case resumes at step 2.
+
+[discrete]
+=== Use case: Edit exam
+[discrete]
+==== System: AdressBook,ExamBook
+[discrete]
+==== Actor: Admin,Tutor
+*MSS*
+
+1.  User requests to list exams.
+2.  ClassRepo shows a list of exams.
+3.  User requests to edit a specific exam in the list.
+4.  ClassRepo requests the details of the exam to edit.
+5.  ClassRepo edits the exam in the ExamBook.
+6.  ClassRepo edits the exam for all persons registered for it in the AddressBook.
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 2a. The list is empty.
++
+Use case ends.
+
+* 3a. The given index is invalid.
++
+[none]
+** 3a1. ClassRepo shows an error message.
++
+Use case resumes at step 2.
+
+* 4a. The details entered is of an invalid format.
++
+[none]
+** 4a1. ClassRepo shows an error message.
++
+Use case resumes at step 2.
+* 4b. The exam with the changed details already exists in the ExamBook. 
++
+[none]
+** 4b1. ClassRepo shows an error message. 
++
+Use case resumes at step 2.
+
+[discrete]
+=== Use case: Register for an exam
+[discrete]
+==== System: AdressBook,ExamBook
+[discrete]
+==== Actor: Admin,Tutor
+*MSS*
+
+1.  User requests to list exams.
+2.  ClassRepo shows a list of exams.
+3.  User requests to list persons.
+4.  ClassRepo shows a list of persons.
+5.  User requests to register a specific person in the persons list for a specific exam in the exams list.
+6.  ClassRepo edits the person.
+7.  ClassRepo updates the number of exam takers for the specific exam in the ExamBook.
+8.  ClassRepo updates the specific exam for all persons registered for it in the AddressBook.
+
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 2a. The list is empty.
++
+Use case ends.
+
+* 4a. The list is empty.
++
+Use case ends.
+
+* 5a. The given person index is invalid.
++
+[none]
+** 5a1. ClassRepo shows an error message.
++
+Use case resumes at step 4.
+
+* 5b. The given exam index is invalid.
++
+[none]
+** 5b1. ClassRepo shows an error message.
++
+Use case resumes at step 4.
+
+[discrete]
+=== Use case: Deregister for an exam
+[discrete]
+==== System: AdressBook,ExamBook
+[discrete]
+==== Actor: Admin,Tutor
+*MSS*
+
+1.  User requests to list exams.
+2.  ClassRepo shows a list of exams.
+3.  User requests to list persons.
+4.  ClassRepo shows a list of persons.
+5.  User requests to deregister a specific person in the persons list for a specific exam in the exams list.
+6.  ClassRepo edits the person.
+7.  ClassRepo updates the number of exam takers for the specific exam in the ExamBook.
+8.  ClassRepo updates the specific exam for all persons registered for it in the AddressBook.
+
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 2a. The list is empty.
++
+Use case ends.
+
+* 4a. The list is empty.
++
+Use case ends.
+
+* 5a. The given person index is invalid.
++
+[none]
+** 5a1. ClassRepo shows an error message.
++
+Use case resumes at step 4.
+
+* 5b. The given exam index is invalid.
++
+[none]
+** 5b1. ClassRepo shows an error message.
++
+Use case resumes at step 4.
+
+[discrete]
+=== Use case: Viewing the exams list
+[discrete]
+==== System: ExamBook
+[discrete]
+==== Actor: Admin,Tutor
+*MSS*
+
+1.  User requests to list exams.
+2.  ClassRepo shows a list of exams.
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 2a. The list is empty.
++
+Use case ends.
+
+[discrete]
+=== Use case: View the user's own details
+
+*MSS*
+
+1.  User requests to view his own details
+2.  ClassRepo shows the details of person associated to the logged-in account
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 1a. User is not logged in +
+** 1a1. ClassRepo displays an error message. +
+Use case ends.
+
+[discrete]
+=== Use case: Raise privilege to Admin
+*MSS*
+
+1. User requests to increase his privilege
+2. ClassRepo requests authentication password
+3. User enters password
+4. ClassRepo increases the user's privileges to Admin
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 1a. The command entered is of an invalid format +
+** 1a1. ClassRepo displays an error message. +
+Use case ends.
+[none]
+* 3a. Incorrect password entered +
+** 3a1. ClassRepo shows an error message +
+Use case ends
+
+[discrete]
+=== Use case: Change master password
+[discrete]
+==== Actor: Admin
+*MSS*
+
+1. User requests to change the master password
+2. ClassRepo requests the current password
+3. User enters current password
+4. ClassRepo requests the new password
+5. User enters the new password
+6. ClassRepo changes the password to the new one
++
+Use case ends.
+
+* 3a. Incorrect password entered
+** 3a1. ClassRepo shows an error message +
+User case resumes from step 2
+
+* 5a. New password in invalid format
+** 5a1. ClassRepo shows an error message +
+User case resumes from step 4
+** 5b1. New password is the same as old password +
+5b2. ClassRepo shows an error message +
+User case resumes from step 4
+
+[discrete]
+=== Use case: Add account to a person
+[discrete]
+==== Actor: Admin
+*MSS*
+
 1.  User requests to list persons
 2.  AddressBook shows a list of persons
-3.  User requests to delete a specific person in the list
-4.  AddressBook deletes the person
+3.  User requests to add account to a target person
+4.  ClassRepo adds the account to the person
 +
 Use case ends.
 
@@ -470,6 +949,121 @@ Use case ends.
 ** 3a1. AddressBook shows an error message.
 +
 Use case resumes at step 2.
+
+* 3b. The account format is invalid.
++
+[none]
+** 3b1. AddressBook shows an error message.
++
+Use case resumes at step 2.
+
+* 3c. The target person have an existing account.
++
+[none]
+** 3c1. AddressBook shows an error message.
++
+Use case resumes at step 2.
+
+[discrete]
+=== Use case: Delete account
+[discrete]
+==== Actor: Admin
+
+*MSS*
+
+1.  User requests to list persons
+2.  AddressBook shows a list of persons
+3.  User requests to delete the account belonging to specific person in the list
+4.  AddressBook deletes the account
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 2a. The list is empty.
++
+Use case ends.
+
+* 3a. The given index is invalid.
++
+[none]
+** 3a1. AddressBook shows an error message.
++
+Use case resumes at step 2.
+
+* 3b. Target person does not have an account.
++
+[none]
+** 3b1. AddressBook shows an error message.
++
+Use case resumes at step 2.
+
+[discrete]
+=== Use case: Login to an account
+
+*MSS*
+
+1.  User requests to login
+2.  AddressBook requests username and password
+3.  User enters username and password
+4.  AddressBook logs the user into the account
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 3a. User provided wrong number of arguments
++
+[none]
+** 3a1. AddressBook shows an error message.
++
+Use case ends.
+
+* 3b. No existing account have the given username.
++
+[none]
+** 3b1. AddressBook shows an error message.
++
+Use case ends.
+
+* 3c. Password does not match the existing account with the given username.
++
+[none]
+** 3c1. AddressBook shows an error message.
++
+Use case ends.
+
+[discrete]
+=== Use case: Logout of an account
+
+*MSS*
+
+1.  User requests to logout
+2.  ClassRepo logs the user out of his account
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 2. User is not logged in
++
+[none]
+** 2a1. AddressBook shows an error message.
++
+Use case ends.
+
+[discrete]
+=== Use case: View your current privilege
+
+*MSS*
+
+1.  User requests to view his privilege
+2.  ClassRepo shows the privilege level and the account the user is logged in as
++
+Use case ends.
 
 _{More to be added}_
 
@@ -490,6 +1084,12 @@ Windows, Linux, Unix, OS-X
 
 [[private-contact-detail]] Private contact detail::
 A contact detail that is not meant to be shared with others
+
+[[private-exam]] Private exam::
+A exam with details that is not meant to be released to the students yet
+
+Main Success Scenario::
+The Main Success Scenario (MSS) describes the most straightforward interaction for a given use case, which assumes that nothing goes wrong. 
 
 [appendix]
 == Product Survey
