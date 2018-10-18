@@ -957,16 +957,22 @@ public class LogicTest {
     public void executeViewAttendanceNILAttendance() throws Exception {
         TestDataHelper helper = new TestDataHelper();
         Person p1 = helper.generatePerson(1, false);
+        Person p1Expected = helper.generatePerson(1, false);
 
         List<Person> personList = helper.generatePersonList(p1);
+        List<Person> personListExpected = helper.generatePersonList(p1Expected);
+
+        AddressBook expectedBook = helper.generateAddressBook(personListExpected);
 
         helper.addToAddressBook(addressBook, personList);
         logic.setLastShownList(personList);
 
-        // TODO update later
         assertCommandBehavior("viewAtten 1",
-                ViewAttendanceCommand.MESSAGE_SUCCESS + p1.getName()
-                        + ":\n" + p1.viewAttendanceMethod()
+                ViewAttendanceCommand.MESSAGE_SUCCESS + p1Expected.getName()
+                        + ":\n" + p1Expected.viewAttendanceMethod(),
+                expectedBook,
+                false,
+                personList
                 );
     }
 
