@@ -34,9 +34,13 @@ public class Attendance implements Printable {
 
     /** Method to reiterate person's attendance */
     public String viewAttendance() {
-        String output = "";
+        String output = "Date \t\t Attendance\n";
+        String attendance = "Absent";
         for (Map.Entry entry : attendanceMap.entrySet()) {
-            output += entry.getKey() + " -> " + entry.getValue() + "\n";
+            if(entry.getValue().equals(true)){
+                attendance = "Present";
+            }
+            output += entry.getKey() + "\t\t" + attendance + "\n";
         }
         if ("".equals(output)) {
             output = "NIL";
