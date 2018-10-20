@@ -1,5 +1,8 @@
 package seedu.addressbook;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.stage.Stage;
@@ -25,7 +28,8 @@ public class Main extends Application implements Stoppable {
             Gui gui = new Gui(new Logic(), VERSION);
             gui.start(primaryStage, this);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            Logger logger = Logger.getLogger("Foo");
+            logger.log(Level.WARNING, e.getMessage());
             throw e;
         }
     }

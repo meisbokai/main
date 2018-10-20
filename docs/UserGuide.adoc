@@ -426,6 +426,46 @@ Examples:
 Deletes the account of the first person in the list, provided that he has an account.
 ****
 
+=== Grade Commands
+Below are the commands that deals with grades of students:
+
+=== Adding an Assessment : `addassess`
+
+Adds an assessment to the address book. +
+Format: `addassess ASSESSMENT_NAME`
+
+****
+Words in `UPPER_CASE` are the parameters. There is only one parameter for this command, which is the exam or assessment
+name. Duplicate assessments cannot be added.
+
+****
+
+Examples:
+
+* `addassess CG2271 Midterm` +
+
+* `addassess Mathematics final class test`
+
+=== Listing all assessments : `listassess`
+
+Shows a list of all assessments in the address book, along with an index for each +
+Format: `listassess`
+
+=== Deleting an assessment : `deleteassess`
+Deletes the specified assessment from the assessment book, based on index. Irreversible. +
+Format: `deleteassess INDEX`
+
+****
+Deletes the assessment at the specified `INDEX`.
+The index refers to the index number shown in the most recent assessments listing.
+****
+
+Example:
+
+* `listassess` +
+`deleteassess 2` +
+Deletes the 2nd assessment in the address book.
+
 === Updates the attendance of a person: `attendance`
 Updates the attendance of the target person. +
 Format: `attendance INDEX d/DATE att/ATTENDANCE`

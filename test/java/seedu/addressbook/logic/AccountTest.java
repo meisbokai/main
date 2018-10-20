@@ -107,7 +107,7 @@ public class AccountTest {
             "addacc 1 user password admin"};
         for (String input : inputs) {
             assertCommandBehavior(input,
-                    String.format(AddAccountCommand.MESSAGE_PERSON_HAS_ACCOUNT),
+                    AddAccountCommand.MESSAGE_PERSON_HAS_ACCOUNT,
                     expected,
                     false,
                     threePersons.getActual());
@@ -126,7 +126,7 @@ public class AccountTest {
         addressBook.removePerson(p2);
         expected.removePerson(p2);
         assertCommandBehavior("addacc 2 user password basic",
-                String.format(MESSAGE_PERSON_NOT_IN_ADDRESSBOOK),
+                MESSAGE_PERSON_NOT_IN_ADDRESSBOOK,
                 expected,
                 false,
                 threePersons.getActual());
@@ -170,7 +170,7 @@ public class AccountTest {
             "addacc 3 takenUserName password admin"};
         for (String input : inputs) {
             assertCommandBehavior(input,
-                    String.format(AddAccountCommand.MESSAGE_USERNAME_TAKEN),
+                    AddAccountCommand.MESSAGE_USERNAME_TAKEN,
                     expected,
                     false,
                     threePersons.getActual());
@@ -374,12 +374,12 @@ public class AccountTest {
         final PrivilegeLevel initialPrivilege = privilege.getUser().getPrivilegeLevel();
 
         assertCommandBehavior("login otherUsername password",
-                String.format(MESSAGE_PERSON_NOT_IN_ADDRESSBOOK),
+                MESSAGE_PERSON_NOT_IN_ADDRESSBOOK,
                 expected,
                 false,
                 threePersons.getActual());
         assertCommandBehavior("login password password",
-                String.format(MESSAGE_PERSON_NOT_IN_ADDRESSBOOK),
+                MESSAGE_PERSON_NOT_IN_ADDRESSBOOK,
                 expected,
                 false,
                 threePersons.getActual());

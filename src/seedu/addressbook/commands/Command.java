@@ -79,6 +79,16 @@ public abstract class Command {
     }
 
     /**
+     * Constructs a feedback message to summarise an operation that displayed a listing of fees.
+     *
+     * @param personsDisplayed used to generate summary
+     * @return summary message for fees displayed
+     */
+    public static String getMessageForFeesListShownSummary(List<? extends ReadOnlyPerson> personsDisplayed) {
+        return String.format(Messages.MESSAGE_PERSONS_LISTED_OVERVIEW, personsDisplayed.size());
+    }
+
+    /**
      * Executes the command and returns the result.
      */
     public abstract CommandResult execute();

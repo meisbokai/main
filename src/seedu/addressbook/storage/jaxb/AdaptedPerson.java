@@ -3,6 +3,7 @@ package seedu.addressbook.storage.jaxb;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
@@ -35,6 +36,8 @@ public class AdaptedPerson {
     private AdaptedContactDetail address;
     @XmlElement(required = true)
     private AdaptedContactDetail fees;
+    @XmlElement(required = true)
+    private String duedate;
 
     @XmlElement
     private List<AdaptedTag> tagged = new ArrayList<>();
@@ -81,6 +84,8 @@ public class AdaptedPerson {
         fees = new AdaptedContactDetail();
         fees.isPrivate = source.getFees().isPrivate();
         fees.value = source.getFees().value;
+
+        duedate = source.getFees().duedate;
 
         tagged = new ArrayList<>();
         for (Tag tag : source.getTags()) {
@@ -129,9 +134,10 @@ public class AdaptedPerson {
         final Phone phone = new Phone(this.phone.value, this.phone.isPrivate);
         final Email email = new Email(this.email.value, this.email.isPrivate);
         final Address address = new Address(this.address.value, this.address.isPrivate);
-        final Fees fees = new Fees(this.fees.value);
+        final Fees fees = new Fees(this.fees.value, this.duedate);
+        Optional<AdaptedAccount> optAccount = Optional.ofNullable(account);
 
-        if (this.account == null) {
+        if (!optAccount.isPresent()) {
             final Person person = new Person(name, phone, email, address, tags);
             person.setFees(fees);
             return new Person(name, phone, email, address, tags);
@@ -139,6 +145,7 @@ public class AdaptedPerson {
             final Account account = this.account.toModelType();
             final Person person = new Person(name, phone, email, address, tags, account);
             person.setFees(fees);
+            account.setPrivilegePerson(person);
             return new Person(name, phone, email, address, tags, account);
         }
     }

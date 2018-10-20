@@ -23,6 +23,7 @@ public class AddressBook {
     private final UniquePersonList allPersons;
     private final UniqueAssessmentsList allAssessments;
     private String masterPassword;
+    private boolean isPermAdmin;
 
     /**
      * Creates an empty address book.
@@ -37,7 +38,7 @@ public class AddressBook {
      * Constructs an address book with the given data.
      *
      * @param persons external changes to this will not affect this address book
-     * @param masterPassword
+     * @param masterPassword contains the master password to raise Privilege to Admin level
      */
     public AddressBook(UniquePersonList persons, UniqueAssessmentsList assessments, String masterPassword) {
         allPersons = new UniquePersonList(persons);
@@ -115,6 +116,13 @@ public class AddressBook {
     }
 
     /**
+     * Loops throough the list
+     */
+    public String loopFeesPerson(ReadOnlyPerson person) throws PersonNotFoundException {
+        return allPersons.loopFees(person);
+    }
+
+    /**
      * Clears all persons from the address book.
      */
     public void clear() {
@@ -137,6 +145,14 @@ public class AddressBook {
 
     public String getMasterPassword() {
         return masterPassword;
+    }
+
+    public boolean isPermAdmin() {
+        return isPermAdmin;
+    }
+
+    public void setPermAdmin(boolean permAdmin) {
+        isPermAdmin = permAdmin;
     }
 
     @Override

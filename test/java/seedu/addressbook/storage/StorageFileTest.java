@@ -2,6 +2,7 @@ package seedu.addressbook.storage;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static seedu.addressbook.util.TestUtil.assertTextFilesEqual;
 
 import java.nio.file.Paths;
@@ -84,7 +85,7 @@ public class StorageFileTest {
     public void load_invalidAccountFormat_exceptionThrown() throws Exception {
         // The file contains valid xml data, but does not match the AddressBook class
         StorageFile storage = getStorage("InvalidAccountData.txt", "ValidExamData.txt",
-                "InvalidStatistics.txt");
+                "ValidStatistics.txt");
         thrown.expect(StorageOperationException.class);
         storage.load();
     }
@@ -118,11 +119,11 @@ public class StorageFileTest {
     @Test
     public void load_validFormat() throws Exception {
         HashMap<String, AddressBook> inputToExpectedOutputs = new HashMap<>();
-        //inputToExpectedOutputs.put("ValidDataWithoutPasswordLuc.txt", getTestAddressBook(true));
         inputToExpectedOutputs.put("ValidDataWithNewPasswordLuc.txt", getTestAddressBook(false, false));
         inputToExpectedOutputs.put("ValidDataWithDefaultPasswordLuc.txt", getTestAddressBook(true, false));
         inputToExpectedOutputs.put("ValidEmptyData.txt", AddressBook.empty());
         inputToExpectedOutputs.put("ValidDataWithAccount.txt", getTestAddressBook(true, true));
+        inputToExpectedOutputs.put("ValidDataWithoutPasswordLuc.txt", getTestAddressBook(true, false));
 
         for (HashMap.Entry<String, AddressBook> inputToExpected : inputToExpectedOutputs.entrySet()) {
             final AddressBook actual = getStorage(inputToExpected.getKey()).load();
@@ -134,6 +135,16 @@ public class StorageFileTest {
             assertEquals(actual.getAllPersons(), expected.getAllPersons());
             assertEquals(actual.getMasterPassword(), expected.getMasterPassword());
         }
+    }
+    @Test
+    public void load_validFormatIsPerm() throws Exception {
+        AddressBook actual = getStorage("ValidDataWithIsPerm.txt").load();
+        AddressBook expected = getTestAddressBook();
+
+        // ensure loaded AddressBook is properly constructed with test data
+        // TODO: overwrite equals method in ExamBook class and replace with equals method below
+        assertEquals(actual.getAllPersons(), expected.getAllPersons());
+        assertTrue(actual.isPermAdmin());
     }
 
     @Test
@@ -177,7 +188,7 @@ public class StorageFileTest {
         storage.saveExam(eb);
         storage.save(ab);
         storage.saveStatistics(sb);
-        // Checks that the password is saved as a new field
+        // Checks that the password and isPerm is saved as a new field
         assertStorageFilesEqual(storage, getStorage("ValidDataWithDefaultPasswordLuc.txt"));
 
         ab = getTestAddressBook();

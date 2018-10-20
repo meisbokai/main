@@ -58,8 +58,7 @@ public interface ReadOnlyPerson {
         for (Tag tag : getTags()) {
             builder.append(tag);
         }
-
-        getAccount().ifPresent(a -> builder.append(" User Type:" + a.getPrintableString(true)));
+        getAccount().ifPresent(a -> builder.append(" User Type:").append(a.getPrintableString(true)));
         return builder.toString();
     }
 
@@ -81,7 +80,7 @@ public interface ReadOnlyPerson {
             builder.append(tag);
         }
 
-        getAccount().ifPresent(a -> builder.append(" User Type:" + a.getPrintableString(true)));
+        getAccount().ifPresent(a -> builder.append(" User Type:").append(a.getPrintableString(true)));
         return builder.toString();
     }
 

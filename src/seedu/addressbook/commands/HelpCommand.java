@@ -1,6 +1,8 @@
 package seedu.addressbook.commands;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Shows help instructions.
@@ -12,27 +14,44 @@ public class HelpCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD + ":\n" + "Shows program usage instructions.\n\t"
             + "Example: " + COMMAND_WORD;
 
-    /**
-     * Creates the help message feedback to the user based on what commands they can access
-     * */
-    public static String makeHelpMessage() {
-        String message = "";
-        List<Command> allowedCommands = privilege.getAllowedCommands();
-        boolean isFirstString = true;
-        for (Command command: allowedCommands) {
-            if (!isFirstString) {
-                message += '\n';
-            }
-            isFirstString = false;
-            message += command.getCommandUsageMessage();
-        }
+    private String attachedErrorMessage;
 
-        return message;
+    public HelpCommand() {
+    }
+
+    public HelpCommand(String attachedErrorMessage) {
+        this.attachedErrorMessage = attachedErrorMessage;
+    }
+
+    /**
+     * Creates the help manual to the user based on what commands they can access
+     * */
+    public static String makeHelpManual() {
+        StringBuilder builder = new StringBuilder();
+        List<Command> allowedCommands = privilege.getAllowedCommands();
+        HashSet<Category> seenCategories = new HashSet<>();
+        for (Command command: allowedCommands) {
+            final Category category = command.getCategory();
+
+            if (!seenCategories.contains(category)) {
+                builder.append('\n')
+                        .append(category.toString())
+                        .append('\n');
+
+                seenCategories.add(category);
+            }
+            builder.append(command.getCommandUsageMessage())
+                    .append('\n');
+        }
+        // Removes the extra newline character added at the start
+        builder.deleteCharAt(0);
+        return builder.toString();
     }
 
     @Override
     public CommandResult execute() {
-        return new CommandResult(makeHelpMessage());
+        attachedErrorMessage = Optional.ofNullable(attachedErrorMessage).orElse("");
+        return new CommandResult(attachedErrorMessage, makeHelpManual());
     }
 
     @Override

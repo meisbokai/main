@@ -1,6 +1,8 @@
 package seedu.addressbook.logic;
 
 import static junit.framework.TestCase.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static seedu.addressbook.common.Messages.MESSAGE_INSUFFICIENT_PRIVILEGE;
 import static seedu.addressbook.common.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 
@@ -11,7 +13,9 @@ import org.junit.rules.TemporaryFolder;
 
 import seedu.addressbook.TestDataHelper;
 import seedu.addressbook.commands.Command;
+import seedu.addressbook.commands.CommandResult.MessageType;
 import seedu.addressbook.commands.RaisePrivilegeCommand;
+import seedu.addressbook.commands.SetPermanentAdminCommand;
 import seedu.addressbook.commands.ViewPrivilegeCommand;
 import seedu.addressbook.data.AddressBook;
 import seedu.addressbook.data.ExamBook;
@@ -52,15 +56,15 @@ public class PrivilegeTest {
         final String feedbackFormat = ViewPrivilegeCommand.MESSAGE_NOT_LOGGED_IN
                 + ViewPrivilegeCommand.MESSAGE_PRIVILEGE_FORMAT;
         CommandAssertions.assertCommandBehavior("viewpri",
-                        String.format(feedbackFormat, User.PrivilegeLevel.Basic.toString()));
+                        String.format(feedbackFormat, User.PrivilegeLevel.Basic.toString()), MessageType.OUTPUT);
 
         privilege.raiseToTutor();
         CommandAssertions.assertCommandBehavior("viewpri",
-                        String.format(feedbackFormat, User.PrivilegeLevel.Tutor.toString()));
+                        String.format(feedbackFormat, User.PrivilegeLevel.Tutor.toString()), MessageType.OUTPUT);
 
         privilege.raiseToAdmin();
         CommandAssertions.assertCommandBehavior("viewpri",
-                        String.format(feedbackFormat, User.PrivilegeLevel.Admin.toString()));
+                        String.format(feedbackFormat, User.PrivilegeLevel.Admin.toString()), MessageType.OUTPUT);
     }
 
     @Test
@@ -72,15 +76,15 @@ public class PrivilegeTest {
 
         privilege.setMyPerson(testPerson);
         CommandAssertions.assertCommandBehavior("viewpri",
-                String.format(feedbackFormat, User.PrivilegeLevel.Basic.toString()));
+                String.format(feedbackFormat, User.PrivilegeLevel.Basic.toString()), MessageType.OUTPUT);
 
         privilege.raiseToTutor();
         CommandAssertions.assertCommandBehavior("viewpri",
-                String.format(feedbackFormat, User.PrivilegeLevel.Tutor.toString()));
+                String.format(feedbackFormat, User.PrivilegeLevel.Tutor.toString()), MessageType.OUTPUT);
 
         privilege.raiseToAdmin();
         CommandAssertions.assertCommandBehavior("viewpri",
-                String.format(feedbackFormat, User.PrivilegeLevel.Admin.toString()));
+                String.format(feedbackFormat, User.PrivilegeLevel.Admin.toString()), MessageType.OUTPUT);
     }
 
     @Test
@@ -122,6 +126,27 @@ public class PrivilegeTest {
         CommandAssertions.assertCommandBehavior("raise new_Password",
                 String.format(RaisePrivilegeCommand.MESSAGE_SUCCESS, new AdminUser().getPrivilegeLevelAsString()));
         assertEquals(privilege.getUser(), new AdminUser());
+    }
+
+    @Test
+    public void executeSetPermInvalidDesiredState() throws Exception {
+        privilege.raiseToAdmin();
+        CommandAssertions.assertCommandBehavior("perm wut",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                        SetPermanentAdminCommand.MESSAGE_USAGE));
+        assertFalse(addressBook.isPermAdmin());
+    }
+
+    @Test
+    public void executeSetPermSuccess() throws Exception {
+        privilege.raiseToAdmin();
+        CommandAssertions.assertCommandBehavior("perm true",
+                String.format(SetPermanentAdminCommand.MESSAGE_SUCCESS, ""));
+        assertTrue(addressBook.isPermAdmin());
+
+        CommandAssertions.assertCommandBehavior("perm false",
+                String.format(SetPermanentAdminCommand.MESSAGE_SUCCESS, " not"));
+        assertFalse(addressBook.isPermAdmin());
     }
 
     @Test

@@ -32,7 +32,9 @@ public class Formatter {
     public String format(String... messages) {
         StringBuilder sb = new StringBuilder();
         for (String m : messages) {
-            sb.append(LINE_PREFIX + m.replace("\n", LS + LINE_PREFIX) + LS);
+            sb.append(LINE_PREFIX)
+                    .append(m.replace("\n", LS + LINE_PREFIX))
+                    .append(LS);
         }
         return sb.toString();
     }
@@ -70,11 +72,11 @@ public class Formatter {
      * Returns a concatenated version of the printable strings of each object.
      */
     public static String getPrintableString(boolean showPrivate, Printable... printables) {
-        String stringChain = "";
+        StringBuilder stringChain = new StringBuilder();
         for (Printable i: printables) {
-            stringChain += i.getPrintableString(showPrivate) + " ";
+            stringChain.append(i.getPrintableString(showPrivate)).append(" ");
         }
-        return stringChain;
+        return stringChain.toString();
     }
 
     public static String getPrintableField(boolean showPrivate, boolean isPrivate, String fieldLabel, String value) {

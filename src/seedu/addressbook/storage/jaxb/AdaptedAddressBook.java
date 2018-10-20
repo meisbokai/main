@@ -3,6 +3,7 @@ package seedu.addressbook.storage.jaxb;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -26,8 +27,11 @@ public class AdaptedAddressBook {
     private List<Assessment> assessments = new ArrayList<>();
 
 
-    @XmlElement(defaultValue = "default_pw")
-    private AdaptedPassword password = new AdaptedPassword();
+    @XmlElement(name = "password", defaultValue = "default_pw")
+    private String password;
+
+    @XmlAttribute
+    private boolean isPermAdmin;
 
     /**
      * No-arg constructor for JAXB use.
@@ -41,7 +45,8 @@ public class AdaptedAddressBook {
     public AdaptedAddressBook(AddressBook source) {
         persons = new ArrayList<>();
         source.getAllPersons().forEach(person -> persons.add(new AdaptedPerson(person)));
-        password = new AdaptedPassword(source.getMasterPassword());
+        password = source.getMasterPassword();
+        isPermAdmin = source.isPermAdmin();
     }
 
 
@@ -55,8 +60,7 @@ public class AdaptedAddressBook {
      */
     public boolean isAnyRequiredFieldMissing() {
 
-        return persons.stream().anyMatch(AdaptedPerson::isAnyRequiredFieldMissing)
-                || password.isAnyRequiredFieldMissing();
+        return persons.stream().anyMatch(AdaptedPerson::isAnyRequiredFieldMissing);
     }
 
 
@@ -69,12 +73,15 @@ public class AdaptedAddressBook {
         for (AdaptedPerson person : persons) {
             personList.add(person.toModelType());
         }
+        final String masterPassword = password;
         final List<Assessment> assessmentList = new ArrayList<>();
         for (Assessment assessment : assessments) {
             assessmentList.add(assessment);
         }
-        final String masterPassword = password.getPassword();
-        return new AddressBook(new UniquePersonList(personList), new UniqueAssessmentsList(assessmentList),
+        final AddressBook ab = new AddressBook(new UniquePersonList(personList),
+                new UniqueAssessmentsList(assessmentList),
                 masterPassword);
+        ab.setPermAdmin(isPermAdmin);
+        return ab;
     }
 }

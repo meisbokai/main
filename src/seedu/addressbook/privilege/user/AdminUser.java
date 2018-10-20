@@ -9,6 +9,7 @@ import seedu.addressbook.commands.ClearExamsCommand;
 import seedu.addressbook.commands.Command;
 import seedu.addressbook.commands.DeleteAccountCommand;
 import seedu.addressbook.commands.EditPasswordCommand;
+import seedu.addressbook.commands.SetPermanentAdminCommand;
 import seedu.addressbook.commands.ViewAllCommand;
 
 /**
@@ -21,6 +22,7 @@ public class AdminUser extends TutorUser {
             new EditPasswordCommand(),
             new ClearExamsCommand(),
             new EditPasswordCommand(),
+            new SetPermanentAdminCommand(),
             new AddAccountCommand(),
             new DeleteAccountCommand()
     );
@@ -33,7 +35,7 @@ public class AdminUser extends TutorUser {
     }
 
     /**
-     * Overrides the check with true to allow compatibility with "new" commands that were
+     * Overrides the check with always be true to allow compatibility with "new" commands that were
      * unaccounted for (ie commands made by teammates)
      * */
     @Override

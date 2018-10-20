@@ -9,7 +9,7 @@ import seedu.addressbook.commands.Command;
  */
 public interface User {
     /**
-     * Enum to describe privilege levels
+     * Enum to describe privilege levels. Used only as String
      * */
     enum PrivilegeLevel { Basic, Tutor, Admin }
 

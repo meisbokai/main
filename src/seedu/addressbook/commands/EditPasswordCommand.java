@@ -18,6 +18,7 @@ public class EditPasswordCommand extends Command {
 
     public static final String MESSAGE_SUCCESS = "Password changed to %s";
     public static final String MESSAGE_WRONG_PASSWORD = "Wrong password entered";
+    public static final String MESSAGE_SAME_AS_OLDPASSWORD = "New password entered is the same as old password";
     public static final String MESSAGE_WRONG_NUMBER_ARGUMENTS =
             "Wrong number of arguments, expected %d, actual %d\n %s";
 
@@ -47,6 +48,9 @@ public class EditPasswordCommand extends Command {
     public CommandResult execute() {
         try {
             validatePassword();
+            if (oldPassword.equals(newPassword)) {
+                return new CommandResult(MESSAGE_SAME_AS_OLDPASSWORD);
+            }
             addressBook.setMasterPassword(newPassword);
             return new CommandResult(String.format(MESSAGE_SUCCESS, newPassword));
         } catch (Logic.WrongPasswordEnteredException wpe) {

@@ -32,7 +32,6 @@ public class DeleteAccountCommand extends Command {
      * */
     public DeleteAccountCommand() {}
 
-    // TODO: Prevent user from overrriding their logged-in account
     @Override
     public CommandResult execute() {
         try {

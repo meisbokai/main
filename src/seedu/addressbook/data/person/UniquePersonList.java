@@ -9,6 +9,7 @@ import java.util.List;
 
 import seedu.addressbook.common.Utils;
 import seedu.addressbook.data.exception.DuplicateDataException;
+import seedu.addressbook.ui.Formatter;
 
 /**
  * A list of persons. Does not allow null elements or duplicates.
@@ -126,6 +127,25 @@ public class UniquePersonList implements Iterable<Person> {
     }
 
     /**
+     * loops through list and appends data to string person.
+     *
+     * @throws PersonNotFoundException if no such person could be found in the list.
+     */
+    public String loopFees(ReadOnlyPerson person) throws PersonNotFoundException {
+        //TODO: Fix potato
+        final StringBuilder builder = new StringBuilder();
+        for (Person p: internalList) {
+            final String stringChain = Formatter.getPrintableString(
+                    true,
+                    p.getName(),
+                    p.getFees());
+            builder.append(stringChain);
+            builder.append("\n");
+        }
+        return builder.toString();
+    }
+
+    /**
      * Clears all persons in list.
      */
     public void clear() {
@@ -133,9 +153,9 @@ public class UniquePersonList implements Iterable<Person> {
     }
 
     /** Finds and returns the Person who has the given username in its Account
-     * @param username
+     * @param username to be matched to a person.
      * @return The Person who matches the username. This should be guaranteed to be unique.
-     * @throws PersonNotFoundException
+     * @throws PersonNotFoundException Person cannot be found with the given username in internalList
      */
     public Person findPersonByUsername(String username) throws PersonNotFoundException {
         //TODO: Fix potato
@@ -148,7 +168,7 @@ public class UniquePersonList implements Iterable<Person> {
     }
 
     /**Checks if UniquePersonList holds a Person who has given username in its Account
-     * @param username
+     * @param username of the person to be associated with.
      * @return true if such a Person exists. False otherwise
      */
     public Boolean containsPersonWithUsername(String username) {

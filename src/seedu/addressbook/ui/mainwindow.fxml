@@ -15,6 +15,8 @@
         <TextArea fx:id="outputConsole" editable="false" wrapText="true" VBox.vgrow="ALWAYS">
         </TextArea>
 
+        <TextArea fx:id="statusConsole" editable="false" wrapText="true" VBox.vgrow="NEVER" prefHeight="150">
+        </TextArea>
     </children>
 
 </VBox>

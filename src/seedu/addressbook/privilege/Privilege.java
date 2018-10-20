@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import seedu.addressbook.commands.Command;
-import seedu.addressbook.data.account.Account;
 import seedu.addressbook.data.person.Person;
 import seedu.addressbook.data.person.ReadOnlyPerson;
 import seedu.addressbook.privilege.user.AdminUser;
@@ -31,7 +30,7 @@ public class Privilege {
     }
 
     private User user;
-    private Optional<ReadOnlyPerson> myPerson = Optional.empty();
+    private Person myPerson;
 
     public Privilege() {
         user = PrivilegeLevels.BASIC.getUserType();
@@ -59,8 +58,12 @@ public class Privilege {
         return null;
     }
 
-    public void raiseToAccountLevel(Account account) {
-        user = account.getPrivilege().getUser();
+    /**
+     * Copies all the information of another privilege into this object, effectively cloning it.
+     */
+    public void copyPrivilege(Privilege privilege) {
+        this.user = privilege.getUser();
+        this.myPerson = privilege.getMyPerson().orElse(null);
     }
 
     public void raiseToTutor() {
@@ -71,12 +74,15 @@ public class Privilege {
         user = PrivilegeLevels.ADMIN.getUserType();
     }
 
-    public Optional<ReadOnlyPerson> getMyPerson() {
-        return myPerson;
+    public Optional<Person> getMyPerson() {
+        return Optional.ofNullable(myPerson);
+    }
+    public Optional<ReadOnlyPerson> getMyReadOnlyPerson() {
+        return Optional.ofNullable(myPerson);
     }
 
     public void setMyPerson(Person myPerson) {
-        this.myPerson = Optional.of(myPerson);
+        this.myPerson = myPerson;
     }
 
     /**
@@ -88,11 +94,11 @@ public class Privilege {
     }
 
     public boolean isBase() {
-        return (user.equals(PrivilegeLevels.BASIC.getUserType()) && !myPerson.isPresent());
+        return (user.equals(PrivilegeLevels.BASIC.getUserType()) && myPerson == null);
     }
 
     private void clearMyPerson() {
-        myPerson = Optional.empty();
+        myPerson = null;
     }
 
     private void raiseToBasic() {
@@ -126,7 +132,7 @@ public class Privilege {
     }
 
     private boolean isTargetSelf(ReadOnlyPerson person) {
-        return myPerson.isPresent() && person.equals(myPerson.get());
+        return person.equals(myPerson);
     }
 
     public String getRequiredPrivilegeAsString(Command command) {

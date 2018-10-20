@@ -5,6 +5,7 @@ package seedu.addressbook.common;
  */
 public class Messages {
 
+    public static final String MESSAGE_COMMAND_NOT_FOUND = "Command not recognised! Displaying commands available.";
     public static final String MESSAGE_INVALID_COMMAND_FORMAT = "Invalid command format! \n%1$s";
     public static final String MESSAGE_INVALID_PERSON_DISPLAYED_INDEX = "The person index provided is invalid."
             + "Run the list/find command to generate a list of person.";
@@ -19,6 +20,7 @@ public class Messages {
     public static final String MESSAGE_NOT_LOGGED_IN = "Unable to process command as user is not logged in.\n";
     public static final String MESSAGE_WRONG_NUMBER_ARGUMENTS =
             "Wrong number of arguments, expected %d, actual %d\n %s";
+    public static final String MESSAGE_FEES_LISTED_OVERVIEW = "%1$d fees listed!";
     public static final String MESSAGE_USING_EXAMS_FILE = "Using exams file : %1$s";
     public static final String MESSAGE_EXAMS_LISTED_OVERVIEW = "%1$d exams listed!";
     public static final String MESSAGE_USING_STATISTICS_FILE = "Using statistics file : %1$s";

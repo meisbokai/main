@@ -8,6 +8,8 @@ import static seedu.addressbook.common.Messages.MESSAGE_WELCOME;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -33,6 +35,9 @@ public class MainWindow {
     @FXML
     private TextArea outputConsole;
 
+    @FXML
+    private TextArea statusConsole;
+
     public void setLogic(Logic logic) {
         this.logic = logic;
     }
@@ -43,7 +48,7 @@ public class MainWindow {
 
     /** Returns true of the result given is the result of an exit command */
     private boolean isExitCommand(CommandResult result) {
-        return result.feedbackToUser.equals(ExitCommand.MESSAGE_EXIT_ACKNOWEDGEMENT);
+        return result.getStatusConsoleMessage().equals(ExitCommand.MESSAGE_EXIT_ACKNOWLEDGEMENT);
     }
 
     /** Clears the command input box */
@@ -56,20 +61,26 @@ public class MainWindow {
         outputConsole.clear();
     }
 
+    /** Clears the status display area */
+    public void clearStatusConsole() {
+        statusConsole.clear();
+    }
+
     /** Displays the result of a command execution to the user. */
     public void displayResult(CommandResult result) {
         clearOutputConsole();
         final Optional<List<? extends ReadOnlyPerson>> resultPersons = result.getRelevantPersons();
+
+        resultPersons.ifPresent(this::display);
+        //TODO: Clean up code
         final Optional<List<? extends ReadOnlyExam>> resultExams = result.getRelevantExams();
         final Optional<List<? extends Assessment>> resultAssessment = result.getRelevantAssessments();
-        if (resultPersons.isPresent()) {
-            display(resultPersons.get());
-        } else if (resultExams.isPresent()) {
+        if (resultExams.isPresent()) {
             displayExams(resultExams.get());
         } else if (resultAssessment.isPresent()) {
             displayAssessments(resultAssessment.get());
         }
-        display(result.feedbackToUser);
+        display(result.getOutputConsoleMessage());
     }
     /** Displays the welcome message**/
     public void displayWelcomeMessage(String version, String storageFilePath, String examsFilePath,
@@ -103,12 +114,32 @@ public class MainWindow {
     }
 
     /**
+     * Displays the given messages on the output display area, after formatting appropriately.
+     */
+    private void displayStatus(String message) {
+        clearStatusConsole();
+        statusConsole.setText(message);
+    }
+
+    /**
+     * Displays the given messages on the output display area, after formatting appropriately.
+     */
+    private void handleDisplay(CommandResult result) {
+        clearStatusConsole();
+        clearCommandInput();
+        if (result.hasStatusMessage()) {
+            displayStatus(result.getStatusConsoleMessage());
+        }
+        if (result.hasOutputMessage()) {
+            displayResult(result);
+        }
+    }
+    /**
      * Displays the list of exams in the output display area, formatted as an indexed list.
      */
     private void displayAssessments(List<? extends Assessment> assessments) {
         display(new Formatter().formatAssessments(assessments));
     }
-
 
     /** Reads the user command on the CLI **/
     @FXML
@@ -116,20 +147,30 @@ public class MainWindow {
         try {
             String userCommandText = commandInput.getText();
             CommandResult result = logic.execute(userCommandText);
+            handleDisplay(result);
             if (isExitCommand(result)) {
+                clearOutputConsole();
                 exitApp();
-                return;
             }
-
-            displayResult(result);
-            clearCommandInput();
         } catch (Exception e) {
             display(e.getMessage());
             throw new RuntimeException(e);
         }
     }
 
-    private void exitApp() throws Exception {
-        mainApp.stop();
+    /** Exits the app after a given delay*/
+    private void exitApp() {
+        final int delayInMillis = 500;
+        TimerTask task = new TimerTask() {
+            public void run() {
+                try {
+                    mainApp.stop();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        };
+        Timer timer = new Timer("Timer");
+        timer.schedule(task, delayInMillis);
     }
 }

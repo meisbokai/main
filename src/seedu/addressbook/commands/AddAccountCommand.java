@@ -35,14 +35,12 @@ public class AddAccountCommand extends Command {
         //TODO: Fix potato code
         toAdd = null;
     }
-
     public AddAccountCommand(int targetVisibleIndex, String username, String password, String privilege)
             throws IllegalValueException {
         super(targetVisibleIndex);
         toAdd = new Account(username, password, privilege);
     }
 
-    // TODO: Prevent user from overrriding their logged-in account
     @Override
     public CommandResult execute() {
         try {
@@ -56,6 +54,7 @@ public class AddAccountCommand extends Command {
             }
 
             final Person editablePerson = addressBook.findPerson(target);
+            toAdd.setPrivilegePerson(editablePerson);
             editablePerson.setAccount(toAdd);
             return new CommandResult(String.format(MESSAGE_ADD_ACCOUNT_PERSON_SUCCESS, target.getName()));
         } catch (IndexOutOfBoundsException ie) {

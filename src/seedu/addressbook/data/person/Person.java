@@ -20,7 +20,7 @@ public class Person implements ReadOnlyPerson {
     private Phone phone;
     private Email email;
     private Address address;
-    private Optional<Account> account = Optional.empty();
+    private Account account;
     private Fees fees;
     private final Set<Tag> tags = new HashSet<>();
     private Attendance attendance;
@@ -41,11 +41,11 @@ public class Person implements ReadOnlyPerson {
 
     public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags, Account account) {
         this(name, phone, email, address, tags);
-        this.account = Optional.ofNullable(account);
+        this.account = account;
     }
 
     /**
-     * Copy constructor.
+     * Construct using ReadOnlyPerson
      */
     public Person(ReadOnlyPerson source) {
         this(source.getName(), source.getPhone(), source.getEmail(), source.getAddress(), source.getTags());
@@ -75,11 +75,11 @@ public class Person implements ReadOnlyPerson {
     }
 
     public void setAccount(Account account) {
-        this.account = Optional.ofNullable(account);
+        this.account = account;
     }
 
     public void removeAccount() {
-        this.account = Optional.empty();
+        this.account = null;
     }
 
     public List<Assessment> getAssessments() {
@@ -118,7 +118,7 @@ public class Person implements ReadOnlyPerson {
 
     @Override
     public Optional<Account> getAccount() {
-        return account;
+        return Optional.ofNullable(account);
     }
 
     @Override

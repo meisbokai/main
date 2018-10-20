@@ -57,13 +57,12 @@ public class LoginCommand extends Command {
     public CommandResult execute() {
         try {
             Person requestedPerson = addressBook.findPersonByUsername(userName);
-            final Account requestAccount = requestedPerson.getAccount().get();
-            validatePassword(requestAccount);
-            privilege.setMyPerson(requestedPerson);
-            privilege.raiseToAccountLevel(requestAccount);
+            final Account requestedAccount = requestedPerson.getAccount().get();
+            validatePassword(requestedAccount);
+            privilege.copyPrivilege(requestedAccount.getPrivilege());
             final String message = String.format(MESSAGE_SUCCESS,
                     requestedPerson.getName().toString(),
-                    requestAccount.getPrivilege().getLevelAsString());
+                    requestedAccount.getPrivilege().getLevelAsString());
             return new CommandResult(message);
         } catch (Logic.WrongPasswordEnteredException wpe) {
             return new CommandResult(MESSAGE_WRONG_PASSWORD);

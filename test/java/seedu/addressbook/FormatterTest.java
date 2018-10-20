@@ -44,7 +44,7 @@ public class FormatterTest {
                 + " " + NEWLINE;
         assertEquals(expected, formatter.format(persons));
 
-        /**List of 3 people, all fields non-private**/
+        //List of 3 people, all fields non-private
         persons = helper.generatePersonList(false, false , false);
         expected = " \t1. Person 1 Phone: 1 Email: 1@email Address: House of 1   Tags: [tag1][tag2]" + NEWLINE
                 + " \t2. Person 2 Phone: 2 Email: 2@email Address: House of 2   Tags: [tag2][tag3]" + NEWLINE
@@ -52,7 +52,7 @@ public class FormatterTest {
                 + " " + NEWLINE;
         assertEquals(expected, formatter.format(persons));
 
-        /**List of 3 people, all fields non-private**/
+        //List of 3 people, all fields non-private*
         persons = helper.generatePersonList(false, true , false);
         expected = " \t1. Person 1 Phone: 1 Email: 1@email Address: House of 1   Tags: [tag1][tag2]" + NEWLINE
                 + " \t2. Person 2      Tags: [tag2][tag3]" + NEWLINE

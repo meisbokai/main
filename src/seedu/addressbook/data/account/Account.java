@@ -1,6 +1,7 @@
 package seedu.addressbook.data.account;
 
 import seedu.addressbook.data.exception.IllegalValueException;
+import seedu.addressbook.data.person.Person;
 import seedu.addressbook.data.person.Printable;
 import seedu.addressbook.privilege.Privilege;
 
@@ -42,6 +43,10 @@ public class Account implements Printable {
 
     public Privilege getPrivilege() {
         return privilege;
+    }
+
+    public void setPrivilegePerson(Person person) {
+        privilege.setMyPerson(person);
     }
 
     /**

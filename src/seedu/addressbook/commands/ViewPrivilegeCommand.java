@@ -2,7 +2,7 @@ package seedu.addressbook.commands;
 
 import java.util.Optional;
 
-import seedu.addressbook.data.person.ReadOnlyPerson;
+import seedu.addressbook.data.person.Person;
 
 /**
  * Clears the address book.
@@ -21,14 +21,14 @@ public class ViewPrivilegeCommand extends Command {
     @Override
     public CommandResult execute() {
         String feedbackToUser;
-        final Optional<ReadOnlyPerson> optMyPerson = privilege.getMyPerson();
+        final Optional<Person> optMyPerson = privilege.getMyPerson();
         if (optMyPerson.isPresent()) {
             feedbackToUser = String.format(MESSAGE_LOGGED_IN, optMyPerson.get().getName());
         } else {
             feedbackToUser = MESSAGE_NOT_LOGGED_IN;
         }
         feedbackToUser += String.format(MESSAGE_PRIVILEGE_FORMAT, privilege.getLevelAsString());
-        return new CommandResult(feedbackToUser);
+        return new CommandResult(feedbackToUser, CommandResult.MessageType.OUTPUT);
     }
 
     @Override
