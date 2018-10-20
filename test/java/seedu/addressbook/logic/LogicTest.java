@@ -948,6 +948,12 @@ public class LogicTest {
     }
 
     @Test
+    public void executeViewAttendanceInvalidArgsFormat() throws Exception {
+        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, ViewAttendanceCommand.MESSAGE_USAGE);
+        assertCommandBehavior("viewAtten ", expectedMessage);
+    }
+
+    @Test
     public void executeViewAttendanceSuccess() throws Exception {
         TestDataHelper helper = new TestDataHelper();
         Person p1 = helper.generatePerson(1, false);
@@ -990,6 +996,12 @@ public class LogicTest {
                 expectedBook,
                 false,
                 personList);
+    }
+
+    @Test
+    public void executeReplaceAttendanceInvalidArgsFormat() throws Exception {
+        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, ReplaceAttendanceCommand.MESSAGE_USAGE);
+        assertCommandBehavior("replaceAtten 1 d/29-09-1996 att/ ", expectedMessage);
     }
 
     @Test
