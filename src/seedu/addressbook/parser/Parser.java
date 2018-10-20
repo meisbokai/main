@@ -669,7 +669,7 @@ public class Parser {
         // Validate arg string format
         if (!matcher.matches()) {
             return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-                    UpdateAttendanceCommand.MESSAGE_USAGE));
+                    ReplaceAttendanceCommand.MESSAGE_USAGE));
         }
         try {
             final int targetIndex = parseInt(matcher.group("targetIndex"));
