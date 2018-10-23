@@ -13,6 +13,7 @@ import seedu.addressbook.common.Utils;
 import seedu.addressbook.data.account.Account;
 import seedu.addressbook.data.exception.IllegalValueException;
 import seedu.addressbook.data.person.Address;
+import seedu.addressbook.data.person.Attendance;
 import seedu.addressbook.data.person.Email;
 import seedu.addressbook.data.person.Fees;
 import seedu.addressbook.data.person.Name;
@@ -38,6 +39,8 @@ public class AdaptedPerson {
     private AdaptedContactDetail fees;
     @XmlElement(required = true)
     private String duedate;
+    @XmlElement(required = true)
+    private AdaptedContactDetail attendance;
 
     @XmlElement
     private List<AdaptedTag> tagged = new ArrayList<>();
@@ -86,6 +89,10 @@ public class AdaptedPerson {
         fees.value = source.getFees().value;
 
         duedate = source.getFees().duedate;
+
+//        attendance = new AdaptedContactDetail();
+//        attendance.isPrivate = source.getAttendance().isPrivate();
+//        attendance.value = source.getAttendance().value;
 
         tagged = new ArrayList<>();
         for (Tag tag : source.getTags()) {
