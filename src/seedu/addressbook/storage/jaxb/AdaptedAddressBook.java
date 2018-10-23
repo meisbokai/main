@@ -26,7 +26,6 @@ public class AdaptedAddressBook {
     @XmlElement
     private List<Assessment> assessments = new ArrayList<>();
 
-
     @XmlElement(name = "password", defaultValue = "default_pw")
     private String password;
 
