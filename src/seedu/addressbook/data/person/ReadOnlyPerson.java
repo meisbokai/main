@@ -19,6 +19,7 @@ public interface ReadOnlyPerson {
     Address getAddress();
     Optional<Account> getAccount();
     Fees getFees();
+    Attendance getAttendance();
 
     /**
      * The returned {@code Set} is a deep copy of the internal {@code Set},
@@ -52,6 +53,7 @@ public interface ReadOnlyPerson {
                 getEmail(),
                 getAddress(),
                 getFees());
+                getAttendance();
 
         builder.append(stringChain)
                 .append(" Tags: ");
@@ -74,6 +76,7 @@ public interface ReadOnlyPerson {
                 getEmail(),
                 getAddress(),
                 getFees());
+                getAttendance();
         builder.append(stringChain)
                 .append(" Tags: ");
         for (Tag tag : getTags()) {
