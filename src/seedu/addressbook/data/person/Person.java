@@ -52,7 +52,7 @@ public class Person implements ReadOnlyPerson {
     }
 
     /**
-     * Only update the fees when called in AddFeesCommand
+     * Only update the fees when called in setAssessmentsCommand
      */
     public void setAssessments(Assessment assessment) {
         this.assessments.add(assessment);
@@ -149,6 +149,7 @@ public class Person implements ReadOnlyPerson {
         return attendance.viewAttendance();
     }
 
+    @Override
     public Attendance getAttendance() {
         return attendance;
     }
