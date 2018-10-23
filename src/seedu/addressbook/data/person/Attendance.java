@@ -3,7 +3,9 @@ package seedu.addressbook.data.person;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.ArrayList;
 
 /**
  * Represents a Person's attendance in the address book.
@@ -11,23 +13,27 @@ import java.util.Map;
 
 public class Attendance implements Printable {
 
-    /** Represents a map that links dates(kay) to attendance(value)*/
-    private Map<String, Boolean> attendanceMap = new HashMap<>();
+    /** Represents a map for each person, showing which every attendance for each date*/
+    private Map<String, Boolean> attendancePersonMap = new HashMap<>();
 
-    /** Method to add attendance */
+    /** Represents a map for each date, showing a list of people who were present*/
+    private List<String> peoplePresent = new ArrayList<String>();
+    private Map<String, List> attendanceDateMap = new HashMap<>();
+
+    /** Method to add attendance*/
     public boolean addAttendance(String date, Boolean isPresent, Boolean overWrite) {
         String inputDate = date;
-        if ("0".equals(date)) { //PMD 3.3
+        if ("0".equals(date)) {
             inputDate = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
         }
         // If there is a duplicate date
-        if (attendanceMap.containsKey(inputDate) && overWrite) {
-            attendanceMap.put(inputDate, isPresent);
+        if (attendancePersonMap.containsKey(inputDate) && overWrite) {
+            attendancePersonMap.put(inputDate, isPresent);
             return true;
-        } else if (attendanceMap.containsKey(inputDate) && !overWrite) {
+        } else if (attendancePersonMap.containsKey(inputDate) && !overWrite) {
             return true;
         } else {
-            attendanceMap.put(inputDate, isPresent);
+            attendancePersonMap.put(inputDate, isPresent);
             return false;
         }
     }
@@ -36,8 +42,8 @@ public class Attendance implements Printable {
     public String viewAttendance() {
         String output = "Date \t\t Attendance\n";
         String attendance = "Absent";
-        for (Map.Entry entry : attendanceMap.entrySet()) {
-            if(entry.getValue().equals(true)){
+        for (Map.Entry entry : attendancePersonMap.entrySet()) {
+            if (entry.getValue().equals(true)) {
                 attendance = "Present";
             }
             output += entry.getKey() + "\t\t" + attendance + "\n";
@@ -57,9 +63,13 @@ public class Attendance implements Printable {
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof Attendance // instanceof handles nulls
-                && this.attendanceMap.equals(((Attendance) other).attendanceMap)); // state check
+                && this.attendancePersonMap.equals(((Attendance) other).attendancePersonMap)); // state check
     }
 
-    //TODO store the attendance somewhere (perhaps attendance book?)
+    public boolean isPrivate() {
+        return true;
+    }
+
+    //TODO store the attendance somewhere (under address book)
 }
 
