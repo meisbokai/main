@@ -180,6 +180,21 @@ public class UniquePersonList implements Iterable<Person> {
         }
     }
 
+    /** Iterates through the UniquePersonList to check the attendance of each person
+     * @param date of which list of present people should generate
+     * @return A list of present people
+     */
+    public List listOfPresentPeople (String date) {
+        List <Name> listOfPresent = new ArrayList<>();
+        for (Person p: internalList) {
+            Boolean isPresent = p.viewAttendanceDateMethod(date);
+            if (isPresent) {
+                listOfPresent.add(p.getName());
+            }
+        }
+        return listOfPresent;
+    }
+
     @Override
     public Iterator<Person> iterator() {
         return internalList.iterator();
