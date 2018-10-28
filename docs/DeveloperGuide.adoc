@@ -414,6 +414,45 @@ An Example of how feature 2 - `Adding a new assessment to the AddressBook` works
   grades to a particular student.
 // end::Grades[]
 
+// tag::Attendance[]
+=== Attendance Feature
+
+==== Current Implementation
+The AddressBook contains the attendance of each person for each date that his/her attendance is taken. The current set of commands include:
+
+. `Updating a person's attendance`
+. `Replacing a person's attendance`
+. `Viewing of a person's attendance`
+
+An example of how feature 1 - `Updating a person's attendance` works:
+
+. The user (teacher/ admin) will be able to use the 'attendance' command to update the attendance of a particular person (student).
+. The specific person is extracted from the Addressbook.
+. A check is performed to check if the person already has his/her attendance taken.
+. If the attendance has already been taken, the user will be prompted to use another command `replaceAtten` to replace the attendance.
+. If the attendance has yet to be taken, the attendance of the specified person for the specified date will be taken as either 'present' or 'absent'.
+
+==== Design Considerations
+
+====== Aspect: How to store attendance for each person
+* **Alternative 1 (Current choice):** Each person has a hashmap that stores maps the date to the attendance.
+** Pros: Hashmaps allows more efficient checking of duplicate attendance (get() method has complexity of O(1).
+** Cons:
+
+* **Alternative 2:** Each person has a list of string containing the date and attendance.
+** Pros: A list of strings will allow easier storage and viewing of the data
+** Cons: List or ArrayList will require O(n) time to check for duplicates
+** Cons: A single string will not allow handling of data separately
+
+* **Alternative 3:** Each person has a list of pairs containing date and attendance.
+** Pros: Pairing of date to attendance ensures that the checking of attendance requires at most O(n) time, but minimally O(1)
+** Cons: Usage of pairs in java will require an extra class or an external library, which is unnecessary
+
+====== Aspect: How to check if attendance has duplicate
+
+
+====== Aspect: How to differentiate between updating and replacing a person's attendance
+
 == Documentation
 
 We use asciidoc for writing documentation.
