@@ -45,13 +45,6 @@ public class Person implements ReadOnlyPerson {
     }
 
     /**
-     * Construct using ReadOnlyPerson
-     */
-    public Person(ReadOnlyPerson source) {
-        this(source.getName(), source.getPhone(), source.getEmail(), source.getAddress(), source.getTags());
-    }
-
-    /**
      * Only update the fees when called in setAssessmentsCommand
      */
     public void setAssessments(Assessment assessment) {
