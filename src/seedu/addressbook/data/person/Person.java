@@ -154,4 +154,9 @@ public class Person implements ReadOnlyPerson {
         return noDuplicateDate;
     }
 
+    /** Method to get the attendance of a particular date **/
+    public Boolean viewAttendanceDateMethod(String date) {
+        return attendance.viewAttendanceDate(date);
+    }
+
 }
