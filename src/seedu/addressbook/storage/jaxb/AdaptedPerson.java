@@ -38,9 +38,9 @@ public class AdaptedPerson {
     @XmlElement(required = true)
     private AdaptedContactDetail fees;
     @XmlElement(required = true)
-    private String duedate;
-    @XmlElement(required = true)
-    private AdaptedContactDetail attendance;
+    private String dueDate;
+//    @XmlElement(required = true)
+//    private AdaptedAttendance attendance;
 
     @XmlElement
     private List<AdaptedTag> tagged = new ArrayList<>();
