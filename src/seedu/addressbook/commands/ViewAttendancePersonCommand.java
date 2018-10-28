@@ -9,7 +9,7 @@ import seedu.addressbook.data.person.UniquePersonList;
  */
 public class ViewAttendancePersonCommand extends Command {
 
-    public static final String COMMAND_WORD = "viewAtten";
+    public static final String COMMAND_WORD = "viewAttenPerson";
     public static final String MESSAGE_USAGE = COMMAND_WORD + ":\n"
             + "Views the attendance of a student. \n"
             + "Parameters: indexOfStudent \n"
