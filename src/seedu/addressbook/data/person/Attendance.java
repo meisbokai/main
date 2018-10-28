@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class Attendance implements Printable {
 
     /** Represents a map for each person, showing which every attendance for each date*/
-    private Map<String, Boolean> attendancePersonMap = new HashMap<>();
+    public Map<String, Boolean> attendancePersonMap = new HashMap<>();
 
     /** Represents a map for each date, showing a list of people who were present*/
     private List<String> peoplePresent = new ArrayList<String>();
@@ -26,12 +26,14 @@ public class Attendance implements Printable {
         if ("0".equals(date)) {
             inputDate = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
         }
-        // If there is a duplicate date
+        // If there is a duplicate date, return true
         if (attendancePersonMap.containsKey(inputDate) && overWrite) {
             attendancePersonMap.put(inputDate, isPresent);
             return true;
         } else if (attendancePersonMap.containsKey(inputDate) && !overWrite) {
             return true;
+        } else if (!attendancePersonMap.containsKey(inputDate) && overWrite) {
+            return false;
         } else {
             attendancePersonMap.put(inputDate, isPresent);
             return false;
@@ -70,6 +72,5 @@ public class Attendance implements Printable {
         return true;
     }
 
-    //TODO store the attendance somewhere (under address book)
 }
 
