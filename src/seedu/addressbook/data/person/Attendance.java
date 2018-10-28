@@ -56,6 +56,13 @@ public class Attendance implements Printable {
         return output;
     }
 
+    /** Method to get attendance of a particular date **/
+    public Boolean viewAttendanceDate(String date) {
+        return attendancePersonMap.get(date);
+    }
+
+
+
     @Override
     public String getPrintableString(boolean showPrivate) {
         return "{}";
