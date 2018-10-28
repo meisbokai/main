@@ -42,7 +42,7 @@ import seedu.addressbook.commands.HelpCommand;
 import seedu.addressbook.commands.ReplaceAttendanceCommand;
 import seedu.addressbook.commands.UpdateAttendanceCommand;
 import seedu.addressbook.commands.ViewAllCommand;
-import seedu.addressbook.commands.ViewAttendanceCommand;
+import seedu.addressbook.commands.ViewAttendancePersonCommand;
 import seedu.addressbook.commands.ViewCommand;
 import seedu.addressbook.commands.ViewFeesCommand;
 import seedu.addressbook.commands.ViewSelfCommand;
@@ -949,7 +949,7 @@ public class LogicTest {
 
     @Test
     public void executeViewAttendanceInvalidArgsFormat() throws Exception {
-        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, ViewAttendanceCommand.MESSAGE_USAGE);
+        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, ViewAttendancePersonCommand.MESSAGE_USAGE);
         assertCommandBehavior("viewAtten ", expectedMessage);
     }
 
@@ -969,7 +969,7 @@ public class LogicTest {
         logic.setLastShownList(personList);
 
         assertCommandBehavior("viewAtten 1",
-                ViewAttendanceCommand.MESSAGE_SUCCESS + p1Expected.getName()
+                ViewAttendancePersonCommand.MESSAGE_SUCCESS + p1Expected.getName()
                                + ":\n" + p1Expected.viewAttendanceMethod(),
                 expectedBook,
                 false,
@@ -991,7 +991,7 @@ public class LogicTest {
         logic.setLastShownList(personList);
 
         assertCommandBehavior("viewAtten 1",
-                ViewAttendanceCommand.MESSAGE_SUCCESS + p1Expected.getName()
+                ViewAttendancePersonCommand.MESSAGE_SUCCESS + p1Expected.getName()
                         + ":\n" + p1Expected.viewAttendanceMethod(),
                 expectedBook,
                 false,

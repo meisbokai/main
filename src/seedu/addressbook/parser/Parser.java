@@ -6,7 +6,6 @@ import static seedu.addressbook.common.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.addressbook.common.Messages.MESSAGE_INVALID_DATE;
 import static seedu.addressbook.common.Messages.MESSAGE_NO_ARGS_FOUND;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Collection;
@@ -48,7 +47,7 @@ import seedu.addressbook.commands.ReplaceAttendanceCommand;
 import seedu.addressbook.commands.SetPermanentAdminCommand;
 import seedu.addressbook.commands.UpdateAttendanceCommand;
 import seedu.addressbook.commands.ViewAllCommand;
-import seedu.addressbook.commands.ViewAttendanceCommand;
+import seedu.addressbook.commands.ViewAttendancePersonCommand;
 import seedu.addressbook.commands.ViewCommand;
 import seedu.addressbook.commands.ViewFeesCommand;
 import seedu.addressbook.commands.ViewPrivilegeCommand;
@@ -215,7 +214,7 @@ public class Parser {
         case ReplaceAttendanceCommand.COMMAND_WORD:
             return prepareReplaceAttendance(arguments);
 
-        case ViewAttendanceCommand.COMMAND_WORD:
+        case ViewAttendancePersonCommand.COMMAND_WORD:
             return prepareViewAttendance(arguments);
 
         case ExamsListCommand.COMMAND_WORD:
@@ -701,12 +700,12 @@ public class Parser {
         // Validate arg string format
         if (!matcher.matches()) {
             return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-                    ViewAttendanceCommand.MESSAGE_USAGE));
+                    ViewAttendancePersonCommand.MESSAGE_USAGE));
         }
 
         try {
             final int targetIndex = parseInt(matcher.group("targetIndex"));
-            return new ViewAttendanceCommand(targetIndex);
+            return new ViewAttendancePersonCommand(targetIndex);
         } catch (NumberFormatException nfe) { //do the most specific catch on top
             return new IncorrectCommand(nfe.getMessage());
         }

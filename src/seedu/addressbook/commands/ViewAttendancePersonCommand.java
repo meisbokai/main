@@ -7,7 +7,7 @@ import seedu.addressbook.data.person.UniquePersonList;
 /**
  *  Lists down the dates where the person's attendance has been taken.
  */
-public class ViewAttendanceCommand extends Command {
+public class ViewAttendancePersonCommand extends Command {
 
     public static final String COMMAND_WORD = "viewAtten";
     public static final String MESSAGE_USAGE = COMMAND_WORD + ":\n"
@@ -18,7 +18,7 @@ public class ViewAttendanceCommand extends Command {
     public static final String MESSAGE_SUCCESS = "Attendance for student, ";
 
     // Constructor
-    public ViewAttendanceCommand(int targetIndex) {
+    public ViewAttendancePersonCommand(int targetIndex) {
         super(targetIndex);
     }
 
@@ -26,7 +26,7 @@ public class ViewAttendanceCommand extends Command {
      * Constructor used for Privileges
      * Command constructed has no functionality
      * */
-    public ViewAttendanceCommand() {
+    public ViewAttendancePersonCommand() {
         // Does nothing
     }
 

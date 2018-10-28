@@ -12,7 +12,7 @@ import seedu.addressbook.commands.EditExamCommand;
 import seedu.addressbook.commands.ExamsListCommand;
 import seedu.addressbook.commands.ReplaceAttendanceCommand;
 import seedu.addressbook.commands.UpdateAttendanceCommand;
-import seedu.addressbook.commands.ViewAttendanceCommand;
+import seedu.addressbook.commands.ViewAttendancePersonCommand;
 
 
 /**
@@ -28,7 +28,7 @@ public class TutorUser extends BasicUser {
             new EditExamCommand(),
             new UpdateAttendanceCommand(),
             new ReplaceAttendanceCommand(),
-            new ViewAttendanceCommand()
+            new ViewAttendancePersonCommand()
     );
 
     public TutorUser() {
