@@ -132,19 +132,20 @@ public class Person implements ReadOnlyPerson {
         return getAsTextShowAll();
     }
 
+    @Override
+    public Attendance getAttendance() {
+        return attendance;
+    }
+
     /** Has a boolean to check if the date is a duplicate **/
     public boolean updateAttendanceMethod(String date, Boolean isPresent, Boolean overWrite) {
         boolean duplicateDate = attendance.addAttendance(date, isPresent, overWrite);
         return duplicateDate;
     }
 
+    /** Method to allow user to view the attendance of a person **/
     public String viewAttendanceMethod() {
         return attendance.viewAttendance();
-    }
-
-    @Override
-    public Attendance getAttendance() {
-        return attendance;
     }
 
     /** Replaces the attendance if there is already a duplicate **/
