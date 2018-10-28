@@ -1,5 +1,6 @@
 package seedu.addressbook.data;
 
+import java.util.List;
 import java.util.Optional;
 
 import seedu.addressbook.data.person.Assessment;
@@ -153,6 +154,10 @@ public class AddressBook {
 
     public void setPermAdmin(boolean permAdmin) {
         isPermAdmin = permAdmin;
+    }
+
+    public List getPresentPeople(String date) {
+        return allPersons.listOfPresentPeople(date);
     }
 
     @Override
