@@ -88,11 +88,9 @@ public class AdaptedPerson {
         fees.isPrivate = source.getFees().isPrivate();
         fees.value = source.getFees().value;
 
-        duedate = source.getFees().duedate;
+        dueDate = source.getFees().duedate;
 
-//        attendance = new AdaptedContactDetail();
-//        attendance.isPrivate = source.getAttendance().isPrivate();
-//        attendance.value = source.getAttendance().value;
+//        attendance = new AdaptedAttendance(source.getAttendance());
 
         tagged = new ArrayList<>();
         for (Tag tag : source.getTags()) {
@@ -141,7 +139,7 @@ public class AdaptedPerson {
         final Phone phone = new Phone(this.phone.value, this.phone.isPrivate);
         final Email email = new Email(this.email.value, this.email.isPrivate);
         final Address address = new Address(this.address.value, this.address.isPrivate);
-        final Fees fees = new Fees(this.fees.value, this.duedate);
+        final Fees fees = new Fees(this.fees.value, this.dueDate);
         Optional<AdaptedAccount> optAccount = Optional.ofNullable(account);
 
         if (!optAccount.isPresent()) {
