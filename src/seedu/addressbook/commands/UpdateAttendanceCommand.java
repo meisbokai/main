@@ -42,7 +42,7 @@ public class UpdateAttendanceCommand extends Command {
     public CommandResult execute() {
         try {
             Person person = addressBook.findPerson(getTargetPerson());
-            boolean isDuplicateDate = person.updateAttendanceMethod(date, isPresent, true);
+            boolean isDuplicateDate = person.updateAttendanceMethod(date, isPresent, false);
             if (isDuplicateDate) {
                 return new CommandResult(String.format((MESSAGE_DUPLICATE_ATTENDANCE)));
             } else {
