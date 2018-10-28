@@ -42,11 +42,11 @@ public class ReplaceAttendanceCommand extends Command {
     public CommandResult execute() {
         try {
             Person person = addressBook.findPerson(getTargetPerson());
-            boolean noDuplicateDate = person.replaceAttendanceMethod(date, isPresent, false);
-            if (noDuplicateDate) {
-                return new CommandResult(String.format((MESSAGE_NO_DUPLICATE_ATTENDANCE)));
-            } else {
+            boolean isDuplicateDate = person.replaceAttendanceMethod(date, isPresent, true);
+            if (!isDuplicateDate) {
                 return new CommandResult(String.format(MESSAGE_SUCCESS) + person.getName());
+            } else {
+                return new CommandResult(String.format((MESSAGE_NO_DUPLICATE_ATTENDANCE)));
             }
         } catch (IndexOutOfBoundsException ie) {
             return new CommandResult(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
