@@ -497,14 +497,9 @@ Shows a list of all persons with an account in the address book. +
 Format: `listacc`
 // end::account[]
 
-<<<<<<< HEAD
-=== Grade Commands
-Below are the commands that deals with grades of students:
-=======
 // tag::Grades[]
 === Grade Commands
 Below are the commands that deals with grades/assessments of students:
->>>>>>> a8b2d85dfc5ba3c76a4b48bb2073ea41309e9a8e
 
 ==== Adding an Assessment : `addassess`
 
@@ -566,11 +561,6 @@ or studen whos grades you want to view.
 
 ****
 
-<<<<<<< HEAD
-// tag::attendance[]
-[[attendance]]
-=== Updates the attendance of a person: `attendance`
-=======
 Examples:
 
 * `viewgrades 1` +
@@ -591,10 +581,11 @@ Example:
 Deletes the grades corresponding to the 2nd assessment in the address book for the student at index 1 in the address book.
 // end::Grades[]
 
+// tag::attendance[]
+[[attendance]]
 === Attendance Commands
 
 ==== Updates the attendance of a person: `attendance`
->>>>>>> a8b2d85dfc5ba3c76a4b48bb2073ea41309e9a8e
 Updates the attendance of the target person. +
 Format: `attendance INDEX d/DATE att/ATTENDANCE`
 Updates the attendance of the person with INDEX as specified by the last shown list according to the DATE. +
@@ -617,7 +608,6 @@ Replaces the current attendance of the target person. +
 Format: `replaceAtten INDEX d/DATE att/ATTENDANCE`
 Replaces the attendance of the person with INDEX as specified by the last shown list according to the DATE. +
 
-<<<<<<< HEAD
 ****
 Examples:
 
@@ -627,14 +617,10 @@ Replaces the attendance of the first person in the list as present for the date 
 ****
 
 === View the attendance of a person: `viewAttenPerson`
-=======
-==== View the attendance of a person: `viewAtten`
->>>>>>> a8b2d85dfc5ba3c76a4b48bb2073ea41309e9a8e
 View the attendance of the target person. +
 Format: `viewAttenPerson INDEX`
 View the attendance of the person with INDEX as specified by the last shown list. +
 
-<<<<<<< HEAD
 ****
 Examples:
 
@@ -647,20 +633,21 @@ Views the attendance of the first person in the list.
 View the attendance of the given date. +
 Format: `viewAttenDate DATE`
 Shows a list of people who were present on the particular date. +
+~*If~ ~the~ ~input~ ~date~ ~is~ ~0~ ~(e.g.~ ~d/0)~~,~ ~the~ ~current~ ~date~ ~will~ ~be~ ~used~
 
 ****
 Examples:
 
-* `viewAttenDate 28-10-2018` +
+* `viewAttenDate d/28-10-2018` +
 Shows a list of people who were present on the particular date. +
+
+* `viewAttenDate d/0` +
+Shows a list of people who were present today. +
 ****
 // end::attendance[]
 
-= Saving the data
-=======
-
 == Saving the data
->>>>>>> a8b2d85dfc5ba3c76a4b48bb2073ea41309e9a8e
+
 
 Address book data are saved in the hard disk automatically after any command that changes the data.
 
