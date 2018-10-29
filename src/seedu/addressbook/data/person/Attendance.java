@@ -3,9 +3,7 @@ package seedu.addressbook.data.person;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.ArrayList;
 
 /**
  * Represents a Person's attendance in the address book.
@@ -54,10 +52,12 @@ public class Attendance implements Printable {
 
     /** Method to get attendance of a particular date **/
     public Boolean viewAttendanceDate(String date) {
-        return attendancePersonMap.get(date);
+        String lookForDate = date;
+        if ("0".equals(date)) {
+            lookForDate = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
+        }
+        return attendancePersonMap.get(lookForDate);
     }
-
-
 
     @Override
     public String getPrintableString(boolean showPrivate) {
