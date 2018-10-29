@@ -2,8 +2,8 @@ package seedu.addressbook.parser;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static seedu.addressbook.commands.exams.EditExamCommand.MESSAGE_NO_ARGS_FOUND;
 import static seedu.addressbook.common.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.addressbook.common.Messages.MESSAGE_NO_ARGS_FOUND;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -13,33 +13,35 @@ import org.junit.Before;
 import org.junit.Test;
 
 import seedu.addressbook.TestDataHelper;
-import seedu.addressbook.commands.AddAssessmentCommand;
-import seedu.addressbook.commands.AddCommand;
-import seedu.addressbook.commands.AddExamCommand;
-import seedu.addressbook.commands.ClearCommand;
 import seedu.addressbook.commands.Command;
-import seedu.addressbook.commands.DeleteAssessmentCommand;
-import seedu.addressbook.commands.DeleteCommand;
-import seedu.addressbook.commands.EditExamCommand;
-import seedu.addressbook.commands.ExamsListCommand;
-import seedu.addressbook.commands.ExitCommand;
-import seedu.addressbook.commands.FindCommand;
-import seedu.addressbook.commands.HelpCommand;
 import seedu.addressbook.commands.IncorrectCommand;
-import seedu.addressbook.commands.ListAssessmentCommand;
-import seedu.addressbook.commands.ListCommand;
-import seedu.addressbook.commands.RaisePrivilegeCommand;
-import seedu.addressbook.commands.ViewAllCommand;
-import seedu.addressbook.commands.ViewCommand;
+import seedu.addressbook.commands.assessment.AddAssessmentCommand;
+import seedu.addressbook.commands.assessment.DeleteAssessmentCommand;
+import seedu.addressbook.commands.assessment.DeleteGradesCommand;
+import seedu.addressbook.commands.assessment.ListAssessmentCommand;
+import seedu.addressbook.commands.assessment.ViewGradesCommand;
+import seedu.addressbook.commands.exams.AddExamCommand;
+import seedu.addressbook.commands.exams.EditExamCommand;
+import seedu.addressbook.commands.exams.ExamsListCommand;
+import seedu.addressbook.commands.general.ExitCommand;
+import seedu.addressbook.commands.general.HelpCommand;
+import seedu.addressbook.commands.person.AddCommand;
+import seedu.addressbook.commands.person.ClearCommand;
+import seedu.addressbook.commands.person.DeleteCommand;
+import seedu.addressbook.commands.person.FindCommand;
+import seedu.addressbook.commands.person.ListCommand;
+import seedu.addressbook.commands.person.ViewAllCommand;
+import seedu.addressbook.commands.person.ViewCommand;
+import seedu.addressbook.commands.privilege.RaisePrivilegeCommand;
 import seedu.addressbook.data.exception.IllegalValueException;
-import seedu.addressbook.data.person.Address;
 import seedu.addressbook.data.person.Assessment;
-import seedu.addressbook.data.person.Email;
 import seedu.addressbook.data.person.Exam;
-import seedu.addressbook.data.person.Name;
 import seedu.addressbook.data.person.Person;
-import seedu.addressbook.data.person.Phone;
 import seedu.addressbook.data.person.ReadOnlyPerson;
+import seedu.addressbook.data.person.details.Address;
+import seedu.addressbook.data.person.details.Email;
+import seedu.addressbook.data.person.details.Name;
+import seedu.addressbook.data.person.details.Phone;
 import seedu.addressbook.data.tag.Tag;
 
 
@@ -160,6 +162,38 @@ public class ParserTest {
         final String input = "viewall " + testIndex;
         final ViewAllCommand result = parseAndAssertCommandType(input, ViewAllCommand.class);
         assertEquals(result.getTargetIndex(), testIndex);
+    }
+
+    @Test
+    public void viewGradesCommand_noArgs() {
+        final String[] inputs = { "viewgrades", "viewgrades " };
+        final String resultMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, ViewGradesCommand.MESSAGE_USAGE);
+        parseAndAssertIncorrectWithMessage(resultMessage, inputs);
+    }
+
+    @Test
+    public void viewGradesCommand_argsIsNotSingleNumber() {
+        final String[] inputs = { "viewgrades notAnumber ", "viewgrades 8*wh12", "viewgrades 1 2 3 4 5" };
+        final String resultMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, ViewGradesCommand.MESSAGE_USAGE);
+        parseAndAssertIncorrectWithMessage(resultMessage, inputs);
+    }
+
+    @Test
+    public void viewGradesCommand_numericArg_indexParsedCorrectly() {
+        final int testIndex = 2;
+        final String input = "viewgrades " + testIndex;
+        final ViewGradesCommand result = parseAndAssertCommandType(input, ViewGradesCommand.class);
+        assertEquals(result.getTargetIndex(), testIndex);
+    }
+
+    /**
+     * Test double index argument commands
+     */
+    @Test
+    public void deleteGradesCommand_noArgs() {
+        final String[] inputs = { "deletegrades", "deletegrades " };
+        final String resultMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteGradesCommand.MESSAGE_USAGE);
+        parseAndAssertIncorrectWithMessage(resultMessage, inputs);
     }
 
     /**
@@ -401,7 +435,7 @@ public class ParserTest {
 
     @Test
     public void deleteAssessmentCommand_numericArg_indexParsedCorrectly() {
-        final int testIndex = 1;
+        final int testIndex = -1;
         final String input = "deleteassess " + testIndex;
         final DeleteAssessmentCommand result = parseAndAssertCommandType(input, DeleteAssessmentCommand.class);
         assertEquals(result.getTargetIndex(), testIndex);
@@ -429,10 +463,6 @@ public class ParserTest {
         resultMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, MESSAGE_NO_ARGS_FOUND
                 + EditExamCommand.MESSAGE_USAGE);
         parseAndAssertIncorrectWithMessage(resultMessage, input);
-
-        final String[] inputPrivateChange = { "editexam 1 p/ok", "editexam 1 p/12", "editexam 1 p/a" };
-        resultMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditExamCommand.MESSAGE_USAGE);
-        parseAndAssertIncorrectWithMessage(resultMessage, inputPrivateChange);
     }
 
     @Test
@@ -452,7 +482,7 @@ public class ParserTest {
                 Exam.SUBJECT_NAME_EXAMPLE, Exam.EXAM_DATE_EXAMPLE, Exam.EXAM_START_TIME_EXAMPLE,
                 Exam.EXAM_END_TIME_EXAMPLE, Exam.EXAM_DETAILS_EXAMPLE);
         final EditExamCommand result = parseAndAssertCommandType(input, EditExamCommand.class);
-        assertEquals(result.getTargetIndex(), testIndex);
+        assertEquals(result.getTargetExamIndex(), testIndex);
     }
 
     @Test

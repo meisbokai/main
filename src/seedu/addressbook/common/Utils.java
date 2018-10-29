@@ -1,8 +1,12 @@
 package seedu.addressbook.common;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Utility methods
@@ -25,13 +29,39 @@ public class Utils {
      * Checks if every element in a collection are unique by {@link Object#equals(Object)}.
      */
     public static boolean elementsAreUnique(Collection<?> items) {
-        final Set<Object> testSet = new HashSet<>();
-        for (Object item : items) {
-            final boolean itemAlreadyExists = !testSet.add(item); // see Set documentation
-            if (itemAlreadyExists) {
+        final List<Object> testSet = new ArrayList<>();
+        for (Object item: items) {
+            if (objectIsInList(testSet, item)) {
                 return false;
             }
+
+            testSet.add(item);
         }
         return true;
+    }
+    /** Checks if an object is exists in the list*/
+    private static boolean objectIsInList (List<Object> list, Object object) {
+        return (!list.stream()
+                .filter(p -> (p == null && object == null)
+                        || (p != null && p.equals(object)))
+                .collect(Collectors.toList())
+                .isEmpty());
+    }
+
+    /**
+     * Checks if a given string is a valid date.
+     * Solution below adapted from https://stackoverflow.com/a/30578421
+     */
+    public static boolean isValidDate(String value) {
+        boolean valid;
+        final String format = "dd-MM-yyyy";
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
+        try {
+            String parsedDate = LocalDate.parse(value, formatter).format(formatter);
+            valid = value.equals(parsedDate);
+        } catch (DateTimeParseException ex) {
+            valid = false;
+        }
+        return valid;
     }
 }

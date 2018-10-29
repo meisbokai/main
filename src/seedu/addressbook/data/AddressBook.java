@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import seedu.addressbook.data.person.Assessment;
+import seedu.addressbook.data.person.Exam;
 import seedu.addressbook.data.person.Person;
 import seedu.addressbook.data.person.ReadOnlyPerson;
 import seedu.addressbook.data.person.UniqueAssessmentsList;
@@ -12,8 +13,6 @@ import seedu.addressbook.data.person.UniqueAssessmentsList.DuplicateAssessmentEx
 import seedu.addressbook.data.person.UniquePersonList;
 import seedu.addressbook.data.person.UniquePersonList.DuplicatePersonException;
 import seedu.addressbook.data.person.UniquePersonList.PersonNotFoundException;
-
-
 
 /**
  * Represents the entire address book. Contains the data of the address book.
@@ -117,7 +116,31 @@ public class AddressBook {
     }
 
     /**
-     * Loops throough the list
+     * Updates a particular exam to its new value
+     * @param exam the original exam
+     * @param newExam the new exam to be updated to
+     */
+    public void updateExam(Exam exam, Exam newExam) {
+        allPersons.updateExam(exam, newExam);
+    }
+
+    /**
+     * Removes a particular exam from all persons
+     * @param exam the exam
+     */
+    public void removeExam(Exam exam) {
+        allPersons.removeExam(exam);
+    }
+
+    /**
+     * Removes all exams from all persons
+     */
+    public void clearAllExam() {
+        allPersons.clearAllExam();
+    }
+
+    /**
+     * Loops through the list
      */
     public String loopFeesPerson(ReadOnlyPerson person) throws PersonNotFoundException {
         return allPersons.loopFees(person);

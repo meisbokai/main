@@ -5,6 +5,10 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static seedu.addressbook.common.Messages.MESSAGE_INSUFFICIENT_PRIVILEGE;
 import static seedu.addressbook.common.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.addressbook.common.Messages.MESSAGE_WRONG_NUMBER_ARGUMENTS;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -13,10 +17,11 @@ import org.junit.rules.TemporaryFolder;
 
 import seedu.addressbook.TestDataHelper;
 import seedu.addressbook.commands.Command;
-import seedu.addressbook.commands.CommandResult.MessageType;
-import seedu.addressbook.commands.RaisePrivilegeCommand;
-import seedu.addressbook.commands.SetPermanentAdminCommand;
-import seedu.addressbook.commands.ViewPrivilegeCommand;
+import seedu.addressbook.commands.commandresult.MessageType;
+import seedu.addressbook.commands.privilege.RaisePrivilegeCommand;
+import seedu.addressbook.commands.privilege.SetPermanentAdminCommand;
+import seedu.addressbook.commands.privilege.ViewPrivilegeCommand;
+import seedu.addressbook.common.Pair;
 import seedu.addressbook.data.AddressBook;
 import seedu.addressbook.data.ExamBook;
 import seedu.addressbook.data.StatisticsBook;
@@ -95,12 +100,32 @@ public class PrivilegeTest {
 
     @Test
     public void executeRaisePrivilegeInvalidArg() throws Exception {
-        final String[] inputs = {"raise", "raise ", "raise arg1 arg2" , "raise arg1 arg2 arg3"};
+        final String[] inputs = {"raise", "raise "};
+
         final String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT,
                 RaisePrivilegeCommand.MESSAGE_USAGE);
 
         for (String input: inputs) {
             CommandAssertions.assertCommandBehavior(input, expectedMessage);
+        }
+        assertEquals(privilege.getUser(), new BasicUser());
+    }
+
+    @Test
+    public void executeRaisePrivilegeWrongNumberOfArg() throws Exception {
+        // First value of the pair represents String input
+        // Second value of the pair represents number of arguments supplied, as an Integer.
+        List<Pair<String, Integer>> inputToExpectedOutput = new ArrayList<>();
+        inputToExpectedOutput.add(new Pair<>("raise arg1 arg2 ", 2));
+        inputToExpectedOutput.add(new Pair<>("raise arg1 arg2 arg3 ", 3));
+
+        final int requiredArgument = 1;
+
+        for (Pair<String, Integer> inputToOutput: inputToExpectedOutput) {
+            final String expectedMessage = String.format(MESSAGE_WRONG_NUMBER_ARGUMENTS, requiredArgument,
+                    inputToOutput.getSecond(), RaisePrivilegeCommand.MESSAGE_USAGE);
+            CommandAssertions.assertCommandBehavior(inputToOutput.getFirst(),
+                    expectedMessage);
         }
         assertEquals(privilege.getUser(), new BasicUser());
     }
@@ -129,6 +154,15 @@ public class PrivilegeTest {
     }
 
     @Test
+    public void executeSetPermInvalidCommand() throws Exception {
+        privilege.raiseToAdmin();
+        CommandAssertions.assertCommandBehavior("perm",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                        SetPermanentAdminCommand.MESSAGE_USAGE));
+        assertFalse(addressBook.isPermAdmin());
+    }
+
+    @Test
     public void executeSetPermInvalidDesiredState() throws Exception {
         privilege.raiseToAdmin();
         CommandAssertions.assertCommandBehavior("perm wut",
@@ -151,7 +185,9 @@ public class PrivilegeTest {
 
     @Test
     public void executeAdminCommandsInsufficientPrivilege() throws Exception {
-        final String[] inputs = {"clear", "viewall 1", "editpw default_pw new_pw" };
+        final String[] inputs = {"clear", "editpw default_pw new_pw",
+            "add Valid Name p/12345 e/valid@e.mail a/valid, address ",
+            "delete 1"};
         assertCommandsInsufficientPrivilege(inputs);
         privilege.raiseToTutor();
         assertCommandsInsufficientPrivilege(inputs);
@@ -159,8 +195,7 @@ public class PrivilegeTest {
 
     @Test
     public void executeTutorCommandsInsufficientPrivilege() throws Exception {
-        final String[] inputs = {"add Valid Name p/12345 e/valid@e.mail a/valid, address ",
-            "delete 1"};
+        final String[] inputs = {"viewall 1"};
         assertCommandsInsufficientPrivilege(inputs);
     }
 

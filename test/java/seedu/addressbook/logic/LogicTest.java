@@ -4,7 +4,6 @@ import static junit.framework.TestCase.assertEquals;
 import static seedu.addressbook.common.Messages.MESSAGE_COMMAND_NOT_FOUND;
 import static seedu.addressbook.common.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.addressbook.common.Messages.MESSAGE_INVALID_DATE;
-import static seedu.addressbook.common.Messages.MESSAGE_NO_ARGS_FOUND;
 import static seedu.addressbook.common.Messages.MESSAGE_PERSON_NOT_IN_ADDRESSBOOK;
 import static seedu.addressbook.common.Messages.MESSAGE_WRONG_NUMBER_ARGUMENTS;
 import static seedu.addressbook.logic.CommandAssertions.assertCommandBehavior;
@@ -23,14 +22,8 @@ import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
 import seedu.addressbook.TestDataHelper;
-import seedu.addressbook.commands.AddAssessmentCommand;
-import seedu.addressbook.commands.AddAssignmentStatistics;
-import seedu.addressbook.commands.AddCommand;
-import seedu.addressbook.commands.AddExamCommand;
-//import seedu.addressbook.commands.AddFeesCommand;
-import seedu.addressbook.commands.ClearCommand;
-import seedu.addressbook.commands.ClearExamsCommand;
 import seedu.addressbook.commands.Command;
+<<<<<<< HEAD
 import seedu.addressbook.commands.CommandResult;
 import seedu.addressbook.commands.DeleteCommand;
 import seedu.addressbook.commands.DeleteExamCommand;
@@ -42,25 +35,55 @@ import seedu.addressbook.commands.HelpCommand;
 import seedu.addressbook.commands.ReplaceAttendanceCommand;
 import seedu.addressbook.commands.UpdateAttendanceCommand;
 import seedu.addressbook.commands.ViewAllCommand;
-import seedu.addressbook.commands.ViewAttendancePersonCommand;
+import seedu.addressbook.commands.attendance.ViewAttendancePersonCommand;
 import seedu.addressbook.commands.ViewCommand;
 import seedu.addressbook.commands.ViewFeesCommand;
 import seedu.addressbook.commands.ViewSelfCommand;
+=======
+import seedu.addressbook.commands.DeregisterExamCommand;
+import seedu.addressbook.commands.RegisterExamCommand;
+import seedu.addressbook.commands.ViewExamsCommand;
+import seedu.addressbook.commands.account.ListAccountCommand;
+import seedu.addressbook.commands.account.LogoutCommand;
+import seedu.addressbook.commands.assessment.AddAssessmentCommand;
+import seedu.addressbook.commands.assessment.AddAssignmentStatistics;
+import seedu.addressbook.commands.attendance.ReplaceAttendanceCommand;
+import seedu.addressbook.commands.attendance.UpdateAttendanceCommand;
+import seedu.addressbook.commands.commandresult.MessageType;
+import seedu.addressbook.commands.exams.AddExamCommand;
+import seedu.addressbook.commands.exams.ClearExamsCommand;
+import seedu.addressbook.commands.exams.DeleteExamCommand;
+import seedu.addressbook.commands.exams.EditExamCommand;
+import seedu.addressbook.commands.fees.ViewFeesCommand;
+import seedu.addressbook.commands.general.ExitCommand;
+import seedu.addressbook.commands.general.HelpCommand;
+import seedu.addressbook.commands.person.AddCommand;
+import seedu.addressbook.commands.person.ClearCommand;
+import seedu.addressbook.commands.person.DeleteCommand;
+import seedu.addressbook.commands.person.FindCommand;
+import seedu.addressbook.commands.person.ListAllCommand;
+import seedu.addressbook.commands.person.ListCommand;
+import seedu.addressbook.commands.person.ViewAllCommand;
+import seedu.addressbook.commands.person.ViewCommand;
+import seedu.addressbook.commands.person.ViewSelfCommand;
+import seedu.addressbook.commands.privilege.EditPasswordCommand;
+>>>>>>> a8b2d85dfc5ba3c76a4b48bb2073ea41309e9a8e
 import seedu.addressbook.common.Messages;
+import seedu.addressbook.common.Pair;
 import seedu.addressbook.data.AddressBook;
 import seedu.addressbook.data.ExamBook;
 import seedu.addressbook.data.StatisticsBook;
-import seedu.addressbook.data.person.Address;
 import seedu.addressbook.data.person.Assessment;
 import seedu.addressbook.data.person.AssignmentStatistics;
-import seedu.addressbook.data.person.Email;
 import seedu.addressbook.data.person.Exam;
 import seedu.addressbook.data.person.Fees;
-import seedu.addressbook.data.person.Name;
 import seedu.addressbook.data.person.Person;
-import seedu.addressbook.data.person.Phone;
 import seedu.addressbook.data.person.ReadOnlyExam;
 import seedu.addressbook.data.person.ReadOnlyPerson;
+import seedu.addressbook.data.person.details.Address;
+import seedu.addressbook.data.person.details.Email;
+import seedu.addressbook.data.person.details.Name;
+import seedu.addressbook.data.person.details.Phone;
 import seedu.addressbook.data.tag.Tag;
 import seedu.addressbook.privilege.Privilege;
 import seedu.addressbook.privilege.user.AdminUser;
@@ -107,14 +130,6 @@ public class LogicTest {
         saveFile.save(addressBook);
     }
 
-    @Test
-    public void constructor() {
-        //Constructor is called in the setup() method which executes before every test, no need to call it here again.
-
-        //Confirm the last shown list is empty
-        assertEquals(Collections.emptyList(), logic.getLastShownList());
-    }
-
     private void setUpThreePerson(AddressBook addressBook,
                                   AddressBook expected,
                                   Logic logic,
@@ -126,6 +141,50 @@ public class LogicTest {
         logic.setLastShownList(threePersons.getActual());
     }
 
+    private List<Exam> setUpThreeExamsNoTakers(TestDataHelper helper) throws Exception {
+        Exam e1 = helper.generateExam(1, false);
+        Exam e2 = helper.generateExam(2, true);
+        Exam e3 = helper.generateExam(3, false);
+        List<Exam> threeExams = helper.generateExamList(e1, e2, e3);
+        return threeExams;
+    }
+
+    private List<Exam> setUpThreeExamsWithTakers(TestDataHelper helper, int taker1,
+                                                 int taker2, int taker3) throws Exception {
+        Exam e1 = helper.generateExam(1, false, taker1);
+        Exam e2 = helper.generateExam(2, true, taker2);
+        Exam e3 = helper.generateExam(3, false, taker3);
+        List<Exam> threeExams = helper.generateExamList(e1, e2, e3);
+        return threeExams;
+    }
+
+    private List<Person> setUpThreePersonsStandardExam(TestDataHelper helper) throws Exception {
+        Person p1 = helper.generatePerson(1, true, 2, true, 2);
+        Person p2 = helper.generatePerson(2, true, 2, true, 2);
+        Person p3 = helper.generatePerson(3, true, 3, false, 1);
+        List<Person> threePersons = helper.generatePersonList(p1, p2, p3);
+        return threePersons;
+    }
+
+    @Test
+    public void constructor() {
+        //Constructor is called in the setup() method which executes before every test, no need to call it here again.
+
+        //Confirm the last shown list is empty
+        assertEquals(Collections.emptyList(), logic.getLastShownList());
+    }
+
+    /** Checks if logic's privilege is raised to Admin when calling initPrivilege with AB of isPerm = true.*/
+    @Test
+    public void initIsPermSuccess() {
+        final AddressBook ab = new AddressBook();
+        ab.setPermAdmin(true);
+        logic.setAddressBook(ab);
+        privilege.resetPrivilege();
+
+        logic.initPrivilege();
+        assertEquals(new AdminUser(), privilege.getUser());
+    }
 
     @Test
     public void defaultConstructor() throws Exception {
@@ -148,20 +207,38 @@ public class LogicTest {
         final HelpCommand helpCommand = new HelpCommand();
         helpCommand.setData(addressBook, statisticBook, new ArrayList<>(), privilege);
         String unknownCommand = "uicfhmowqewca";
-        assertCommandBehavior(unknownCommand, MESSAGE_COMMAND_NOT_FOUND, helpCommand.makeHelpManual());
+        assertCommandBehavior(unknownCommand, MESSAGE_COMMAND_NOT_FOUND, HelpCommand.makeHelpManual());
+    }
+
+    // Checks if all void commands is rejected if there is a trailing argument.
+    @Test
+    public void execute_voidCommandsInvalidCommandReturned() throws Exception {
+        List<Pair<String, Command>> inputToExpectedOutput = List.of(
+                new Pair<>("clear", new ClearCommand()),
+                new Pair<>("list", new ListCommand()),
+                new Pair<>("listall", new ListAllCommand()),
+                new Pair<>("viewself", new ViewSelfCommand()),
+                new Pair<>("listacc", new ListAccountCommand()),
+                new Pair<>("logout", new LogoutCommand()),
+                new Pair<>("help", new HelpCommand()));
+
+        for (Pair<String, Command> inputToOutput: inputToExpectedOutput) {
+            assertCommandBehavior(inputToOutput.getFirst() + " garbage",
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, inputToOutput.getSecond().getCommandUsageMessage()));
+        }
     }
 
     @Test
     public void executeHelp() throws Exception {
         final HelpCommand helpCommand = new HelpCommand();
         helpCommand.setData(addressBook, statisticBook, new ArrayList<>(), privilege);
-        assertCommandBehavior("help", helpCommand.makeHelpManual(), CommandResult.MessageType.OUTPUT);
+        assertCommandBehavior("help", HelpCommand.makeHelpManual(), MessageType.OUTPUT);
 
         privilege.raiseToTutor();
-        assertCommandBehavior("help", HelpCommand.makeHelpManual(), CommandResult.MessageType.OUTPUT);
+        assertCommandBehavior("help", HelpCommand.makeHelpManual(), MessageType.OUTPUT);
 
         privilege.raiseToAdmin();
-        assertCommandBehavior("help", HelpCommand.makeHelpManual(), CommandResult.MessageType.OUTPUT);
+        assertCommandBehavior("help", HelpCommand.makeHelpManual(), MessageType.OUTPUT);
     }
 
     @Test
@@ -173,8 +250,6 @@ public class LogicTest {
     @Test
     public void executeClearSuccess() throws Exception {
         TestDataHelper helper = new TestDataHelper();
-        // TODO: refactor this elsewhere
-        logic.setStorage(saveFile);
         // generates the 3 test people and execute the add command
         for (int i = 1; i <= 3; ++i) {
             final Person testPerson = helper.generatePerson(i, true);
@@ -231,8 +306,8 @@ public class LogicTest {
         assertCommandBehavior(helper.generateAddCommand(toBeAdded),
                 String.format(AddCommand.MESSAGE_SUCCESS, toBeAdded),
                 expected,
-                false,
-                Collections.emptyList(),
+                true,
+                List.of(toBeAdded),
                 true);
 
     }
@@ -261,7 +336,7 @@ public class LogicTest {
         //TODO make it more modular using generate add command, and string.format(command, p2)
         //Dk why its not working in this build, the expected message
         assertCommandBehavior("addfees 2 123.45 01-01-2018",
-                "Fees updated: Person 2 {private Fees: 123.45 / 01-01-2018}  ",
+                "Fees updated: Person 2\n{private Fees: 123.45 / 01-01-2018} \n",
                 expected,
                 false,
                 threePersons);
@@ -316,8 +391,7 @@ public class LogicTest {
 
         // execute command and verify result
         assertCommandBehavior(
-                helper.generateAddExamCommand(toBeAdded),
-                AddExamCommand.MESSAGE_DUPLICATE_EXAM,
+                helper.generateAddExamCommand(toBeAdded), EditExamCommand.MESSAGE_DUPLICATE_EXAM,
                 expected,
                 true);
     }
@@ -432,13 +506,12 @@ public class LogicTest {
     public void executeExamsListShowsAllExams() throws Exception {
         // prepare expectations
         TestDataHelper helper = new TestDataHelper();
-        ExamBook expected = null;
-
-        expected = helper.generateExamBook(false, true);
+        List<Exam> threeExams = setUpThreeExamsNoTakers(helper);
+        ExamBook expected = helper.generateExamBook(threeExams);
         List<? extends ReadOnlyExam> expectedList = expected.getAllExam().immutableListView();
 
         // prepare exam book state
-        helper.addToExamBook(examBook, false, true);
+        helper.addToExamBook(examBook, threeExams);
 
         assertCommandBehavior("examslist",
                 Command.getMessageForExamListShownSummary(expectedList),
@@ -457,8 +530,25 @@ public class LogicTest {
         // prepare address book state
         helper.addToAddressBook(addressBook, false, true);
 
-
         assertCommandBehavior("list",
+                Command.getMessageForPersonListShownSummary(expectedList),
+                expected,
+                true,
+                expectedList);
+    }
+
+
+    @Test
+    public void executeListAllShowsAllPersons() throws Exception {
+        // prepare expectations
+        TestDataHelper helper = new TestDataHelper();
+        AddressBook expected = helper.generateAddressBook(false, true);
+        List<? extends ReadOnlyPerson> expectedList = expected.getAllPersons().immutableListView();
+
+        // prepare address book state
+        helper.addToAddressBook(addressBook, false, true);
+
+        assertCommandBehavior("listall",
                 Command.getMessageForPersonListShownSummary(expectedList),
                 expected,
                 true,
@@ -490,14 +580,16 @@ public class LogicTest {
         logic.setLastShownList(lastShownList);
 
         assertCommandBehavior("view 1",
-                String.format(ViewCommand.MESSAGE_VIEW_PERSON_DETAILS, p1.getAsTextHidePrivate()),
+                String.format(ViewCommand.MESSAGE_VIEW_PERSON_DETAILS, p1.getName()),
+                p1.getAsTextHidePrivate(),
                 expected,
                 false,
                 lastShownList);
 
 
         assertCommandBehavior("view 2",
-                String.format(ViewCommand.MESSAGE_VIEW_PERSON_DETAILS, p2.getAsTextHidePrivate()),
+                String.format(ViewCommand.MESSAGE_VIEW_PERSON_DETAILS, p2.getName()),
+                p2.getAsTextHidePrivate(),
                 expected,
                 false,
                 lastShownList);
@@ -549,14 +641,16 @@ public class LogicTest {
 
 
         assertCommandBehavior("viewall 1",
-                String.format(ViewCommand.MESSAGE_VIEW_PERSON_DETAILS, p1.getAsTextShowAll()),
+                String.format(ViewCommand.MESSAGE_VIEW_PERSON_DETAILS, p1.getName()),
+                p1.getAsTextShowAll(),
                 expected,
                 false,
                 lastShownList);
 
 
         assertCommandBehavior("viewall 2",
-                String.format(ViewCommand.MESSAGE_VIEW_PERSON_DETAILS, p2.getAsTextShowAll()),
+                String.format(ViewCommand.MESSAGE_VIEW_PERSON_DETAILS, p2.getName()),
+                p2.getAsTextShowAll(),
                 expected,
                 false,
                 lastShownList);
@@ -574,7 +668,6 @@ public class LogicTest {
 
         addressBook.addPerson(p1);
         logic.setLastShownList(lastShownList);
-
 
         assertCommandBehavior("viewall 2",
                 MESSAGE_PERSON_NOT_IN_ADDRESSBOOK,
@@ -640,12 +733,13 @@ public class LogicTest {
 
         final Person p2 = threePersons.getExpectedPerson(2);
         expected.removePerson(p2);
+        threePersons.getExpected().remove(p2);
 
         assertCommandBehavior("delete 2",
                 String.format(DeleteCommand.MESSAGE_DELETE_PERSON_SUCCESS, p2),
                 expected,
-                false,
-                threePersons.getActual(),
+                true,
+                threePersons.getExpected(),
                 true);
     }
 
@@ -663,13 +757,12 @@ public class LogicTest {
                 DeleteCommand.MESSAGE_DELETING_SELF,
                 expected,
                 false,
-                threePersons.getActual(),
+                threePersons.getExpected(),
                 true);
     }
 
     @Test
     public void executeDeleteMissingInAddressBook() throws Exception {
-
         TestDataHelper helper = new TestDataHelper();
         Person p1 = helper.generatePerson(1, false);
         Person p2 = helper.generatePerson(2, true);
@@ -799,7 +892,7 @@ public class LogicTest {
 
     @Test
     public void executeChangePasswordSameAsOldPassword() throws Exception {
-        String expectedMessage = EditPasswordCommand.MESSAGE_SAME_AS_OLDPASSWORD;
+        String expectedMessage = EditPasswordCommand.MESSAGE_SAME_AS_OLD_PASSWORD;
         assertCommandBehavior("editpw default_pw default_pw", expectedMessage);
         addressBook.setMasterPassword("new_password");
         assertCommandBehavior("editpw new_password new_password", expectedMessage);
@@ -840,11 +933,11 @@ public class LogicTest {
         final Person p2 = threePersons.getActualPerson(2);
         privilege.setMyPerson(p2);
         assertCommandBehavior("viewself",
-                "",
-                String.format(ViewSelfCommand.MESSAGE_VIEW_PERSON_DETAILS, p2.getAsTextShowAll()),
+                String.format(ViewSelfCommand.MESSAGE_VIEW_PERSON_DETAILS, p2.getName()),
+                p2.getAsTextShowAll(),
                 expected,
                 false,
-                threePersons.getActual());
+                threePersons.getExpected());
     }
 
     @Test
@@ -1097,18 +1190,13 @@ public class LogicTest {
     @Test
     public void executeDeleteExamRemovesCorrectExam() throws Exception {
         TestDataHelper helper = new TestDataHelper();
-        Exam e1 = helper.generateExam(1, false);
-        Exam e2 = helper.generateExam(2, true);
-        Exam e3 = helper.generateExam(3, true);
-
-        List<Exam> threeExams = helper.generateExamList(e1, e2, e3);
-
-        ExamBook expected = helper.generateExamBook(threeExams);
-        expected.removeExam(e2);
-
-
+        List<Exam> threeExams = setUpThreeExamsNoTakers(helper);
         helper.addToExamBook(examBook, threeExams);
         logic.setLastShownExamList(threeExams);
+
+        ExamBook expected = helper.generateExamBook(threeExams);
+        Exam e2 = helper.generateExam(2, true);
+        expected.removeExam(e2);
 
         assertCommandBehavior("deleteexam 2",
                 String.format(DeleteExamCommand.MESSAGE_DELETE_EXAM_SUCCESS, e2),
@@ -1120,20 +1208,15 @@ public class LogicTest {
 
     @Test
     public void executeDeleteMissingInExamBook() throws Exception {
-
         TestDataHelper helper = new TestDataHelper();
-        Exam e1 = helper.generateExam(1, false);
-        Exam e2 = helper.generateExam(2, true);
-        Exam e3 = helper.generateExam(3, true);
-
-        List<Exam> threeExams = helper.generateExamList(e1, e2, e3);
+        List<Exam> threeExams = setUpThreeExamsNoTakers(helper);
+        helper.addToExamBook(examBook, threeExams);
+        logic.setLastShownExamList(threeExams);
 
         ExamBook expected = helper.generateExamBook(threeExams);
+        Exam e2 = helper.generateExam(2, true);
         expected.removeExam(e2);
-
-        helper.addToExamBook(examBook, threeExams);
         examBook.removeExam(e2);
-        logic.setLastShownExamList(threeExams);
 
         assertCommandBehavior("deleteexam 2",
                 Messages.MESSAGE_EXAM_NOT_IN_EXAMBOOK,
@@ -1144,20 +1227,16 @@ public class LogicTest {
 
     @Test
     public void executeEditMissingInExamBook() throws Exception {
-
         TestDataHelper helper = new TestDataHelper();
-        Exam e1 = helper.generateExam(1, false);
-        Exam e2 = helper.generateExam(2, true);
-        Exam e3 = helper.generateExam(3, true);
-
-        List<Exam> threeExams = helper.generateExamList(e1, e2, e3);
+        List<Exam> threeExams = setUpThreeExamsNoTakers(helper);
+        helper.addToExamBook(examBook, threeExams);
+        logic.setLastShownExamList(threeExams);
 
         ExamBook expected = helper.generateExamBook(threeExams);
+        Exam e2 = helper.generateExam(2, true);
         expected.removeExam(e2);
 
-        helper.addToExamBook(examBook, threeExams);
         examBook.removeExam(e2);
-        logic.setLastShownExamList(threeExams);
 
         assertCommandBehavior("editexam 2 s/Mathematics",
                 Messages.MESSAGE_EXAM_NOT_IN_EXAMBOOK,
@@ -1175,26 +1254,21 @@ public class LogicTest {
     public void executeEditExamInvalidArgsFormat() throws Exception {
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditExamCommand.MESSAGE_USAGE);
         assertCommandBehavior("editexam ", expectedMessage);
-        expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, MESSAGE_NO_ARGS_FOUND
-                + EditExamCommand.MESSAGE_USAGE);
+        expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditExamCommand.MESSAGE_USAGE);
         assertCommandBehavior("editexam arg not number", expectedMessage);
     }
 
     @Test
     public void executeEditExamSuccess() throws Exception {
         TestDataHelper helper = new TestDataHelper();
-        Exam e1 = helper.generateExam(1, false);
-        Exam e2 = helper.generateExam(2, true);
-        Exam e3 = helper.generateExam(3, true);
-        Exam e4 = helper.generateExam(4, false);
-        List<Exam> threeExams = helper.generateExamList(e1, e2, e3);
-
-        ExamBook expected = helper.generateExamBook(threeExams);
-        expected.editExam(e2, e4);
-
-
+        List<Exam> threeExams = setUpThreeExamsNoTakers(helper);
         helper.addToExamBook(examBook, threeExams);
         logic.setLastShownExamList(threeExams);
+
+        ExamBook expected = helper.generateExamBook(threeExams);
+        Exam e2 = helper.generateExam(2, true);
+        Exam e4 = helper.generateExam(4, false);
+        expected.editExam(e2, e4);
 
         assertCommandBehavior("editexam 2 p/n e/Exam 4 s/Subject 4 d/01-02-2018 dt/Held in 4",
                 String.format(EditExamCommand.MESSAGE_EDIT_EXAM_SUCCESS, e2, e4, e4.isPrivate() ? " private" : ""),
@@ -1205,7 +1279,7 @@ public class LogicTest {
     }
 
     @Test
-    public void executeEditExamInvalidArgs() throws Exception {
+    public void executeEditExam_invalidArgs() throws Exception {
         TestDataHelper helper = new TestDataHelper();
         Exam e1 = helper.generateExam(1, false);
         List<Exam> singleExam = helper.generateExamList(e1);
@@ -1228,9 +1302,634 @@ public class LogicTest {
         expectedMessage = Exam.MESSAGE_TIME_INTERVAL_CONSTRAINTS;
         assertCommandBehavior("editexam 1 st/09:00 et/08:00", expectedMessage);
 
-        expectedMessage = AddExamCommand.MESSAGE_DUPLICATE_EXAM;
+        expectedMessage = EditExamCommand.MESSAGE_DUPLICATE_EXAM;
         assertCommandBehavior(String.format("editexam 1 e/%s", e1.getExamName()), expectedMessage);
+
+        expectedMessage = EditExamCommand.MESSAGE_PRIVATE_CONSTRAINTS;
+        assertCommandBehavior("editexam 1 p/ok", expectedMessage);
     }
 
+    @Test
+    public void executeRegisterExam_invalidNumberOfArgs() throws Exception {
+        String expectedMessage = String.format(MESSAGE_WRONG_NUMBER_ARGUMENTS , 2, 1,
+                RegisterExamCommand.MESSAGE_USAGE);
+        assertCommandBehavior("regexam 1", expectedMessage);
+
+        expectedMessage = String.format(MESSAGE_WRONG_NUMBER_ARGUMENTS , 2, 3,
+                RegisterExamCommand.MESSAGE_USAGE);
+        assertCommandBehavior("regexam 1 1 1", expectedMessage);
+
+        expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, RegisterExamCommand.MESSAGE_USAGE);
+        assertCommandBehavior("regexam", expectedMessage);
+        assertCommandBehavior("regexam ", expectedMessage);
+    }
+
+    @Test
+    public void executeRegisterExam_invalidParsedArgs() throws Exception {
+        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, RegisterExamCommand.MESSAGE_USAGE);
+        assertCommandBehavior("regexam not_a_number 2", expectedMessage);
+        assertCommandBehavior("regexam 2 not_a_number", expectedMessage);
+        assertCommandBehavior("regexam not_a_number not_a_number", expectedMessage);
+    }
+
+    @Test
+    public void executeRegisterExam_validArgsSingleTaker() throws Exception {
+        TestDataHelper helper = new TestDataHelper();
+        Exam e1 = helper.generateExam(1, false);
+        List<Exam> singleExam = helper.generateExamList(e1);
+        helper.addToExamBook(examBook, singleExam);
+        logic.setLastShownExamList(singleExam);
+
+        Person p1 = helper.generatePerson(1, false);
+        List<Person> personList = helper.generatePersonList(p1);
+        helper.addToAddressBook(addressBook, personList);
+        logic.setLastShownList(personList);
+
+        Exam e1Expected = helper.generateExam(1, false, 1);
+        List<Exam> singleExamExpected = helper.generateExamList(e1Expected);
+        ExamBook expectedExamBook = helper.generateExamBook(singleExamExpected);
+
+        Person p1Expected = helper.generatePerson(1, false, 1, false , 1);
+        List<Person> personListExpected = helper.generatePersonList(p1Expected);
+        AddressBook expectedBook = helper.generateAddressBook(personListExpected);
+
+        assertCommandBehavior("regexam 1 1",
+                String.format(RegisterExamCommand.MESSAGE_REGISTER_EXAM_SUCCESS, p1Expected),
+                expectedBook,
+                expectedExamBook,
+                false,
+                false,
+                logic.getLastShownList(),
+                logic.getLastShownExamList());
+    }
+
+    @Test
+    public void executeRegisterExam_validArgsMultiTakers() throws Exception {
+        TestDataHelper helper = new TestDataHelper();
+        List<Exam> threeExams = setUpThreeExamsWithTakers(helper, 2, 0, 0);
+        helper.addToExamBook(examBook, threeExams);
+        logic.setLastShownExamList(threeExams);
+
+        Person p1 = helper.generatePerson(1, false, 1, false, 2);
+        Person p2 = helper.generatePerson(2, false, 1, false, 2);
+        Person p3 = helper.generatePerson(3, false);
+        List<Person> personList = helper.generatePersonList(p1, p2, p3);
+        helper.addToAddressBook(addressBook, personList);
+        logic.setLastShownList(personList);
+
+        List<Exam> threeExamsExpected = setUpThreeExamsWithTakers(helper, 3, 0, 0);
+        ExamBook expectedExamBook = helper.generateExamBook(threeExamsExpected);
+
+        Person p1Expected = helper.generatePerson(1, false, 1 , false, 3);
+        Person p2Expected = helper.generatePerson(2, false, 1 , false, 3);
+        Person p3Expected = helper.generatePerson(3, false, 1, false, 3);
+        List<Person> personListExpected = helper.generatePersonList(p1Expected, p2Expected, p3Expected);
+        AddressBook expectedBook = helper.generateAddressBook(personListExpected);
+
+        assertCommandBehavior("regexam 3 1",
+                String.format(RegisterExamCommand.MESSAGE_REGISTER_EXAM_SUCCESS, p3Expected),
+                expectedBook,
+                expectedExamBook,
+                false,
+                false,
+                logic.getLastShownList(),
+                logic.getLastShownExamList());
+    }
+
+    @Test
+    public void executeRegisterExam_validArgsSingleTakerAlreadyRegistered() throws Exception {
+        TestDataHelper helper = new TestDataHelper();
+        List<Exam> threeExams = setUpThreeExamsWithTakers(helper, 1, 0, 0);
+        helper.addToExamBook(examBook, threeExams);
+        logic.setLastShownExamList(threeExams);
+
+        Person p1 = helper.generatePerson(1, false, 1 , false, 1);
+        List<Person> personList = helper.generatePersonList(p1);
+        helper.addToAddressBook(addressBook, personList);
+        logic.setLastShownList(personList);
+
+        assertCommandBehavior("regexam 1 1",
+                RegisterExamCommand.MESSAGE_EXAM_ALREADY_REGISTERED,
+                addressBook,
+                examBook,
+                false,
+                false,
+                logic.getLastShownList(),
+                logic.getLastShownExamList());
+    }
+
+    @Test
+    public void executeRegisterExam_invalidArgsForPersonIndex() throws Exception {
+        TestDataHelper helper = new TestDataHelper();
+        Exam e1 = helper.generateExam(1, false);
+        List<Exam> singleExam = helper.generateExamList(e1);
+        helper.addToExamBook(examBook, singleExam);
+        logic.setLastShownExamList(singleExam);
+
+        Person p1 = helper.generatePerson(1, false);
+        List<Person> personList = helper.generatePersonList(p1);
+        helper.addToAddressBook(addressBook, personList);
+        logic.setLastShownList(personList);
+
+        assertCommandBehavior("regexam 2 1",
+                Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX,
+                addressBook, examBook);
+
+        assertCommandBehavior("regexam 2 1",
+                Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX,
+                addressBook, examBook, false, false,
+                logic.getLastShownList(), logic.getLastShownExamList(), false);
+
+        assertCommandBehavior("regexam 2 2",
+                Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX,
+                addressBook, examBook, false, false,
+                logic.getLastShownList(), logic.getLastShownExamList(), false);
+    }
+
+    @Test
+    public void executeRegisterExam_invalidArgsForExamIndex() throws Exception {
+        TestDataHelper helper = new TestDataHelper();
+        Exam e1 = helper.generateExam(1, false);
+        List<Exam> singleExam = helper.generateExamList(e1);
+        helper.addToExamBook(examBook, singleExam);
+        logic.setLastShownExamList(singleExam);
+
+        Person p1 = helper.generatePerson(1, false);
+        List<Person> personList = helper.generatePersonList(p1);
+        helper.addToAddressBook(addressBook, personList);
+        logic.setLastShownList(personList);
+
+        assertCommandBehavior("regexam 1 2",
+                Messages.MESSAGE_INVALID_EXAM_DISPLAYED_INDEX,
+                addressBook, examBook);
+    }
+
+    @Test
+    public void executeRegisterExam_personMissingInAddressBook() throws Exception {
+        TestDataHelper helper = new TestDataHelper();
+        Exam e1 = helper.generateExam(1, false);
+        List<Exam> singleExam = helper.generateExamList(e1);
+        helper.addToExamBook(examBook, singleExam);
+        logic.setLastShownExamList(singleExam);
+
+        Person p1 = helper.generatePerson(1, false);
+        List<Person> personList = helper.generatePersonList(p1);
+        logic.setLastShownList(personList);
+
+        assertCommandBehavior("regexam 1 1",
+                MESSAGE_PERSON_NOT_IN_ADDRESSBOOK,
+                addressBook, examBook);
+    }
+
+    @Test
+    public void executeRegisterExam_examMissingInExamBook() throws Exception {
+        TestDataHelper helper = new TestDataHelper();
+        Exam e1 = helper.generateExam(1, false);
+        List<Exam> singleExam = helper.generateExamList(e1);
+        logic.setLastShownExamList(singleExam);
+
+        Person p1 = helper.generatePerson(1, false, 1, false, 0);
+        List<Person> personList = helper.generatePersonList(p1);
+        helper.addToAddressBook(addressBook, personList);
+        logic.setLastShownList(personList);
+
+        assertCommandBehavior("regexam 1 1",
+                Messages.MESSAGE_EXAM_NOT_IN_EXAMBOOK,
+                addressBook, examBook);
+    }
+
+    @Test
+    public void executeDeregisterExam_invalidNumberOfArgs() throws Exception {
+        String expectedMessage = String.format(MESSAGE_WRONG_NUMBER_ARGUMENTS , 2, 1,
+                DeregisterExamCommand.MESSAGE_USAGE);
+        assertCommandBehavior("deregexam 1", expectedMessage);
+
+        expectedMessage = String.format(MESSAGE_WRONG_NUMBER_ARGUMENTS , 2, 3,
+                DeregisterExamCommand.MESSAGE_USAGE);
+        assertCommandBehavior("deregexam 1 1 1", expectedMessage);
+
+        expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeregisterExamCommand.MESSAGE_USAGE);
+        assertCommandBehavior("deregexam", expectedMessage);
+        assertCommandBehavior("deregexam ", expectedMessage);
+    }
+
+    @Test
+    public void executeDeregisterExam_invalidParsedArgs() throws Exception {
+        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeregisterExamCommand.MESSAGE_USAGE);
+        assertCommandBehavior("deregexam not_a_number 2", expectedMessage);
+        assertCommandBehavior("deregexam 2 not_a_number", expectedMessage);
+        assertCommandBehavior("deregexam not_a_number not_a_number", expectedMessage);
+    }
+
+    @Test
+    public void executeDeregisterExam_validArgsSingleTaker() throws Exception {
+        TestDataHelper helper = new TestDataHelper();
+        Exam e1 = helper.generateExam(1, false, 1);
+        List<Exam> singleExam = helper.generateExamList(e1);
+        helper.addToExamBook(examBook, singleExam);
+        logic.setLastShownExamList(singleExam);
+
+        Person p1 = helper.generatePerson(1, false, 1 , false, 1);
+        List<Person> personList = helper.generatePersonList(p1);
+        helper.addToAddressBook(addressBook, personList);
+        logic.setLastShownList(personList);
+
+        Exam e1Expected = helper.generateExam(1, false);
+        List<Exam> singleExamExpected = helper.generateExamList(e1Expected);
+        ExamBook expectedExamBook = helper.generateExamBook(singleExamExpected);
+
+        Person p1Expected = helper.generatePerson(1, false);
+        List<Person> personListExpected = helper.generatePersonList(p1Expected);
+        AddressBook expectedBook = helper.generateAddressBook(personListExpected);
+
+        assertCommandBehavior("deregexam 1 1",
+                String.format(DeregisterExamCommand.MESSAGE_DEREGISTER_EXAM_SUCCESS, e1Expected, p1Expected),
+                expectedBook,
+                expectedExamBook,
+                false,
+                false,
+                logic.getLastShownList(),
+                logic.getLastShownExamList());
+    }
+
+    @Test
+    public void executeDeregisterExam_validArgsMultiTakers() throws Exception {
+        TestDataHelper helper = new TestDataHelper();
+        List<Exam> singleExam = setUpThreeExamsWithTakers(helper, 0, 2 , 0);
+        helper.addToExamBook(examBook, singleExam);
+        logic.setLastShownExamList(singleExam);
+
+        List<Person> personList = setUpThreePersonsStandardExam(helper);
+        helper.addToAddressBook(addressBook, personList);
+        logic.setLastShownList(personList);
+
+        Exam e2Expected = helper.generateExam(2, true, 1);
+        List<Exam> singleExamExpected = setUpThreeExamsWithTakers(helper, 0, 1, 0);
+        ExamBook expectedExamBook = helper.generateExamBook(singleExamExpected);
+
+        Person p1 = helper.generatePerson(1, true, 2 , true, 1);
+        Person p2 = helper.generatePerson(2, true);
+        Person p3 = helper.generatePerson(3, true, 3, false, 1);
+        List<Person> personListExpected = helper.generatePersonList(p1, p2, p3);
+        AddressBook expectedBook = helper.generateAddressBook(personListExpected);
+
+        assertCommandBehavior("deregexam 2 2",
+                String.format(DeregisterExamCommand.MESSAGE_DEREGISTER_EXAM_SUCCESS, e2Expected, p2),
+                expectedBook,
+                expectedExamBook,
+                false,
+                false,
+                logic.getLastShownList(),
+                logic.getLastShownExamList());
+    }
+
+    @Test
+    public void executeDeregisterExam_validArgsSingleTakerNotRegistered() throws Exception {
+        TestDataHelper helper = new TestDataHelper();
+        Exam e1 = helper.generateExam(1, false);
+        List<Exam> singleExam = helper.generateExamList(e1);
+        helper.addToExamBook(examBook, singleExam);
+        logic.setLastShownExamList(singleExam);
+
+        Person p1 = helper.generatePerson(1, false);
+        List<Person> personList = helper.generatePersonList(p1);
+        helper.addToAddressBook(addressBook, personList);
+        logic.setLastShownList(personList);
+
+        assertCommandBehavior("deregexam 1 1",
+                DeregisterExamCommand.MESSAGE_EXAM_NOT_REGISTERED,
+                addressBook,
+                examBook,
+                false,
+                false,
+                logic.getLastShownList(),
+                logic.getLastShownExamList());
+    }
+
+    @Test
+    public void executeDeregisterExam_invalidArgsForPersonIndex() throws Exception {
+        TestDataHelper helper = new TestDataHelper();
+        Exam e1 = helper.generateExam(1, false);
+        List<Exam> singleExam = helper.generateExamList(e1);
+        helper.addToExamBook(examBook, singleExam);
+        logic.setLastShownExamList(singleExam);
+
+        Person p1 = helper.generatePerson(1, false);
+        List<Person> personList = helper.generatePersonList(p1);
+        helper.addToAddressBook(addressBook, personList);
+        logic.setLastShownList(personList);
+
+        assertCommandBehavior("deregexam 2 1",
+                Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX,
+                addressBook, examBook);
+        assertCommandBehavior("deregexam 2 2",
+                Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX,
+                addressBook, examBook);
+    }
+
+    @Test
+    public void executeDeregisterExam_invalidArgsForExamIndex() throws Exception {
+        TestDataHelper helper = new TestDataHelper();
+        Exam e1 = helper.generateExam(1, false);
+        List<Exam> singleExam = helper.generateExamList(e1);
+        helper.addToExamBook(examBook, singleExam);
+        logic.setLastShownExamList(singleExam);
+
+        Person p1 = helper.generatePerson(1, false);
+        List<Person> personList = helper.generatePersonList(p1);
+        helper.addToAddressBook(addressBook, personList);
+        logic.setLastShownList(personList);
+
+        assertCommandBehavior("deregexam 1 2",
+                Messages.MESSAGE_INVALID_EXAM_DISPLAYED_INDEX,
+                addressBook, examBook);
+    }
+
+    @Test
+    public void executeDeregisterExam_personMissingInAddressBook() throws Exception {
+        TestDataHelper helper = new TestDataHelper();
+        Exam e1 = helper.generateExam(1, false);
+        List<Exam> singleExam = helper.generateExamList(e1);
+        helper.addToExamBook(examBook, singleExam);
+        logic.setLastShownExamList(singleExam);
+
+        Person p1 = helper.generatePerson(1, false);
+        List<Person> personList = helper.generatePersonList(p1);
+        logic.setLastShownList(personList);
+
+        assertCommandBehavior("deregexam 1 1",
+                MESSAGE_PERSON_NOT_IN_ADDRESSBOOK,
+                addressBook, examBook);
+    }
+
+    @Test
+    public void executeDeregisterExam_examMissingInExamBook() throws Exception {
+        TestDataHelper helper = new TestDataHelper();
+        Exam e1 = helper.generateExam(1, false, 1);
+        List<Exam> singleExam = helper.generateExamList(e1);
+        logic.setLastShownExamList(singleExam);
+
+        Person p1 = helper.generatePerson(1, false);
+        List<Person> personList = helper.generatePersonList(p1);
+        helper.addToAddressBook(addressBook, personList);
+        logic.setLastShownList(personList);
+
+        assertCommandBehavior("deregexam 1 1",
+                Messages.MESSAGE_EXAM_NOT_IN_EXAMBOOK,
+                addressBook, examBook);
+    }
+
+    @Test
+    public void executeViewExam_invalidArgsFormat() throws Exception {
+        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, ViewExamsCommand.MESSAGE_USAGE);
+        assertCommandBehavior("viewexams ", expectedMessage);
+        assertCommandBehavior("viewexams arg not number", expectedMessage);
+    }
+
+    @Test
+    public void executeViewExams_invalidIndex() throws Exception {
+        assertInvalidIndexBehaviorForCommand("viewexams");
+    }
+
+    @Test
+    public void executeViewExams_hidesPrivateExams() throws Exception {
+        TestDataHelper helper = new TestDataHelper();
+        Exam e2 = helper.generateExam(2, true, 1);
+
+        Person p1 = helper.generatePerson(1, false, 1, false , 2);
+        Person p2 = helper.generatePerson(2, false, 1, false, 2);
+        Person p2Viewable = helper.generatePerson(2, false, 1, false, 2);
+        p2.addExam(e2);
+        List<Person> lastShownList = helper.generatePersonList(p1, p2);
+        helper.addToAddressBook(addressBook, lastShownList);
+        logic.setLastShownList(lastShownList);
+
+        AddressBook expected = helper.generateAddressBook(lastShownList);
+
+        assertCommandBehavior("viewexams 1",
+                String.format(ViewExamsCommand.MESSAGE_VIEW_EXAMS_PERSON_SUCCESS, p1.getAsTextShowExam()),
+                expected,
+                false,
+                lastShownList);
+
+        assertCommandBehavior("viewexams 2",
+                String.format(ViewExamsCommand.MESSAGE_VIEW_EXAMS_PERSON_SUCCESS, p2.getAsTextShowExam()),
+                expected,
+                false,
+                lastShownList);
+
+        assertCommandBehavior("viewexams 2",
+                String.format(ViewExamsCommand.MESSAGE_VIEW_EXAMS_PERSON_SUCCESS, p2Viewable.getAsTextShowExam()),
+                expected,
+                false,
+                lastShownList);
+    }
+
+    @Test
+    public void executeTryToViewExams_personMissingInAddressBookErrorMessage() throws Exception {
+        TestDataHelper helper = new TestDataHelper();
+        Person p1 = helper.generatePerson(1, false);
+        Person p2 = helper.generatePerson(2, false, 2, false, 1);
+        List<Person> lastShownList = helper.generatePersonList(p1, p2);
+        logic.setLastShownList(lastShownList);
+        addressBook.addPerson(p1);
+
+        AddressBook expected = new AddressBook();
+        expected.addPerson(p1);
+
+        assertCommandBehavior("viewexams 2",
+                MESSAGE_PERSON_NOT_IN_ADDRESSBOOK,
+                expected,
+                false,
+                lastShownList);
+    }
+
+    @Test
+    public void executeClearSuccessWithExams() throws Exception {
+        TestDataHelper helper = new TestDataHelper();
+        // TODO: refactor this elsewhere
+        logic.setStorage(saveFile);
+
+        List<Person> threePersons = setUpThreePersonsStandardExam(helper);
+        helper.addToAddressBook(addressBook, threePersons);
+
+        List<Exam> threeExams = setUpThreeExamsWithTakers(helper, 0, 2, 1);
+        helper.addToExamBook(examBook, threeExams);
+
+        List<Exam> examExpected = setUpThreeExamsNoTakers(helper);
+        ExamBook expectedExamBook = helper.generateExamBook(examExpected);
+
+        assertCommandBehavior("clear",
+                ClearCommand.MESSAGE_SUCCESS,
+                AddressBook.empty(),
+                expectedExamBook,
+                false,
+                false,
+                Collections.emptyList(),
+                Collections.emptyList());
+    }
+
+    @Test
+    public void executeDeleteRemovesCorrectPersonAndExam() throws Exception {
+        TestDataHelper helper = new TestDataHelper();
+        Person p2 = helper.generatePerson(2, true, 2, true, 2);
+        Person p3 = helper.generatePerson(3, true, 3, false, 1);
+        List<Person> lastShownList = setUpThreePersonsStandardExam(helper);
+        helper.addToAddressBook(addressBook, lastShownList);
+        logic.setLastShownList(lastShownList);
+
+        Exam e2 = helper.generateExam(2, true, 2);
+        Exam e3 = helper.generateExam(3, false, 1);
+        examBook.addExam(e2);
+        examBook.addExam(e3);
+
+        Exam e2Expected = helper.generateExam(2, true, 1);
+        List<Exam> expectedExamList = helper.generateExamList(e2Expected);
+        ExamBook expectedExamBook = helper.generateExamBook(expectedExamList);
+        expectedExamBook.addExam(e3);
+
+        Person p1 = helper.generatePerson(1, true, 2, true, 1);
+        List<Person> newList = helper.generatePersonList(p1, p3);
+        AddressBook expectedAddressBook = helper.generateAddressBook(newList);
+
+        assertCommandBehavior("delete 2",
+                String.format(DeleteCommand.MESSAGE_DELETE_PERSON_SUCCESS, p2),
+                expectedAddressBook,
+                expectedExamBook,
+                true,
+                false,
+                newList,
+                Collections.emptyList());
+    }
+
+    @Test
+    public void executeDeleteRemovesCorrectPersonMissingExam() throws Exception {
+        TestDataHelper helper = new TestDataHelper();
+        List<Person> lastShownList = setUpThreePersonsStandardExam(helper);
+        helper.addToAddressBook(addressBook, lastShownList);
+        logic.setLastShownList(lastShownList);
+
+        Exam e3 = helper.generateExam(3, false, 1);
+        examBook.addExam(e3);
+
+        assertCommandBehavior("delete 2",
+                Messages.MESSAGE_EXAM_NOT_IN_EXAMBOOK, examBook,
+                false);
+    }
+
+    @Test
+    public void executeClearExamsSuccessWithAddressBook() throws Exception {
+        TestDataHelper helper = new TestDataHelper();
+        // TODO: refactor this elsewhere
+        logic.setStorage(saveFile);
+
+        List<Exam> threeExams = setUpThreeExamsWithTakers(helper , 0, 2, 1);
+        helper.addToExamBook(examBook, threeExams);
+
+        List<Person> threePersons = setUpThreePersonsStandardExam(helper);
+        helper.addToAddressBook(addressBook, threePersons);
+
+        Person newP1 = helper.generatePerson(1, true);
+        Person newP2 = helper.generatePerson(2, true);
+        Person newP3 = helper.generatePerson(3, true);
+        List<Person> newList = helper.generatePersonList(newP1, newP2, newP3);
+        AddressBook expectedAddressBook = helper.generateAddressBook(newList);
+
+        assertCommandBehavior("clearexams",
+                ClearExamsCommand.MESSAGE_SUCCESS,
+                expectedAddressBook,
+                ExamBook.empty(),
+                false,
+                false,
+                Collections.emptyList(),
+                Collections.emptyList());
+    }
+
+    @Test
+    public void executeDeleteExamRemovesCorrectExamInAddressBook() throws Exception {
+        TestDataHelper helper = new TestDataHelper();
+        List<Exam> threeExams = setUpThreeExamsWithTakers(helper, 0, 2, 1);
+        helper.addToExamBook(examBook, threeExams);
+        logic.setLastShownExamList(threeExams);
+
+        List<Person> threePersons = setUpThreePersonsStandardExam(helper);
+        helper.addToAddressBook(addressBook, threePersons);
+
+        ExamBook expectedExamBook = helper.generateExamBook(threeExams);
+        Exam e2 = helper.generateExam(2, true, 2);
+        expectedExamBook.removeExam(e2);
+
+        Person newP1 = helper.generatePerson(1, true);
+        Person newP2 = helper.generatePerson(2, true);
+        Person newP3 = helper.generatePerson(3, true, 3, false, 1);
+        List<Person> newList = helper.generatePersonList(newP1, newP2, newP3);
+        AddressBook expectedAddressBook = helper.generateAddressBook(newList);
+
+        assertCommandBehavior("deleteexam 2",
+                String.format(DeleteExamCommand.MESSAGE_DELETE_EXAM_SUCCESS, e2),
+                expectedAddressBook,
+                expectedExamBook,
+                false,
+                false,
+                Collections.emptyList(),
+                logic.getLastShownExamList());
+    }
+
+    @Test
+    public void executeEditExamSuccess_changesAddressBook() throws Exception {
+        TestDataHelper helper = new TestDataHelper();
+        List<Exam> threeExams = setUpThreeExamsWithTakers(helper, 0, 2, 1);
+        helper.addToExamBook(examBook, threeExams);
+        logic.setLastShownExamList(threeExams);
+
+        ExamBook expectedExamBook = helper.generateExamBook(threeExams);
+        Exam e2 = helper.generateExam(2, true, 2);
+        Exam e4 = helper.generateExam(4, false, 2);
+        expectedExamBook.editExam(e2, e4);
+
+        List<Person> threePersons = setUpThreePersonsStandardExam(helper);
+        helper.addToAddressBook(addressBook, threePersons);
+
+        Person newP1 = helper.generatePerson(1, true, 4, false, 2);
+        Person newP2 = helper.generatePerson(2, true, 4, false, 2);
+        Person newP3 = helper.generatePerson(3, true, 3, false, 1);
+        List<Person> newList = helper.generatePersonList(newP1, newP2, newP3);
+        AddressBook expectedAddressBook = helper.generateAddressBook(newList);
+
+        assertCommandBehavior("editexam 2 p/n e/Exam 4 s/Subject 4 d/01-02-2018 dt/Held in 4",
+                String.format(EditExamCommand.MESSAGE_EDIT_EXAM_SUCCESS, e2, e4, e4.isPrivate() ? " private" : ""),
+                expectedAddressBook,
+                expectedExamBook,
+                false,
+                false,
+                Collections.emptyList(),
+                threeExams);
+    }
+
+    @Test
+    public void executeViewAllAlsoShowsPrivateAndAllExams() throws Exception {
+        TestDataHelper helper = new TestDataHelper();
+        Person p1 = helper.generatePerson(1, true, 1 , true, 1);
+        Person p2 = helper.generatePerson(2, false, 2, false , 1);
+        List<Person> lastShownList = helper.generatePersonList(p1, p2);
+        helper.addToAddressBook(addressBook, lastShownList);
+        logic.setLastShownList(lastShownList);
+
+        AddressBook expected = helper.generateAddressBook(lastShownList);
+
+        assertCommandBehavior("viewall 1",
+                String.format(ViewCommand.MESSAGE_VIEW_PERSON_DETAILS, p1.getName()),
+                p1.getAsTextShowAll(),
+                expected,
+                false,
+                lastShownList);
+
+        assertCommandBehavior("viewall 2",
+                String.format(ViewCommand.MESSAGE_VIEW_PERSON_DETAILS, p2.getName()),
+                p2.getAsTextShowAll(),
+                expected,
+                false,
+                lastShownList);
+    }
 }
 

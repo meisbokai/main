@@ -24,12 +24,12 @@ To learn more about gradle build scripts, refer https://docs.gradle.org/current/
 
 To run a Gradle command, open a command window on the project folder and enter the Gradle command. Gradle commands look like this:
 
-* On Windows: `gradlew <task1> <task2> ...` e.g. `gradlew clean allTests`
+* On Windows: `gradlew <task1> <task2> ...` e.g. `gradlew clean test`
 * On Mac/Linux: `./gradlew <task1> <task2>...` e.g.
-`./gradlew clean allTests`
+`./gradlew clean test`
 
 [NOTE]
-If you do not specify any tasks, Gradlew will run the default tasks `clean` `test` `asciidoctor`
+If you do not specify any tasks, Gradlew will run the default tasks `clean` `test` `asciidoctor` `checkStyleMain` `checkStyleTest
 
 == Cleaning the Project
 
@@ -58,11 +58,7 @@ e.g. `./gradlew clean shadowJar`
 
 * **`asciidoctor`** +
 Converts AsciiDoc files in `docs` to HTML format. Generated HTML files can be found in `build/docs`.
-* **`deployOfflineDocs`** +
-Updates the offline user guide, and its associated files, used by the Help window in the application. Deployed HTML files and images can be found in `src/main/resources/docs`.
 
-
-CRASHES FOR SOME REASONS (Needs confirmation)
 == Running the application
 * *`run`* +
 Builds and runs the application.

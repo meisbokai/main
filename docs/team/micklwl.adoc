@@ -1,0 +1,54 @@
+= Mick Lee - Project Portfolio
+:site-section: AboutUs
+:imagesDir: ../images
+:stylesDir: ../stylesheets
+
+== PROJECT: ClassRepo
+
+---
+
+== Overview
+
+ClassRepo is a desktop address book application written in Java that targets secondary schools for usage by their students, tutors and staff. The user interacts with it using a CLI, and it has a very basic GUI. This portfolio is meant to document the contributions that I made to the project.
+
+== Role
+
+I served as the project’s bug tester, to ensure that each feature added will be as bug-free as possible. I also became a point of contact should any of my group's members require technical help in developing their respective features and participated in group discussions.
+
+== Summary of contributions
+
+* *Major enhancement*: added the *Exams feature*
+** What it does: allows staff to create and manage exams held in the school, as well as registering students for them. 
+** Justification: This feature improves the product significantly because exams would be present in every school and it would be valuable for the staff to manage them in a single application. Students would be able to benefit as they can check their exam schedules without the need to ask others or record them separately.
+** Highlights: This enhancement affects existing commands and commands to be added in future. It required an in-depth analysis of design alternatives. The implementation too was challenging as it required changes to existing commands.
+** Credits: https://stackoverflow.com/a/30578421[Victor Hernandez] for the base valid date checker method
+
+
+* *Other contributions*:
+
+** Project management:
+*** Set up milestones for own feature development on GitHub
+** Enhancements to existing features:
+*** Wrote additional tests for existing features to increase coverage from x% to y% (Coming Soon)
+*** Split test code to different folders for better organisation : Coming soon
+** Documentation:
+*** Adapted original Developer Guide to suit our product: https://github.com/CS2113-AY1819S1-F10-1/main/pull/156[#156]
+** Community:
+*** PRs reviewed (with non-trivial review comments): https://github.com/CS2113-AY1819S1-F10-1/main/pull/68[#68]
+
+== Contributions to the User Guide
+
+|===
+|Given below are sections I contributed to the User Guide. They showcase my ability to write documentation targeting end-users.
+|===
+
+include::../UserGuide.adoc[tag=Exam]
+
+== Contributions to the Developer Guide
+
+|===
+|Given below are sections I contributed to the Developer Guide. They showcase my ability to write technical documentation and the technical depth of my contributions to the project.
+|===
+
+include::../DeveloperGuide.adoc[tag=Exam]
+

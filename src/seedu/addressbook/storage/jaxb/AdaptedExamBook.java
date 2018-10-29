@@ -36,7 +36,6 @@ public class AdaptedExamBook {
         source.getAllExam().forEach(exam -> examsList.add(new AdaptedExam(exam)));
     }
 
-
     /**
      * Returns true if any required field is missing.
      *
@@ -48,7 +47,6 @@ public class AdaptedExamBook {
     public boolean isAnyRequiredFieldMissing() {
         return examsList.stream().anyMatch(AdaptedExam::isAnyRequiredFieldMissing);
     }
-
 
     /**
      * Converts this jaxb-friendly {@code AdaptedExamBook} object into the corresponding(@code ExamBook} object.

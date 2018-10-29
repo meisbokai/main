@@ -3,7 +3,7 @@ ifdef::env-github,env-browser[:relfileprefix: docs/]
 ifdef::env-github,env-browser[:imagesDir: docs/images]
 
 https://travis-ci.org/CS2113-AY1819S1-F10-1/main[image:https://travis-ci.org/CS2113-AY1819S1-F10-1/main.svg?branch=master[Build Status]]
-image:https://api.codacy.com/project/badge/Grade/e1ed6200448148c6a6c8d955ee177c64["Codacy code quality", link="https://www.codacy.com/app/0WN463/main?utm_source=github.com&utm_medium=referral&utm_content=CS2113-AY1819S1-F10-1/main&utm_campaign=Badge_Grade"]https://coveralls.io/github/CS2113-AY1819S1-F10-1/main?branch=master[image:https://coveralls.io/repos/github/CS2113-AY1819S1-F10-1/main/badge.svg?branch=master&service=github[Build Status]]
+image:https://api.codacy.com/project/badge/Grade/e1ed6200448148c6a6c8d955ee177c64["Codacy code quality", link="https://www.codacy.com/app/0WN463/main?utm_source=github.com&utm_medium=referral&utm_content=CS2113-AY1819S1-F10-1/main&utm_campaign=Badge_Grade"]https://coveralls.io/github/CS2113-AY1819S1-F10-1/main?branch=master[image:https://coveralls.io/repos/github/CS2113-AY1819S1-F10-1/main/badge.svg[Build Status]]
 
 image::UiNew.png[]
 
@@ -16,12 +16,12 @@ image::UiNew.png[]
 * A simple GUI added to replace the Text UI.
 * A `Logic` class added together with a `LogicTest` class.
 * Appendices added to <<DeveloperGuide#, Developer Guide>>
-* `5 Features` added from each <<AboutUs#, Team>> Member listed below
-* Allowing increasing privileges for users.
-* Viewing of student's overall attendance.
-* Adding of grades to students.
-* Keying and viewing of fees of students by administrators.
-* Ability to add and store new exam details.
+* `5 Features` added from each <<AboutUs#, team member>> listed below
+** Allowing increasing privileges for users.
+** Viewing of student's overall attendance.
+** Adding of grades to students.
+** Keying and viewing of fees of students by administrators.
+** Ability to add and store new exam details.
 
 *Useful Links*
 

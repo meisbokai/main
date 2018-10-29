@@ -1,7 +1,7 @@
 package seedu.addressbook.data.person;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 import seedu.addressbook.data.exception.IllegalValueException;
@@ -12,9 +12,11 @@ import seedu.addressbook.data.exception.IllegalValueException;
 public class Assessment {
 
     public static final String EXAM_NAME_EXAMPLE = "CG2271 Midterms";
+    public static final String MESSAGE_ASSESSMENT_CONSTRAINTS = "Assessment name can contain alpha-numeric characters";
+    public static final String ASSESSMENT_VALIDATION_REGEX = "^.*$";
 
     private String examName;
-    private List<Grades> grade;
+    private Map<Person, Grades> grade;
 
     /**
      * Validates given results.
@@ -22,16 +24,26 @@ public class Assessment {
      * @throws IllegalValueException if given results string is invalid.
      */
     public Assessment(String examName) throws IllegalValueException {
+        if (!isValidAssessment(examName)) {
+            throw new IllegalValueException(MESSAGE_ASSESSMENT_CONSTRAINTS);
+        }
         this.examName = examName.trim();
-        this.grade = new ArrayList<>();
+        this.grade = new HashMap<>();
     }
 
-    public List<Grades> getGrade() {
-        return new ArrayList<>(grade);
+    /**
+     * Returns true if a given string is a valid assessment.
+     */
+    public static boolean isValidAssessment(String test) {
+        return test.matches(ASSESSMENT_VALIDATION_REGEX);
     }
 
-    public void setGrade(Grades grade) {
-        this.grade.add(grade);
+    public Grades getGrade(ReadOnlyPerson person) {
+        return this.grade.get(person);
+    }
+
+    public void addGrade(Person person, Grades grades) {
+        grade.put(person, grades);
     }
 
     public String getExamName() {

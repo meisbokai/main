@@ -6,16 +6,18 @@ import java.util.Comparator;
 import java.util.List;
 
 import seedu.addressbook.commands.Command;
-import seedu.addressbook.commands.ExitCommand;
-import seedu.addressbook.commands.FindCommand;
-import seedu.addressbook.commands.HelpCommand;
-import seedu.addressbook.commands.ListCommand;
-import seedu.addressbook.commands.LoginCommand;
-import seedu.addressbook.commands.LogoutCommand;
-import seedu.addressbook.commands.RaisePrivilegeCommand;
-import seedu.addressbook.commands.ViewCommand;
-import seedu.addressbook.commands.ViewPrivilegeCommand;
-import seedu.addressbook.commands.ViewSelfCommand;
+import seedu.addressbook.commands.ViewExamsCommand;
+import seedu.addressbook.commands.account.ListAccountCommand;
+import seedu.addressbook.commands.account.LoginCommand;
+import seedu.addressbook.commands.account.LogoutCommand;
+import seedu.addressbook.commands.general.ExitCommand;
+import seedu.addressbook.commands.general.HelpCommand;
+import seedu.addressbook.commands.person.FindCommand;
+import seedu.addressbook.commands.person.ListCommand;
+import seedu.addressbook.commands.person.ViewCommand;
+import seedu.addressbook.commands.person.ViewSelfCommand;
+import seedu.addressbook.commands.privilege.RaisePrivilegeCommand;
+import seedu.addressbook.commands.privilege.ViewPrivilegeCommand;
 
 /**
  * Represents a user with Basic access
@@ -24,6 +26,7 @@ public class BasicUser implements User {
     private static List<Command> newAllowedCommands = Arrays.asList(
             new ViewCommand(),
             new ListCommand(),
+            new ListAccountCommand(),
             new RaisePrivilegeCommand(),
             new ViewPrivilegeCommand(),
             new FindCommand(),
@@ -31,7 +34,8 @@ public class BasicUser implements User {
             new LoginCommand(),
             new LogoutCommand(),
             new ExitCommand(),
-            new ViewSelfCommand()
+            new ViewSelfCommand(),
+            new ViewExamsCommand()
     );
     private List<Command> allowedCommands;
     private PrivilegeLevel currentLevel;

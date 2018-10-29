@@ -1,11 +1,12 @@
 package seedu.addressbook.ui;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
-
 import seedu.addressbook.Main;
 import seedu.addressbook.logic.Logic;
 
@@ -17,8 +18,8 @@ public class Gui {
     /** Offset required to convert between 1-indexing and 0-indexing.  */
     public static final int DISPLAYED_INDEX_OFFSET = 1;
 
-    public static final int INITIAL_WINDOW_WIDTH = 800;
-    public static final int INITIAL_WINDOW_HEIGHT = 600;
+    private static final int INITIAL_WINDOW_WIDTH = 800;
+    private static final int INITIAL_WINDOW_HEIGHT = 600;
     private final Logic logic;
 
     private String version;
@@ -46,10 +47,19 @@ public class Gui {
 
         stage.setTitle(version);
         stage.setScene(new Scene(loader.load(), INITIAL_WINDOW_WIDTH, INITIAL_WINDOW_HEIGHT));
+
+        setUpIcon(stage);
+
         stage.show();
         MainWindow mainWindow = loader.getController();
         mainWindow.setLogic(logic);
         mainWindow.setMainApp(mainApp);
         return mainWindow;
+    }
+
+    private void setUpIcon(Stage stage) {
+        final InputStream input = getClass().getResourceAsStream("images/Icon.png");
+        final Image image = new Image(input);
+        stage.getIcons().add(image);
     }
 }

@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Optional;
 
 import seedu.addressbook.commands.Command;
-import seedu.addressbook.commands.CommandResult;
 import seedu.addressbook.commands.IncorrectCommand;
+import seedu.addressbook.commands.commandresult.CommandResult;
 import seedu.addressbook.data.AddressBook;
 import seedu.addressbook.data.ExamBook;
 import seedu.addressbook.data.StatisticsBook;
@@ -19,6 +19,8 @@ import seedu.addressbook.parser.Parser;
 import seedu.addressbook.privilege.Privilege;
 import seedu.addressbook.storage.Storage;
 import seedu.addressbook.storage.StorageFile;
+import seedu.addressbook.storage.StorageFile.InvalidInitialisationException;
+import seedu.addressbook.storage.StorageFile.InvalidStorageFilePathException;
 
 /**
  * Represents the main Logic of the AddressBook.
@@ -65,9 +67,12 @@ public class Logic {
         setStatisticsBook(statisticsBook);
     }
 
-    /** Sets privilege as Admin if addressBook isPermAdmin, else set to Basic*/
+    /** Sets privilege as Admin if addressBook isPermAdmin, else remain as Basic*/
     public void initPrivilege() {
-        privilege = new Privilege();
+        if (!Optional.ofNullable(privilege).isPresent()) {
+            privilege = new Privilege();
+        }
+
         if (addressBook.isPermAdmin()) {
             privilege.raiseToAdmin();
         }
@@ -95,12 +100,13 @@ public class Logic {
 
     /**
      * Creates the StorageFile object based on the user specified path (if any) or the default storage path.
-     * @throws StorageFile.InvalidStorageFilePathException if the target file path is incorrect.
-     * @throws StorageFile.InvalidInitialisationException if the JAXB set up has error
+     * @throws InvalidStorageFilePathException if the target file path is incorrect.
+     * @throws InvalidInitialisationException if the JAXB set up has error
      */
     private StorageFile initializeStorage()
-            throws StorageFile.InvalidStorageFilePathException,
-            StorageFile.InvalidInitialisationException {
+            throws InvalidStorageFilePathException,
+            InvalidInitialisationException {
+
         return new StorageFile();
     }
 
@@ -179,20 +185,23 @@ public class Logic {
             result = command.execute();
         } else {
             result = new IncorrectCommand (String.format(MESSAGE_INSUFFICIENT_PRIVILEGE,
-                            privilege.getRequiredPrivilegeAsString(command),
-                            privilege.getLevelAsString())).execute();
+                    privilege.getRequiredPrivilegeAsString(command),
+                    privilege.getLevelAsString())).execute();
         }
 
         if (command.isMutating()) {
             storage.save(addressBook);
-            storage.saveExam(examBook);
             storage.saveStatistics(statisticsBook);
+        }
+        if (command.isExamMutating()) {
+            storage.saveExam(examBook);
         }
         return result;
     }
 
     /** Updates the {@link #lastShownList} if the result contains a list of Persons.
      *  Updates the {@link #lastShownExamList} if the result contains a list of Exams.
+     *  Updates the {@link #lastShownAssessmentList} if the result contains a list of Assessments.
      * */
     private void recordResult(CommandResult result) {
         final Optional<List<? extends ReadOnlyPerson>> personList = result.getRelevantPersons();
@@ -200,12 +209,13 @@ public class Logic {
 
         final Optional<List<? extends ReadOnlyExam>> examList = result.getRelevantExams();
         final Optional<List<? extends Assessment>> assessmentList = result.getRelevantAssessments();
-        if (personList.isPresent()) {
-            lastShownList = personList.get();
-        } else if (examList.isPresent()) {
-            lastShownExamList = examList.get();
-        } else if (assessmentList.isPresent()) {
-            lastShownAssessmentList = assessmentList.get();
+        //TODO: Fix weird code flow
+        if (!personList.isPresent()) {
+            if (examList.isPresent()) {
+                lastShownExamList = examList.get();
+            } else if (assessmentList.isPresent()) {
+                lastShownAssessmentList = assessmentList.get();
+            }
         }
     }
 }

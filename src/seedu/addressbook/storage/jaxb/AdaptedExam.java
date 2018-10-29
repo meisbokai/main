@@ -26,12 +26,13 @@ public class AdaptedExam {
     private String examEndTime;
     @XmlElement (required = true)
     private String examDetails;
+    @XmlElement(required = true)
+    private int takers;
 
     /**
      * No-arg constructor for JAXB use.
      */
     public AdaptedExam() {}
-
 
     /**
      * Converts a given Exam into this class for JAXB use.
@@ -52,6 +53,8 @@ public class AdaptedExam {
         examEndTime = source.getExamEndTime();
 
         examDetails = source.getExamDetails();
+
+        takers = source.getTakers();
     }
 
     /**
@@ -63,7 +66,8 @@ public class AdaptedExam {
      * so we check for that.
      */
     public boolean isAnyRequiredFieldMissing() {
-        return Utils.isAnyNull(subjectName, examName, examDate, examStartTime, examEndTime, examDetails, isPrivate);
+        return Utils.isAnyNull(subjectName, examName, examDate, examStartTime, examEndTime,
+                examDetails, takers, isPrivate);
     }
 
     /**
@@ -78,7 +82,8 @@ public class AdaptedExam {
         final String examStartTime = this.examStartTime;
         final String examEndTime = this.examEndTime;
         final String examDetails = this.examDetails;
+        final int takers = this.takers;
         final boolean isPrivate = this.isPrivate;
-        return new Exam(examName, subjectName, examDate, examStartTime, examEndTime, examDetails, isPrivate);
+        return new Exam(examName, subjectName, examDate, examStartTime, examEndTime, examDetails, takers, isPrivate);
     }
 }

@@ -1,7 +1,6 @@
 package seedu.addressbook.data.person;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
@@ -11,7 +10,7 @@ import seedu.addressbook.common.Utils;
 import seedu.addressbook.data.exception.DuplicateDataException;
 
 /**
- * A list of exams. Does not allow null elements or duplicates.
+ * A list of exams sorted by their subject names. Does not allow null elements or duplicates.
  *
  * @see Exam#equals(Object)
  * @see Utils#elementsAreUnique(Collection)
@@ -29,15 +28,6 @@ public class UniqueExamList implements Iterable<Exam> {
         }
     }
 
-    //
-    //* Signals that an operation would have violated the 'no overlapping timings' property of the list.
-    //*
-    //public static class OverlappingTimeException extends Exception {
-    //protected OverlappingTimeException() {
-    //super("Operation would result in overlapping exam timings");
-    //}
-    //}
-
     /**
      * Signals that an operation targeting a specified exam in the list would fail because
      * there is no such matching exam in the list.
@@ -48,17 +38,6 @@ public class UniqueExamList implements Iterable<Exam> {
      * Constructs empty exam list.
      */
     public UniqueExamList() {}
-
-    /**
-     * Constructs a exam list with the given exams.
-     */
-    public UniqueExamList(Exam... exams) throws DuplicateExamException {
-        final List<Exam> initialTags = Arrays.asList(exams);
-        if (!Utils.elementsAreUnique(initialTags)) {
-            throw new DuplicateExamException();
-        }
-        internalList.addAll(initialTags);
-    }
 
     /**
      * Constructs a list from the items in the given collection.
@@ -87,19 +66,14 @@ public class UniqueExamList implements Iterable<Exam> {
     }
 
     /**
-     * Adds a exam to the list.
+     * Adds a exam to the list. Performs a sort to ensure list is sorted by subject name.
      *
-     * @throws DuplicateExamException if the exam to add is a duplicate of an existing exam in the list.
+     * @throws DuplicateExamException if the exam is a duplicate of an existing exam in the list.
      */
     public void add(Exam toAdd) throws DuplicateExamException {
         if (contains(toAdd)) {
             throw new DuplicateExamException();
         }
-        //for (Exam e: internalList){
-        //      if (toAdd.isOverlapping(e)){
-        //        throw new OverlappingTimeException();
-        //    }
-        //}
         internalList.add(toAdd);
         sort();
     }
@@ -107,7 +81,7 @@ public class UniqueExamList implements Iterable<Exam> {
     /**
      * Removes the equivalent exam from the list.
      *
-     * @throws ExamNotFoundException if no such person could be found in the list.
+     * @throws ExamNotFoundException if no such exam could be found in the list.
      */
     public void remove(ReadOnlyExam toRemove) throws ExamNotFoundException {
         final boolean examFoundAndDeleted = internalList.remove(toRemove);
@@ -138,7 +112,6 @@ public class UniqueExamList implements Iterable<Exam> {
      * @throws ExamNotFoundException if no such exam could be found in the list.
      */
     public Exam find(ReadOnlyExam exam) throws ExamNotFoundException {
-        //TODO: Fix potato
         for (Exam p: internalList) {
             if (p.equals(exam)) {
                 return p;
@@ -148,10 +121,31 @@ public class UniqueExamList implements Iterable<Exam> {
     }
 
     /**
-     * Sorts all exams in list by their subject names.
+     * Replaces an exam and adds in a new exam with updated details at the same index
+     * @param exam the original exam.
+     * @param newExam the new exam with updated details.
+     * @throws ExamNotFoundException if the original exam could not be found in the list.
      */
-    public void sort() {
-        internalList.sort((Exam name1, Exam name2)->name1.getSubjectName().compareToIgnoreCase(name2.getSubjectName()));
+    public void updateExam(Exam exam, Exam newExam) throws ExamNotFoundException {
+        boolean isExamPresent = false;
+        if (internalList.contains(exam)) {
+            isExamPresent = true;
+            int index = internalList.indexOf(exam);
+            internalList.remove(exam);
+            internalList.add(index, newExam);
+        }
+        if (!isExamPresent) {
+            throw new ExamNotFoundException();
+        }
+    }
+
+    /**
+     * Clear number of takers for all exams
+     */
+    public void clearTakers() {
+        for (Exam e: internalList) {
+            e.setTakers(0);
+        }
     }
 
     @Override
@@ -170,5 +164,12 @@ public class UniqueExamList implements Iterable<Exam> {
     @Override
     public int hashCode() {
         return internalList.hashCode();
+    }
+
+    /**
+     * Sorts all exams in list by their subject names.
+     */
+    public void sort() {
+        internalList.sort((Exam name1, Exam name2)->name1.getSubjectName().compareToIgnoreCase(name2.getSubjectName()));
     }
 }

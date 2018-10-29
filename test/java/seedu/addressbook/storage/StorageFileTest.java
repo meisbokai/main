@@ -6,28 +6,30 @@ import static org.junit.Assert.assertTrue;
 import static seedu.addressbook.util.TestUtil.assertTextFilesEqual;
 
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.rules.TemporaryFolder;
 
+import seedu.addressbook.common.Pair;
 import seedu.addressbook.data.AddressBook;
 import seedu.addressbook.data.ExamBook;
 import seedu.addressbook.data.StatisticsBook;
 import seedu.addressbook.data.account.Account;
 import seedu.addressbook.data.exception.IllegalValueException;
-import seedu.addressbook.data.person.Address;
 import seedu.addressbook.data.person.AssignmentStatistics;
-import seedu.addressbook.data.person.Email;
 import seedu.addressbook.data.person.Exam;
-import seedu.addressbook.data.person.Name;
 import seedu.addressbook.data.person.Person;
-import seedu.addressbook.data.person.Phone;
+import seedu.addressbook.data.person.details.Address;
+import seedu.addressbook.data.person.details.Email;
+import seedu.addressbook.data.person.details.Name;
+import seedu.addressbook.data.person.details.Phone;
 import seedu.addressbook.data.tag.Tag;
 import seedu.addressbook.storage.Storage.StorageOperationException;
 
@@ -118,16 +120,21 @@ public class StorageFileTest {
 
     @Test
     public void load_validFormat() throws Exception {
-        HashMap<String, AddressBook> inputToExpectedOutputs = new HashMap<>();
-        inputToExpectedOutputs.put("ValidDataWithNewPasswordLuc.txt", getTestAddressBook(false, false));
-        inputToExpectedOutputs.put("ValidDataWithDefaultPasswordLuc.txt", getTestAddressBook(true, false));
-        inputToExpectedOutputs.put("ValidEmptyData.txt", AddressBook.empty());
-        inputToExpectedOutputs.put("ValidDataWithAccount.txt", getTestAddressBook(true, true));
-        inputToExpectedOutputs.put("ValidDataWithoutPasswordLuc.txt", getTestAddressBook(true, false));
+        List<Pair<String, AddressBook>> inputToExpectedOutputs = new ArrayList<>();
+        inputToExpectedOutputs.add(new Pair<>(
+                "ValidDataWithNewPasswordLuc.txt", getTestAddressBook(false, false)));
+        inputToExpectedOutputs.add(new Pair<>(
+                "ValidDataWithDefaultPasswordLuc.txt", getTestAddressBook(true, false)));
+        inputToExpectedOutputs.add(new Pair<>(
+                "ValidEmptyData.txt", AddressBook.empty()));
+        inputToExpectedOutputs.add(new Pair<>(
+                "ValidDataWithAccount.txt", getTestAddressBook(true, true)));
+        inputToExpectedOutputs.add(new Pair<>(
+                "ValidDataWithoutPasswordLuc.txt", getTestAddressBook(true, false)));
 
-        for (HashMap.Entry<String, AddressBook> inputToExpected : inputToExpectedOutputs.entrySet()) {
-            final AddressBook actual = getStorage(inputToExpected.getKey()).load();
-            final AddressBook expected = inputToExpected.getValue();
+        for (Pair<String, AddressBook> inputToExpected: inputToExpectedOutputs) {
+            final AddressBook actual = getStorage(inputToExpected.getFirst()).load();
+            final AddressBook expected = inputToExpected.getSecond();
 
             // ensure loaded AddressBook is properly constructed with test data
             // TODO: overwrite equals method in AddressBook class and replace with equals method below

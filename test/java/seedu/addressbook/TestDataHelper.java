@@ -17,15 +17,15 @@ import java.util.StringJoiner;
 import seedu.addressbook.data.AddressBook;
 import seedu.addressbook.data.ExamBook;
 import seedu.addressbook.data.account.Account;
-import seedu.addressbook.data.person.Address;
 import seedu.addressbook.data.person.Assessment;
 import seedu.addressbook.data.person.AssignmentStatistics;
-import seedu.addressbook.data.person.Email;
 import seedu.addressbook.data.person.Exam;
 import seedu.addressbook.data.person.Fees;
-import seedu.addressbook.data.person.Name;
 import seedu.addressbook.data.person.Person;
-import seedu.addressbook.data.person.Phone;
+import seedu.addressbook.data.person.details.Address;
+import seedu.addressbook.data.person.details.Email;
+import seedu.addressbook.data.person.details.Name;
+import seedu.addressbook.data.person.details.Phone;
 import seedu.addressbook.data.tag.Tag;
 
 /**
@@ -52,7 +52,7 @@ public class TestDataHelper {
         String startTime = "09:00";
         String endTime = "12:00";
         String details = "Held in MPSH";
-        Boolean isPrivate = false;
+        boolean isPrivate = false;
         return new Exam(examName, subjectName, date, startTime, endTime, details, isPrivate);
     }
 
@@ -103,6 +103,32 @@ public class TestDataHelper {
     }
 
     /**
+     * Generates a valid person with a valid exam using the given seeds.
+     * Running this function with the same parameter values guarantees the returned person will have the same state.
+     * Each unique seed will generate a unique Person object.
+     *
+     * @param seed used to generate the person data field values
+     * @param isAllFieldsPrivate determines if private-able fields (phone, email, address) will be private
+     * @param examSeed used to generate the exam data field values
+     * @param isExamPrivate determines if exam will be private
+     * @param takers determines number of takers of exam
+     */
+    public Person generatePerson(int seed, boolean isAllFieldsPrivate, int examSeed,
+                                 boolean isExamPrivate, int takers) throws Exception {
+        Person p1 = new Person(
+                new Name("Person " + seed),
+                new Phone("" + Math.abs(seed), isAllFieldsPrivate),
+                new Email(seed + "@email", isAllFieldsPrivate),
+                new Address("House of " + seed, isAllFieldsPrivate),
+                new HashSet<>(Arrays.asList(new Tag("tag" + Math.abs(seed)), new Tag("tag" + Math.abs(seed + 1))))
+        );
+        Exam e1 = generateExam(examSeed, isExamPrivate);
+        e1.setTakers(takers);
+        p1.addExam(e1);
+        return p1;
+    }
+
+    /**
      * Generates a valid exam using the given seed.
      * Running this function with the same parameter values guarantees the returned exam will have the same state.
      * Each unique seed will generate a unique Exam object.
@@ -113,6 +139,22 @@ public class TestDataHelper {
     public Exam generateExam(int seed, boolean isExamPrivate) throws Exception {
         return new Exam(("Exam " + seed), ("Subject " + seed), "01-02-2018",
                 "10:00", "12:00", ("Held in " + seed), isExamPrivate);
+    }
+
+    /**
+     * Generates a valid exam using the given seed and sets the takers value.
+     * Running this function with the same parameter values guarantees the returned exam will have the same state.
+     * Each unique seed will generate a unique Exam object.
+     *
+     * @param seed used to generate the exam data field values
+     * @param isExamPrivate determines if the exam will be private
+     * @param takers used to determine the number of exam-takers
+     */
+    public Exam generateExam(int seed, boolean isExamPrivate, int takers) throws Exception {
+        Exam exam = new Exam(("Exam " + seed), ("Subject " + seed), "01-02-2018",
+                "10:00", "12:00", ("Held in " + seed), isExamPrivate);
+        exam.setTakers(takers);
+        return exam;
     }
 
     /**Generated the prefix for the field **/
@@ -214,7 +256,7 @@ public class TestDataHelper {
         return cmd.toString();
     }
 
-    /** Generates the correct addexam command based on the exam given */
+    /** Generates the correct add exam command based on the exam given */
     public String generateAddExamCommand(Exam e) {
         StringJoiner cmd = new StringJoiner(" ");
         String examNameField = getExamNamePrefix(e.isPrivate()) + e.getExamName();
@@ -266,17 +308,6 @@ public class TestDataHelper {
         cmd.add("addassess");
         cmd.add(examName);
         return cmd.toString();
-    }
-
-    /**
-     * Generates an ExamBook with auto-generated exams.
-     * @param isPrivateStatuses flags to indicate if all exams should be set to
-     *                          private.
-     */
-    public ExamBook generateExamBook(Boolean... isPrivateStatuses) throws Exception {
-        ExamBook examBook = new ExamBook();
-        addToExamBook(examBook, isPrivateStatuses);
-        return examBook;
     }
 
     /**
@@ -391,12 +422,8 @@ public class TestDataHelper {
     /**
      * Creates a list of Exams based on the give Exam objects.
      */
-    public List<Exam> generateExamList(Exam... exams) throws Exception {
-        List<Exam> examList = new ArrayList<>();
-        for (Exam e: exams) {
-            examList.add(e);
-        }
-        return examList;
+    public List<Exam> generateExamList(Exam... exams) {
+        return new ArrayList<>(Arrays.asList(exams));
     }
 
     /**

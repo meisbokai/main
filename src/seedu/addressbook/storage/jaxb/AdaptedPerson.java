@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlValue;
@@ -12,14 +13,14 @@ import javax.xml.bind.annotation.XmlValue;
 import seedu.addressbook.common.Utils;
 import seedu.addressbook.data.account.Account;
 import seedu.addressbook.data.exception.IllegalValueException;
-import seedu.addressbook.data.person.Address;
-import seedu.addressbook.data.person.Attendance;
-import seedu.addressbook.data.person.Email;
+import seedu.addressbook.data.person.Exam;
 import seedu.addressbook.data.person.Fees;
-import seedu.addressbook.data.person.Name;
 import seedu.addressbook.data.person.Person;
-import seedu.addressbook.data.person.Phone;
 import seedu.addressbook.data.person.ReadOnlyPerson;
+import seedu.addressbook.data.person.details.Address;
+import seedu.addressbook.data.person.details.Email;
+import seedu.addressbook.data.person.details.Name;
+import seedu.addressbook.data.person.details.Phone;
 import seedu.addressbook.data.tag.Tag;
 
 
@@ -42,6 +43,8 @@ public class AdaptedPerson {
 //    @XmlElement(required = true)
 //    private AdaptedAttendance attendance;
 
+    @XmlElement
+    private List<AdaptedExam> exams = new ArrayList<>();
     @XmlElement
     private List<AdaptedTag> tagged = new ArrayList<>();
 
@@ -92,6 +95,11 @@ public class AdaptedPerson {
 
 //        attendance = new AdaptedAttendance(source.getAttendance());
 
+        exams = new ArrayList<>();
+        for (Exam exam : source.getExams()) {
+            exams.add(new AdaptedExam(exam));
+        }
+
         tagged = new ArrayList<>();
         for (Tag tag : source.getTags()) {
             tagged.add(new AdaptedTag(tag));
@@ -116,6 +124,12 @@ public class AdaptedPerson {
             }
         }
 
+        for (AdaptedExam exam : exams) {
+            if (exam.isAnyRequiredFieldMissing()) {
+                return true;
+            }
+        }
+
         if (account != null && account.isAnyRequiredFieldMissing()) {
             return true;
         }
@@ -135,6 +149,10 @@ public class AdaptedPerson {
         for (AdaptedTag tag : tagged) {
             tags.add(tag.toModelType());
         }
+        final Set<Exam> examList = new HashSet<>();
+        for (AdaptedExam exam : exams) {
+            examList.add(exam.toModelType());
+        }
         final Name name = new Name(this.name);
         final Phone phone = new Phone(this.phone.value, this.phone.isPrivate);
         final Email email = new Email(this.email.value, this.email.isPrivate);
@@ -145,13 +163,13 @@ public class AdaptedPerson {
         if (!optAccount.isPresent()) {
             final Person person = new Person(name, phone, email, address, tags);
             person.setFees(fees);
-            return new Person(name, phone, email, address, tags);
+            return new Person(name, phone, email, address, tags, examList);
         } else {
             final Account account = this.account.toModelType();
-            final Person person = new Person(name, phone, email, address, tags, account);
+            final Person person = new Person(name, phone, email, address, tags, account, examList);
             person.setFees(fees);
             account.setPrivilegePerson(person);
-            return new Person(name, phone, email, address, tags, account);
+            return new Person(name, phone, email, address, tags, account, examList);
         }
     }
 }

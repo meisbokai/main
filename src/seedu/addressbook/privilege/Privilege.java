@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import seedu.addressbook.commands.Command;
+import seedu.addressbook.data.exception.IllegalValueException;
 import seedu.addressbook.data.person.Person;
 import seedu.addressbook.data.person.ReadOnlyPerson;
 import seedu.addressbook.privilege.user.AdminUser;
@@ -13,6 +14,8 @@ import seedu.addressbook.privilege.user.User;
 
 /** Represents the privilege level of the user */
 public class Privilege {
+    public static final String PRIVILEGE_CONSTRAINTS = "Privilege should be \"Basic\", \"Tutor\" or \"Admin\"";
+
     /** Enums for the different privilege levels*/
     private enum PrivilegeLevels {
         BASIC(new BasicUser()),
@@ -49,13 +52,13 @@ public class Privilege {
         }
     }
 
-    public static Privilege getPrivilegeFromString (String userType) {
+    public static Privilege getPrivilegeFromString (String userType) throws IllegalValueException {
         for (PrivilegeLevels p : PrivilegeLevels.values()) {
             if (p.toString().equals(userType.toUpperCase())) {
                 return new Privilege(p.getUserType());
             }
         }
-        return null;
+        throw new IllegalValueException(PRIVILEGE_CONSTRAINTS);
     }
 
     /**

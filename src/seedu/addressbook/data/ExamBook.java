@@ -25,10 +25,11 @@ public class ExamBook {
      *
      * @param examList external changes to this will not affect this exam book
      */
-
     public ExamBook(UniqueExamList examList) {
         this.examList = new UniqueExamList(examList);
     }
+
+
 
     public static ExamBook empty() {
         return new ExamBook();
@@ -41,13 +42,6 @@ public class ExamBook {
      */
     public void addExam(Exam toAdd) throws DuplicateExamException {
         examList.add(toAdd);
-    }
-
-    /**
-     * Checks if an equivalent exam exists in the exam book.
-     */
-    public boolean containsExam(ReadOnlyExam key) {
-        return examList.contains(key);
     }
 
     /**
@@ -74,18 +68,46 @@ public class ExamBook {
     }
 
     /**
-     * Edits a exam in the ExamBook
+     * Edits a exam in the ExamBook, potentially changing its index number when listing again
      *
-     * @throws ExamNotFoundException if no such Exam could be found.
+     * @throws ExamNotFoundException if no such exam could be found.
+     * @throws DuplicateExamException if the new exam already exists in the exam book.
      */
     public void editExam(ReadOnlyExam oldExam, Exam examToChange)
             throws ExamNotFoundException, DuplicateExamException {
+
         if (examList.contains(oldExam)) {
             examList.add(examToChange);
             examList.remove(oldExam);
         } else {
             throw new ExamNotFoundException();
         }
+    }
+
+    /**
+     * Finds and returns the given exam in the ExamBook
+     *
+     * @throws ExamNotFoundException if no such Exam could be found.
+     */
+    public Exam findExam(ReadOnlyExam exam) throws ExamNotFoundException {
+        return examList.find(exam);
+    }
+
+    /**
+     * Updates a particular exam to its new value at the same index number
+     * @param exam the original exam
+     * @param newExam the new exam to be updated to
+     * @throws ExamNotFoundException if no such Exam could be found
+     */
+    public void updateExam(Exam exam, Exam newExam) throws ExamNotFoundException {
+        examList.updateExam(exam, newExam);
+    }
+
+    /**
+     * Clears number of takers for all exams
+     */
+    public void clearTakers() {
+        examList.clearTakers();
     }
 
     @Override

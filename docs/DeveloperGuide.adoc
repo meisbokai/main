@@ -1,6 +1,5 @@
 = ClassRepo - Developer Guide
 :site-section: DeveloperGuide
-:no-site-header: 
 :toc:
 :toc-title:
 :toc-placement: preamble
@@ -43,7 +42,7 @@ Do not disable them. If you have disabled them, go to `File` > `Settings` > `Plu
 
 === Verifying the setup
 
-. Run the `seedu.address.MainApp` and try a few commands
+. Run the `seedu.address.Main` and try a few commands
 . <<Testing,Run the tests>> to ensure they all pass.
 . Open the `StorageFile` file and check for any code errors
 .. Due to an ongoing https://youtrack.jetbrains.com/issue/IDEA-189060[issue] with some of the newer versions of IntelliJ, code errors may be detected even if the project can be built and run successfully
@@ -66,9 +65,9 @@ Optionally, you can follow the <<UsingCheckstyle#, UsingCheckstyle.adoc>> docume
 
 ==== Updating documentation to match your fork
 
-After forking the repo, the documentation will still have the SE-EDU branding and refer to the `se-edu/addressbook-level4` repo.
+After forking the repo, the documentation will still have the SE-EDU branding and refer to the `se-edu/addressbook-level3` repo.
 
-If you plan to develop this fork as a separate product (i.e. instead of contributing to `se-edu/addressbook-level4`), you should do the following:
+If you plan to develop this fork as a separate product (i.e. instead of contributing to `se-edu/addressbook-level3`), you should do the following:
 
 . Configure the <<Docs-SiteWideDocSettings, site-wide documentation settings>> in link:{repoURL}/build.gradle[`build.gradle`], such as the `site-name`, to suit your own project.
 
@@ -163,14 +162,13 @@ image::UiClassDiagram.png[width="800"]
 
 *API* : link:{repoURL}/src/main/java/seedu/address/ui/Ui.java[`Ui.java`]
 
-The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `PersonListPanel`, `StatusBarFooter`, `BrowserPanel` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class.
+The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `OutputConsole`, `StatusConsole`.
 
-The `UI` component uses JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the link:{repoURL}/src/main/java/seedu/address/ui/MainWindow.java[`MainWindow`] is specified in link:{repoURL}/src/main/resources/view/MainWindow.fxml[`MainWindow.fxml`]
+The `UI` component uses JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/seedu/addressbook/ui` folder. For example, the layout of the link:{repoURL}/src/seedu/addressbook/ui/MainWindow.java[`MainWindow`] is specified in link:{repoURL}/src/seedu/addressbook/ui/MainWindow.fxml[`MainWindow.fxml`]
 
 The `UI` component,
 
 * Executes user commands using the `Logic` component.
-* Binds itself to some data in the `Model` so that the UI can auto-update when data in the `Model` change.
 * Responds to events raised from various parts of the App and updates the UI accordingly.
 
 [[Design-Logic]]
@@ -183,9 +181,9 @@ image::LogicClassDiagram.png[width="800"]
 *API* :
 link:{repoURL}/src/main/java/seedu/address/logic/Logic.java[`Logic.java`]
 
-.  `Logic` uses the `AddressBookParser` class to parse the user command.
-.  This results in a `Command` object which is executed by the `LogicManager`.
-.  The command execution can affect the `Model` (e.g. adding a person) and/or raise events.
+.  `Logic` uses the `Parser` class to parse the user command.
+.  This results in a `Command` object which is then executed.
+.  The command execution can affect the `data` (e.g. adding a person).
 .  The result of the command execution is encapsulated as a `CommandResult` object which is passed back to the `Ui`.
 
 Given below is the Sequence Diagram for interactions within the `Logic` component for the `execute("delete 1")` API call.
@@ -203,7 +201,6 @@ image::ModelClassDiagram.png[width="800"]
 
 The `Model`,
 
-* stores a `UserPref` object that represents the user's preferences.
 * stores the Address Book data.
 * exposes an unmodifiable `ObservableList<Person>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
 * does not depend on any of the other three components.
@@ -258,14 +255,15 @@ An Example of how feature 5 - `Registering a person for an exam` works:
 . First the specific exam and person will be identified from the most recent exams and persons listing respectively.
 . The specific exam and person is then extracted out of the ExamBook and AddressBook respectively.
 . A check is performed to ensure the specific person is not already registered for the exam.
-. A new exam is created to make a copy of the original exam, then have its number of exam takers increased by 1.
-. The original exam is added to the specific person.
+. A new exam is created to keep a copy of the original exam.
+. The exam has its number of exam takers increased by 1.
+. The exam is added to the specific person.
 . For both the AddressBook and ExamBook, any copies of the original exam is removed and replaced with the new exam.
 
 This is demostrated by the following sequence diagram:
 [[fig-registerPersonDiagram]]
-.Sequence Diagram of registering person
-image::registerperson.png[width="800"]
+.Sequence Diagram of registering person for an exam
+image::RegisterExam_Sequence_Diagram.png[width="800"]
 
 ==== Design Considerations
 
@@ -275,8 +273,8 @@ image::registerperson.png[width="800"]
 ** Pros: Less space is needed.
 ** Cons: This can waste some time, if no changes need to be made for example.
 * **Alternative 2:** Store the persons registered for an exam for each exam.
-** Pros: This makes it faster to update any changes if needed.
-** Cons: More space is needed.
+** Pros: This makes it faster to update any changes in both AddressBook and ExamBook if needed.
+** Cons: More data is duplicated and stored in both AddressBook and ExamBook.
 
 ===== Aspect: How the exam data are being updated
 
@@ -290,11 +288,11 @@ image::registerperson.png[width="800"]
 ===== Aspect: Data structure to support the exam commands
 
 * **Alternative 1 (current choice):** Exams are stored in a set under each Person object in the AddressBook but stored as a list in the ExamBook.
-** Pros: In the Exambook, it is required to access an exam through an index to delete and edit, hence list is better. In the AddressBook, exams are only to be used for viewing and accessed to check for value. 
+** Pros: In the Exambook, it is required to access an exam through an index to delete and edit, hence list is better. In the AddressBook, exams are only to be used for viewing and accessed to check for value. It takes O(1) time to check for existence and remove and add.  
 ** Cons: Exams stored under each Person in the AddressBook cannot be sorted.
 * **Alternative 2:** Exams are stored as a list in both ExamBook and AddressBook.
-** Pros: Exams stored under each Person in the AddressBook can be sorted.
-** Cons: It will take longer to check if a Person has a same Exam with the Exam to be updated.
+** Pros: Exams stored under each Person in the AddressBook can be sorted. 
+** Cons: It takes O(n) time (longer time) to check if a Person has a same Exam with the Exam to be updated.
 
 ===== Aspect: Storage of ExamBook
 
@@ -304,32 +302,34 @@ image::registerperson.png[width="800"]
 * **Alternative 2:** Exams are stored in same data file as AddressBook.
 ** Pros: Only 1 storage file is needed. Less repetition and variables are needed.
 ** Cons: May be harder for user to see exams in raw XML format.
-// end::exam[]
+// end::Exam[]
 
 // tag::privilege[]
 === Privilege Feature
+
 [[fig-PrivilegeDiagram]]
-.Structure of the Privilege Component
-image::Privilege.png[width="800"]
+.Class Diagram of the Privilege Component
+image::Privilege.png[width="600"]
 
 ==== Current Implementation
-Logic is assigned to one Privilege object at all times. Privilege contains a User and a Person.
-The User interface defines what access level the Privilege object have, which is implemented by BasicUser, TutorUser and AdminUser. +
-BasicUser is the class with the lowest access level, and the ancestor to other 2 User classes. +
-To create an increasing level of access, each User of a higher level inherits from the successively lower one. +
-Each User level have their own list of new commands they can run, which is appended to the list inherited from their parent. +
-Account class, which contains its respective Privilege object, is the way to assign a privilege level to a Person. +
-Account also holds authentication details required for logging in. + 
-When switching Privilege levels, the Privilege attached to Logic will point its UserType and myPerson to that in the desired Privilege level, as seen below in the Object Diagram and Sequence Diagram. +
+
+*Logic* is assigned to one *Privilege* object at all times. *Privilege* contains a *User* (specified by the *PrivilegeLevel* enum) and a *Person* (referred to as `myPerson`). +
+*User* defines what access level the *Privilege* object have, which is implemented by *BasicUser*, *TutorUser* and *AdminUser*. +
+*BasicUser* is the class with the lowest access level, and the ancestor to other 2 *User* classes. +
+To create an increasing level of access, each *User* of a higher level inherits from the successively lower one. +
+*User* levels have their own list of new commands they can run, which is appended to the list inherited from their parent. +
+
+*Account* class, which contains its respective *Privilege* object as well as login details, assigns an access level to a *Person*. +
+When switching *Privilege* levels, the *Privilege* object referred to by *Logic* will point its *User*(`user`) and *Person*(`myPerson`) to those of the desired *Privilege level*, as seen below in the Object Diagram and Sequence Diagram. +
 
 [[fig-PrivilegeObjectDiagram]]
 .How switching Privilege is implemented (Object Diagram)
-image::PrivilegeObjectDiagram.png[width="900"]
+image::PrivilegeObjectDiagram.png[width="700"]
 
 [[fig-LoginSequenceDiagram]]
 .Sequence Diagram for Login Command
 image::Login_Sequence_Diagram.png[width="600"]
-
+---
 ==== Design Considerations
 
 ===== Aspect: How to define a privilege level of Privilege
@@ -402,8 +402,11 @@ being stored in the AddressBook. The current set of commands include:
 
 . `Adding a new statistics`
 . `Adding a new assessment`
-. `Deleting an assessment`
 . `Listing all assessments'
+. `Deleting an assessment`
+. `Adding grades for a student`
+. `Viewing all grades for a student`
+. `Deleting a specific grade for a student`
 
 An Example of how feature 2 - `Adding a new assessment to the AddressBook` works:
 
@@ -412,6 +415,54 @@ An Example of how feature 2 - `Adding a new assessment to the AddressBook` works
   not be entered.
 . These assessments reflect the exams/homework of the school in general. This list of assessments can then be used to add
   grades to a particular student.
+
+This is demonstrated by the following sequence diagram:
+[[fig-AddAssessmentDiagram]]
+.Sequence Diagram of adding a new assessment
+image::Assessment_Seq_Diagram.png[width="800"]
+
+==== Design Considerations
+
+===== Aspect: 'Assessment' and 'Grades' as classes
+
+* **Alternative 1 (current choice):** Assessments and Grades are created as two separate classes. Assessment class stores the grades of all students for that assessment while a reference to the grades is given to person.
+** Pros: Better design in terms of OOP. Allows easier calculation of statistics per assessment as you can simply loop through all the grades.
+** Cons: This is a little more tedious in terms of coding.
+* **Alternative 2:** The Assessment and Grades are combined into a single class with different parameters to take in the exam name and grade respectively.
+** Pros: -
+** Cons: Cannot view list of assessments separately.
+
+An example of Alternative 1 is demonstrated in the following diagram:
+[[fig-AssessmentandGrades]]
+image::Assessment_Aspect_Example.png[width="800"]
+
+===== Aspect: Data structure to store grades
+
+* **Alternative 1 (current choice):** The grades are stored using a Map data structure under Assessment class
+** Pros: Allows easy reference to person class.
+** Cons: Cannot sort/ order the entries if required.
+* **Alternative 2:** The grades are stored using a 'List' data structure under Assessment class
+** Pros: Can sort the grades alphabetically if required.
+** Cons: Difficult to link grades to person.
+
+===== Aspect: Data type for Grades value
+
+* **Alternative 1 (current choice):** The grades are stored as an integer.
+** Pros: Since the ClassRepo is targeted at Secondary Schools where marks out of 100 are usually awarded rather than letter grades, integer makes more sense.
+** Cons: Can only enter whole numbers (Possible improvement: Change to float)
+* **Alternative 2:** Store the grades as a String
+** Pros: Can also enter letter grades (A, B, C etc. if required)
+** Cons: -
+
+===== Aspect: Creation and Storage of Statistics Book
+
+* **Alternative 1 (current choice):** A separate Statistics Book is created to store the statistics of all assessments. Also, these statistics are stored in a separate txt file (statistics.txt) from AddressBook
+** Pros: These assessment statistics have no link to person. They are a set of separate information accessible to all users (students, teachers and admin). Hence, a separate Statistics Book provides increased clarity and makes sense in terms of the end-usage. This also gives easy access to find and see statistics in raw XML format.
+** Cons: Using an extra storage file implies that additional methods and file paths are needed. Makes code lengthier and repetitive.
+* **Alternative 2:** Store statistics in AddressBook itself.
+** Pros: Everything is condensed and can be found in the same spot. Also, only one storage file would be needed. Reduces duplication of files.
+** Cons: It is messy and confusing. Unrelated data is stored together.
+
 // end::Grades[]
 
 // tag::attendance[]
@@ -535,16 +586,10 @@ The most reliable way to run tests is the 3rd one. The first two methods might f
 
 *Method 2: Using Gradle*
 
-* Open a console and run the command `gradlew clean allTests` (Mac/Linux: `./gradlew clean allTests`)
+* Open a console and run the command `gradlew clean test` (Mac/Linux: `./gradlew clean test`)
 
 [NOTE]
 See <<UsingGradle#, UsingGradle.adoc>> for more info on how to run tests using Gradle.
-
-*Method 3: Using Gradle (headless)*
-
-Thanks to the https://github.com/TestFX/TestFX[TestFX] library we use, our GUI tests can be run in the _headless_ mode. In the headless mode, GUI tests do not show up on the screen. That means the developer can do other things on the Computer while the tests are running.
-
-To run tests in headless mode, open a console and run the command `gradlew clean headless allTests` (Mac/Linux: `./gradlew clean headless allTests`)
 
 === Types of tests
 
@@ -552,11 +597,11 @@ We have one type of test:
 
 .  *Non-GUI Tests* - These are tests not involving the GUI. They include,
 ..  _Unit tests_ targeting the lowest level methods/classes. +
-e.g. `seedu.address.commons.StringUtilTest`
+e.g. `seedu.addressbook.commons.UtilsTest`
 ..  _Integration tests_ that are checking the integration of multiple code units (those code units are assumed to be working). +
-e.g. `seedu.address.storage.StorageManagerTest`
+e.g. `seedu.addressbook.storage.StorageFileTest`
 ..  Hybrids of unit and integration tests. These test are checking multiple code units as well as how the are connected together. +
-e.g. `seedu.address.logic.LogicManagerTest`
+e.g. `seedu.addressbook.logic.LogicTest`
 
 
 === Troubleshooting Testing
@@ -586,7 +631,7 @@ When a pull request has changes to asciidoc files, you can use https://www.netli
 
 Here are the steps to create a new release.
 
-.  Update the version number in link:{repoURL}/src/main/java/seedu/address/MainApp.java[`MainApp.java`].
+.  Update the version number in link:{repoURL}/src/seedu/addressbook/Main.java[`Main.java`].
 .  Generate a JAR file <<UsingGradle#creating-the-jar-file, using Gradle>>.
 .  Tag the repo with the version number. e.g. `v0.1`
 .  https://help.github.com/articles/creating-releases/[Create a new release using GitHub] and upload the JAR file you created.
@@ -615,6 +660,10 @@ Students, teachers and staff of Secondary Schools. +
 
 [appendix]
 == User Stories
+
++++ <details><summary> +++
+Click to Expand
++++ </summary><div> +++
 
 Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (unlikely to have) - `*`
 
@@ -668,11 +717,18 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 _{More to be added}_
 
++++ </div></details> +++
+
 [appendix]
 == Use Cases
 
++++ <details><summary> +++
+Click to Expand
++++ </summary><div> +++
+
 (For all use cases below, the *System* is the `AddressBook` and the *Actor* is the `user`, unless specified otherwise)
 
+[discrete]
 === Use case: Add person
 [discrete]
 ==== Actors: Tutor, Admin
@@ -766,7 +822,7 @@ Use case ends.
 2.  ClassRepo shows a list of exams.
 3.  User requests to delete a specific exam in the list.
 4.  ClassRepo deletes the exam in the ExamBook.
-6.  ClassRepo deletes the exam for all persons registered for it in the AddressBook.
+5.  ClassRepo deletes the exam for all persons registered for it in the AddressBook.
 +
 Use case ends.
 
@@ -844,7 +900,6 @@ Use case resumes at step 2.
 6.  ClassRepo edits the person.
 7.  ClassRepo updates the number of exam takers for the specific exam in the ExamBook.
 8.  ClassRepo updates the specific exam for all persons registered for it in the AddressBook.
-
 +
 Use case ends.
 
@@ -889,7 +944,6 @@ Use case resumes at step 4.
 6.  ClassRepo edits the person.
 7.  ClassRepo updates the number of exam takers for the specific exam in the ExamBook.
 8.  ClassRepo updates the specific exam for all persons registered for it in the AddressBook.
-
 +
 Use case ends.
 
@@ -937,6 +991,26 @@ Use case ends.
 * 2a. The list is empty.
 +
 Use case ends.
+
+[discrete]
+=== Use case: View a person's exams
+
+*MSS*
+
+1.  User requests to list persons.
+2.  ClassRepo shows a list of persons.
+3.  User requests to show exams of a specified person in list.
+4.  ClassRepo shows list of exams of specified person.
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 2a. The list is empty.
++
+Use case ends.
+
 
 [discrete]
 === Use case: View the user's own details
@@ -1146,6 +1220,8 @@ Use case ends.
 Use case ends.
 
 _{More to be added}_
+
++++ </div></details> +++
 
 [appendix]
 == Non Functional Requirements

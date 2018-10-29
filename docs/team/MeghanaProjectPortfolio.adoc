@@ -1,0 +1,51 @@
+= *Meghana Narayanan - Project Portfolio*
+
+= PROJECT: _ClassRepo_
+
+== *Overview*
+ClassRepo is an enhanced AddressBook application, which is targeted at Secondary Schools to provide them with an easy
+and effective learning management system. The users can interact with it using a CLI. The application also has a GUI
+created with JavaFX. It is written in Java, and has about 10 kLoC.
+
+== Summary of Contribution
+1. *Major Enhancements*: Added the *Grades Feature*
+   * Able to add/list/delete assessments
+   * Able to add/view/delete grades for students individually, for specific assessments
+   * Able to add statistics for any assessment (stored in separate statistics book)
+
+          What It Does: Allows the user (either teachers/ admin) to maintain a list of all assessments in the school. Grades for these assessments can be added to students individually. Finally, the user can also add statistics for each assessment such as average score, max/min score etc. These statistics will be stored in a separate statistics book.
+
+          Justification: This model allows the grades of all students for a particular assessment to be stored together, while making it easier for user to add grades based on assessment. Since the ClassRepo is designed for secondary schools, this feature will ensure that all teachers and admin are up-to-date with all the assessments being conducted and the corresponding statistics.
+
+          Highlights: This enhancement is multifaceted and requires addition of new commands as well as careful modification to existing ones. The implementation requires meticulousness to ensure that the code is well-integrated and runs smoothly without any bugs.
+
+2. *Minor Enhancement*: Added functions to allow statistics such as average grade for each assessment to be calculated automatically (Coming Soon in v1.4)
+
+3. *Other Contributions*:
+   * Project management
+   ** ROLE: Deliverable and deadlines in-charge - Managed Issue Tracker on GitHub, Set milestones for own features, deadlines for groups, labels and so on.
+
+   * Enhancements to existing features:
+   ** Wrote additional tests for existing features to increase coverage from --% to --% (Coming Soon)
+
+   * Documentation:
+   ** Tweaked contents of User Guide, Developer Guide to fit our project. Contributed to 'About Us' page.
+
+   * Community:
+   ** PRs reviewed (with non-trivial review comments): (coming soon)
+
+== Contributions to the User Guide
+|===
+|Attached below is a link to the sections I contributed to the User Guide of our project.
+|===
+
+<<../UserGuide.adoc#Grades,Grades/Assessment Section>>
+
+== Contributions to the Developer Guide
+
+|===
+|Attached below is a link to the sections I contributed to the Developer Guide.
+|===
+
+<<./DeveloperGuide.adoc#Grades,Implementation of Grades/Assessment Feature>>
+

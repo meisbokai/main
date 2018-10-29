@@ -1,13 +1,15 @@
 package seedu.addressbook.data.person;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
 import seedu.addressbook.data.account.Account;
+import seedu.addressbook.data.person.details.Address;
+import seedu.addressbook.data.person.details.Email;
+import seedu.addressbook.data.person.details.Name;
+import seedu.addressbook.data.person.details.Phone;
 import seedu.addressbook.data.tag.Tag;
 
 /**
@@ -23,8 +25,10 @@ public class Person implements ReadOnlyPerson {
     private Account account;
     private Fees fees;
     private final Set<Tag> tags = new HashSet<>();
+    private final Set<Exam> exams = new HashSet<>();
+    private final Set<Assessment> assessments = new HashSet<>();
     private Attendance attendance;
-    private List<Assessment> assessments;
+
     /**
      * Assumption: Every field must be present and not null.
      */
@@ -34,20 +38,39 @@ public class Person implements ReadOnlyPerson {
         this.email = email;
         this.address = address;
         this.tags.addAll(tags);
-        this.attendance = new Attendance();
+        attendance = new Attendance();
         this.fees = new Fees();
-        this.assessments = new ArrayList<>();
     }
 
-    public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags, Account account) {
-        this(name, phone, email, address, tags);
+    public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags,
+                  Account account, Set<Exam> exams) {
+        this(name, phone, email, address, tags, exams);
         this.account = account;
     }
 
     /**
      * Only update the fees when called in setAssessmentsCommand
+     * Assumption: Every field must be present and not null.
      */
-    public void setAssessments(Assessment assessment) {
+    public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags, Set<Exam> exams) {
+        this.name = name;
+        this.phone = phone;
+        this.email = email;
+        this.address = address;
+        this.tags.addAll(tags);
+        attendance = new Attendance();
+        this.fees = new Fees();
+        this.exams.addAll(exams);
+    }
+
+    public Person(ReadOnlyPerson source) {
+        this(source.getName(), source.getPhone(), source.getEmail(), source.getAddress(), source.getTags());
+    }
+
+    /**
+     * Only update the assessment when called in AddAssessmentCommand
+     */
+    public void addAssessment(Assessment assessment) {
         this.assessments.add(assessment);
     }
 
@@ -67,16 +90,69 @@ public class Person implements ReadOnlyPerson {
         tags.addAll(replacement);
     }
 
+    /**
+     * Only adds the exam when called in RegisterExamCommand
+     * @param exam to add into person
+     */
+    public void addExam(Exam exam) {
+        exams.add(exam);
+    }
+
+    /**
+     * Checks if the exam is already registered
+     */
+    public boolean isExamPresent(Exam exam) {
+        boolean present = false;
+        if (exams.contains(exam)) {
+            present = true;
+        }
+        return present;
+    }
+
+    /**
+     * Removes the specified exam
+     * @param exam to remove from person
+     */
+    public void removeExam(Exam exam) {
+        exams.remove(exam);
+    }
+
+    /**
+     * Clears all exams
+     */
+    public void clearExams() {
+        exams.clear();
+    }
+
     public void setAccount(Account account) {
         this.account = account;
     }
 
     public void removeAccount() {
-        this.account = null;
+        account = null;
     }
 
-    public List<Assessment> getAssessments() {
-        return new ArrayList<>(assessments);
+    public Set<Assessment> getAssessments() {
+        return new HashSet<>(assessments);
+    }
+
+    /**
+     * Checks if the assessment is already added
+     */
+    public boolean isAssessmentPresent(Assessment assessment) {
+        boolean assessmentPresent = false;
+        if (assessments.contains(assessment)) {
+            assessmentPresent = true;
+        }
+        return assessmentPresent;
+    }
+
+    /**
+     * Removes the specified assessment
+     * @param assessment to remove from person
+     */
+    public void removeAssessment(Assessment assessment) {
+        assessments.remove(assessment);
     }
 
     @Override
@@ -105,6 +181,11 @@ public class Person implements ReadOnlyPerson {
     }
 
     @Override
+    public Set<Exam> getExams() {
+        return new HashSet<>(exams);
+    }
+
+    @Override
     public Set<Tag> getTags() {
         return new HashSet<>(tags);
     }
@@ -124,7 +205,7 @@ public class Person implements ReadOnlyPerson {
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, phone, email, address, tags);
+        return Objects.hash(name, phone, email, address, fees, exams, tags);
     }
 
     @Override
@@ -150,8 +231,8 @@ public class Person implements ReadOnlyPerson {
 
     /** Replaces the attendance if there is already a duplicate **/
     public boolean replaceAttendanceMethod(String date, Boolean isPresent, Boolean overWrite) {
-        boolean noDuplicateDate = !attendance.addAttendance(date, isPresent, overWrite);
-        return noDuplicateDate;
+        boolean duplicateDate = attendance.addAttendance(date, isPresent, overWrite);
+        return duplicateDate;
     }
 
     /** Method to get the attendance of a particular date **/

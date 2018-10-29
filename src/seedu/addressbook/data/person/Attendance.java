@@ -16,17 +16,13 @@ public class Attendance implements Printable {
     /** Represents a map for each person, showing which every attendance for each date*/
     public Map<String, Boolean> attendancePersonMap = new HashMap<>();
 
-    /** Represents a map for each date, showing a list of people who were present*/
-    private List<String> peoplePresent = new ArrayList<String>();
-    private Map<String, List> attendanceDateMap = new HashMap<>();
-
     /** Method to add attendance*/
     public boolean addAttendance(String date, Boolean isPresent, Boolean overWrite) {
         String inputDate = date;
         if ("0".equals(date)) {
             inputDate = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
         }
-        // If there is a duplicate date, return true
+        // return true if duplicate date
         if (attendancePersonMap.containsKey(inputDate) && overWrite) {
             attendancePersonMap.put(inputDate, isPresent);
             return true;

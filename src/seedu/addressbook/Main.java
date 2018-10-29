@@ -16,7 +16,7 @@ import seedu.addressbook.ui.Stoppable;
 public class Main extends Application implements Stoppable {
 
     /** Version info of the program. */
-    public static final String VERSION = "ClassRepo - Version 1.1";
+    private static final String VERSION = "ClassRepo - Version 1.3";
 
     public static void main(String[] args) {
         launch(args);

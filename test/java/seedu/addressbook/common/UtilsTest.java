@@ -69,4 +69,14 @@ public class UtilsTest {
     private void assertNotUnique(Object... objects) {
         assertFalse(Utils.elementsAreUnique(Arrays.asList(objects)));
     }
+
+    @Test
+    public void isValidDate() {
+        assertFalse(Utils.isValidDate("0132-2018"));
+        assertFalse(Utils.isValidDate("31-02-2018"));
+        assertFalse(Utils.isValidDate("33-02-2018"));
+        assertFalse(Utils.isValidDate("notADate"));
+        assertTrue(Utils.isValidDate("01-02-2018"));
+    }
+
 }

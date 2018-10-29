@@ -11,17 +11,6 @@ import seedu.addressbook.data.person.Exam;
  * For further testing of methods in Exam class
  */
 public class ExamTest {
-
-
-    @Test
-    public void isValidDate() {
-        assertFalse(Exam.isValidDate("0132-2018"));
-        assertFalse(Exam.isValidDate("31-02-2018"));
-        assertFalse(Exam.isValidDate("33-02-2018"));
-        assertFalse(Exam.isValidDate("notADate"));
-        assertTrue(Exam.isValidDate("01-02-2018"));
-    }
-
     @Test
     public void isValidTime() {
         assertFalse(Exam.isValidTime("0132/2018"));

@@ -25,17 +25,17 @@ import seedu.addressbook.storage.jaxb.AdaptedExamBook;
 import seedu.addressbook.storage.jaxb.AdaptedStatisticsBook;
 
 /**
- * Represents the file used to store address book data.
+ * Represents the file used to store all the data.
  */
 public class StorageFile extends Storage {
 
     /** Default file path used if the user doesn't provide the file name. */
     public static final String DEFAULT_STORAGE_FILEPATH = "addressbook.txt";
 
-    /** Default file path used if the user doesn't provide the file name. */
+    /** Default exam file path used if the user doesn't provide the file name. */
     public static final String DEFAULT_EXAMS_FILEPATH = "exams.txt";
 
-    /** Default file path used if the user doesn't provide the file name. */
+    /** Default statistics file path used if the user doesn't provide the file name. */
     public static final String DEFAULT_STATISTICS_FILEPATH = "statistics.txt";
 
     public final Path path;

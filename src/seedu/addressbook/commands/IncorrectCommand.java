@@ -1,5 +1,6 @@
 package seedu.addressbook.commands;
 
+import seedu.addressbook.commands.commandresult.CommandResult;
 
 /**
  * Represents an incorrect command. Upon execution, produces some feedback to the user.

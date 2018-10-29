@@ -13,7 +13,14 @@
     -fx-control-inner-background: black;
     -fx-font-family: "Segoe UI Semibold";
     -fx-font-size: 10pt;
-    -fx-padding: 5 5 5 5;
+}
+
+#asciiArt {
+ -fx-display: inline-block;
+ -fx-font-family: "Lucida Console", Monaco, monospace;
+ -fx-letter-spacing: -0.2em;
+ -fx-line-height: 0.8em;
+ -fx-font-size: 10pt;
 }
 
 #statusConsole {
