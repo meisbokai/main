@@ -435,7 +435,7 @@ An example of how feature 1 - `Updating a person's attendance` works:
 
 ==== Design Considerations
 
-====== Aspect: How to store attendance for each person
+===== Aspect: How to store attendance for each person
 * **Alternative 1 (Current choice):** Each person has a hashmap that stores maps the date to the attendance.
 ** Pros: Hashmaps allows more efficient checking of duplicate attendance (get() method has complexity of O(1).
 ** Cons: Values and Keys in hashmap are not sorted.
@@ -449,9 +449,28 @@ An example of how feature 1 - `Updating a person's attendance` works:
 ** Pros: Pairing of date to attendance ensures that the checking of attendance requires at most O(n) time, but minimally O(1)
 ** Cons: Usage of pairs in java will require an extra class or an external library, which is unnecessary
 
-====== Aspect: How to check if attendance has duplicate
+===== Aspect: How to check if attendance has duplicate
+* **Alternative 1 (Current choice):** Use a boolean to check if there is a duplicate date in the hashmap.
+** Pros: Booleans only have 2 value, and thus there is no need to define a string with a proper variable name
+** Cons: Booleans are fixed as true and false, thus needed additional code to translate the result into a string so that the user can understand the results easily.
 
-====== Aspect: How to differentiate between updating and replacing a person's attendance
+* **Alternative 2:** Use a separate class, 'hasDuplicate' to check for duplicate date
+** Pros: An additional class means that the code will be more encapsulated, fulfilling the purpose of OOP.
+** Cons: Additional code will be required to create the additional class
+
+===== Aspect: How to differentiate between updating and replacing a person's attendance
+* **Alternative 1 (Current choice):** Using an additional parameter (Boolean overWrite) that is fixed in the command.
+** Pros: No confusion for the user since the parameter to overwrite is fixed.
+** Pros: THere is no need to have 2 separate methods in the Attendance object as both updating and replacing of attendance has very similar functions.
+** Cons: There is a need to check for an additional parameter in the same method, which may lengthen the code and cause minor 'arrow head' coding.
+
+* **Alternative 2:** Treat the 2 commands as 2 completely separate commands and execute them individually.
+** Pros: The 2 commands will each be short, simple and easy to understand.
+** Cons: There will be 2 methods with extremely similar functions, which is redundant.
+
+* **Alternative 3:** Have the user input an additional parameter (Boolean overWrite) if they want to overwrite the current data
+** Pros: Similar to alternative 1, having the user input an additional parameter and only having 1 method in the Attendance object can reduce the need to have unnecessary duplicates in the code.
+** Cons: An additional parameter will require a change in parser.
 // end::attendance[]
 
 == Documentation
