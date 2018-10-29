@@ -38,6 +38,7 @@ import seedu.addressbook.commands.assessment.ViewGradesCommand;
 import seedu.addressbook.commands.attendance.ReplaceAttendanceCommand;
 import seedu.addressbook.commands.attendance.UpdateAttendanceCommand;
 import seedu.addressbook.commands.attendance.ViewAttendancePersonCommand;
+import seedu.addressbook.commands.attendance.ViewAttendanceDateCommand;
 import seedu.addressbook.commands.commandformat.KeywordsFormatCommand;
 import seedu.addressbook.commands.exams.AddExamCommand;
 import seedu.addressbook.commands.exams.ClearExamsCommand;
@@ -111,6 +112,9 @@ public class Parser {
             Pattern.compile("(?<targetIndex>.+)"
                     + " d/(?<date>[^/]+)"
                     + " att/(?<isPresent>[0-1])");
+
+    private static final Pattern ATTENDANCE_VIEW_DATE_FORMAT = // '/' forward slashes are reserved for delimiter prefixes
+            Pattern.compile("d/(?<date>[^/]+)");
 
     private static final Pattern EDIT_EXAM_INDEX_ARGS_FORMAT = Pattern.compile("(?<targetIndex>[^/]+)"
             + "(p/(?<isPrivate>[^/]+))?"
@@ -236,6 +240,9 @@ public class Parser {
 
         case ViewAttendancePersonCommand.COMMAND_WORD:
             return prepareViewAttendance(arguments);
+
+        case ViewAttendanceDateCommand.COMMAND_WORD:
+            return prepareViewDateAttendance(arguments);
 
         case ExamsListCommand.COMMAND_WORD:
             return new ExamsListCommand();
@@ -686,7 +693,7 @@ public class Parser {
     }
 
     /**
-     * Parses arguments in the context of the view attendance command.
+     * Parses arguments in the context of the view attendance person command.
      */
     private Command prepareViewAttendance(String args) {
         final Matcher matcher = PERSON_INDEX_ARGS_FORMAT.matcher(args.trim());
@@ -702,6 +709,32 @@ public class Parser {
         } catch (NumberFormatException nfe) { //do the most specific catch on top
             return new IncorrectCommand(nfe.getMessage());
         }
+    }
+
+    /**
+     * Parses arguments in the context of the view attendance date command.
+     */
+    // TODO to be fixed
+    private Command prepareViewDateAttendance(String args) {
+        final Matcher matcher = ATTENDANCE_VIEW_DATE_FORMAT.matcher(args.trim());
+        // Validate arg string format
+        if (!matcher.matches()) {
+            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                    ViewAttendanceDateCommand.MESSAGE_USAGE));
+        }
+        try {
+            if (!"0".equals(matcher.group("date"))) {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+                dateFormat.parse(matcher.group("date").trim());
+            }
+
+            return new ViewAttendanceDateCommand(matcher.group("date"));
+        } catch (NumberFormatException nfe) { //do the most specific catch on top
+            return new IncorrectCommand(nfe.getMessage());
+        } catch (java.text.ParseException pe) {
+            return new IncorrectCommand(String.format(MESSAGE_INVALID_DATE,
+                UpdateAttendanceCommand.MESSAGE_USAGE));
+    }
     }
 
     /**
