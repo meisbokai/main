@@ -414,7 +414,8 @@ An Example of how feature 2 - `Adding a new assessment to the AddressBook` works
   grades to a particular student.
 // end::Grades[]
 
-// tag::Attendance[]
+// tag::attendance[]
+[[attendance]]
 === Attendance Feature
 
 ==== Current Implementation
@@ -437,7 +438,7 @@ An example of how feature 1 - `Updating a person's attendance` works:
 ====== Aspect: How to store attendance for each person
 * **Alternative 1 (Current choice):** Each person has a hashmap that stores maps the date to the attendance.
 ** Pros: Hashmaps allows more efficient checking of duplicate attendance (get() method has complexity of O(1).
-** Cons:
+** Cons: Values and Keys in hashmap are not sorted.
 
 * **Alternative 2:** Each person has a list of string containing the date and attendance.
 ** Pros: A list of strings will allow easier storage and viewing of the data
@@ -450,8 +451,8 @@ An example of how feature 1 - `Updating a person's attendance` works:
 
 ====== Aspect: How to check if attendance has duplicate
 
-
 ====== Aspect: How to differentiate between updating and replacing a person's attendance
+// end::attendance[]
 
 == Documentation
 
