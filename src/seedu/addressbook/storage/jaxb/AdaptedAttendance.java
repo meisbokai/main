@@ -33,7 +33,7 @@ public class AdaptedAttendance {
      * @param source future changes to this will not affect the created AdaptedTag
      */
     public AdaptedAttendance(Attendance source) {
-        for (Map.Entry entry: source.attendancePersonMap.entrySet()) {
+        for (Map.Entry entry: source.getAttendancePersonMap().entrySet()) {
             if (entry.getValue().equals(true)) {
                 attendanceIsPresent.add("Present");
             } else {
@@ -41,7 +41,7 @@ public class AdaptedAttendance {
             }
         }
 
-        attendanceDate = new ArrayList<>(source.attendancePersonMap.keySet());
+        attendanceDate = new ArrayList<>(source.getAttendancePersonMap().keySet());
     }
 
     /**
