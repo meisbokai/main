@@ -12,7 +12,7 @@ import java.util.Map;
 public class Attendance implements Printable {
 
     /** Represents a map for each person, showing which every attendance for each date*/
-    public Map<String, Boolean> attendancePersonMap = new HashMap<>();
+    private Map<String, Boolean> attendancePersonMap = new HashMap<>();
 
     /** Method to add attendance*/
     public boolean addAttendance(String date, Boolean isPresent, Boolean overWrite) {
@@ -57,6 +57,11 @@ public class Attendance implements Printable {
             lookForDate = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
         }
         return attendancePersonMap.get(lookForDate);
+    }
+
+    /** Accessor Method **/
+    public Map<String, Boolean> getAttendancePersonMap() {
+        return this.attendancePersonMap;
     }
 
     @Override
