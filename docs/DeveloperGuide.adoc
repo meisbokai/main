@@ -468,6 +468,7 @@ image::Assessment_Aspect_Example.png[width="800"]
 // tag::attendance[]
 [[attendance]]
 === Attendance Feature
+// TODO UML to be added here
 
 ==== Current Implementation
 The AddressBook contains the attendance of each person for each date that his/her attendance is taken. The current set of commands include:
@@ -475,6 +476,7 @@ The AddressBook contains the attendance of each person for each date that his/he
 . `Updating a person's attendance`
 . `Replacing a person's attendance`
 . `Viewing of a person's attendance`
+. `Viewing of present people on a particular date`
 
 An example of how feature 1 - `Updating a person's attendance` works:
 
