@@ -1,10 +1,5 @@
 package seedu.addressbook.privilege.user;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-
 import seedu.addressbook.commands.Command;
 import seedu.addressbook.commands.ViewExamsCommand;
 import seedu.addressbook.commands.account.ListAccountCommand;
@@ -18,6 +13,11 @@ import seedu.addressbook.commands.person.ViewCommand;
 import seedu.addressbook.commands.person.ViewSelfCommand;
 import seedu.addressbook.commands.privilege.RaisePrivilegeCommand;
 import seedu.addressbook.commands.privilege.ViewPrivilegeCommand;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * Represents a user with Basic access

@@ -1,12 +1,12 @@
 package seedu.addressbook.commands.account;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import seedu.addressbook.commands.Command;
 import seedu.addressbook.commands.commandresult.CommandResult;
 import seedu.addressbook.data.person.ReadOnlyPerson;
 import seedu.addressbook.formatter.PersonListFormat;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Lists all persons in the address book to the user.

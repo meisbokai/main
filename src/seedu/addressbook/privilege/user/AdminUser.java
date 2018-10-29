@@ -1,8 +1,5 @@
 package seedu.addressbook.privilege.user;
 
-import java.util.Arrays;
-import java.util.List;
-
 import seedu.addressbook.commands.Command;
 import seedu.addressbook.commands.account.AddAccountCommand;
 import seedu.addressbook.commands.account.DeleteAccountCommand;
@@ -12,6 +9,9 @@ import seedu.addressbook.commands.person.ClearCommand;
 import seedu.addressbook.commands.person.DeleteCommand;
 import seedu.addressbook.commands.privilege.EditPasswordCommand;
 import seedu.addressbook.commands.privilege.SetPermanentAdminCommand;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Represents a user with Admin access

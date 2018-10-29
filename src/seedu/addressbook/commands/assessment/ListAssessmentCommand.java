@@ -1,11 +1,11 @@
 package seedu.addressbook.commands.assessment;
 
-import java.util.List;
-
 import seedu.addressbook.commands.Command;
 import seedu.addressbook.commands.commandresult.CommandResult;
 import seedu.addressbook.commands.commandresult.ListType;
 import seedu.addressbook.data.person.Assessment;
+
+import java.util.List;
 
 /**
  * Lists all assessments in the address book to the user.

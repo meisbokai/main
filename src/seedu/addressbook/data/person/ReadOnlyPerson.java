@@ -1,8 +1,5 @@
 package seedu.addressbook.data.person;
 
-import java.util.Optional;
-import java.util.Set;
-
 import seedu.addressbook.data.account.Account;
 import seedu.addressbook.data.person.details.Address;
 import seedu.addressbook.data.person.details.Email;
@@ -10,6 +7,9 @@ import seedu.addressbook.data.person.details.Name;
 import seedu.addressbook.data.person.details.Phone;
 import seedu.addressbook.data.tag.Tag;
 import seedu.addressbook.formatter.Formatter;
+
+import java.util.Optional;
+import java.util.Set;
 
 /**
  * A read-only immutable interface for a Person in the addressbook.

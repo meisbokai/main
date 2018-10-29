@@ -1,8 +1,5 @@
 package seedu.addressbook.data;
 
-import java.util.List;
-import java.util.Optional;
-
 import seedu.addressbook.data.person.Assessment;
 import seedu.addressbook.data.person.Exam;
 import seedu.addressbook.data.person.Person;
@@ -13,6 +10,9 @@ import seedu.addressbook.data.person.UniqueAssessmentsList.DuplicateAssessmentEx
 import seedu.addressbook.data.person.UniquePersonList;
 import seedu.addressbook.data.person.UniquePersonList.DuplicatePersonException;
 import seedu.addressbook.data.person.UniquePersonList.PersonNotFoundException;
+
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Represents the entire address book. Contains the data of the address book.

@@ -1,11 +1,10 @@
 package seedu.addressbook.storage.jaxb;
 
-import javax.xml.bind.annotation.XmlValue;
-
 import seedu.addressbook.common.Utils;
 import seedu.addressbook.data.exception.IllegalValueException;
 import seedu.addressbook.data.person.Attendance;
 
+import javax.xml.bind.annotation.XmlValue;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -33,7 +32,7 @@ public class AdaptedAttendance {
      * @param source future changes to this will not affect the created AdaptedTag
      */
     public AdaptedAttendance(Attendance source) {
-        for(Map.Entry entry: source.attendancePersonMap.entrySet()) {
+        for (Map.Entry entry: source.attendancePersonMap.entrySet())  {
             if (entry.getValue().equals(true)){
                 attendanceIsPresent.add("Present");
             } else {
@@ -64,4 +63,5 @@ public class AdaptedAttendance {
 //    public Attendance toModelType() throws IllegalValueException {
 //        return new Attendance(attendanceDate, attendanceIsPresent);
 //    }
+
 }

@@ -1,19 +1,18 @@
 package seedu.addressbook;
 
-import static org.junit.Assert.assertEquals;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import org.junit.Test;
-
 import seedu.addressbook.common.Pair;
 import seedu.addressbook.data.account.Account;
 import seedu.addressbook.data.person.Exam;
 import seedu.addressbook.data.person.Person;
 import seedu.addressbook.formatter.Formatter;
 import seedu.addressbook.formatter.PersonListFormat;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 
 public class FormatterTest {
     /** A platform independent line separator. */

@@ -1,10 +1,10 @@
 package seedu.addressbook.data.person;
 
+import seedu.addressbook.data.exception.IllegalValueException;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-
-import seedu.addressbook.data.exception.IllegalValueException;
 
 /**
  * Represents an assessment of the student

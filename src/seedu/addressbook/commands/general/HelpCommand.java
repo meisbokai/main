@@ -1,11 +1,11 @@
 package seedu.addressbook.commands.general;
 
+import seedu.addressbook.commands.Command;
+import seedu.addressbook.commands.commandresult.CommandResult;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-
-import seedu.addressbook.commands.Command;
-import seedu.addressbook.commands.commandresult.CommandResult;
 
 /**
  * Shows help instructions.

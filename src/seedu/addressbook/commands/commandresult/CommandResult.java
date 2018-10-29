@@ -1,15 +1,15 @@
 package seedu.addressbook.commands.commandresult;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
 import seedu.addressbook.data.person.Assessment;
 import seedu.addressbook.data.person.AssignmentStatistics;
 import seedu.addressbook.data.person.Exam;
 import seedu.addressbook.data.person.ReadOnlyExam;
 import seedu.addressbook.data.person.ReadOnlyPerson;
 import seedu.addressbook.formatter.PersonListFormat;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Represents the result of a command execution.

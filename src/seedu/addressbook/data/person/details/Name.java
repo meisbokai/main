@@ -1,10 +1,10 @@
 package seedu.addressbook.data.person.details;
 
-import java.util.Arrays;
-import java.util.List;
-
 import seedu.addressbook.data.exception.IllegalValueException;
 import seedu.addressbook.data.person.Printable;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Represents a Person's name in the address book.

@@ -1,23 +1,5 @@
 package seedu.addressbook.parser;
 
-import static java.lang.Integer.parseInt;
-import static seedu.addressbook.common.Messages.MESSAGE_COMMAND_NOT_FOUND;
-import static seedu.addressbook.common.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.addressbook.common.Messages.MESSAGE_INVALID_DATE;
-import static seedu.addressbook.common.Messages.MESSAGE_WRONG_NUMBER_ARGUMENTS;
-
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import seedu.addressbook.commands.Command;
 import seedu.addressbook.commands.DeregisterExamCommand;
 import seedu.addressbook.commands.IncorrectCommand;
@@ -37,8 +19,8 @@ import seedu.addressbook.commands.assessment.ListAssessmentCommand;
 import seedu.addressbook.commands.assessment.ViewGradesCommand;
 import seedu.addressbook.commands.attendance.ReplaceAttendanceCommand;
 import seedu.addressbook.commands.attendance.UpdateAttendanceCommand;
-import seedu.addressbook.commands.attendance.ViewAttendancePersonCommand;
 import seedu.addressbook.commands.attendance.ViewAttendanceDateCommand;
+import seedu.addressbook.commands.attendance.ViewAttendancePersonCommand;
 import seedu.addressbook.commands.commandformat.KeywordsFormatCommand;
 import seedu.addressbook.commands.exams.AddExamCommand;
 import seedu.addressbook.commands.exams.ClearExamsCommand;
@@ -64,6 +46,24 @@ import seedu.addressbook.commands.privilege.RaisePrivilegeCommand;
 import seedu.addressbook.commands.privilege.SetPermanentAdminCommand;
 import seedu.addressbook.commands.privilege.ViewPrivilegeCommand;
 import seedu.addressbook.data.exception.IllegalValueException;
+
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import static java.lang.Integer.parseInt;
+import static seedu.addressbook.common.Messages.MESSAGE_COMMAND_NOT_FOUND;
+import static seedu.addressbook.common.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.addressbook.common.Messages.MESSAGE_INVALID_DATE;
+import static seedu.addressbook.common.Messages.MESSAGE_WRONG_NUMBER_ARGUMENTS;
 
 /**
  * Parses user input.

@@ -1,8 +1,8 @@
 package seedu.addressbook.privilege.user;
 
-import java.util.List;
-
 import seedu.addressbook.commands.Command;
+
+import java.util.List;
 
 /**
  This interface describes who the current user is

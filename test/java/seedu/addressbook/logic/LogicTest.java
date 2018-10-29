@@ -1,29 +1,11 @@
 package seedu.addressbook.logic;
 
-import static junit.framework.TestCase.assertEquals;
-import static seedu.addressbook.common.Messages.MESSAGE_COMMAND_NOT_FOUND;
-import static seedu.addressbook.common.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.addressbook.common.Messages.MESSAGE_INVALID_DATE;
-import static seedu.addressbook.common.Messages.MESSAGE_PERSON_NOT_IN_ADDRESSBOOK;
-import static seedu.addressbook.common.Messages.MESSAGE_WRONG_NUMBER_ARGUMENTS;
-import static seedu.addressbook.logic.CommandAssertions.assertCommandBehavior;
-import static seedu.addressbook.logic.CommandAssertions.assertInvalidIndexBehaviorForCommand;
-import static seedu.addressbook.logic.CommandAssertions.assertInvalidIndexBehaviorForExamCommand;
-
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
-
 import seedu.addressbook.TestDataHelper;
 import seedu.addressbook.commands.Command;
-import seedu.addressbook.commands.attendance.ViewAttendancePersonCommand;
 import seedu.addressbook.commands.DeregisterExamCommand;
 import seedu.addressbook.commands.RegisterExamCommand;
 import seedu.addressbook.commands.ViewExamsCommand;
@@ -33,6 +15,7 @@ import seedu.addressbook.commands.assessment.AddAssessmentCommand;
 import seedu.addressbook.commands.assessment.AddAssignmentStatistics;
 import seedu.addressbook.commands.attendance.ReplaceAttendanceCommand;
 import seedu.addressbook.commands.attendance.UpdateAttendanceCommand;
+import seedu.addressbook.commands.attendance.ViewAttendancePersonCommand;
 import seedu.addressbook.commands.commandresult.MessageType;
 import seedu.addressbook.commands.exams.AddExamCommand;
 import seedu.addressbook.commands.exams.ClearExamsCommand;
@@ -72,6 +55,22 @@ import seedu.addressbook.privilege.Privilege;
 import seedu.addressbook.privilege.user.AdminUser;
 import seedu.addressbook.storage.StorageFile;
 import seedu.addressbook.stubs.StorageStub;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+
+import static junit.framework.TestCase.assertEquals;
+import static seedu.addressbook.common.Messages.MESSAGE_COMMAND_NOT_FOUND;
+import static seedu.addressbook.common.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.addressbook.common.Messages.MESSAGE_INVALID_DATE;
+import static seedu.addressbook.common.Messages.MESSAGE_PERSON_NOT_IN_ADDRESSBOOK;
+import static seedu.addressbook.common.Messages.MESSAGE_WRONG_NUMBER_ARGUMENTS;
+import static seedu.addressbook.logic.CommandAssertions.assertCommandBehavior;
+import static seedu.addressbook.logic.CommandAssertions.assertInvalidIndexBehaviorForCommand;
+import static seedu.addressbook.logic.CommandAssertions.assertInvalidIndexBehaviorForExamCommand;
 
 public class LogicTest {
 

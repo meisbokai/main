@@ -1,20 +1,9 @@
 package seedu.addressbook.logic;
 
-import static junit.framework.TestCase.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static seedu.addressbook.common.Messages.MESSAGE_INSUFFICIENT_PRIVILEGE;
-import static seedu.addressbook.common.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.addressbook.common.Messages.MESSAGE_WRONG_NUMBER_ARGUMENTS;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
-
 import seedu.addressbook.TestDataHelper;
 import seedu.addressbook.commands.Command;
 import seedu.addressbook.commands.commandresult.MessageType;
@@ -33,6 +22,16 @@ import seedu.addressbook.privilege.user.BasicUser;
 import seedu.addressbook.privilege.user.User;
 import seedu.addressbook.storage.StorageFile;
 import seedu.addressbook.stubs.StorageStub;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static junit.framework.TestCase.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static seedu.addressbook.common.Messages.MESSAGE_INSUFFICIENT_PRIVILEGE;
+import static seedu.addressbook.common.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.addressbook.common.Messages.MESSAGE_WRONG_NUMBER_ARGUMENTS;
 
 public class PrivilegeTest {
     /**

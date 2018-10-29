@@ -1,15 +1,5 @@
 package seedu.addressbook.storage.jaxb;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlValue;
-
 import seedu.addressbook.common.Utils;
 import seedu.addressbook.data.account.Account;
 import seedu.addressbook.data.exception.IllegalValueException;
@@ -22,6 +12,15 @@ import seedu.addressbook.data.person.details.Email;
 import seedu.addressbook.data.person.details.Name;
 import seedu.addressbook.data.person.details.Phone;
 import seedu.addressbook.data.tag.Tag;
+
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlValue;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 
 /**
@@ -45,6 +44,7 @@ public class AdaptedPerson {
 
     @XmlElement
     private List<AdaptedExam> exams = new ArrayList<>();
+
     @XmlElement
     private List<AdaptedTag> tagged = new ArrayList<>();
 

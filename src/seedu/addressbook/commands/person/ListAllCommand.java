@@ -1,11 +1,11 @@
 package seedu.addressbook.commands.person;
 
-import java.util.List;
-
 import seedu.addressbook.commands.Command;
 import seedu.addressbook.commands.commandresult.CommandResult;
 import seedu.addressbook.data.person.ReadOnlyPerson;
 import seedu.addressbook.formatter.PersonListFormat;
+
+import java.util.List;
 
 /**
  * Lists all persons in the address book to the user.

@@ -1,9 +1,5 @@
 package seedu.addressbook.commands.person;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import seedu.addressbook.commands.Command;
 import seedu.addressbook.commands.commandresult.CommandResult;
 import seedu.addressbook.data.exception.IllegalValueException;
@@ -15,6 +11,10 @@ import seedu.addressbook.data.person.details.Email;
 import seedu.addressbook.data.person.details.Name;
 import seedu.addressbook.data.person.details.Phone;
 import seedu.addressbook.data.tag.Tag;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Adds a person to the address book.

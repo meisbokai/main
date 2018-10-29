@@ -1,9 +1,9 @@
 package seedu.addressbook.commands.account;
 
-import static seedu.addressbook.common.Messages.MESSAGE_NOT_LOGGED_IN;
-
 import seedu.addressbook.commands.Command;
 import seedu.addressbook.commands.commandresult.CommandResult;
+
+import static seedu.addressbook.common.Messages.MESSAGE_NOT_LOGGED_IN;
 
 /**
  * Logs out of your account.

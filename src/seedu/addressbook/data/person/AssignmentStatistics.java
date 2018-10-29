@@ -1,8 +1,8 @@
 package seedu.addressbook.data.person;
 
-import java.util.Objects;
-
 import seedu.addressbook.data.exception.IllegalValueException;
+
+import java.util.Objects;
 /**
  * Represents a exam in the exam book.
  */

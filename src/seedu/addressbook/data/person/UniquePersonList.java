@@ -1,15 +1,15 @@
 package seedu.addressbook.data.person;
 
+import seedu.addressbook.common.Utils;
+import seedu.addressbook.data.exception.DuplicateDataException;
+import seedu.addressbook.data.person.details.Name;
+import seedu.addressbook.formatter.Formatter;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-
-import seedu.addressbook.common.Utils;
-import seedu.addressbook.data.exception.DuplicateDataException;
-import seedu.addressbook.data.person.details.Name;
-import seedu.addressbook.formatter.Formatter;
 
 /**
  * A list of persons. Does not allow null elements or duplicates.

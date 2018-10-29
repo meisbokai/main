@@ -1,14 +1,14 @@
 package seedu.addressbook.commands.person;
 
+import seedu.addressbook.commands.Command;
+import seedu.addressbook.commands.commandresult.CommandResult;
+import seedu.addressbook.data.person.ReadOnlyPerson;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import seedu.addressbook.commands.Command;
-import seedu.addressbook.commands.commandresult.CommandResult;
-import seedu.addressbook.data.person.ReadOnlyPerson;
 
 /**
  * Finds and lists all persons in address book whose name contains any of the argument keywords.
