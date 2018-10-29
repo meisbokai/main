@@ -23,23 +23,7 @@ import org.junit.rules.TemporaryFolder;
 
 import seedu.addressbook.TestDataHelper;
 import seedu.addressbook.commands.Command;
-<<<<<<< HEAD
-import seedu.addressbook.commands.CommandResult;
-import seedu.addressbook.commands.DeleteCommand;
-import seedu.addressbook.commands.DeleteExamCommand;
-import seedu.addressbook.commands.EditExamCommand;
-import seedu.addressbook.commands.EditPasswordCommand;
-import seedu.addressbook.commands.ExitCommand;
-import seedu.addressbook.commands.FindCommand;
-import seedu.addressbook.commands.HelpCommand;
-import seedu.addressbook.commands.ReplaceAttendanceCommand;
-import seedu.addressbook.commands.UpdateAttendanceCommand;
-import seedu.addressbook.commands.ViewAllCommand;
 import seedu.addressbook.commands.attendance.ViewAttendancePersonCommand;
-import seedu.addressbook.commands.ViewCommand;
-import seedu.addressbook.commands.ViewFeesCommand;
-import seedu.addressbook.commands.ViewSelfCommand;
-=======
 import seedu.addressbook.commands.DeregisterExamCommand;
 import seedu.addressbook.commands.RegisterExamCommand;
 import seedu.addressbook.commands.ViewExamsCommand;
@@ -67,7 +51,6 @@ import seedu.addressbook.commands.person.ViewAllCommand;
 import seedu.addressbook.commands.person.ViewCommand;
 import seedu.addressbook.commands.person.ViewSelfCommand;
 import seedu.addressbook.commands.privilege.EditPasswordCommand;
->>>>>>> a8b2d85dfc5ba3c76a4b48bb2073ea41309e9a8e
 import seedu.addressbook.common.Messages;
 import seedu.addressbook.common.Pair;
 import seedu.addressbook.data.AddressBook;
@@ -1043,7 +1026,7 @@ public class LogicTest {
     @Test
     public void executeViewAttendanceInvalidArgsFormat() throws Exception {
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, ViewAttendancePersonCommand.MESSAGE_USAGE);
-        assertCommandBehavior("viewAtten ", expectedMessage);
+        assertCommandBehavior("viewAttenPerson ", expectedMessage);
     }
 
     @Test
@@ -1061,7 +1044,7 @@ public class LogicTest {
         helper.addToAddressBook(addressBook, personListExpected);
         logic.setLastShownList(personList);
 
-        assertCommandBehavior("viewAtten 1",
+        assertCommandBehavior("viewAttenPerson 1",
                 ViewAttendancePersonCommand.MESSAGE_SUCCESS + p1Expected.getName()
                                + ":\n" + p1Expected.viewAttendanceMethod(),
                 expectedBook,
@@ -1083,7 +1066,7 @@ public class LogicTest {
         helper.addToAddressBook(addressBook, personList);
         logic.setLastShownList(personList);
 
-        assertCommandBehavior("viewAtten 1",
+        assertCommandBehavior("viewAttenPerson 1",
                 ViewAttendancePersonCommand.MESSAGE_SUCCESS + p1Expected.getName()
                         + ":\n" + p1Expected.viewAttendanceMethod(),
                 expectedBook,
