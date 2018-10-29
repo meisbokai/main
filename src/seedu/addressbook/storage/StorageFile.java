@@ -1,17 +1,5 @@
 package seedu.addressbook.storage;
 
-import seedu.addressbook.data.AddressBook;
-import seedu.addressbook.data.ExamBook;
-import seedu.addressbook.data.StatisticsBook;
-import seedu.addressbook.data.exception.IllegalValueException;
-import seedu.addressbook.storage.jaxb.AdaptedAddressBook;
-import seedu.addressbook.storage.jaxb.AdaptedExamBook;
-import seedu.addressbook.storage.jaxb.AdaptedStatisticsBook;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
@@ -22,6 +10,19 @@ import java.io.Reader;
 import java.io.Writer;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+
+import seedu.addressbook.data.AddressBook;
+import seedu.addressbook.data.ExamBook;
+import seedu.addressbook.data.StatisticsBook;
+import seedu.addressbook.data.exception.IllegalValueException;
+import seedu.addressbook.storage.jaxb.AdaptedAddressBook;
+import seedu.addressbook.storage.jaxb.AdaptedExamBook;
+import seedu.addressbook.storage.jaxb.AdaptedStatisticsBook;
 
 /**
  * Represents the file used to store all the data.

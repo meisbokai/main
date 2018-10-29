@@ -1,5 +1,16 @@
 package seedu.addressbook.ui;
 
+import static seedu.addressbook.common.Messages.MESSAGE_PROGRAM_LAUNCH_ARGS_USAGE;
+import static seedu.addressbook.common.Messages.MESSAGE_USING_EXAMS_FILE;
+import static seedu.addressbook.common.Messages.MESSAGE_USING_STATISTICS_FILE;
+import static seedu.addressbook.common.Messages.MESSAGE_USING_STORAGE_FILE;
+import static seedu.addressbook.common.Messages.MESSAGE_WELCOME_ASCII_ART;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
@@ -12,17 +23,6 @@ import seedu.addressbook.data.person.ReadOnlyPerson;
 import seedu.addressbook.formatter.Formatter;
 import seedu.addressbook.formatter.PersonListFormat;
 import seedu.addressbook.logic.Logic;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.Timer;
-import java.util.TimerTask;
-
-import static seedu.addressbook.common.Messages.MESSAGE_PROGRAM_LAUNCH_ARGS_USAGE;
-import static seedu.addressbook.common.Messages.MESSAGE_USING_EXAMS_FILE;
-import static seedu.addressbook.common.Messages.MESSAGE_USING_STATISTICS_FILE;
-import static seedu.addressbook.common.Messages.MESSAGE_USING_STORAGE_FILE;
-import static seedu.addressbook.common.Messages.MESSAGE_WELCOME_ASCII_ART;
 
 /**
  * Main Window of the GUI.

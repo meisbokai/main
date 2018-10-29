@@ -1,11 +1,11 @@
 package seedu.addressbook.commands.attendance;
 
+import java.util.List;
+
 import seedu.addressbook.commands.Command;
 import seedu.addressbook.commands.commandresult.CommandResult;
 import seedu.addressbook.common.Messages;
 import seedu.addressbook.data.person.details.Name;
-
-import java.util.List;
 
 /**
  *  Lists down the people who were present on the particular date.

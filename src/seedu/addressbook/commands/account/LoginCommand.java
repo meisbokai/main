@@ -1,13 +1,13 @@
 package seedu.addressbook.commands.account;
 
+import static seedu.addressbook.common.Messages.MESSAGE_PERSON_NOT_IN_ADDRESSBOOK;
+
 import seedu.addressbook.commands.commandformat.KeywordsFormatCommand;
 import seedu.addressbook.commands.commandresult.CommandResult;
 import seedu.addressbook.data.account.Account;
 import seedu.addressbook.data.person.Person;
 import seedu.addressbook.data.person.UniquePersonList;
 import seedu.addressbook.logic.Logic;
-
-import static seedu.addressbook.common.Messages.MESSAGE_PERSON_NOT_IN_ADDRESSBOOK;
 
 /**
  * Changes the master password to a new one.

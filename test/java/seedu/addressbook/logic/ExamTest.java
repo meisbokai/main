@@ -1,10 +1,11 @@
 package seedu.addressbook.logic;
 
-import org.junit.Test;
-import seedu.addressbook.data.person.Exam;
-
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+
+import org.junit.Test;
+
+import seedu.addressbook.data.person.Exam;
 
 /**
  * For further testing of methods in Exam class

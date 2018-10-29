@@ -1,14 +1,14 @@
 package seedu.addressbook;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.stage.Stage;
 import seedu.addressbook.logic.Logic;
 import seedu.addressbook.ui.Gui;
 import seedu.addressbook.ui.Stoppable;
-
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *  Main entry point to the application.

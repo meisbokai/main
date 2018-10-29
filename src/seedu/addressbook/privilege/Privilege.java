@@ -1,5 +1,8 @@
 package seedu.addressbook.privilege;
 
+import java.util.List;
+import java.util.Optional;
+
 import seedu.addressbook.commands.Command;
 import seedu.addressbook.data.exception.IllegalValueException;
 import seedu.addressbook.data.person.Person;
@@ -8,9 +11,6 @@ import seedu.addressbook.privilege.user.AdminUser;
 import seedu.addressbook.privilege.user.BasicUser;
 import seedu.addressbook.privilege.user.TutorUser;
 import seedu.addressbook.privilege.user.User;
-
-import java.util.List;
-import java.util.Optional;
 
 /** Represents the privilege level of the user */
 public class Privilege {

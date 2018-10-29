@@ -1,14 +1,14 @@
 package seedu.addressbook.ui;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import seedu.addressbook.Main;
 import seedu.addressbook.logic.Logic;
-
-import java.io.IOException;
-import java.io.InputStream;
 
 /**
  * The GUI of the App

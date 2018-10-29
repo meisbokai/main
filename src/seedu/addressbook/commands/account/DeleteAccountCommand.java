@@ -1,5 +1,7 @@
 package seedu.addressbook.commands.account;
 
+import java.util.List;
+
 import seedu.addressbook.commands.Command;
 import seedu.addressbook.commands.commandresult.CommandResult;
 import seedu.addressbook.common.Messages;
@@ -7,8 +9,6 @@ import seedu.addressbook.data.person.Person;
 import seedu.addressbook.data.person.ReadOnlyPerson;
 import seedu.addressbook.data.person.UniquePersonList.PersonNotFoundException;
 import seedu.addressbook.privilege.Privilege.SelfTargetingException;
-
-import java.util.List;
 
 /**
  * Deletes the account of a person identified using it's last displayed index from the address book.

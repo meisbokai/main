@@ -1,12 +1,12 @@
 package seedu.addressbook.formatter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import seedu.addressbook.data.person.Assessment;
 import seedu.addressbook.data.person.Printable;
 import seedu.addressbook.data.person.ReadOnlyExam;
 import seedu.addressbook.data.person.ReadOnlyPerson;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Used for formatting text for display. e.g. for adding text decorations.

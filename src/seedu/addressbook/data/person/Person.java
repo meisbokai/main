@@ -1,16 +1,16 @@
 package seedu.addressbook.data.person;
 
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
+
 import seedu.addressbook.data.account.Account;
 import seedu.addressbook.data.person.details.Address;
 import seedu.addressbook.data.person.details.Email;
 import seedu.addressbook.data.person.details.Name;
 import seedu.addressbook.data.person.details.Phone;
 import seedu.addressbook.data.tag.Tag;
-
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
 
 /**
  * Represents a Person in the address book.

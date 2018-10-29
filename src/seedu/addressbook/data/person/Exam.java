@@ -1,13 +1,13 @@
 package seedu.addressbook.data.person;
 
-import seedu.addressbook.data.exception.IllegalValueException;
+import static seedu.addressbook.common.Utils.isValidDate;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Objects;
 
-import static seedu.addressbook.common.Utils.isValidDate;
+import seedu.addressbook.data.exception.IllegalValueException;
 
 /**
  * Represents a exam in the exam book.

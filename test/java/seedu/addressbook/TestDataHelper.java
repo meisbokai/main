@@ -1,18 +1,6 @@
 package seedu.addressbook;
 
-import seedu.addressbook.data.AddressBook;
-import seedu.addressbook.data.ExamBook;
-import seedu.addressbook.data.account.Account;
-import seedu.addressbook.data.person.Assessment;
-import seedu.addressbook.data.person.AssignmentStatistics;
-import seedu.addressbook.data.person.Exam;
-import seedu.addressbook.data.person.Fees;
-import seedu.addressbook.data.person.Person;
-import seedu.addressbook.data.person.details.Address;
-import seedu.addressbook.data.person.details.Email;
-import seedu.addressbook.data.person.details.Name;
-import seedu.addressbook.data.person.details.Phone;
-import seedu.addressbook.data.tag.Tag;
+import static seedu.addressbook.ui.Gui.DISPLAYED_INDEX_OFFSET;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -26,7 +14,19 @@ import java.util.Random;
 import java.util.Set;
 import java.util.StringJoiner;
 
-import static seedu.addressbook.ui.Gui.DISPLAYED_INDEX_OFFSET;
+import seedu.addressbook.data.AddressBook;
+import seedu.addressbook.data.ExamBook;
+import seedu.addressbook.data.account.Account;
+import seedu.addressbook.data.person.Assessment;
+import seedu.addressbook.data.person.AssignmentStatistics;
+import seedu.addressbook.data.person.Exam;
+import seedu.addressbook.data.person.Fees;
+import seedu.addressbook.data.person.Person;
+import seedu.addressbook.data.person.details.Address;
+import seedu.addressbook.data.person.details.Email;
+import seedu.addressbook.data.person.details.Name;
+import seedu.addressbook.data.person.details.Phone;
+import seedu.addressbook.data.tag.Tag;
 
 /**
  * A utility class to generate test data.

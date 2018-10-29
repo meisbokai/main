@@ -1,5 +1,8 @@
 package seedu.addressbook.commands.person;
 
+import java.util.List;
+import java.util.Set;
+
 import seedu.addressbook.commands.Command;
 import seedu.addressbook.commands.commandresult.CommandResult;
 import seedu.addressbook.common.Messages;
@@ -8,9 +11,6 @@ import seedu.addressbook.data.person.ReadOnlyPerson;
 import seedu.addressbook.data.person.UniqueExamList;
 import seedu.addressbook.data.person.UniquePersonList.PersonNotFoundException;
 import seedu.addressbook.privilege.Privilege;
-
-import java.util.List;
-import java.util.Set;
 
 /**
  * Deletes a person identified using its last displayed index from the address book.

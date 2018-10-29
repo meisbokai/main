@@ -1,14 +1,15 @@
 package seedu.addressbook.storage.jaxb;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import seedu.addressbook.data.StatisticsBook;
 import seedu.addressbook.data.exception.IllegalValueException;
 import seedu.addressbook.data.person.AssignmentStatistics;
 import seedu.addressbook.data.person.UniqueStatisticsList;
-
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import java.util.ArrayList;
-import java.util.List;
 
 
 /**

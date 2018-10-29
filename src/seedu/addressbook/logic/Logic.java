@@ -1,5 +1,11 @@
 package seedu.addressbook.logic;
 
+import static seedu.addressbook.common.Messages.MESSAGE_INSUFFICIENT_PRIVILEGE;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+
 import seedu.addressbook.commands.Command;
 import seedu.addressbook.commands.IncorrectCommand;
 import seedu.addressbook.commands.commandresult.CommandResult;
@@ -15,12 +21,6 @@ import seedu.addressbook.storage.Storage;
 import seedu.addressbook.storage.StorageFile;
 import seedu.addressbook.storage.StorageFile.InvalidInitialisationException;
 import seedu.addressbook.storage.StorageFile.InvalidStorageFilePathException;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-
-import static seedu.addressbook.common.Messages.MESSAGE_INSUFFICIENT_PRIVILEGE;
 
 /**
  * Represents the main Logic of the AddressBook.

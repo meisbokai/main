@@ -1,5 +1,11 @@
 package seedu.addressbook.logic;
 
+import static junit.framework.TestCase.assertEquals;
+import static seedu.addressbook.common.Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX;
+
+import java.util.Collections;
+import java.util.List;
+
 import seedu.addressbook.TestDataHelper;
 import seedu.addressbook.commands.commandresult.CommandResult;
 import seedu.addressbook.commands.commandresult.MessageType;
@@ -12,12 +18,6 @@ import seedu.addressbook.data.person.Person;
 import seedu.addressbook.data.person.ReadOnlyExam;
 import seedu.addressbook.data.person.ReadOnlyPerson;
 import seedu.addressbook.storage.StorageFile;
-
-import java.util.Collections;
-import java.util.List;
-
-import static junit.framework.TestCase.assertEquals;
-import static seedu.addressbook.common.Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX;
 
 /**
  * This class holds the commonly used assertions of commands.

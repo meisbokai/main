@@ -1,9 +1,22 @@
 package seedu.addressbook.storage;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static seedu.addressbook.util.TestUtil.assertTextFilesEqual;
+
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.rules.TemporaryFolder;
+
 import seedu.addressbook.common.Pair;
 import seedu.addressbook.data.AddressBook;
 import seedu.addressbook.data.ExamBook;
@@ -19,18 +32,6 @@ import seedu.addressbook.data.person.details.Name;
 import seedu.addressbook.data.person.details.Phone;
 import seedu.addressbook.data.tag.Tag;
 import seedu.addressbook.storage.Storage.StorageOperationException;
-
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static seedu.addressbook.util.TestUtil.assertTextFilesEqual;
 
 public class StorageFileTest {
     private static final String TEST_DATA_FOLDER = "test/data/StorageFileTest";

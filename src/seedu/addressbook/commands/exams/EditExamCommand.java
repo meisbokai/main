@@ -1,5 +1,7 @@
 package seedu.addressbook.commands.exams;
 
+import java.util.Map;
+
 import seedu.addressbook.commands.Command;
 import seedu.addressbook.commands.commandresult.CommandResult;
 import seedu.addressbook.common.Messages;
@@ -8,8 +10,6 @@ import seedu.addressbook.data.person.Exam;
 import seedu.addressbook.data.person.ReadOnlyExam;
 import seedu.addressbook.data.person.UniqueExamList;
 import seedu.addressbook.parser.ExamField;
-
-import java.util.Map;
 
 /**
  * Edits an exam identified using its last displayed index in the exam book.

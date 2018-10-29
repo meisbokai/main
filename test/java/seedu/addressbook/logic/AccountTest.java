@@ -1,9 +1,25 @@
 package seedu.addressbook.logic;
 
+import static junit.framework.TestCase.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static seedu.addressbook.commands.account.AddAccountCommand.MESSAGE_INVALID_PRIVILEGE;
+import static seedu.addressbook.common.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.addressbook.common.Messages.MESSAGE_NOT_LOGGED_IN;
+import static seedu.addressbook.common.Messages.MESSAGE_PERSON_NOT_IN_ADDRESSBOOK;
+import static seedu.addressbook.common.Messages.MESSAGE_WRONG_NUMBER_ARGUMENTS;
+import static seedu.addressbook.logic.CommandAssertions.assertCommandBehavior;
+import static seedu.addressbook.logic.CommandAssertions.assertInvalidIndexBehaviorForCommand;
+import static seedu.addressbook.privilege.Privilege.PRIVILEGE_CONSTRAINTS;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
+
 import seedu.addressbook.TestDataHelper;
 import seedu.addressbook.commands.Command;
 import seedu.addressbook.commands.account.AddAccountCommand;
@@ -23,21 +39,6 @@ import seedu.addressbook.privilege.user.TutorUser;
 import seedu.addressbook.privilege.user.User.PrivilegeLevel;
 import seedu.addressbook.storage.StorageFile;
 import seedu.addressbook.stubs.StorageStub;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import static junit.framework.TestCase.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static seedu.addressbook.commands.account.AddAccountCommand.MESSAGE_INVALID_PRIVILEGE;
-import static seedu.addressbook.common.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.addressbook.common.Messages.MESSAGE_NOT_LOGGED_IN;
-import static seedu.addressbook.common.Messages.MESSAGE_PERSON_NOT_IN_ADDRESSBOOK;
-import static seedu.addressbook.common.Messages.MESSAGE_WRONG_NUMBER_ARGUMENTS;
-import static seedu.addressbook.logic.CommandAssertions.assertCommandBehavior;
-import static seedu.addressbook.logic.CommandAssertions.assertInvalidIndexBehaviorForCommand;
-import static seedu.addressbook.privilege.Privilege.PRIVILEGE_CONSTRAINTS;
 
 public class AccountTest {
 

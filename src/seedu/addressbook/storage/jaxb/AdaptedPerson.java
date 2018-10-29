@@ -1,5 +1,15 @@
 package seedu.addressbook.storage.jaxb;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlValue;
+
 import seedu.addressbook.common.Utils;
 import seedu.addressbook.data.account.Account;
 import seedu.addressbook.data.exception.IllegalValueException;
@@ -12,15 +22,6 @@ import seedu.addressbook.data.person.details.Email;
 import seedu.addressbook.data.person.details.Name;
 import seedu.addressbook.data.person.details.Phone;
 import seedu.addressbook.data.tag.Tag;
-
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlValue;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 
 
 /**
@@ -38,9 +39,10 @@ public class AdaptedPerson {
     @XmlElement(required = true)
     private AdaptedContactDetail fees;
     @XmlElement(required = true)
-    private String dueDate;
-//    @XmlElement(required = true)
-//    private AdaptedAttendance attendance;
+    private String duedate;
+
+    //    @XmlElement(required = true)
+    //    private AdaptedAttendance attendance;
 
     @XmlElement
     private List<AdaptedExam> exams = new ArrayList<>();
@@ -91,7 +93,7 @@ public class AdaptedPerson {
         fees.isPrivate = source.getFees().isPrivate();
         fees.value = source.getFees().value;
 
-        dueDate = source.getFees().duedate;
+        duedate = source.getFees().duedate;
 
 //        attendance = new AdaptedAttendance(source.getAttendance());
 
@@ -157,7 +159,7 @@ public class AdaptedPerson {
         final Phone phone = new Phone(this.phone.value, this.phone.isPrivate);
         final Email email = new Email(this.email.value, this.email.isPrivate);
         final Address address = new Address(this.address.value, this.address.isPrivate);
-        final Fees fees = new Fees(this.fees.value, this.dueDate);
+        final Fees fees = new Fees(this.fees.value, this.duedate);
         Optional<AdaptedAccount> optAccount = Optional.ofNullable(account);
 
         if (!optAccount.isPresent()) {

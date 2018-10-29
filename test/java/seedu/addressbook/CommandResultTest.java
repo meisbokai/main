@@ -1,6 +1,12 @@
 package seedu.addressbook;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+import java.util.ArrayList;
+
 import org.junit.Test;
+
 import seedu.addressbook.commands.commandresult.CommandResult;
 import seedu.addressbook.commands.commandresult.ListType;
 import seedu.addressbook.commands.commandresult.MessageType;
@@ -8,11 +14,6 @@ import seedu.addressbook.data.person.Assessment;
 import seedu.addressbook.data.person.AssignmentStatistics;
 import seedu.addressbook.data.person.Exam;
 import seedu.addressbook.data.person.Person;
-
-import java.util.ArrayList;
-
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 /**
  * Due to the lack of GUI testing, CommandResult is tested thoroughly to ensure correct message is displayed,

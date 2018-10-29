@@ -1,11 +1,11 @@
 package seedu.addressbook.commands.privilege;
 
+import java.util.Optional;
+
 import seedu.addressbook.commands.Command;
 import seedu.addressbook.commands.commandresult.CommandResult;
 import seedu.addressbook.commands.commandresult.MessageType;
 import seedu.addressbook.data.person.Person;
-
-import java.util.Optional;
 
 /**
  * Clears the address book.
