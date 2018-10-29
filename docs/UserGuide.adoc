@@ -616,7 +616,7 @@ Examples:
 Replaces the attendance of the first person in the list as present for the date 29th September 2018.
 ****
 
-=== View the attendance of a person: `viewAttenPerson`
+==== View the attendance of a person: `viewAttenPerson`
 View the attendance of the target person. +
 Format: `viewAttenPerson INDEX`
 View the attendance of the person with INDEX as specified by the last shown list. +
@@ -629,7 +629,7 @@ Examples:
 Views the attendance of the first person in the list.
 ****
 
-=== View the attendance of a date: `viewAttenDate`
+==== View the attendance of a date: `viewAttenDate`
 View the attendance of the given date. +
 Format: `viewAttenDate DATE`
 Shows a list of people who were present on the particular date. +
