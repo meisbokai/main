@@ -69,7 +69,7 @@ public interface ReadOnlyPerson {
                 getEmail(),
                 getAddress(),
                 getFees());
-                getAttendance();
+        getAttendance();
 
         builder.append(stringChain)
                 .append("Tags: ");
@@ -104,7 +104,7 @@ public interface ReadOnlyPerson {
                 getEmail(),
                 getAddress(),
                 getFees());
-                getAttendance();
+        getAttendance();
         builder.append(stringChain)
                 .append("Tags: ");
         for (Tag tag : getTags()) {
