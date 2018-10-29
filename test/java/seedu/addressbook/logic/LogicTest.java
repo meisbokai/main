@@ -1025,7 +1025,8 @@ public class LogicTest {
 
     @Test
     public void executeViewAttendanceInvalidArgsFormat() throws Exception {
-        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, ViewAttendancePersonCommand.MESSAGE_USAGE);
+        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                ViewAttendancePersonCommand.MESSAGE_USAGE);
         assertCommandBehavior("viewAttenPerson ", expectedMessage);
     }
 

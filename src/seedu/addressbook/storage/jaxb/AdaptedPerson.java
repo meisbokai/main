@@ -95,7 +95,7 @@ public class AdaptedPerson {
 
         duedate = source.getFees().duedate;
 
-//        attendance = new AdaptedAttendance(source.getAttendance());
+        //attendance = new AdaptedAttendance(source.getAttendance());
 
         exams = new ArrayList<>();
         for (Exam exam : source.getExams()) {

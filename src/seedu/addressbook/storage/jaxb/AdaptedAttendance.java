@@ -7,7 +7,7 @@ import java.util.Map;
 import javax.xml.bind.annotation.XmlValue;
 
 import seedu.addressbook.common.Utils;
-import seedu.addressbook.data.exception.IllegalValueException;
+//import seedu.addressbook.data.exception.IllegalValueException;
 import seedu.addressbook.data.person.Attendance;
 
 
