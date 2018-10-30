@@ -1,5 +1,7 @@
 package seedu.addressbook.commands.attendance;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import seedu.addressbook.commands.Command;
@@ -38,12 +40,16 @@ public class ViewAttendanceDateCommand extends Command {
     @Override
     public CommandResult execute() {
         try {
+            String outputDate = date;
             String output = "";
+            if ("0".equals(date)) {
+                outputDate = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
+            }
             final List<Name> listOfPresent = addressBook.getPresentPeople(date);
             for (Name n: listOfPresent) {
                 output += (n + "\n");
             }
-            return new CommandResult(String.format(MESSAGE_SUCCESS) + date + ":\n" + output);
+            return new CommandResult(String.format(MESSAGE_SUCCESS) + outputDate + ":\n" + output);
 
         } catch (IndexOutOfBoundsException ie) {
             return new CommandResult(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
