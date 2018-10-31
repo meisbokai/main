@@ -56,7 +56,12 @@ public class Attendance implements Printable {
         if ("0".equals(date)) {
             lookForDate = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
         }
-        return attendancePersonMap.get(lookForDate);
+        Boolean isPresent = attendancePersonMap.get(lookForDate);
+        if (null == isPresent) {
+            return false;
+        } else {
+            return isPresent;
+        }
     }
 
     /** Accessor Method **/
