@@ -72,6 +72,7 @@ public class AttendanceTest {
      *      - no input date (d/0)
      *      - duplicate date
      *      - invalid index
+     *      - invalid attendance (att/x, x != 0 | 1)
      *
      * ViewAttendancePerson
      *      - invalid argument
@@ -86,11 +87,12 @@ public class AttendanceTest {
      *      - no input date (d/0)
      *      - No existing attendance
      *      - invalid index
+     *      - invalid attendance (att/x, x != 0 | 1)
      *
      * ViewAttendanceDate
      *      - invalid argument
      *      = success
-     *      + invalid date format
+     *      - invalid date format
      *      - no input date (d/0)
      *
      */
@@ -209,6 +211,25 @@ public class AttendanceTest {
 
         assertCommandBehavior("attendance 2 d/29-09-2018 att/1",
                 MESSAGE_INVALID_PERSON_DISPLAYED_INDEX,
+                expectedBook,
+                false,
+                personList);
+    }
+
+    @Test
+    public void executeUpdateAttendanceInvalidAttendance() throws Exception {
+        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, UpdateAttendanceCommand.MESSAGE_USAGE);
+
+        TestDataHelper helper = new TestDataHelper();
+        Person p1 = helper.generatePerson(1, false);
+        List<Person> personList = helper.generatePersonList(p1);
+
+        AddressBook expectedBook = helper.generateAddressBook(personList);
+        helper.addToAddressBook(addressBook, personList);
+        logic.setLastShownList(personList);
+
+        assertCommandBehavior("attendance 1 d/0 att/2 ",
+                expectedMessage,
                 expectedBook,
                 false,
                 personList);
@@ -391,6 +412,25 @@ public class AttendanceTest {
 
         assertCommandBehavior("replaceAtten 2 d/29-09-2018 att/1",
                 MESSAGE_INVALID_PERSON_DISPLAYED_INDEX,
+                expectedBook,
+                false,
+                personList);
+    }
+
+    @Test
+    public void executeReplaceAttendanceInvalidAttendance() throws Exception {
+        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, ReplaceAttendanceCommand.MESSAGE_USAGE);
+
+        TestDataHelper helper = new TestDataHelper();
+        Person p1 = helper.generatePerson(1, false);
+        List<Person> personList = helper.generatePersonList(p1);
+
+        AddressBook expectedBook = helper.generateAddressBook(personList);
+        helper.addToAddressBook(addressBook, personList);
+        logic.setLastShownList(personList);
+
+        assertCommandBehavior("replaceAtten 1 d/0 att/2 ",
+                expectedMessage,
                 expectedBook,
                 false,
                 personList);
