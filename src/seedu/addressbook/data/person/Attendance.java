@@ -44,8 +44,8 @@ public class Attendance implements Printable {
             }
             output += entry.getKey() + "\t\t" + attendance + "\n";
         }
-        if ("".equals(output)) {
-            output = "NIL";
+        if ("Date \t\t Attendance\n".equals(output)) {
+            output += "NIL\t\t\t NIL";
         }
         return output;
     }
