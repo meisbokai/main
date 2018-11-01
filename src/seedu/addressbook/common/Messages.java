@@ -7,7 +7,7 @@ public class Messages {
 
     public static final String MESSAGE_COMMAND_NOT_FOUND = "Command not recognised! Displaying commands available.";
     public static final String MESSAGE_INVALID_COMMAND_FORMAT = "Invalid command format! \n%1$s";
-    public static final String MESSAGE_INVALID_PERSON_DISPLAYED_INDEX = "The person index provided is invalid."
+    public static final String MESSAGE_INVALID_PERSON_DISPLAYED_INDEX = "The person index provided is invalid.\n"
             + "Run the list/find command to generate a list of person.";
     public static final String MESSAGE_PERSON_NOT_IN_ADDRESSBOOK = "Person could not be found in address book!";
     public static final String MESSAGE_PERSONS_LISTED_OVERVIEW = "%1$d persons listed!";
