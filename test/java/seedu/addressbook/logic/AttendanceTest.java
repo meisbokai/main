@@ -94,7 +94,6 @@ public class AttendanceTest {
      *      + invalid date
      *      - no input date (d/0)
      *
-     *
      */
 
     @Test
@@ -366,7 +365,7 @@ public class AttendanceTest {
         logic.setLastShownList(threePersons);
 
         String expectedMessage = ViewAttendanceDateCommand.MESSAGE_SUCCESS + "29-09-2018:\n"
-                + "Present\n" + "Person 1\nPerson 2\n"  + "\n"
+                + "Present\n" + "Person 1\nPerson 2\n" + "\n"
                 + "Absent\n" + "Person 3\n" + "\n";
 
         assertCommandBehavior("viewAttenDate d/29-09-2018",
@@ -414,7 +413,7 @@ public class AttendanceTest {
         logic.setLastShownList(threePersons);
 
         String expectedMessage = ViewAttendanceDateCommand.MESSAGE_SUCCESS + currentDate + ":\n"
-                + "Present\n" + "Person 1\nPerson 2\n"  + "\n"
+                + "Present\n" + "Person 1\nPerson 2\n" + "\n"
                 + "Absent\n" + "Person 3\n" + "\n";
 
         assertCommandBehavior("viewAttenDate d/0",

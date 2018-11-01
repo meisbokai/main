@@ -657,8 +657,8 @@ public class Parser {
             return new IncorrectCommand(String.format(MESSAGE_INVALID_DATE,
                     UpdateAttendanceCommand.MESSAGE_USAGE));
         } catch (IllegalValueException ive) {
-            return new IncorrectCommand(String.format(MESSAGE_INVALID_DATE + MESSAGE_DATE_CONSTRAINTS +
-                    UpdateAttendanceCommand.MESSAGE_USAGE));
+            return new IncorrectCommand(String.format(MESSAGE_INVALID_DATE + MESSAGE_DATE_CONSTRAINTS
+                    + UpdateAttendanceCommand.MESSAGE_USAGE));
         }
 
     }
@@ -693,8 +693,8 @@ public class Parser {
             return new IncorrectCommand(String.format(MESSAGE_INVALID_DATE,
                     UpdateAttendanceCommand.MESSAGE_USAGE));
         } catch (IllegalValueException ive) {
-            return new IncorrectCommand(String.format(MESSAGE_INVALID_DATE + MESSAGE_DATE_CONSTRAINTS +
-                    ReplaceAttendanceCommand.MESSAGE_USAGE));
+            return new IncorrectCommand(String.format(MESSAGE_INVALID_DATE + MESSAGE_DATE_CONSTRAINTS
+                    + ReplaceAttendanceCommand.MESSAGE_USAGE));
         }
 
     }
@@ -739,9 +739,9 @@ public class Parser {
             return new IncorrectCommand(nfe.getMessage());
         } catch (java.text.ParseException pe) {
             return new IncorrectCommand(String.format(MESSAGE_INVALID_DATE + ViewAttendanceDateCommand.MESSAGE_USAGE));
-         }catch (IllegalValueException ive) {
-            return new IncorrectCommand(String.format(MESSAGE_INVALID_DATE + MESSAGE_DATE_CONSTRAINTS +
-                    ViewAttendanceDateCommand.MESSAGE_USAGE));
+        } catch (IllegalValueException ive) {
+            return new IncorrectCommand(String.format(MESSAGE_INVALID_DATE + MESSAGE_DATE_CONSTRAINTS
+                    + ViewAttendanceDateCommand.MESSAGE_USAGE));
         }
     }
 
