@@ -94,6 +94,7 @@ public class AttendanceTest {
      *      = success
      *      - invalid date format
      *      - no input date (d/0)
+     *      - checking date with no attendance
      *
      */
 
@@ -513,6 +514,31 @@ public class AttendanceTest {
                 + "Absent\n" + "Person 3\n" + "\n";
 
         assertCommandBehavior("viewAttenDate d/0",
+                expectedMessage,
+                expectedBook,
+                false,
+                threePersons);
+    }
+
+    @Test
+    public void executeViewAttendanceDateNoAttendanceTaken() throws Exception {
+        // Test if the default attendance is "Absent"
+        TestDataHelper helper = new TestDataHelper();
+        Person p1 = helper.generatePerson(1, false);
+        Person p2 = helper.generatePerson(2, false);
+        Person p3 = helper.generatePerson(3, false);
+
+        List<Person> threePersons = helper.generatePersonList(p1, p2, p3);
+        AddressBook expectedBook = helper.generateAddressBook(threePersons);
+
+        helper.addToAddressBook(addressBook, threePersons);
+        logic.setLastShownList(threePersons);
+
+        String expectedMessage = ViewAttendanceDateCommand.MESSAGE_SUCCESS + "01-11-2018" + ":\n"
+                + "Present\n" + "" + "\n"
+                + "Absent\n" + "Person 1\nPerson 2\nPerson 3\n" + "\n";
+
+        assertCommandBehavior("viewAttenDate d/01-11-2018",
                 expectedMessage,
                 expectedBook,
                 false,
