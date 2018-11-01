@@ -25,7 +25,7 @@ By: `Team F10-1`      Since: `Oct 2018`      Licence: `NUS`
 . *IntelliJ* IDE
 +
 [NOTE]
-IntelliJ by default has Gradle and JavaFx plugins installed. +
+IntelliJ by default has Gradle and JavaFX plugins installed. +
 Do not disable them. If you have disabled them, go to `File` > `Settings` > `Plugins` to re-enable them.
 
 === Setting up the project in your computer
@@ -114,7 +114,7 @@ The `.pptx` files used to create diagrams in this document can be found in the l
 <<Design-Commons,*`Commons`*>> represents a collection of classes used by multiple other components. Two of those classes play important roles at the architecture level.
 
 * `EventsCenter` : This class (written using https://github.com/google/guava/wiki/EventBusExplained[Google's Event Bus library]) is used by components to communicate with other components using events (i.e. a form of _Event Driven_ design)
-* `LogsCenter` : Used by many classes to write log messages to the App's log file.
+* `Logs Center`: Used by many classes to write log messages to the App's log file.
 
 The rest of the App consists of four components.
 
@@ -142,7 +142,7 @@ The _Sequence Diagram_ below shows how the components interact for the scenario 
 image::SDforDeletePerson.png[width="800"]
 
 [NOTE]
-Note how the `Model` simply raises a `AddressBookChangedEvent` when the Address Book data are changed, instead of asking the `Storage` to save the updates to the hard disk.
+Note how the `Model` simply raises an `AddressBookChangedEvent` when the Address Book data are changed, instead of asking the `Storage` to save the updates to the hard disk.
 
 The diagram below shows how the `EventsCenter` reacts to that event, which eventually results in the updates being saved to the hard disk and the status bar of the UI being updated to reflect the 'Last Updated' time.
 
@@ -258,7 +258,7 @@ An Example of how feature 5 - `Registering a person for an exam` works:
 . A new exam is created to keep a copy of the original exam.
 . The exam has its number of exam takers increased by 1.
 . The exam is added to the specific person.
-. For both the AddressBook and ExamBook, any copies of the original exam is removed and replaced with the new exam.
+. For both the AddressBook and ExamBook, any copies of the original exam are removed and replaced with the new exam.
 
 This is demostrated by the following sequence diagram:
 [[fig-registerPersonDiagram]]
@@ -269,7 +269,7 @@ image::RegisterExam_Sequence_Diagram.png[width="800"]
 
 ===== Aspect: How the exam data are being synchronised between the AddressBook and ExamBook
 
-* **Alternative 1 (current choice):** Each time there is a change in a field of an Exam, there has to be iteration through the whole AddressBook or ExamBook to update them. 
+* **Alternative 1 (current choice):** Each time there is a change in the field of an Exam, there has to be iteration through the whole AddressBook or ExamBook to update them.
 ** Pros: Less space is needed.
 ** Cons: This can waste some time, if no changes need to be made for example.
 * **Alternative 2:** Store the persons registered for an exam for each exam.
@@ -280,7 +280,7 @@ image::RegisterExam_Sequence_Diagram.png[width="800"]
 
 * **Alternative 1 (current choice):** Each time there is a change in a field of an Exam, a new Exam is created with the new details and added into the ExamBook and the old Exam is deleted from the ExamBook.
 ** Pros: Allows exams to be encapsulated using interface.
-** Cons: Temporary increase in space for object created during method .
+** Cons: Temporary increase in space for the object created during the method .
 * **Alternative 2:** Have no interface.
 ** Pros: Easy access to set values.
 ** Cons: No encapsulation.
@@ -288,20 +288,20 @@ image::RegisterExam_Sequence_Diagram.png[width="800"]
 ===== Aspect: Data structure to support the exam commands
 
 * **Alternative 1 (current choice):** Exams are stored in a set under each Person object in the AddressBook but stored as a list in the ExamBook.
-** Pros: In the Exambook, it is required to access an exam through an index to delete and edit, hence list is better. In the AddressBook, exams are only to be used for viewing and accessed to check for value. It takes O(1) time to check for existence and remove and add.  
+** Pros: In the Exambook, it is required to access an exam through an index to delete and edit, hence list is better. In the AddressBook, exams are only to be used for viewing and accessed to check for the value. It takes O(1) time to check for existence and remove and add.
 ** Cons: Exams stored under each Person in the AddressBook cannot be sorted.
 * **Alternative 2:** Exams are stored as a list in both ExamBook and AddressBook.
-** Pros: Exams stored under each Person in the AddressBook can be sorted. 
+** Pros: Exams stored under each Person in the AddressBook can be sorted.
 ** Cons: It takes O(n) time (longer time) to check if a Person has a same Exam with the Exam to be updated.
 
 ===== Aspect: Storage of ExamBook
 
 * **Alternative 1 (current choice):** Exams are stored in a separate txt file from AddressBook
-** Pros: This allows for clarity and easy access to find and see exams in raw XML format. 
+** Pros: This allows for clarity and easy access to find and see exams in raw XML format.
 ** Cons: Extra storage file and hence methods and file paths are needed, this may be confusing and cause much repetition of code.
-* **Alternative 2:** Exams are stored in same data file as AddressBook.
+* **Alternative 2:** Exams are stored in the same data file as AddressBook.
 ** Pros: Only 1 storage file is needed. Less repetition and variables are needed.
-** Cons: May be harder for user to see exams in raw XML format.
+** Cons: Might be harder for the user to see exams in raw XML format.
 // end::Exam[]
 
 // tag::privilege[]
@@ -314,8 +314,8 @@ image::Privilege.png[width="600"]
 ==== Current Implementation
 
 *Logic* is assigned to one *Privilege* object at all times. *Privilege* contains a *User* (specified by the *PrivilegeLevel* enum) and a *Person* (referred to as `myPerson`). +
-*User* defines what access level the *Privilege* object have, which is implemented by *BasicUser*, *TutorUser* and *AdminUser*. +
-*BasicUser* is the class with the lowest access level, and the ancestor to other 2 *User* classes. +
+*User* defines what access level the *Privilege* object has, which is implemented by *BasicUser*, *TutorUser* and *AdminUser*. +
+*BasicUser* is the class with the lowest access level and the ancestor to other 2 *User* classes. +
 To create an increasing level of access, each *User* of a higher level inherits from the successively lower one. +
 *User* levels have their own list of new commands they can run, which is appended to the list inherited from their parent. +
 
@@ -334,21 +334,21 @@ image::Login_Sequence_Diagram.png[width="600"]
 
 ===== Aspect: How to define a privilege level of Privilege
 
-* **Alternative 1 (current choice):** Instantiate User's of the different access level. Privilege contains an enum UserType which point to each of these instantiated object.
+* **Alternative 1 (current choice):** Instantiate user's of the different access level. Privilege contains an enum UserType which point to each of these instantiated objects.
 ** Pros: Allow us to make use of inheritance to organize the list (higher access level User's list of allowed commands will always be a superset of that of a lower access level). +
 The usage of enums also allows us to keep a reference to the created User object, which allows us to point back to these object if need be, rather than having to instantiate new ones each time.
 ** Cons: Requires the use of User class to represent the different access levels
 * **Alternative 2:** Use an enum to indicate the current access level. List of allowed commands will be generated base on the value of this enum.
 ** Pros: Does not require a separate class to represent the different access levels.
-** Cons: Difficult to maintain the list of allowed commands. 
+** Cons: Difficult to maintain the list of allowed commands.
 * **Alternative 3:** Use a String to determine the Privilege level.
 ** Pros: Easy to implement and parse.
-** Cons: Very prone to undetected bugs, like mispelling the Privilege levels.
+** Cons: Very prone to undetected bugs, like misspelling the Privilege levels.
 
 ===== Aspect: How to define the access level required by the command
 
 * **Alternative 1 (current choice):** Each User holds a list of commands they can run
-** Pros: Easy to maintain the list of commands a User can run (just an Command Array).
+** Pros: Easy to maintain the list of commands a User can run (just a Command Array).
 ** Cons: Difficult to find what access level a command requires. Requires looping through the array to find the presence of the given command.
 
 * **Alternative 2:** Each command knows what access level is required to run it
@@ -366,23 +366,23 @@ The usage of enums also allows us to keep a reference to the created User object
 ** Cons: A bit more awkward solution than the Alternative 2
 * **Alternative 2:** Change Logic to point to the new Privilege object inside of Account.
 ** Pros: Quick to implement.
-** Cons: Higher level of coupling compared to Alternative 1. Also, would require storing or instantiating a default Privilege and making Logic point to this new object if Logout Command were to be called. 
+** Cons: a Higher level of coupling compared to Alternative 1. Also, would require storing or instantiating a default Privilege and making Logic point to this new object if Logout Command were to be called.
 
 ===== Aspect: Default required access levels for commands
 
 * **Alternative 1 (current choice):** Access level is set to Admin by default
 ** Pros: If a developer forgets to give access level to a Command, it will to still be functional.
-** Cons: May mask the fact that the Command have the unintended access level of Admin.
+** Cons: May mask the fact that the Command has the unintended access level of Admin.
 
-* **Alternative 2:** Enforce all Commands to be assigned a access level
-** Pros: Forces delevopers to be deliberate with their access level assignment to commands
-** Cons: Program will fail to integrate if any of the developer forgot to assign an access level to their newly developed commands.
+* **Alternative 2:** Enforce all Commands to be assigned an access level
+** Pros: Forces developers to be deliberate with their access level assigned to commands
+** Cons: Program will fail to integrate if any of the developers forgot to assign an access level to their newly developed commands.
 
 ===== Aspect: Who throws InsufficientPrivilege Exception
 
 * **Alternative 1 (current choice):** Logic throws the Exception
 ** Pros: It is a common starting point of commands, so it is easy to implement it to throw the Exception
-** Cons: Blurs the responsiblity of commands being the one throwing the Exception
+** Cons: Blurs the responsibility of commands being the one throwing the Exception
 
 * **Alternative 2:** Each Command checks the Privilege level during execute()
 ** Pros: Keeps to the responsibility of Commands being the one to throw the Exception when they are being executed
@@ -430,7 +430,7 @@ image::Assessment_Seq_Diagram.png[width="800"]
 ** Cons: This is a little more tedious in terms of coding.
 * **Alternative 2:** The Assessment and Grades are combined into a single class with different parameters to take in the exam name and grade respectively.
 ** Pros: -
-** Cons: Cannot view list of assessments separately.
+** Cons: Cannot view the list of assessments separately.
 
 An example of Alternative 1 is demonstrated in the following diagram:
 [[fig-AssessmentandGrades]]
@@ -489,11 +489,11 @@ An example of how feature 1 - `Updating a person's attendance` works:
 ==== Design Considerations
 
 ===== Aspect: How to store attendance for each person
-* **Alternative 1 (Current choice):** Each person has a hashmap that stores maps the date to the attendance.
-** Pros: Hashmaps allows more efficient checking of duplicate attendance (get() method has complexity of O(1).
+* **Alternative 1 (Current choice):** Each person has a hashmap that stores the date to the attendance.
+** Pros: Hashmaps allows more efficient checking of duplicate attendance (get() method has a complexity of O(1).
 ** Cons: Values and Keys in hashmap are not sorted.
 
-* **Alternative 2:** Each person has a list of string containing the date and attendance.
+* **Alternative 2:** Each person has a list of strings containing the date and attendance.
 ** Pros: A list of strings will allow easier storage and viewing of the data
 ** Cons: List or ArrayList will require O(n) time to check for duplicates
 ** Cons: A single string will not allow handling of data separately
@@ -515,7 +515,7 @@ An example of how feature 1 - `Updating a person's attendance` works:
 * **Alternative 1 (Current choice):** Using an additional parameter (Boolean overWrite) that is fixed in the command.
 ** Pros: No confusion for the user since the parameter to overwrite is fixed.
 ** Pros: THere is no need to have 2 separate methods in the Attendance object as both updating and replacing of attendance has very similar functions.
-** Cons: There is a need to check for an additional parameter in the same method, which may lengthen the code and cause minor 'arrow head' coding.
+** Cons: There is a need to check for an additional parameter in the same method, which may lengthen the code and cause minor 'arrowhead' coding.
 
 * **Alternative 2:** Treat the 2 commands as 2 completely separate commands and execute them individually.
 ** Pros: The 2 commands will each be short, simple and easy to understand.
@@ -523,7 +523,7 @@ An example of how feature 1 - `Updating a person's attendance` works:
 
 * **Alternative 3:** Have the user input an additional parameter (Boolean overWrite) if they want to overwrite the current data
 ** Pros: Similar to alternative 1, having the user input an additional parameter and only having 1 method in the Attendance object can reduce the need to have unnecessary duplicates in the code.
-** Cons: An additional parameter will require a change in parser.
+** Cons: An additional parameter will require a change in the parser.
 // end::attendance[]
 
 == Documentation
@@ -544,7 +544,7 @@ See <<UsingTravis#deploying-github-pages, UsingTravis.adoc>> to learn how to dep
 
 === Converting Documentation to PDF format
 
-We use https://www.google.com/chrome/browser/desktop/[Google Chrome] for converting documentation to PDF format, as Chrome's PDF engine preserves hyperlinks used in webpages.
+We use https://www.google.com/chrome/browser/desktop/[Google Chrome] for converting the document to PDF format, as Chrome's PDF engine preserves hyperlinks used in web pages.
 
 Here are the steps to convert the project documentation files to PDF format.
 
@@ -566,7 +566,7 @@ These template files are written in a mixture of https://www.ruby-lang.org[Ruby]
 
 [WARNING]
 ====
-Modifying the template files in link:{repoURL}/docs/templates[`docs/templates`] requires some knowledge and experience with Ruby and Asciidoctor's API.
+Modifying the template files in the link:{repoURL}/docs/templates[`docs/templates`] requires some knowledge and experience with Ruby and Asciidoctor's API.
 You should only modify them if you need greater control over the site's layout than what stylesheets can provide.
 The SE-EDU team does not provide support for modified template files.
 ====
@@ -602,7 +602,7 @@ We have one type of test:
 e.g. `seedu.addressbook.commons.UtilsTest`
 ..  _Integration tests_ that are checking the integration of multiple code units (those code units are assumed to be working). +
 e.g. `seedu.addressbook.storage.StorageFileTest`
-..  Hybrids of unit and integration tests. These test are checking multiple code units as well as how the are connected together. +
+..  Hybrids of unit and integration tests. These tests are checking multiple code units as well as how they are connected together. +
 e.g. `seedu.addressbook.logic.LogicTest`
 
 
@@ -676,7 +676,7 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* * *` |user |login to my account |access my account
 
-|`* * *` |user |logout of my account |other people cannot use my account after logging out
+|`* * *` |user |log out of my account |other people cannot use my account after logging out
 
 |`* * *` |user |find a person by name |locate details of persons without having to go through the entire list
 
@@ -688,9 +688,9 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* * *` |admin |change the master password |have a password that is more suitable/easier to remember
 
-|`* * *` |admin |add accounts to people |other people can have account to login to
+|`* * *` |admin |add accounts to people |other people can have an account to log in to
 
-|`* * *` |admin |delete accounts from people |remove account from people who do not need it anymore
+|`* * *` |admin |delete accounts from people |remove the account from people who do not need it anymore
 
 |`* * *` |admin/tutor |add a new exam |
 
@@ -763,7 +763,7 @@ Use case ends.
 2.  ClassRepo shows a list of persons.
 3.  User requests to delete a specific person in the list.
 4.  ClassRepo deletes the person.
-5.  ClassRepo checks for all the exams the person is registered for and updates the number of exam takers in the ExamBook. Persons in the AddressBook registered under the exams will have their exams details updated. 
+5.  ClassRepo checks for all the exams the person is registered for and updates the number of exam takers in the ExamBook. Persons in the AddressBook registered under the exams will have their exams details updated.
 +
 Use case ends.
 
@@ -797,7 +797,7 @@ Use case resumes at step 2.
 Use case ends.
 
 *Extensions*
- 
+
 [none]
 * 3a. The details entered is of an invalid format.
 +
@@ -879,10 +879,10 @@ Use case resumes at step 2.
 ** 4a1. ClassRepo shows an error message.
 +
 Use case resumes at step 2.
-* 4b. The exam with the changed details already exists in the ExamBook. 
+* 4b. The exam with the changed details already exists in the ExamBook.
 +
 [none]
-** 4b1. ClassRepo shows an error message. 
+** 4b1. ClassRepo shows an error message.
 +
 Use case resumes at step 2.
 
@@ -898,7 +898,7 @@ Use case resumes at step 2.
 2.  ClassRepo shows a list of exams.
 3.  User requests to list persons.
 4.  ClassRepo shows a list of persons.
-5.  User requests to register a specific person in the persons list for a specific exam in the exams list.
+5.  User requests to register a specific person in the person list for a specific exam in the exams list.
 6.  ClassRepo edits the person.
 7.  ClassRepo updates the number of exam takers for the specific exam in the ExamBook.
 8.  ClassRepo updates the specific exam for all persons registered for it in the AddressBook.
@@ -942,7 +942,7 @@ Use case resumes at step 4.
 2.  ClassRepo shows a list of exams.
 3.  User requests to list persons.
 4.  ClassRepo shows a list of persons.
-5.  User requests to deregister a specific person in the persons list for a specific exam in the exams list.
+5.  User requests to deregister a specific person in the person list for a specific exam in the exams list.
 6.  ClassRepo edits the person.
 7.  ClassRepo updates the number of exam takers for the specific exam in the ExamBook.
 8.  ClassRepo updates the specific exam for all persons registered for it in the AddressBook.
@@ -1001,8 +1001,8 @@ Use case ends.
 
 1.  User requests to list persons.
 2.  ClassRepo shows a list of persons.
-3.  User requests to show exams of a specified person in list.
-4.  ClassRepo shows list of exams of specified person.
+3.  User requests to show exams of a specified person in the list.
+4.  ClassRepo shows a list of exams of the specified person.
 +
 Use case ends.
 
@@ -1020,7 +1020,7 @@ Use case ends.
 *MSS*
 
 1.  User requests to view his own details
-2.  ClassRepo shows the details of person associated to the logged-in account
+2.  ClassRepo shows the details of the person associated with the logged-in account
 +
 Use case ends.
 
@@ -1072,10 +1072,10 @@ Use case ends.
 ** 3a1. ClassRepo shows an error message +
 User case resumes from step 2
 
-* 5a. New password in invalid format
+* 5a. New password in the invalid format
 ** 5a1. ClassRepo shows an error message +
 User case resumes from step 4
-** 5b1. New password is the same as old password +
+** 5b1. The new password is the same as the old password +
 5b2. ClassRepo shows an error message +
 User case resumes from step 4
 
@@ -1087,7 +1087,7 @@ User case resumes from step 4
 
 1.  User requests to list persons
 2.  AddressBook shows a list of persons
-3.  User requests to add account to a target person
+3.  User requests to add an account to a target person
 4.  ClassRepo adds the account to the person
 +
 Use case ends.
@@ -1113,7 +1113,7 @@ Use case resumes at step 2.
 +
 Use case resumes at step 2.
 
-* 3c. The target person have an existing account.
+* 3c. The target person has an existing account.
 +
 [none]
 ** 3c1. AddressBook shows an error message.
@@ -1129,7 +1129,7 @@ Use case resumes at step 2.
 
 1.  User requests to list persons
 2.  AddressBook shows a list of persons
-3.  User requests to delete the account belonging to specific person in the list
+3.  User requests to delete the account belonging to a specific person in the list
 4.  AddressBook deletes the account
 +
 Use case ends.
@@ -1160,7 +1160,7 @@ Use case resumes at step 2.
 
 *MSS*
 
-1.  User requests to login
+1.  User requests to log in
 2.  AddressBook requests username and password
 3.  User enters username and password
 4.  AddressBook logs the user into the account
@@ -1170,14 +1170,14 @@ Use case ends.
 *Extensions*
 
 [none]
-* 3a. User provided wrong number of arguments
+* 3a. User provided the wrong number of arguments
 +
 [none]
 ** 3a1. AddressBook shows an error message.
 +
 Use case ends.
 
-* 3b. No existing account have the given username.
+* 3b. No existing account has the given username.
 +
 [none]
 ** 3b1. AddressBook shows an error message.
@@ -1196,7 +1196,7 @@ Use case ends.
 
 *MSS*
 
-1.  User requests to logout
+1.  User requests to log out
 2.  ClassRepo logs the user out of his account
 +
 Use case ends.
@@ -1228,7 +1228,7 @@ _{More to be added}_
 [appendix]
 == Non Functional Requirements
 
-.  Should work on any <<mainstream-os,mainstream OS>> as long as it has Java `9` or higher installed.
+.  Should work on any <<mainstream-os, mainstream OS>> as long as it has Java `9` or higher installed.
 .  Should be able to hold up to 1000 persons without a noticeable sluggishness in performance for typical usage.
 .  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
 
@@ -1244,10 +1244,10 @@ Windows, Linux, Unix, OS-X
 A contact detail that is not meant to be shared with others
 
 [[private-exam]] Private exam::
-A exam with details that is not meant to be released to the students yet
+An exam with details that are not meant to be released to the students yet
 
 Main Success Scenario::
-The Main Success Scenario (MSS) describes the most straightforward interaction for a given use case, which assumes that nothing goes wrong. 
+The Main Success Scenario (MSS) describes the most straightforward interaction for a given use case, which assumes that nothing goes wrong.
 
 [appendix]
 == Product Survey
@@ -1286,7 +1286,7 @@ These instructions only provide a starting point for testers to work on; testers
 
 .. Resize the window to an optimum size. Move the window to a different location. Close the window.
 .. Re-launch the app by double-clicking the jar file. +
-   Expected: The most recent window size and location is retained.
+   Expected: The most recent window size and location are retained.
 
 _{ more test cases ... }_
 
@@ -1298,7 +1298,7 @@ _{ more test cases ... }_
 .. Test case: `delete 1` +
    Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
 .. Test case: `delete 0` +
-   Expected: No person is deleted. Error details shown in the status message. Status bar remains the same.
+   Expected: No person is deleted. Error details are shown in the status message. Status bar remains the same.
 .. Other incorrect delete commands to try: `delete`, `delete x` (where x is larger than the list size) _{give more}_ +
    Expected: Similar to previous.
 
@@ -1308,6 +1308,6 @@ _{ more test cases ... }_
 
 . Dealing with missing/corrupted data files
 
-.. _{explain how to simulate a missing/corrupted file and the expected behavior}_
+.. _{explain how to simulate a missing/corrupted file and the expected behaviour}_
 
 _{ more test cases ... }_
