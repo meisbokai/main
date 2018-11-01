@@ -3,13 +3,17 @@ package seedu.addressbook.data.person;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import seedu.addressbook.common.Utils;
 import seedu.addressbook.data.exception.DuplicateDataException;
+import seedu.addressbook.data.exception.IllegalValueException;
 import seedu.addressbook.data.person.details.Name;
-import seedu.addressbook.formatter.Formatter;
+import seedu.addressbook.data.tag.Tag;
 
 /**
  * A list of persons. Does not allow null elements or duplicates.
@@ -118,20 +122,80 @@ public class UniquePersonList implements Iterable<Person> {
     /**
      * loops through list and appends data to string person.
      *
-     * @throws PersonNotFoundException if no such person could be found in the list.
      */
-    public String loopFees(ReadOnlyPerson person) throws PersonNotFoundException {
-        //TODO: Fix potato
-        final StringBuilder builder = new StringBuilder();
-        for (Person p: internalList) {
-            final String stringChain = Formatter.getPrintableString(
-                    true,
-                    p.getName(),
-                    p.getFees());
-            builder.append(stringChain);
-            builder.append("\n");
+    public List<ReadOnlyPerson> dueFees(String date) {
+        //TODO: Fix messiness
+        if (internalList.isEmpty()) {
+            return Collections.unmodifiableList(internalList);
         }
-        return builder.toString();
+        List<Person> copy = new ArrayList<>();
+        for (Person p: internalList) {
+            StringBuilder main1 = new StringBuilder();
+            StringBuilder main2 = new StringBuilder();
+            main1.append(p.getFees().duedate.substring(6, 10));
+            main1.append(p.getFees().duedate.substring(3, 5));
+            main1.append(p.getFees().duedate.substring(0, 2));
+            main2.append(date.substring(0, 4));
+            main2.append(date.substring(5, 7));
+            main2.append(date.substring(8, 10));
+            //System.out.println(main1.toString());
+            //System.out.println(main2.toString());
+            if (main1.toString().compareTo(main2.toString()) <= 0) {
+                copy.add(p);
+                try {
+                    Set<Tag> temp = new HashSet<>();
+                    temp = p.getTags();
+                    temp.add(new Tag("feesdue"));
+                    p.setTags(temp);
+                } catch (IllegalValueException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                Set<Tag> temp = new HashSet<>();
+                temp = p.getTags();
+                for (Tag t : temp) {
+                    if ("feesdue".equals(t.tagName)) {
+                        temp.remove(t);
+                    }
+                }
+                p.setTags(temp);
+            }
+            copy.sort(new CustomComparator());
+        }
+        return Collections.unmodifiableList(copy);
+    }
+
+    /**
+     * loops through list and appends data to string person.
+     *
+     */
+    public List<ReadOnlyPerson> listFees() {
+        if (internalList.isEmpty()) {
+            return Collections.unmodifiableList(internalList);
+        }
+        List<Person> copy = new ArrayList<>(internalList);
+        copy.sort(new CustomComparator());
+        return Collections.unmodifiableList(copy);
+    }
+
+    /**
+     * Custom comparator for Date string in Fees in the form of DD-MM-YYYY
+     * Allows for sorting of Person's list according to YYYYMMDD of Fees section.
+     */
+    public class CustomComparator implements Comparator<Person> {
+        @Override
+        public int compare(Person o1, Person o2) {
+            StringBuilder main1 = new StringBuilder();
+            StringBuilder main2 = new StringBuilder();
+            main1.append(o1.getFees().duedate.substring(6, 10));
+            main1.append(o1.getFees().duedate.substring(3, 5));
+            main1.append(o1.getFees().duedate.substring(0, 2));
+            main2.append(o2.getFees().duedate.substring(6, 10));
+            main2.append(o2.getFees().duedate.substring(3, 5));
+            main2.append(o2.getFees().duedate.substring(0, 2));
+            return main1.toString().compareTo
+                    (main2.toString());
+        }
     }
 
     /**

@@ -75,7 +75,7 @@ public class Person implements ReadOnlyPerson {
     }
 
     /**
-     * Only update the fees when called in AddFeesCommand
+     * Only update the fees when called in EditFeesCommand
      * @param fees
      */
     public void setFees(Fees fees) {

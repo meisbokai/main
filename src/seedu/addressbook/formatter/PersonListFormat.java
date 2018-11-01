@@ -4,5 +4,7 @@ package seedu.addressbook.formatter;
 public enum PersonListFormat {
     ALL_PUBLIC_DETAILS,
     ACCOUNT_DETAILS,
-    NAMES_ONLY
+    NAMES_ONLY,
+    FEES_DETAILS,
+    FEES_DUE_DETAILS
 }

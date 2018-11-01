@@ -14,7 +14,6 @@ import seedu.addressbook.common.Utils;
 import seedu.addressbook.data.account.Account;
 import seedu.addressbook.data.exception.IllegalValueException;
 import seedu.addressbook.data.person.Exam;
-import seedu.addressbook.data.person.Fees;
 import seedu.addressbook.data.person.Person;
 import seedu.addressbook.data.person.ReadOnlyPerson;
 import seedu.addressbook.data.person.details.Address;
@@ -36,10 +35,6 @@ public class AdaptedPerson {
     private AdaptedContactDetail email;
     @XmlElement(required = true)
     private AdaptedContactDetail address;
-    @XmlElement(required = true)
-    private AdaptedContactDetail fees;
-    @XmlElement(required = true)
-    private String duedate;
 
     //    @XmlElement(required = true)
     //    private AdaptedAttendance attendance;
@@ -52,6 +47,9 @@ public class AdaptedPerson {
 
     @XmlElement
     private AdaptedAccount account;
+
+    @XmlElement
+    private AdaptedFees fees;
     /**
      * JAXB-friendly adapted contact detail data holder class.
      */
@@ -89,11 +87,7 @@ public class AdaptedPerson {
         address.isPrivate = source.getAddress().isPrivate();
         address.value = source.getAddress().value;
 
-        fees = new AdaptedContactDetail();
-        fees.isPrivate = source.getFees().isPrivate();
-        fees.value = source.getFees().value;
-
-        duedate = source.getFees().duedate;
+        fees = new AdaptedFees(source.getFees());
 
         //attendance = new AdaptedAttendance(source.getAttendance());
 
@@ -136,9 +130,13 @@ public class AdaptedPerson {
             return true;
         }
 
+        if (fees != null && fees.isAnyRequiredFieldMissing()) {
+            return true;
+        }
+
         // second call only happens if phone/email/address are all not null
-        return Utils.isAnyNull(name, phone, email, address, fees)
-                || Utils.isAnyNull(phone.value, email.value, address.value, fees.value);
+        return Utils.isAnyNull(name, phone, email, address)
+                || Utils.isAnyNull(phone.value, email.value, address.value);
     }
 
     /**
@@ -159,19 +157,19 @@ public class AdaptedPerson {
         final Phone phone = new Phone(this.phone.value, this.phone.isPrivate);
         final Email email = new Email(this.email.value, this.email.isPrivate);
         final Address address = new Address(this.address.value, this.address.isPrivate);
-        final Fees fees = new Fees(this.fees.value, this.duedate);
         Optional<AdaptedAccount> optAccount = Optional.ofNullable(account);
 
+
         if (!optAccount.isPresent()) {
-            final Person person = new Person(name, phone, email, address, tags);
-            person.setFees(fees);
-            return new Person(name, phone, email, address, tags, examList);
+            final Person person = new Person(name, phone, email, address, tags, examList);
+            person.setFees(this.fees.toModelType());
+            return person; //new Person(name, phone, email, address, tags);
         } else {
             final Account account = this.account.toModelType();
-            final Person person = new Person(name, phone, email, address, tags, account, examList);
-            person.setFees(fees);
+            final Person person = new Person(name, phone, email, address, tags, examList);
+            person.setFees(this.fees.toModelType());
             account.setPrivilegePerson(person);
-            return new Person(name, phone, email, address, tags, account, examList);
+            return person; //new Person(name, phone, email, address, tags, account);
         }
     }
 }

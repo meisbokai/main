@@ -247,12 +247,12 @@ public class TestDataHelper {
     }
 
     /** Generates the correct addfees command based on the person given */
-    public String generateAddFeesCommand() {
+    public String generateEditFeesCommand() {
         StringJoiner cmd = new StringJoiner(" ");
-        cmd.add("addfees");
+        cmd.add("editfees");
         cmd.add(" 2");
         cmd.add(" 123.45");
-        cmd.add(" 01-01-2018");
+        cmd.add("01-01-2018");
         return cmd.toString();
     }
 

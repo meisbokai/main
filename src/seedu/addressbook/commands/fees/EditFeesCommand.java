@@ -1,22 +1,25 @@
 package seedu.addressbook.commands.fees;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import seedu.addressbook.commands.Command;
 import seedu.addressbook.commands.commandresult.CommandResult;
 import seedu.addressbook.common.Messages;
 import seedu.addressbook.data.exception.IllegalValueException;
 import seedu.addressbook.data.person.Fees;
 import seedu.addressbook.data.person.Person;
-import seedu.addressbook.data.person.ReadOnlyPerson;
 import seedu.addressbook.data.person.UniquePersonList.PersonNotFoundException;
+import seedu.addressbook.data.tag.Tag;
 
 /**
  * Adds fees to a respective person
  */
-public class AddFeesCommand extends Command {
+public class EditFeesCommand extends Command {
 
-    public static final String COMMAND_WORD = "addfees";
+    public static final String COMMAND_WORD = "editfees";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ":\n" + "Adds fees to an existing person "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ":\n" + "Edits the fees of an existing person "
             + "in the address book. Fees are automatically marked as private.\n\t"
             + "Parameters: INDEX FEES DUEDATE\n\t"
             + "Example: " + COMMAND_WORD + " 1 3264.90 22-12-2018";
@@ -28,7 +31,7 @@ public class AddFeesCommand extends Command {
     /**
      * Use a constructor to update the fees values in AddressBook.
      */
-    public AddFeesCommand(int index, String fees, String date) throws IllegalValueException {
+    public EditFeesCommand(int index, String fees, String date) throws IllegalValueException {
         super(index);
         this.fees = new Fees(fees, date);
     }
@@ -37,17 +40,26 @@ public class AddFeesCommand extends Command {
      * Constructor used for Privileges
      * Command constructed has no functionality
      * */
-    public AddFeesCommand() {
+    public EditFeesCommand() {
         // Does nothing
     }
 
     @Override
     public CommandResult execute() {
         try {
-            final ReadOnlyPerson target = getTargetReadOnlyPerson();
-            Person person = addressBook.findPerson(target);
+            Person person = getTargetPerson();
             person.setFees(fees);
-            return new CommandResult(String.format(MESSAGE_SUCCESS, target.getAsTextShowFee()));
+            if ("0.00".equals(fees.value)) {
+                Set<Tag> temp = new HashSet<>();
+                temp = person.getTags();
+                for (Tag t : temp) {
+                    if ("feesdue".equals(t.tagName)) {
+                        temp.remove(t);
+                    }
+                }
+                person.setTags(temp);
+            }
+            return new CommandResult(String.format(MESSAGE_SUCCESS, person.getAsTextShowFee()));
         } catch (PersonNotFoundException pnfe) {
             return new CommandResult(Messages.MESSAGE_PERSON_NOT_IN_ADDRESSBOOK);
         }

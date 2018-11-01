@@ -7,25 +7,19 @@ import seedu.addressbook.formatter.PersonListFormat;
 /**
  * Lists all persons in the address book to the user.
  */
-public class ListFeesCommand extends Command {
+public class ListDueFeesCommand extends Command {
 
-    public static final String COMMAND_WORD = "listfees";
+    public static final String COMMAND_WORD = "listdue";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ":\n"
-            + "Displays all names and fees in the address book.\n\t"
+            + "Displays all the names and fees of people with fees due with respect to today's date.\n\t"
             + "Example: " + COMMAND_WORD;
-
-    /**
-     * Constructor used for Privileges
-     * Command constructed has no functionality
-     * */
-    public ListFeesCommand() {
-    }
 
     @Override
     public CommandResult execute() {
-        return new CommandResult(getMessageForFeesListShownSummary(addressBook.listFeesPerson()),
-                addressBook.listFeesPerson(), PersonListFormat.FEES_DETAILS);
+        String date = java.time.LocalDate.now().toString();
+        return new CommandResult(getMessageForFeesListShownSummary(addressBook.dueFeesPerson(date)),
+                addressBook.dueFeesPerson(date), PersonListFormat.FEES_DUE_DETAILS);
     }
     @Override
     public Category getCategory() {

@@ -1,5 +1,6 @@
 package seedu.addressbook.commands;
 
+import static seedu.addressbook.common.Messages.MESSAGE_FEES_LISTED_OVERVIEW;
 import static seedu.addressbook.ui.Gui.DISPLAYED_INDEX_OFFSET;
 
 import java.util.List;
@@ -80,6 +81,15 @@ public abstract class Command {
     }
 
     /**
+     * Constructs a feedback message to summarise an operation that displayed a listing of persons.
+     *
+     * @return summary message for persons displayed
+     */
+    public static String getMessageForFeesListShownSummary(List<? extends ReadOnlyPerson> feesList) {
+        return String.format(MESSAGE_FEES_LISTED_OVERVIEW, feesList.size());
+    }
+
+    /**
      * Constructs a feedback message to summarise an operation that displayed a listing of assessments.
      *
      * @param assessmentsDisplayed used to generate summary
@@ -97,16 +107,6 @@ public abstract class Command {
      */
     public static String getMessageForExamListShownSummary(List<? extends ReadOnlyExam> examsDisplayed) {
         return String.format(Messages.MESSAGE_EXAMS_LISTED_OVERVIEW, examsDisplayed.size());
-    }
-
-    /**
-     * Constructs a feedback message to summarise an operation that displayed a listing of fees.
-     *
-     * @param personsDisplayed used to generate summary
-     * @return summary message for fees displayed
-     */
-    public static String getMessageForFeesListShownSummary(List<? extends ReadOnlyPerson> personsDisplayed) {
-        return String.format(Messages.MESSAGE_PERSONS_LISTED_OVERVIEW, personsDisplayed.size());
     }
 
     /**

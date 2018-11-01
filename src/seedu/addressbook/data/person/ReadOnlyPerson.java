@@ -127,6 +127,20 @@ public interface ReadOnlyPerson {
     }
 
     /**
+     * Formats the person as text, showing name and fees and status due.
+     */
+    default String getAsTextShowDueFee() {
+        final StringBuilder builder = new StringBuilder();
+        final String stringChain = Formatter.getPrintableString(
+                true,
+                getName(),
+                getFees());
+        builder.append(stringChain);
+        builder.append("Overdue!\n");
+        return builder.toString();
+    }
+
+    /**
      * Formats the person as text, showing name and fees.
      */
     default String getAsTextShowFee() {

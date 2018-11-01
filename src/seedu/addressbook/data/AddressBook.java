@@ -142,8 +142,15 @@ public class AddressBook {
     /**
      * Loops through the list
      */
-    public String loopFeesPerson(ReadOnlyPerson person) throws PersonNotFoundException {
-        return allPersons.loopFees(person);
+    public List<ReadOnlyPerson> listFeesPerson() {
+        return allPersons.listFees();
+    }
+
+    /**
+     * Loops through the list to get overdue fees
+     */
+    public List<ReadOnlyPerson> dueFeesPerson(String date) {
+        return allPersons.dueFees(date);
     }
 
     /**

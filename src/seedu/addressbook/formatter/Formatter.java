@@ -57,6 +57,10 @@ public class Formatter {
                 break;
             case NAMES_ONLY: formattedPersons.add(person.getAsTextShowOnlyName());
                 break;
+            case FEES_DETAILS: formattedPersons.add(person.getAsTextShowFee());
+                break;
+            case FEES_DUE_DETAILS: formattedPersons.add(person.getAsTextShowDueFee());
+                break;
             default:
                 // all enums should be accounted for, asserts false if this statement is reached
                 assert false;

@@ -32,6 +32,7 @@ import seedu.addressbook.commands.exams.AddExamCommand;
 import seedu.addressbook.commands.exams.ClearExamsCommand;
 import seedu.addressbook.commands.exams.DeleteExamCommand;
 import seedu.addressbook.commands.exams.EditExamCommand;
+import seedu.addressbook.commands.fees.EditFeesCommand;
 import seedu.addressbook.commands.fees.ViewFeesCommand;
 import seedu.addressbook.commands.general.ExitCommand;
 import seedu.addressbook.commands.general.HelpCommand;
@@ -292,7 +293,7 @@ public class LogicTest {
     @Test
     public void executeAddFeesCommandInvalidData() throws Exception {
         assertCommandBehavior(
-                "addfees 2 1.111 01-01-2018", Fees.MESSAGE_FEES_CONSTRAINTS);
+                "editfees 2 1.111 01-01-2018", Fees.MESSAGE_FEES_CONSTRAINTS);
     }
 
     @Test
@@ -310,13 +311,152 @@ public class LogicTest {
 
         helper.addToAddressBook(addressBook, threePersons);
         logic.setLastShownList(threePersons);
-        //TODO make it more modular using generate add command, and string.format(command, p2)
-        //Dk why its not working in this build, the expected message
-        assertCommandBehavior("addfees 2 123.45 01-01-2018",
-                "Fees updated: Person 2\n{private Fees: 123.45 / 01-01-2018} \n",
+        assertCommandBehavior(helper.generateEditFeesCommand(),
+                String.format(EditFeesCommand.MESSAGE_SUCCESS, p2.getAsTextShowFee()),
                 expected,
                 false,
                 threePersons);
+    }
+
+    @Test
+    public void executeAddFeesUpdateZero() throws Exception {
+        TestDataHelper helper = new TestDataHelper();
+        Person p2 = helper.generatePerson(2, true);
+        Tag temp = new Tag("feesdue");
+        p2.getTags().add(temp);
+
+        List<Person> threePersons = helper.generatePersonList(p2);
+
+        AddressBook expected = helper.generateAddressBook(threePersons);
+
+        helper.addToAddressBook(addressBook, threePersons);
+        logic.setLastShownList(threePersons);
+
+        assertCommandBehavior("editfees 1 0.00 00-00-0000",
+                String.format(EditFeesCommand.MESSAGE_SUCCESS, p2.getAsTextShowFee()),
+                expected,
+                false,
+                threePersons);
+
+        assertCommandBehavior("viewall 1",
+                String.format(ViewCommand.MESSAGE_VIEW_PERSON_DETAILS, p2.getName()),
+                p2.getAsTextShowAll(),
+                expected,
+                false,
+                threePersons);
+    }
+
+    @Test
+    public void executeAddFeesInvalidPerson() throws Exception {
+        TestDataHelper helper = new TestDataHelper();
+        Person p1 = helper.generatePerson(1, false);
+        Person p2 = helper.generatePerson(2, false);
+        List<Person> lastShownList = helper.generatePersonList(p1, p2);
+
+        AddressBook expected = new AddressBook();
+        expected.addPerson(p1);
+
+        addressBook.addPerson(p1);
+        logic.setLastShownList(lastShownList);
+
+        assertCommandBehavior("editfees 2 0.00 00-00-0000",
+                MESSAGE_PERSON_NOT_IN_ADDRESSBOOK,
+                expected,
+                false,
+                lastShownList);
+    }
+
+    @Test
+    public void executeListFeesSuccessful() throws Exception {
+        // prepare expectations
+        TestDataHelper helper = new TestDataHelper();
+        AddressBook expected = helper.generateAddressBook(false, true);
+        List<? extends ReadOnlyPerson> expectedList = expected.listFeesPerson();
+
+        // prepare address book state
+        helper.addToAddressBook(addressBook, false, true);
+
+        assertCommandBehavior("listfees",
+                Command.getMessageForFeesListShownSummary(expectedList),
+                expected,
+                true,
+                expectedList);
+    }
+
+    @Test
+    public void executeListFeesEmpty() throws Exception {
+        // prepare expectations
+        TestDataHelper helper = new TestDataHelper();
+        List<? extends ReadOnlyPerson> expectedList = new ArrayList<>();
+        List<Person> list = new ArrayList<>();
+        AddressBook expected = helper.generateAddressBook(list);
+
+        assertCommandBehavior("listfees",
+                Command.getMessageForFeesListShownSummary(expectedList),
+                expected,
+                true,
+                expectedList);
+    }
+
+    @Test
+    public void executeListDueFeesSuccessful() throws Exception {
+        // prepare expectations
+        String date = java.time.LocalDate.now().toString();
+        TestDataHelper helper = new TestDataHelper();
+        AddressBook expected = helper.generateAddressBook(false, true);
+        List<? extends ReadOnlyPerson> expectedList = expected.dueFeesPerson(date);
+
+        // prepare address book state
+        helper.addToAddressBook(addressBook, false, true);
+
+        assertCommandBehavior("listdue",
+                Command.getMessageForFeesListShownSummary(expectedList),
+                expected,
+                true,
+                expectedList);
+    }
+
+    @Test
+    public void executeListDueFeesWithUpdate() throws Exception {
+        TestDataHelper helper = new TestDataHelper();
+        Person p1 = helper.generatePerson(1, false);
+        Person p2 = helper.generatePerson(2, true);
+        Person p3 = helper.generatePerson(3, true);
+
+        List<Person> threePersons = helper.generatePersonList(p1, p2, p3);
+
+        AddressBook expected = helper.generateAddressBook(threePersons);
+        expected.findPerson(p2).setFees(helper.fees());
+
+        List<Person> threePerson = helper.generatePersonList(p1, p2, p3);
+
+        AddressBook temp = helper.generateAddressBook(threePerson);
+        List<? extends ReadOnlyPerson> expectedList = temp.dueFeesPerson("0000-00-00");
+        List<Person> twoPerson = helper.generatePersonList(p1, p3);
+        AddressBook expected2 = helper.generateAddressBook(twoPerson);
+        helper.addToAddressBook(addressBook, twoPerson);
+        logic.setLastShownList(twoPerson);
+
+        assertCommandBehavior("listdue",
+                Command.getMessageForFeesListShownSummary(expectedList),
+                expected2,
+                true,
+                expectedList);
+    }
+
+    @Test
+    public void executeListDueFeesEmpty() throws Exception {
+        // prepare expectations
+        TestDataHelper helper = new TestDataHelper();
+        List<? extends ReadOnlyPerson> expectedList = new ArrayList<>();
+        List<Person> list = new ArrayList<>();
+        AddressBook expected = helper.generateAddressBook(list);
+
+        assertCommandBehavior("listdue",
+                Command.getMessageForFeesListShownSummary(expectedList),
+                expected,
+                true,
+                expectedList);
     }
 
     @Test
@@ -667,7 +807,6 @@ public class LogicTest {
 
         helper.addToAddressBook(addressBook, threePersons);
         logic.setLastShownList(threePersons);
-
         assertCommandBehavior("viewfees 2",
                 String.format(ViewFeesCommand.MESSAGE_VIEWFEE_PERSON_SUCCESS, p2.getAsTextShowFee()),
                 expected,
@@ -916,7 +1055,6 @@ public class LogicTest {
                 false,
                 threePersons.getExpected());
     }
-
 
     @Test
     public void executeClearExamsSuccess() throws Exception {
@@ -1694,4 +1832,3 @@ public class LogicTest {
                 lastShownList);
     }
 }
-

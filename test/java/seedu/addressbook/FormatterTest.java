@@ -57,6 +57,70 @@ public class FormatterTest {
         assertFormatterBehaviour(PersonListFormat.ALL_PUBLIC_DETAILS);
     }
 
+
+    @Test
+    public void formatPersonsOnlyDueFeesFormat() throws Exception {
+        TestDataHelper helper = new TestDataHelper();
+
+        assertEmptyListShowsEmpty(PersonListFormat.FEES_DUE_DETAILS);
+        Person p1 = helper.generatePerson(1, true);
+        Person p2 = helper.generatePerson(2, false);
+        Person p3 = helper.generatePerson(3, false);
+        List<Person> persons = List.of(p1, p2, p3);
+        String expected = String.format(" 1. Person 1" + NEWLINE
+                + " {private Fees: 0.00 / 00-00-0000} " + NEWLINE
+                + " Overdue!" + NEWLINE + " "
+                + NEWLINE)
+                + String.format(" 2. Person 2" + NEWLINE
+                + " {private Fees: 0.00 / 00-00-0000} " + NEWLINE
+                + " Overdue!" + NEWLINE + " "
+                + NEWLINE)
+                + String.format(" 3. Person 3" + NEWLINE
+                + " {private Fees: 0.00 / 00-00-0000} " + NEWLINE
+                + " Overdue!" + NEWLINE + " "
+                + NEWLINE + " ")
+                + NEWLINE;
+        assertEquals(expected, Formatter.format(persons, PersonListFormat.FEES_DUE_DETAILS));
+
+        addInputToExpectedOutput(helper.generatePersonList(false, false , false),
+                String.format(" 1. Person 1" + NEWLINE
+                        + " {private Fees: 0.00 / 00-00-0000} " + NEWLINE
+                        + " Overdue!" + NEWLINE + " "
+                        + NEWLINE)
+                        + String.format(" 2. Person 2" + NEWLINE
+                        + " {private Fees: 0.00 / 00-00-0000} " + NEWLINE
+                        + " Overdue!" + NEWLINE + " "
+                        + NEWLINE)
+                        + String.format(" 3. Person 3" + NEWLINE
+                        + " {private Fees: 0.00 / 00-00-0000} " + NEWLINE
+                        + " Overdue!" + NEWLINE + " "
+                        + NEWLINE + " ")
+                        + NEWLINE);
+        assertFormatterBehaviour(PersonListFormat.FEES_DUE_DETAILS);
+    }
+
+    @Test
+    public void formatPersonListFeeFormat() throws Exception {
+        TestDataHelper helper = new TestDataHelper();
+
+        assertEmptyListShowsEmpty(PersonListFormat.FEES_DETAILS);
+        addInputToExpectedOutput(helper.generatePersonList(false, false , false),
+                String.format(" 1. Person 1" + NEWLINE
+                        + " {private Fees: 0.00 / 00-00-0000} " + NEWLINE
+                        + " "
+                        + NEWLINE)
+                        + String.format(" 2. Person 2" + NEWLINE
+                        + " {private Fees: 0.00 / 00-00-0000} " + NEWLINE
+                        + " "
+                        + NEWLINE)
+                        + String.format(" 3. Person 3" + NEWLINE
+                        + " {private Fees: 0.00 / 00-00-0000} " + NEWLINE
+                        + " "
+                        + NEWLINE + " ")
+                        + NEWLINE);
+        assertFormatterBehaviour(PersonListFormat.FEES_DETAILS);
+    }
+
     @Test
     public void formatPersonsOnlyNameFormat() throws Exception {
         TestDataHelper helper = new TestDataHelper();
