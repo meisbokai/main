@@ -2,6 +2,7 @@ package seedu.addressbook.parser;
 
 import static java.lang.Integer.parseInt;
 import static seedu.addressbook.common.Messages.MESSAGE_COMMAND_NOT_FOUND;
+import static seedu.addressbook.common.Messages.MESSAGE_DATE_CONSTRAINTS;
 import static seedu.addressbook.common.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.addressbook.common.Messages.MESSAGE_INVALID_DATE;
 import static seedu.addressbook.common.Messages.MESSAGE_WRONG_NUMBER_ARGUMENTS;
@@ -655,6 +656,9 @@ public class Parser {
         } catch (java.text.ParseException pe) {
             return new IncorrectCommand(String.format(MESSAGE_INVALID_DATE,
                     UpdateAttendanceCommand.MESSAGE_USAGE));
+        } catch (IllegalValueException ive) {
+            return new IncorrectCommand(String.format(MESSAGE_INVALID_DATE + MESSAGE_DATE_CONSTRAINTS +
+                    UpdateAttendanceCommand.MESSAGE_USAGE));
         }
 
     }
@@ -688,6 +692,9 @@ public class Parser {
         } catch (java.text.ParseException pe) {
             return new IncorrectCommand(String.format(MESSAGE_INVALID_DATE,
                     UpdateAttendanceCommand.MESSAGE_USAGE));
+        } catch (IllegalValueException ive) {
+            return new IncorrectCommand(String.format(MESSAGE_INVALID_DATE + MESSAGE_DATE_CONSTRAINTS +
+                    ReplaceAttendanceCommand.MESSAGE_USAGE));
         }
 
     }
@@ -714,7 +721,6 @@ public class Parser {
     /**
      * Parses arguments in the context of the view attendance date command.
      */
-    // TODO to be fixed
     private Command prepareViewDateAttendance(String args) {
         final Matcher matcher = ATTENDANCE_VIEW_DATE_FORMAT.matcher(args.trim());
         // Validate arg string format
@@ -732,8 +738,10 @@ public class Parser {
         } catch (NumberFormatException nfe) { //do the most specific catch on top
             return new IncorrectCommand(nfe.getMessage());
         } catch (java.text.ParseException pe) {
-            return new IncorrectCommand(String.format(MESSAGE_INVALID_DATE,
-                UpdateAttendanceCommand.MESSAGE_USAGE));
+            return new IncorrectCommand(String.format(MESSAGE_INVALID_DATE + ViewAttendanceDateCommand.MESSAGE_USAGE));
+         }catch (IllegalValueException ive) {
+            return new IncorrectCommand(String.format(MESSAGE_INVALID_DATE + MESSAGE_DATE_CONSTRAINTS +
+                    ViewAttendanceDateCommand.MESSAGE_USAGE));
         }
     }
 
