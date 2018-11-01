@@ -1,5 +1,8 @@
 package seedu.addressbook.commands.attendance;
 
+import static seedu.addressbook.common.Messages.MESSAGE_DATE_CONSTRAINTS;
+import static seedu.addressbook.common.Utils.isValidDate;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -7,6 +10,7 @@ import java.util.List;
 import seedu.addressbook.commands.Command;
 import seedu.addressbook.commands.commandresult.CommandResult;
 import seedu.addressbook.common.Messages;
+import seedu.addressbook.data.exception.IllegalValueException;
 import seedu.addressbook.data.person.details.Name;
 
 /**
@@ -19,13 +23,15 @@ public class ViewAttendanceDateCommand extends Command {
             + "Views the attendance of the date. \n"
             + "Parameters: d/date \n"
             + "\tExample: " + COMMAND_WORD + " " + "d/28-10-2018";
-
     public static final String MESSAGE_SUCCESS = "Attendance for the given date, ";
 
     private String date;
 
     // Constructor
-    public ViewAttendanceDateCommand(String date) {
+    public ViewAttendanceDateCommand(String date) throws IllegalValueException {
+        if (!isValidDate(date)) {
+            throw new IllegalValueException(MESSAGE_DATE_CONSTRAINTS);
+        }
         this.date = date;
     }
 
@@ -41,15 +47,23 @@ public class ViewAttendanceDateCommand extends Command {
     public CommandResult execute() {
         try {
             String outputDate = date;
-            String output = "";
+            String present = "";
+            String absent = "";
             if ("0".equals(date)) {
                 outputDate = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
             }
             final List<Name> listOfPresent = addressBook.getPresentPeople(date);
+            final List<Name> listOfAbsent = addressBook.getAbsentPeople(date);
             for (Name n: listOfPresent) {
-                output += (n + "\n");
+                present += (n + "\n");
             }
-            return new CommandResult(String.format(MESSAGE_SUCCESS) + outputDate + ":\n" + output);
+            for (Name n: listOfAbsent) {
+                absent += (n + "\n");
+            }
+
+            return new CommandResult(String.format(MESSAGE_SUCCESS) + outputDate + ":\n"
+                    + "Present\n" + present + "\n"
+                    + "Absent\n" + absent + "\n");
 
         } catch (IndexOutOfBoundsException ie) {
             return new CommandResult(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
