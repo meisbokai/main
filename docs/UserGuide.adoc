@@ -632,7 +632,8 @@ Views the attendance of the first person in the list.
 ==== View the attendance of a date: `viewAttenDate`
 View the attendance of the given date. +
 Format: `viewAttenDate DATE`
-Shows a list of people who were present on the particular date. +
+Shows a list of people who were present and absent on the particular date. +
+If a person's attendance has yet to be taken, the person's name will default be under abesnt. +
 ~*If~ ~the~ ~input~ ~date~ ~is~ ~0~ ~(e.g.~ ~d/0)~~,~ ~the~ ~current~ ~date~ ~will~ ~be~ ~used~
 
 ****
