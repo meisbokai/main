@@ -340,7 +340,7 @@ The exam index refers to the index number shown in the most recent exams listing
 
 [NOTE]
 =====
-Changes to an exam in the exam book will change the corresponding exam for all persons registered under it, be it an edit or a delete. 
+Changes to an exam in the exam book will change the corresponding exam for all persons registered under it, be it an 'edit' or a 'delete'.
 Exams registered for a person will not be shown in the `list` command and only viewable under the `viewall` and `viewexams` command.
 =====
 
@@ -357,7 +357,7 @@ Deregister a specified person for a specified exam. +
 Format: `deregexam PERSONINDEX EXAMINDEX`
 
 ****
-Degisters a specified person for a specified exam.
+Deregisters a specified person for a specified exam.
 The person index refers to the index number shown in the most recent persons listing.
 The exam index refers to the index number shown in the most recent exams listing.
 ****
@@ -398,7 +398,7 @@ Adds a numerical fee to a person in the address book. +
 Format: `add INDEX FEE`
 
 ****
-Words in `UPPER_CASE` are the parameters, order of parameters are fixed.
+Words in `UPPER_CASE` are the parameters, the order of parameters are fixed.
 
 Fees are automatically marked as `private`. `private` details can only
 be seen using the `viewall` command, or for fees specifically, the `viewfees` command.
@@ -432,7 +432,7 @@ Views fees of the 1st person in the results of the `find` command.
 // tag::account[]
 [[account]]
 === Account Commands
-Below are the commands that deals with accounts:
+Below are the commands that deal with accounts:
 
 ==== Add an account to a person: `addacc`  image:Admin.png[16,16]
 Adds an account to the target person. +
@@ -467,7 +467,7 @@ Deletes the account of the first person in the list, provided that he has an acc
 ****
 
 ==== Login to an account: `login`  image:Basic.png[16,16]
-Login to the account with the specified username and password. +
+Log in to the account with the specified username and password. +
 Format: `login USERNAME PASSWORD` +
 Logs into the account with the given USERNAME and PASSWORD. +
 Sets the current privilege level to that of the account.
@@ -524,7 +524,7 @@ Shows a list of all assessments in the address book, along with an index for eac
 Format: `listassess`
 
 ==== Deleting an assessment : `deleteassess`
-Deletes the specified assessment from the assessment book, based on index. Irreversible. +
+Deletes the specified assessment from the assessment book, based on the index. Irreversible. +
 Format: `deleteassess INDEX`
 
 ****
@@ -540,7 +540,7 @@ Adds grades to selected student/person for a specific assessment listed in addre
 Format: `addgrades PERSON_INDEX ASSESSMENT_INDEX GRADES`
 
 ****
-Words in `UPPER_CASE` are the parameters. There are three parameter for this command, which are the index of the person
+Words in `UPPER_CASE` are the parameters. There are three parameters for this command, which are the index of the person
 or student, index of the appropriate assessment and the grades themselves.
 
 ****
@@ -552,12 +552,11 @@ Examples:
 
 ==== Viewing grades of a person : `viewgrades`
 
-View the grades  for all assessments of a selected student/person. +
+View the grades for all assessments of a selected student/person. +
 Format: `viewgrades PERSON_INDEX`
 
 ****
-Words in `UPPER_CASE` are the parameters. There is only one parameter for this command, which is the index of the person
-or studen whos grades you want to view.
+Words in `UPPER_CASE` are the parameters. There is only one parameter for this command, which is the index of the person whos grades you want to view.
 
 ****
 
@@ -571,7 +570,7 @@ Deletes the specified assessment and respective grades of a student. It is irrev
 Format: `deletegrades PERSON_INDEX ASSESSMENT_INDEX`
 
 ****
-Deletes the grades and assessment at the specified `ASSESSMENT_INDEX` of a person specific by the `PERSON_INDEX`.
+Deletes the grades and assessment at the specified `ASSESSMENT_INDEX` of a person specified by the `PERSON_INDEX`.
 The index refers to the index number shown in the most recent person and assessments listing respectively.
 ****
 
@@ -600,7 +599,7 @@ Marks the attendance of the first person in the list as present for the date 29t
 
 * `list`  +
 `attendance 1 d/0 att/0` +
-Marks the attendance of the first person in the list as abesnt for today's date.
+Marks the attendance of the first person on the list as absent for today's date.
 ****
 
 ==== Replaces the attendance of a person: `replaceAtten`
@@ -626,21 +625,21 @@ Examples:
 
 * `list`  +
 `viewAttenPerson 1`
-Views the attendance of the first person in the list.
+Views the attendance of the first person on the list.
 ****
 
 ==== View the attendance of a date: `viewAttenDate`
 View the attendance of the given date. +
 Format: `viewAttenDate DATE`
-Shows a list of people who were present and absent on the particular date. +
-If a person's attendance has yet to be taken, the person's name will default be under abesnt. +
+Shows a list of people who were present and absent on a particular date. +
+If a person's attendance has yet to be taken, the person's name will default be under absent. +
 ~*If~ ~the~ ~input~ ~date~ ~is~ ~0~ ~(e.g.~ ~d/0)~~,~ ~the~ ~current~ ~date~ ~will~ ~be~ ~used~
 
 ****
 Examples:
 
 * `viewAttenDate d/28-10-2018` +
-Shows a list of people who were present on the particular date. +
+Shows a list of people who were present on a particular date. +
 
 * `viewAttenDate d/0` +
 Shows a list of people who were present today. +
