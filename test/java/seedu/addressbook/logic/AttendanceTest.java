@@ -3,6 +3,7 @@ package seedu.addressbook.logic;
 import static junit.framework.TestCase.assertEquals;
 import static seedu.addressbook.common.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.addressbook.common.Messages.MESSAGE_INVALID_DATE;
+import static seedu.addressbook.common.Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX;
 import static seedu.addressbook.logic.CommandAssertions.assertCommandBehavior;
 
 import java.text.SimpleDateFormat;
@@ -67,26 +68,29 @@ public class AttendanceTest {
      * UpdateAttendance
      *      - invalid argument
      *      - success
-     *      - invalid date
+     *      - invalid date format
      *      - no input date (d/0)
      *      - duplicate date
+     *      - invalid index
      *
      * ViewAttendancePerson
      *      - invalid argument
      *      - success
      *      - NIL date entry
+     *      - invalid index
      *
      * ReplaceAttendance
      *      - invalid argument
      *      - Success
-     *      - invalid date
+     *      - invalid date format
      *      - no input date (d/0)
      *      - No existing attendance
+     *      - invalid index
      *
      * ViewAttendanceDate
      *      - invalid argument
      *      = success
-     *      + invalid date
+     *      + invalid date format
      *      - no input date (d/0)
      *
      */
@@ -192,14 +196,33 @@ public class AttendanceTest {
     }
 
     @Test
-    public void executeViewAttendanceInvalidArgsFormat() throws Exception {
+    public void executeUpdateAttendanceInvalidPersonIndex() throws Exception {
+        TestDataHelper helper = new TestDataHelper();
+        Person p1 = helper.generatePerson(1, false);
+
+        List<Person> personList = helper.generatePersonList(p1);
+
+        AddressBook expectedBook = helper.generateAddressBook(personList);
+
+        helper.addToAddressBook(addressBook, personList);
+        logic.setLastShownList(personList);
+
+        assertCommandBehavior("attendance 2 d/29-09-2018 att/1",
+                MESSAGE_INVALID_PERSON_DISPLAYED_INDEX,
+                expectedBook,
+                false,
+                personList);
+    }
+
+    @Test
+    public void executeViewAttendancePersonInvalidArgsFormat() throws Exception {
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT,
                 ViewAttendancePersonCommand.MESSAGE_USAGE);
         assertCommandBehavior("viewAttenPerson ", expectedMessage);
     }
 
     @Test
-    public void executeViewAttendanceSuccess() throws Exception {
+    public void executeViewAttendancePersonSuccess() throws Exception {
         TestDataHelper helper = new TestDataHelper();
         Person p1 = helper.generatePerson(1, false);
         Person p1Expected = helper.generatePerson(1, false);
@@ -222,7 +245,7 @@ public class AttendanceTest {
     }
 
     @Test
-    public void executeViewAttendanceNilAttendance() throws Exception {
+    public void executeViewAttendancePersonNilAttendance() throws Exception {
         TestDataHelper helper = new TestDataHelper();
         Person p1 = helper.generatePerson(1, false);
         Person p1Expected = helper.generatePerson(1, false);
@@ -238,6 +261,25 @@ public class AttendanceTest {
         assertCommandBehavior("viewAttenPerson 1",
                 ViewAttendancePersonCommand.MESSAGE_SUCCESS + p1Expected.getName()
                         + ":\n" + p1Expected.viewAttendanceMethod(),
+                expectedBook,
+                false,
+                personList);
+    }
+
+    @Test
+    public void executeViewAttendancePersonInvalidPersonIndex() throws Exception {
+        TestDataHelper helper = new TestDataHelper();
+        Person p1 = helper.generatePerson(1, false);
+
+        List<Person> personList = helper.generatePersonList(p1);
+
+        AddressBook expectedBook = helper.generateAddressBook(personList);
+
+        helper.addToAddressBook(addressBook, personList);
+        logic.setLastShownList(personList);
+
+        assertCommandBehavior("viewAttenPerson 2",
+                MESSAGE_INVALID_PERSON_DISPLAYED_INDEX,
                 expectedBook,
                 false,
                 personList);
@@ -333,6 +375,25 @@ public class AttendanceTest {
                 onePersons);
 
         assertEquals(p1.getAttendance(), p1Expected.getAttendance());
+    }
+
+    @Test
+    public void executeReplaceAttendanceInvalidPersonIndex() throws Exception {
+        TestDataHelper helper = new TestDataHelper();
+        Person p1 = helper.generatePerson(1, false);
+
+        List<Person> personList = helper.generatePersonList(p1);
+
+        AddressBook expectedBook = helper.generateAddressBook(personList);
+
+        helper.addToAddressBook(addressBook, personList);
+        logic.setLastShownList(personList);
+
+        assertCommandBehavior("replaceAtten 2 d/29-09-2018 att/1",
+                MESSAGE_INVALID_PERSON_DISPLAYED_INDEX,
+                expectedBook,
+                false,
+                personList);
     }
 
     @Test
