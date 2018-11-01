@@ -39,18 +39,18 @@ public class AttendanceTest {
      */
     @Rule
     public TemporaryFolder saveFolder = new TemporaryFolder();
-    private StatisticsBook statisticBook;
     private Logic logic;
+    private AddressBook addressBook;
 
     @Before
     public void setUp() throws Exception {
         StorageStub stubFile;
         StorageFile saveFile;
 
-        AddressBook addressBook = new AddressBook();
+        addressBook = new AddressBook();
         Privilege privilege = new Privilege(new AdminUser());
         ExamBook examBook = new ExamBook();
-        statisticBook = new StatisticsBook();
+        StatisticsBook statisticBook = new StatisticsBook();
         // Privilege set to admin to allow all commands.
         // Privilege restrictions are tested separately under PrivilegeTest.
         saveFile = new StorageFile(saveFolder.newFile("testSaveFile.txt").getPath());
