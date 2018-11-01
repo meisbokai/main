@@ -54,6 +54,10 @@ public class Utils {
      */
     public static boolean isValidDate(String value) {
         boolean valid;
+        if ("0".equals(value)) {
+            valid = true;
+            return valid;
+        }
         final String format = "dd-MM-yyyy";
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
         try {
