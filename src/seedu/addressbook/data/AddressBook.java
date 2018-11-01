@@ -183,6 +183,10 @@ public class AddressBook {
         return allPersons.listOfPresentPeople(date);
     }
 
+    public List getAbsentPeople(String date) {
+        return allPersons.listOfAbsentPeople(date);
+    }
+
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
