@@ -60,11 +60,7 @@ public class Exam implements ReadOnlyExam {
         if (!isValidTime(trimmedStartTime) || !isValidTime(trimmedEndTime)) {
             throw new IllegalValueException(MESSAGE_TIME_CONSTRAINTS);
         }
-        try {
-            if (!isValidTimeInterval(trimmedStartTime, trimmedEndTime)) {
-                throw new IllegalValueException(MESSAGE_TIME_INTERVAL_CONSTRAINTS);
-            }
-        } catch (IllegalValueException ive) {
+        if (!isValidTimeInterval(trimmedStartTime, trimmedEndTime)) {
             throw new IllegalValueException(MESSAGE_TIME_INTERVAL_CONSTRAINTS);
         }
         this.examStartTime = trimmedStartTime;
@@ -110,17 +106,17 @@ public class Exam implements ReadOnlyExam {
      * Checks if a given time interval is valid
      */
     public static boolean isValidTimeInterval(String examStart, String examEnd) {
-        boolean valid;
+        boolean isValid;
         String format = "HH:mm";
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
         try {
             LocalTime startTime = LocalTime.parse(examStart, formatter);
             LocalTime endTime = LocalTime.parse(examEnd, formatter);
-            valid = startTime.isBefore(endTime);
+            isValid = startTime.isBefore(endTime);
         } catch (DateTimeParseException ex) {
-            valid = false;
+            isValid = false;
         }
-        return valid;
+        return isValid;
     }
 
     public String getPrintableExamString() {

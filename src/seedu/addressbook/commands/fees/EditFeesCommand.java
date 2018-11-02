@@ -3,7 +3,8 @@ package seedu.addressbook.commands.fees;
 import java.util.HashSet;
 import java.util.Set;
 
-import seedu.addressbook.commands.Command;
+import seedu.addressbook.commands.commandformat.indexformat.IndexFormatCommand;
+import seedu.addressbook.commands.commandformat.indexformat.ObjectTargeted;
 import seedu.addressbook.commands.commandresult.CommandResult;
 import seedu.addressbook.common.Messages;
 import seedu.addressbook.data.exception.IllegalValueException;
@@ -15,8 +16,7 @@ import seedu.addressbook.data.tag.Tag;
 /**
  * Adds fees to a respective person
  */
-public class EditFeesCommand extends Command {
-
+public class EditFeesCommand extends IndexFormatCommand {
     public static final String COMMAND_WORD = "editfees";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ":\n" + "Edits the fees of an existing person "
@@ -32,7 +32,7 @@ public class EditFeesCommand extends Command {
      * Use a constructor to update the fees values in AddressBook.
      */
     public EditFeesCommand(int index, String fees, String date) throws IllegalValueException {
-        super(index);
+        setTargetIndex(index, ObjectTargeted.PERSON);
         this.fees = new Fees(fees, date);
     }
 
@@ -71,6 +71,11 @@ public class EditFeesCommand extends Command {
     @Override
     public boolean isMutating() {
         return true;
+    }
+
+    @Override
+    public Category getCategory() {
+        return Category.FEES;
     }
 
     @Override

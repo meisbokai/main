@@ -2,7 +2,7 @@ package seedu.addressbook.commands.privilege;
 
 import seedu.addressbook.commands.commandformat.KeywordsFormatCommand;
 import seedu.addressbook.commands.commandresult.CommandResult;
-import seedu.addressbook.logic.Logic;
+import seedu.addressbook.logic.Logic.WrongPasswordEnteredException;
 
 /**
  * Raises the current privilege to Admin
@@ -23,9 +23,9 @@ public class RaisePrivilegeCommand extends KeywordsFormatCommand {
 
     private String password;
 
-    private void validatePassword() throws Logic.WrongPasswordEnteredException {
+    private void validatePassword() throws WrongPasswordEnteredException {
         if (!password.equals(addressBook.getMasterPassword())) {
-            throw new Logic.WrongPasswordEnteredException();
+            throw new WrongPasswordEnteredException();
         }
     }
 
@@ -35,7 +35,7 @@ public class RaisePrivilegeCommand extends KeywordsFormatCommand {
             validatePassword();
             privilege.raiseToAdmin();
             return new CommandResult(String.format(MESSAGE_SUCCESS, privilege.getLevelAsString()));
-        } catch (Logic.WrongPasswordEnteredException wpe) {
+        } catch (WrongPasswordEnteredException wpe) {
             return new CommandResult(MESSAGE_WRONG_PASSWORD);
         }
     }

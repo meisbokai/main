@@ -51,6 +51,7 @@ public class Logic {
         setAddressBook(storage.load());
         setExamBook(storage.loadExam());
         setStatisticsBook(storage.loadStatistics());
+        storage.syncAddressBookExamBook(addressBook, examBook);
         initPrivilege();
     }
 

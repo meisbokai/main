@@ -2,7 +2,7 @@ package seedu.addressbook.commands.exams;
 
 import java.util.Map;
 
-import seedu.addressbook.commands.Command;
+import seedu.addressbook.commands.commandformat.indexformat.IndexFormatCommand;
 import seedu.addressbook.commands.commandresult.CommandResult;
 import seedu.addressbook.common.Messages;
 import seedu.addressbook.data.exception.IllegalValueException;
@@ -14,7 +14,7 @@ import seedu.addressbook.parser.ExamField;
 /**
  * Edits an exam identified using its last displayed index in the exam book.
  */
-public class EditExamCommand extends Command {
+public class EditExamCommand extends IndexFormatCommand {
 
     public static final String COMMAND_WORD = "editexam";
 
@@ -61,13 +61,13 @@ public class EditExamCommand extends Command {
     @Override
     public CommandResult execute() {
         try {
-            final ReadOnlyExam target = getTargetExam(targetExamIndex);
+            final ReadOnlyExam target = getTargetReadOnlyExam(targetExamIndex);
             Exam initial = new Exam(target);
-            Exam toEdit = createEditedExam(initial, changedDetails);
-            examBook.editExam(target, toEdit);
-            addressBook.updateExam(initial, toEdit);
+            Exam editedExam = createEditedExam(initial, changedDetails);
+            examBook.editExam(target, editedExam);
+            addressBook.updateExam(initial, editedExam);
             return new CommandResult(String.format(MESSAGE_EDIT_EXAM_SUCCESS, target,
-                        toEdit));
+                        editedExam));
         } catch (ExamIndexOutOfBoundsException eie) {
             return new CommandResult(Messages.MESSAGE_INVALID_EXAM_DISPLAYED_INDEX);
         } catch (UniqueExamList.ExamNotFoundException enfe) {
@@ -152,10 +152,10 @@ public class EditExamCommand extends Command {
      * Checks if the string to edit private status is valid.
      */
     private static boolean isPrivateValid(String value) {
-        boolean valid = true;
+        boolean isValid = true;
         if (value != null && !"y".equals(value.trim()) && !"n".equals(value.trim())) {
-            valid = false;
+            isValid = false;
         }
-        return valid;
+        return isValid;
     }
 }

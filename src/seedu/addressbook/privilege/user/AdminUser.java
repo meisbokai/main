@@ -7,6 +7,7 @@ import seedu.addressbook.commands.Command;
 import seedu.addressbook.commands.account.AddAccountCommand;
 import seedu.addressbook.commands.account.DeleteAccountCommand;
 import seedu.addressbook.commands.exams.ClearExamsCommand;
+import seedu.addressbook.commands.fees.EditFeesCommand;
 import seedu.addressbook.commands.person.AddCommand;
 import seedu.addressbook.commands.person.ClearCommand;
 import seedu.addressbook.commands.person.DeleteCommand;
@@ -24,6 +25,7 @@ public class AdminUser extends TutorUser {
             new EditPasswordCommand(),
             new ClearExamsCommand(),
             new EditPasswordCommand(),
+            new EditFeesCommand(),
             new SetPermanentAdminCommand(),
             new AddAccountCommand(),
             new DeleteAccountCommand()

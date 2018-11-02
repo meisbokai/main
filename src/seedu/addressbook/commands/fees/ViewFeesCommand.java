@@ -1,6 +1,7 @@
 package seedu.addressbook.commands.fees;
 
-import seedu.addressbook.commands.Command;
+import seedu.addressbook.commands.commandformat.indexformat.IndexFormatCommand;
+import seedu.addressbook.commands.commandformat.indexformat.ObjectTargeted;
 import seedu.addressbook.commands.commandresult.CommandResult;
 import seedu.addressbook.common.Messages;
 import seedu.addressbook.data.person.ReadOnlyPerson;
@@ -10,7 +11,7 @@ import seedu.addressbook.data.person.UniquePersonList.PersonNotFoundException;
  * Shows the fees owed with respect to the person identified in the last displayed index.
  * It's a private detail which is showed.
  */
-public class ViewFeesCommand extends Command {
+public class ViewFeesCommand extends IndexFormatCommand {
 
     public static final String COMMAND_WORD = "viewfees";
 
@@ -29,7 +30,7 @@ public class ViewFeesCommand extends Command {
     }
 
     public ViewFeesCommand(int targetVisibleIndex) {
-        super(targetVisibleIndex);
+        setTargetIndex(targetVisibleIndex, ObjectTargeted.PERSON);
     }
 
     @Override
@@ -53,7 +54,7 @@ public class ViewFeesCommand extends Command {
 
     @Override
     public Category getCategory() {
-        return Category.PERSON;
+        return Category.FEES;
     }
 
     @Override

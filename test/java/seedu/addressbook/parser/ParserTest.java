@@ -20,6 +20,7 @@ import seedu.addressbook.commands.assessment.DeleteAssessmentCommand;
 import seedu.addressbook.commands.assessment.DeleteGradesCommand;
 import seedu.addressbook.commands.assessment.ListAssessmentCommand;
 import seedu.addressbook.commands.assessment.ViewGradesCommand;
+import seedu.addressbook.commands.commandformat.indexformat.ObjectTargeted;
 import seedu.addressbook.commands.exams.AddExamCommand;
 import seedu.addressbook.commands.exams.EditExamCommand;
 import seedu.addressbook.commands.exams.ExamsListCommand;
@@ -116,7 +117,7 @@ public class ParserTest {
         final int testIndex = 1;
         final String input = "delete " + testIndex;
         final DeleteCommand result = parseAndAssertCommandType(input, DeleteCommand.class);
-        assertEquals(result.getTargetIndex(), testIndex);
+        assertEquals(result.getTargetIndex(ObjectTargeted.PERSON), testIndex);
     }
 
     @Test
@@ -138,7 +139,7 @@ public class ParserTest {
         final int testIndex = 2;
         final String input = "view " + testIndex;
         final ViewCommand result = parseAndAssertCommandType(input, ViewCommand.class);
-        assertEquals(result.getTargetIndex(), testIndex);
+        assertEquals(result.getTargetIndex(ObjectTargeted.PERSON), testIndex);
     }
 
     @Test
@@ -161,7 +162,7 @@ public class ParserTest {
         final int testIndex = 3;
         final String input = "viewall " + testIndex;
         final ViewAllCommand result = parseAndAssertCommandType(input, ViewAllCommand.class);
-        assertEquals(result.getTargetIndex(), testIndex);
+        assertEquals(result.getTargetIndex(ObjectTargeted.PERSON), testIndex);
     }
 
     @Test
@@ -183,7 +184,7 @@ public class ParserTest {
         final int testIndex = 2;
         final String input = "viewgrades " + testIndex;
         final ViewGradesCommand result = parseAndAssertCommandType(input, ViewGradesCommand.class);
-        assertEquals(result.getTargetIndex(), testIndex);
+        assertEquals(result.getTargetIndex(ObjectTargeted.PERSON), testIndex);
     }
 
     /**
@@ -438,7 +439,7 @@ public class ParserTest {
         final int testIndex = -1;
         final String input = "deleteassess " + testIndex;
         final DeleteAssessmentCommand result = parseAndAssertCommandType(input, DeleteAssessmentCommand.class);
-        assertEquals(result.getTargetIndex(), testIndex);
+        assertEquals(result.getTargetIndex(ObjectTargeted.ASSESSMENT), testIndex);
     }
 
     /**
@@ -450,11 +451,11 @@ public class ParserTest {
                 //no index
                 String.format("editexam e/%s s/%s d/%s st/%s et/%s dt/%s", Exam.EXAM_NAME_EXAMPLE,
                         Exam.SUBJECT_NAME_EXAMPLE, Exam.EXAM_DATE_EXAMPLE, Exam.EXAM_START_TIME_EXAMPLE,
-                        Exam.EXAM_END_TIME_EXAMPLE, Exam.EXAM_END_TIME_EXAMPLE, Exam.EXAM_DETAILS_EXAMPLE),
+                        Exam.EXAM_END_TIME_EXAMPLE, Exam.EXAM_DETAILS_EXAMPLE),
                 // no exam name prefix
                 String.format("editexam 1 %s s/%s d/%s st/%s et/%s dt/%s", Exam.EXAM_NAME_EXAMPLE,
                         Exam.SUBJECT_NAME_EXAMPLE, Exam.EXAM_DATE_EXAMPLE, Exam.EXAM_START_TIME_EXAMPLE,
-                        Exam.EXAM_END_TIME_EXAMPLE, Exam.EXAM_END_TIME_EXAMPLE, Exam.EXAM_DETAILS_EXAMPLE)
+                        Exam.EXAM_END_TIME_EXAMPLE, Exam.EXAM_DETAILS_EXAMPLE)
         };
         String resultMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditExamCommand.MESSAGE_USAGE);
         parseAndAssertIncorrectWithMessage(resultMessage, inputs);

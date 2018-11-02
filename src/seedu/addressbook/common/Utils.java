@@ -53,19 +53,15 @@ public class Utils {
      * Solution below adapted from https://stackoverflow.com/a/30578421
      */
     public static boolean isValidDate(String value) {
-        boolean valid;
-        if ("0".equals(value)) {
-            valid = true;
-            return valid;
-        }
+        boolean isValid;
         final String format = "dd-MM-yyyy";
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
         try {
             String parsedDate = LocalDate.parse(value, formatter).format(formatter);
-            valid = value.equals(parsedDate);
+            isValid = value.equals(parsedDate);
         } catch (DateTimeParseException ex) {
-            valid = false;
+            isValid = false;
         }
-        return valid;
+        return isValid;
     }
 }

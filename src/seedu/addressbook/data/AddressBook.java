@@ -6,6 +6,7 @@ import java.util.Optional;
 import seedu.addressbook.data.person.Assessment;
 import seedu.addressbook.data.person.Exam;
 import seedu.addressbook.data.person.Person;
+import seedu.addressbook.data.person.ReadOnlyExam;
 import seedu.addressbook.data.person.ReadOnlyPerson;
 import seedu.addressbook.data.person.UniqueAssessmentsList;
 import seedu.addressbook.data.person.UniqueAssessmentsList.AssessmentNotFoundException;
@@ -128,7 +129,7 @@ public class AddressBook {
      * Removes a particular exam from all persons
      * @param exam the exam
      */
-    public void removeExam(Exam exam) {
+    public void removeExam(ReadOnlyExam exam) {
         allPersons.removeExam(exam);
     }
 

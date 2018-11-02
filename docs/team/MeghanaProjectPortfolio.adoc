@@ -1,6 +1,10 @@
-= *Meghana Narayanan - Project Portfolio*
+= Meghana Narayanan - Project Portfolio
 
-= PROJECT: _ClassRepo_
+:site-section: AboutUs
+:imagesDir: ../images
+:stylesDir: ../stylesheets
+
+== PROJECT: ClassRepo
 
 == *Overview*
 ClassRepo is an enhanced AddressBook application, which is targeted at Secondary Schools to provide them with an easy
@@ -32,14 +36,15 @@ created with JavaFX. It is written in Java, and has about 10 kLoC.
    ** Tweaked contents of User Guide, Developer Guide to fit our project. Contributed to 'About Us' page.
 
    * Community:
-   ** PRs reviewed (with non-trivial review comments): (coming soon)
+   ** PRs reviewed (with non-trivial review comments): https://github.com/CS2113-AY1819S1-F10-1/main/pull/159[#159],
+   https://github.com/CS2113-AY1819S1-F10-1/main/pull/157[#157], https://github.com/CS2113-AY1819S1-F10-1/main/pull/86[#86]
 
 == Contributions to the User Guide
 |===
 |Attached below is a link to the sections I contributed to the User Guide of our project.
 |===
 
-<<../UserGuide.adoc#Grades,Grades/Assessment Section>>
+include::../UserGuide.adoc[tag=Grades]
 
 == Contributions to the Developer Guide
 
@@ -47,5 +52,5 @@ created with JavaFX. It is written in Java, and has about 10 kLoC.
 |Attached below is a link to the sections I contributed to the Developer Guide.
 |===
 
-<<./DeveloperGuide.adoc#Grades,Implementation of Grades/Assessment Feature>>
+include::../DeveloperGuide.adoc[tag=Grades]
 

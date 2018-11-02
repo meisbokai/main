@@ -6,6 +6,7 @@ addressbook.txt
 backup_data.txt
 exams.txt
 statistics.txt
+log.txt
 
 # Package Files #
 *.jar

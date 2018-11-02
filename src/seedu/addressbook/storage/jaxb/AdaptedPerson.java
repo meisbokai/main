@@ -44,7 +44,6 @@ public class AdaptedPerson {
 
     @XmlElement
     private List<AdaptedTag> tagged = new ArrayList<>();
-
     @XmlElement
     private AdaptedAccount account;
 
@@ -100,6 +99,7 @@ public class AdaptedPerson {
         for (Tag tag : source.getTags()) {
             tagged.add(new AdaptedTag(tag));
         }
+
         if (source.getAccount().isPresent()) {
             account = new AdaptedAccount(source.getAccount().get());
         }
@@ -135,8 +135,9 @@ public class AdaptedPerson {
         }
 
         // second call only happens if phone/email/address are all not null
-        return Utils.isAnyNull(name, phone, email, address)
-                || Utils.isAnyNull(phone.value, email.value, address.value);
+        return Utils.isAnyNull(name, phone, email, address, fees)
+                || Utils.isAnyNull(phone.value, email.value, address.value)
+                || Utils.isAnyNull(phone.isPrivate, email.isPrivate, address.isPrivate);
     }
 
     /**
@@ -145,31 +146,32 @@ public class AdaptedPerson {
      * @throws IllegalValueException if there were any data constraints violated in the adapted person
      */
     public Person toModelType() throws IllegalValueException {
-        final Set<Tag> tags = new HashSet<>();
-        for (AdaptedTag tag : tagged) {
-            tags.add(tag.toModelType());
-        }
-        final Set<Exam> examList = new HashSet<>();
-        for (AdaptedExam exam : exams) {
-            examList.add(exam.toModelType());
-        }
-        final Name name = new Name(this.name);
-        final Phone phone = new Phone(this.phone.value, this.phone.isPrivate);
-        final Email email = new Email(this.email.value, this.email.isPrivate);
-        final Address address = new Address(this.address.value, this.address.isPrivate);
-        Optional<AdaptedAccount> optAccount = Optional.ofNullable(account);
-
-
-        if (!optAccount.isPresent()) {
+        try {
+            final Set<Tag> tags = new HashSet<>();
+            for (AdaptedTag tag : tagged) {
+                tags.add(tag.toModelType());
+            }
+            final Set<Exam> examList = new HashSet<>();
+            for (AdaptedExam exam : exams) {
+                examList.add(exam.toModelType());
+            }
+            final Name name = new Name(this.name);
+            final Phone phone = new Phone(this.phone.value, this.phone.isPrivate);
+            final Email email = new Email(this.email.value, this.email.isPrivate);
+            final Address address = new Address(this.address.value, this.address.isPrivate);
             final Person person = new Person(name, phone, email, address, tags, examList);
             person.setFees(this.fees.toModelType());
-            return person; //new Person(name, phone, email, address, tags);
-        } else {
-            final Account account = this.account.toModelType();
-            final Person person = new Person(name, phone, email, address, tags, examList);
-            person.setFees(this.fees.toModelType());
-            account.setPrivilegePerson(person);
-            return person; //new Person(name, phone, email, address, tags, account);
+
+            Optional<AdaptedAccount> optAccount = Optional.ofNullable(account);
+
+            if (optAccount.isPresent()) {
+                final Account account = this.account.toModelType();
+                account.setPrivilegePerson(person);
+                person.setAccount(account);
+            }
+            return person;
+        } catch (IllegalValueException ive) {
+            throw new IllegalValueException(String.format("Error processing %s: %s", name, ive.getMessage()));
         }
     }
 }

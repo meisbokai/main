@@ -65,7 +65,7 @@ public class AddAssessmentCommand extends Command {
 
     @Override
     public Category getCategory() {
-        return Category.PERSON;
+        return Category.ASSESSMENT;
     }
 
     @Override

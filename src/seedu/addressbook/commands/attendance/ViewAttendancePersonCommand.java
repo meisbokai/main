@@ -1,6 +1,7 @@
 package seedu.addressbook.commands.attendance;
 
-import seedu.addressbook.commands.Command;
+import seedu.addressbook.commands.commandformat.indexformat.IndexFormatCommand;
+import seedu.addressbook.commands.commandformat.indexformat.ObjectTargeted;
 import seedu.addressbook.commands.commandresult.CommandResult;
 import seedu.addressbook.common.Messages;
 import seedu.addressbook.data.person.Person;
@@ -9,7 +10,7 @@ import seedu.addressbook.data.person.UniquePersonList;
 /**
  *  Lists down the dates where the person's attendance has been taken.
  */
-public class ViewAttendancePersonCommand extends Command {
+public class ViewAttendancePersonCommand extends IndexFormatCommand {
 
     public static final String COMMAND_WORD = "viewAttenPerson";
     public static final String MESSAGE_USAGE = COMMAND_WORD + ":\n"
@@ -21,7 +22,7 @@ public class ViewAttendancePersonCommand extends Command {
 
     // Constructor
     public ViewAttendancePersonCommand(int targetIndex) {
-        super(targetIndex);
+        setTargetIndex(targetIndex, ObjectTargeted.PERSON);
     }
 
     /**
@@ -37,7 +38,7 @@ public class ViewAttendancePersonCommand extends Command {
         try {
             Person person = addressBook.findPerson(getTargetPerson());
             final String output = person.viewAttendanceMethod();
-            return new CommandResult(String.format(MESSAGE_SUCCESS) + person.getName() + ":\n" + output);
+            return new CommandResult(MESSAGE_SUCCESS + person.getName() + ":\n" + output);
 
         } catch (IndexOutOfBoundsException ie) {
             return new CommandResult(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
@@ -49,5 +50,10 @@ public class ViewAttendancePersonCommand extends Command {
     @Override
     public String getCommandUsageMessage() {
         return MESSAGE_USAGE;
+    }
+
+    @Override
+    public Category getCategory() {
+        return Category.ATTENDANCE;
     }
 }

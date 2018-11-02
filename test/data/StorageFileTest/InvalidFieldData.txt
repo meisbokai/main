@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<AddressBook>
+    <persons>
+        <name>Ke$ha</name>
+        <phone isPrivate="false">98765432</phone>
+        <email isPrivate="false">johnd@gmail.com</email>
+        <address isPrivate="false">John street, block 123, #01-01</address>
+        <fees isPrivate="true">
+            <value>0.00</value>
+            <duedate>00-00-0000</duedate>
+        </fees>
+    </persons>
+    <password>default_pw</password>
+</AddressBook>

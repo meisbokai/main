@@ -19,10 +19,8 @@ public class Formatter {
     /** A platform independent line separator. */
     private static final String LS = System.lineSeparator();
 
-
     /** Format of indexed list item */
     private static final String MESSAGE_INDEXED_LIST_ITEM = "%1$d. %2$s";
-
 
     /** Offset required to convert between 1-indexing and 0-indexing.  */
     private static final int DISPLAYED_INDEX_OFFSET = 1;

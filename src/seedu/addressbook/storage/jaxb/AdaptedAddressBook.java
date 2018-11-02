@@ -1,6 +1,7 @@
 package seedu.addressbook.storage.jaxb;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAttribute;
@@ -58,7 +59,6 @@ public class AdaptedAddressBook {
      * so we check for that.
      */
     public boolean isAnyRequiredFieldMissing() {
-
         return persons.stream().anyMatch(AdaptedPerson::isAnyRequiredFieldMissing);
     }
 
@@ -69,8 +69,11 @@ public class AdaptedAddressBook {
      */
     public AddressBook toModelType() throws IllegalValueException {
         final List<Person> personList = new ArrayList<>();
+        final HashSet<String> usernameSet = new HashSet<>();
         for (AdaptedPerson person : persons) {
-            personList.add(person.toModelType());
+            Person modelPerson = person.toModelType();
+            personList.add(modelPerson);
+            checkDuplicateUsername(usernameSet, modelPerson);
         }
         final String masterPassword = password;
         final List<Assessment> assessmentList = new ArrayList<>();
@@ -82,5 +85,15 @@ public class AdaptedAddressBook {
                 masterPassword);
         ab.setPermAdmin(isPermAdmin);
         return ab;
+    }
+
+    /** Checks if the given Person have an account with an existing username*/
+    private void checkDuplicateUsername(HashSet<String> usernameSet, Person modelPerson) throws IllegalValueException {
+        if (modelPerson.hasAccount()) {
+            if (usernameSet.contains(modelPerson.getAccount().get().getUsername())) {
+                throw new IllegalValueException("Data contains duplicate username");
+            }
+            usernameSet.add(modelPerson.getAccount().get().getUsername());
+        }
     }
 }

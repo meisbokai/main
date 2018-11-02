@@ -1,7 +1,10 @@
 package seedu.addressbook;
 
+import java.io.IOException;
+import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -15,6 +18,8 @@ import seedu.addressbook.ui.Stoppable;
  */
 public class Main extends Application implements Stoppable {
 
+    public static final Logger LOGGER = Logger.getLogger("Foo");
+
     /** Version info of the program. */
     private static final String VERSION = "ClassRepo - Version 1.3";
 
@@ -25,12 +30,23 @@ public class Main extends Application implements Stoppable {
     @Override
     public void start(Stage primaryStage) throws Exception {
         try {
+            setUpLogger();
             Gui gui = new Gui(new Logic(), VERSION);
             gui.start(primaryStage, this);
         } catch (Exception e) {
-            Logger logger = Logger.getLogger("Foo");
-            logger.log(Level.WARNING, e.getMessage());
+            LOGGER.log(Level.WARNING, e.getMessage());
             throw e;
+        }
+    }
+
+    private void setUpLogger() throws IOException {
+        try {
+            SimpleFormatter formatter = new SimpleFormatter();
+            FileHandler fileHandler = new FileHandler("log.txt");
+            fileHandler.setFormatter(formatter);
+            LOGGER.addHandler(fileHandler);
+        } catch (IOException ioe) {
+            throw new IOException("Error accessing log.txt");
         }
     }
 

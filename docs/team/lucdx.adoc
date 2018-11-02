@@ -1,0 +1,59 @@
+= Lucas Lim - Project Portfolio
+:site-section: AboutUs
+:imagesDir: ../images
+:stylesDir: ../stylesheets
+
+== PROJECT: ClassRepO
+
+== Overview
+
+ClassRepO is a desktop address book application written in Java that targets secondary schools for usage by their students, tutors and staff. This portfolio is meant to document the contributions that I made to the project.
+
+== Roles
+Under this project, I serve as the Scribe, monitoring all the documentation related to the project, thus ensuring that they are both coherent and informative.
+
+== Summary of contributions
+
+* *Major enhancement*: added *Fees* feature
+** What it does: Allows the tagging both staff and students with their respective fees and the dates these fees are due.
+** Justification: This feature gives way to another important attribute being tracked in a school system.
+** Highlights: This feature allows for tracking of every Person's fee in the address book without actually manipulating the addressbook data. It also automatically adds a 'Fees Due' tag to the person.
+
+* *Minor enhancement*: Added a History Command to show the history of commands inputted by the user in that usage session, so as to visually identify mistakes in past commands.
+
+* *Other contributions*:
+
+** Project management:
+*** Managed relevant documentation ie. `About Us` on GitHub, as well as to spot and rectify mistakes made in said documentation.
+** Enhancements to existing features:
+*** TBC
+**** TBC
+
+** Documentation:
+*** Did cosmetic tweaks
+**** TBC
+**** TBC
+**** TBC
+** Community:
+*** PRs reviewed (with non-trivial review comments): https://github.com/CS2113-AY1819S1-F10-1/main/pull/86[#86]
+
+== Contributions to the User Guide
+
+
+|===
+|_Given below are sections I contributed to the User Guide. They showcase my ability to write documentation targeting end-users._
+|===
+
+<<../UserGuide.adoc#fees,Fees Section>> +
+
+include::../UserGuide.adoc[tag=Fees]
+
+== Contributions to the Developer Guide
+
+|===
+|_Given below are sections I contributed to the Developer Guide. They showcase my ability to write technical documentation and the technical depth of my contributions to the project._
+|===
+
+<<./DeveloperGuide.adoc#fees,Implementation of Fees>>
+
+include::../DeveloperGuide.adoc[tag=Fees]

@@ -37,14 +37,10 @@ public class HelpCommand extends Command {
             final Category category = command.getCategory();
 
             if (!seenCategories.contains(category)) {
-                builder.append('\n')
-                        .append(category.toString())
-                        .append('\n');
-
+                builder.append('\n').append(category.toString()).append('\n');
                 seenCategories.add(category);
             }
-            builder.append(command.getCommandUsageMessage())
-                    .append('\n');
+            builder.append(command.getCommandUsageMessage()).append('\n');
         }
         // Removes the extra newline character added at the start
         builder.deleteCharAt(0);

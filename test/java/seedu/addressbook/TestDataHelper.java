@@ -73,7 +73,7 @@ public class TestDataHelper {
         String numberAbsent = "3";
         String totalPass = "7";
         String maxMin = "100 87";
-        Boolean isPrivate = false;
+        boolean isPrivate = false;
         return new AssignmentStatistics(subjectName, examName, topScorer, averageScore, totalExamTakers, numberAbsent,
                 totalPass, maxMin, isPrivate);
     }
@@ -170,10 +170,6 @@ public class TestDataHelper {
         return (address.isPrivate() ? " pa/" : " a/");
     }
 
-    public String getPrefix (String name, Boolean isPrivate) {
-        return (isPrivate ? " pn/" : " n/");
-    }
-
     public String getExamNamePrefix (Boolean isPrivate) {
         return (isPrivate ? " pe/" : "e/");
     }
@@ -246,12 +242,12 @@ public class TestDataHelper {
         return cmd.toString();
     }
 
-    /** Generates the correct addfees command based on the person given */
+    /** Generates the correct edit fees command based on the person given */
     public String generateEditFeesCommand() {
         StringJoiner cmd = new StringJoiner(" ");
         cmd.add("editfees");
-        cmd.add(" 2");
-        cmd.add(" 123.45");
+        cmd.add("2");
+        cmd.add("123.45");
         cmd.add("01-01-2018");
         return cmd.toString();
     }
@@ -276,7 +272,7 @@ public class TestDataHelper {
         return cmd.toString();
     }
 
-    /** Generates the correct addstatistics command based on the exam given */
+    /** Generates the correct add statistics command based on the exam given */
     public String generateAddAssignmentStatistics(AssignmentStatistics s) {
         StringJoiner cmd = new StringJoiner(" ");
         String subjectField = s.getSubjectName();
@@ -316,6 +312,17 @@ public class TestDataHelper {
     public ExamBook generateExamBook(List<Exam> exams) throws Exception {
         ExamBook examBook = new ExamBook();
         addToExamBook(examBook, exams);
+        return examBook;
+    }
+
+    /**
+     * Generates an AddressBook with auto-generated persons.
+     * @param isPrivateStatuses flags to indicate if all contact details of respective persons should be set to
+     *                          private.
+     */
+    public ExamBook generateExamBook(Boolean... isPrivateStatuses) throws Exception {
+        ExamBook examBook = new ExamBook();
+        addToExamBook(examBook, isPrivateStatuses);
         return examBook;
     }
 

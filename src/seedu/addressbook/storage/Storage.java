@@ -1,4 +1,5 @@
 package seedu.addressbook.storage;
+
 import seedu.addressbook.data.AddressBook;
 import seedu.addressbook.data.ExamBook;
 import seedu.addressbook.data.StatisticsBook;
@@ -32,4 +33,7 @@ public abstract class Storage {
 
     public abstract ExamBook loadExam() throws StorageFile.StorageOperationException;
     public abstract String getPathExam();
+
+    public abstract void syncAddressBookExamBook(AddressBook addressBook, ExamBook examBook)
+            throws StorageOperationException;
 }

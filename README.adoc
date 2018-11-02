@@ -1,17 +1,20 @@
 = ClassRepo
+
 ifdef::env-github,env-browser[:relfileprefix: docs/]
 ifdef::env-github,env-browser[:imagesDir: docs/images]
+
 
 https://travis-ci.org/CS2113-AY1819S1-F10-1/main[image:https://travis-ci.org/CS2113-AY1819S1-F10-1/main.svg?branch=master[Build Status]]
 image:https://api.codacy.com/project/badge/Grade/e1ed6200448148c6a6c8d955ee177c64["Codacy code quality", link="https://www.codacy.com/app/0WN463/main?utm_source=github.com&utm_medium=referral&utm_content=CS2113-AY1819S1-F10-1/main&utm_campaign=Badge_Grade"]https://coveralls.io/github/CS2113-AY1819S1-F10-1/main?branch=master[image:https://coveralls.io/repos/github/CS2113-AY1819S1-F10-1/main/badge.svg[Build Status]]
 
-image::UiNew.png[]
+
+image::Ui.png[width="600"]
 
 * This is a CLI (Command Line Interface) Database application *written in OOP fashion*. It has a very basic GUI.
 * The application manages and facilitates data entry and viewing for a tuition centre.
 * Students, tutors and admins can access information with increasing privileges respectively.
 
-*What's in Version 1.1*
+*What's in Version 1.3*
 
 * A simple GUI added to replace the Text UI.
 * A `Logic` class added together with a `LogicTest` class.
@@ -37,7 +40,7 @@ The full list of contributors for ClassRepo can be found https://cs2113-ay1819s1
 
 == Acknowledgements
 
-This application was adapted from AddressBook-Level 3 by se-edu https://github.com/se-edu/addressbook-level3[here].
+This application was adapted from AddressBook-Level 3 by se-edu image:SeEduLogo.png[width = "20"] https://github.com/se-edu/addressbook-level3[here].
 
 == Contact Us
 

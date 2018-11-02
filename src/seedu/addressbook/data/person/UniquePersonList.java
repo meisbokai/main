@@ -140,25 +140,27 @@ public class UniquePersonList implements Iterable<Person> {
             main2.append(date.substring(8, 10));
             //System.out.println(main1.toString());
             //System.out.println(main2.toString());
-            if (main1.toString().compareTo(main2.toString()) <= 0) {
-                copy.add(p);
-                try {
+            if (!(main1.toString().equals("00000000"))) {
+                if (main1.toString().compareTo(main2.toString()) <= 0) {
+                    copy.add(p);
+                    try {
+                        Set<Tag> temp = new HashSet<>();
+                        temp = p.getTags();
+                        temp.add(new Tag("feesdue"));
+                        p.setTags(temp);
+                    } catch (IllegalValueException e) {
+                        e.printStackTrace();
+                    }
+                } else {
                     Set<Tag> temp = new HashSet<>();
                     temp = p.getTags();
-                    temp.add(new Tag("feesdue"));
-                    p.setTags(temp);
-                } catch (IllegalValueException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                Set<Tag> temp = new HashSet<>();
-                temp = p.getTags();
-                for (Tag t : temp) {
-                    if ("feesdue".equals(t.tagName)) {
-                        temp.remove(t);
+                    for (Tag t : temp) {
+                        if ("feesdue".equals(t.tagName)) {
+                            temp.remove(t);
+                        }
                     }
+                    p.setTags(temp);
                 }
-                p.setTags(temp);
             }
             copy.sort(new CustomComparator());
         }
@@ -280,7 +282,7 @@ public class UniquePersonList implements Iterable<Person> {
      * Removes an exam for all persons
      * @param exam the exam to be removed
      */
-    public void removeExam(Exam exam) {
+    public void removeExam(ReadOnlyExam exam) {
         for (Person p: internalList) {
             if (p.isExamPresent(exam)) {
                 p.removeExam(exam);

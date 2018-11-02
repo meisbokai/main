@@ -235,7 +235,7 @@ This section describes some noteworthy details on how certain features are imple
 // tag::Exam[]
 === Exams Feature
 [[fig-ExamDiagram]]
-.Structure of the Exam Component
+.Class Diagram of the Exam feature
 image::Exam.png[width="800"]
 
 ==== Current Implementation
@@ -258,12 +258,16 @@ An Example of how feature 5 - `Registering a person for an exam` works:
 . A new exam is created to keep a copy of the original exam.
 . The exam has its number of exam takers increased by 1.
 . The exam is added to the specific person.
+<<<<<<< HEAD
 . For both the AddressBook and ExamBook, any copies of the original exam are removed and replaced with the new exam.
+=======
+. For the AddressBook, any copies of the original exam is removed and replaced with the new exam.
+>>>>>>> 3260a2af751174d56dd65788734080ec648f39fb
 
 This is demostrated by the following sequence diagram:
 [[fig-registerPersonDiagram]]
-.Sequence Diagram of registering person for an exam
-image::RegisterExam_Sequence_Diagram.png[width="800"]
+.Sequence Diagram of registering person for an exam with no errors occuring
+image::RegisterExam_Sequence_Diagram.png[width="1200"]
 
 ==== Design Considerations
 
@@ -306,21 +310,30 @@ image::RegisterExam_Sequence_Diagram.png[width="800"]
 
 // tag::privilege[]
 === Privilege Feature
-
+The figure below shows the class diagram describing the implementation of the Privilege feature.
 [[fig-PrivilegeDiagram]]
 .Class Diagram of the Privilege Component
 image::Privilege.png[width="600"]
 
 ==== Current Implementation
 
+<<<<<<< HEAD
 *Logic* is assigned to one *Privilege* object at all times. *Privilege* contains a *User* (specified by the *PrivilegeLevel* enum) and a *Person* (referred to as `myPerson`). +
 *User* defines what access level the *Privilege* object has, which is implemented by *BasicUser*, *TutorUser* and *AdminUser*. +
 *BasicUser* is the class with the lowest access level and the ancestor to other 2 *User* classes. +
 To create an increasing level of access, each *User* of a higher level inherits from the successively lower one. +
 *User* levels have their own list of new commands they can run, which is appended to the list inherited from their parent. +
+=======
+* *Logic* is assigned to one *Privilege* object at all times. *Privilege* contains a *User* (specified by the *PrivilegeLevel* enum) and a *Person* (referred to as `myPerson`). +
+* *User* defines what access level the *Privilege* object have, which is implemented by *BasicUser*, *TutorUser* and *AdminUser*. +
+* *BasicUser* is the class with the lowest access level, and the ancestor to other 2 *User* classes. +
+* To create an increasing level of access, each *User* of a higher level inherits from the successively lower one. +
+* *User* levels have their own list of new commands they can run, which is appended to the list inherited from their parent. +
 
-*Account* class, which contains its respective *Privilege* object as well as login details, assigns an access level to a *Person*. +
-When switching *Privilege* levels, the *Privilege* object referred to by *Logic* will point its *User*(`user`) and *Person*(`myPerson`) to those of the desired *Privilege level*, as seen below in the Object Diagram and Sequence Diagram. +
+>>>>>>> 3260a2af751174d56dd65788734080ec648f39fb
+
+* *Account* class, which contains its respective *Privilege* object as well as login details, assigns an access level to a *Person*. +
+* When switching *Privilege* levels, the *Privilege* object referred to by *Logic* will point its *User*(`user`) and *Person*(`myPerson`) to those of the desired *Privilege level*, as seen below in the Object Diagram and Sequence Diagram. +
 
 [[fig-PrivilegeObjectDiagram]]
 .How switching Privilege is implemented (Object Diagram)
@@ -464,6 +477,126 @@ image::Assessment_Aspect_Example.png[width="800"]
 ** Cons: It is messy and confusing. Unrelated data is stored together.
 
 // end::Grades[]
+// tag::Fees[]
+=== Fees Feature
+
+==== Current Implementation
+A private attribute under the Person class is initialised when a Person is added to the AddressBook. This attribute holds 2 Strings, one being the monetary value of
+the fee and the other being the due date for the respective fee. The current set of commands include:
+
+. `Editing a Fee`
+. `Viewing Fee of a Person`
+. `Listing all Fees`
+. `Listing all Due Fees`
+
+An Example of how command 1 - `Editing the Fee of a Person` works:
+
+. The admin will be able to use the 'editfees' command to add a new fee to the Person.
+. The existing fee with its date will be replaced by this new value in the Person object in the AddressBook.
+. The updated fees will then be store in the AddressBook and will be automatically private, only viewable by the admin and tutors.
+
+==== Design Considerations
+
+===== Aspect: How to define a Fee for each Person
+* **Alternative 1 (current choice):** Instantiate Fee attribute under each Person created in the Person Class.
+** Pros: Allow us to skip the need for another data Class to be saved into any of the storage files, therefore being more convenient and reducing the number of files and Books. +
+** Cons: May get messy with more data manipulation of the Fees attribute when printing/sorting.
+* **Alternative 2:** Use a seperate date file 'FeesBook' to keep track of each Person and their respective fees.
+** Pros: Data independency and hence no conflict during data manipulation.
+** Cons: Cluttered as there may be too many data Books just to track an attribute.
+* **Alternative 3:** A compulsory attribute under Person Class hence occupying a data field in the input for AddPersonCommand.
+** Pros: Easy to implement and parse.
+** Cons: Input for Add Command would be too long as it will have too many data entry points.
+
+===== Aspect: How to List fees of everyone
+* **Alternative 1 (current choice):** Shallow copies the internalList of ReadOnlyPerson, sorts the copy with a custom comparator and prints the list,
+showing only name and fees.
+** Pros: Allows for easy sorting and does not manipulate the date in the original internalList.
+** Cons: Does not allow for any data manipulation such as omitting any Person
+* **Alternative 2:** Looping through internalList and printing every name and respective Fee.
+** Pros: Easy to implement.
+** Cons: Unable to be sorted by the date dues of the Fees of each Person.
+
+===== Aspect: Having another ListDueFeesCommand
+* **Alternative 1 (current choice):** Having another Command which only shows the people that have Fees that are due with respect to
+the current system date.
+** Pros: Clearer presentation of data and specific Persons involved. Ability to add "feesdue" tag to only the people shown.
+** Cons: May seem redundant as these people already appear at the top of ListFeesCommand.
+* **Alternative 2:** Merging it with ListFeesCommand, therefore only have one List Command with respect to Fees.
+** Pros: Less clutter of code.
+** Cons: Inability to show the list of Fees of the Persons whose Fees are not yet due. Restricted in presenting data.
+
+===== Aspect: Using ViewFeesCommand with respect to INDEX
+* **Alternative 1 (current choice):** Follows the other ViewCommands with respect to last INDEX presented following any List Command.
+** Pros: Coherent code template as all ViewCommands follow the INDEXED structure. Ability to be flexible depending on which List Command was
+called beforehand.
+** Cons: May not seem intuitive to view Fee of a specific Person if User only knows Name of the Person, therefore leading to use of the Find
+Command first.
+* **Alternative 2:** Using another parameter such as Name of the Person, instead of INDEX
+** Pros: More intuitive to layman Users.
+** Cons: There may be Persons with identical names, thus resulting in conflicts in ViewCommand.
+
+// end::Fees[]
+// tag::attendance[]
+[[attendance]]
+=== Attendance Feature
+// TODO UML to be added here
+
+==== Current Implementation
+The AddressBook contains the attendance of each person for each date that his/her attendance is taken. The current set of commands include:
+
+. `Updating a person's attendance`
+. `Replacing a person's attendance`
+. `Viewing of a person's attendance`
+. `Viewing of present people on a particular date`
+
+An example of how feature 1 - `Updating a person's attendance` works:
+
+. The user (teacher/ admin) will be able to use the 'attendance' command to update the attendance of a particular person (student).
+. The specific person is extracted from the Addressbook.
+. A check is performed to check if the person already has his/her attendance taken.
+. If the attendance has already been taken, the user will be prompted to use another command `replaceAtten` to replace the attendance.
+. If the attendance has yet to be taken, the attendance of the specified person for the specified date will be taken as either 'present' or 'absent'.
+
+==== Design Considerations
+
+===== Aspect: How to store attendance for each person
+* **Alternative 1 (Current choice):** Each person has a hashmap that stores the date to the attendance.
+** Pros: Hashmaps allows more efficient checking of duplicate attendance (get() method has a complexity of O(1).
+** Cons: Values and Keys in hashmap are not sorted.
+
+* **Alternative 2:** Each person has a list of strings containing the date and attendance.
+** Pros: A list of strings will allow easier storage and viewing of the data
+** Cons: List or ArrayList will require O(n) time to check for duplicates
+** Cons: A single string will not allow handling of data separately
+
+* **Alternative 3:** Each person has a list of pairs containing date and attendance.
+** Pros: Pairing of date to attendance ensures that the checking of attendance requires at most O(n) time, but minimally O(1)
+** Cons: Usage of pairs in java will require an extra class or an external library, which is unnecessary
+
+===== Aspect: How to check if attendance has duplicate
+* **Alternative 1 (Current choice):** Use a boolean to check if there is a duplicate date in the hashmap.
+** Pros: Booleans only have 2 value, and thus there is no need to define a string with a proper variable name
+** Cons: Booleans are fixed as true and false, thus needed additional code to translate the result into a string so that the user can understand the results easily.
+
+* **Alternative 2:** Use a separate class, 'hasDuplicate' to check for duplicate date
+** Pros: An additional class means that the code will be more encapsulated, fulfilling the purpose of OOP.
+** Cons: Additional code will be required to create the additional class
+
+===== Aspect: How to differentiate between updating and replacing a person's attendance
+* **Alternative 1 (Current choice):** Using an additional parameter (Boolean overWrite) that is fixed in the command.
+** Pros: No confusion for the user since the parameter to overwrite is fixed.
+** Pros: THere is no need to have 2 separate methods in the Attendance object as both updating and replacing of attendance has very similar functions.
+** Cons: There is a need to check for an additional parameter in the same method, which may lengthen the code and cause minor 'arrowhead' coding.
+
+* **Alternative 2:** Treat the 2 commands as 2 completely separate commands and execute them individually.
+** Pros: The 2 commands will each be short, simple and easy to understand.
+** Cons: There will be 2 methods with extremely similar functions, which is redundant.
+
+* **Alternative 3:** Have the user input an additional parameter (Boolean overWrite) if they want to overwrite the current data
+** Pros: Similar to alternative 1, having the user input an additional parameter and only having 1 method in the Attendance object can reduce the need to have unnecessary duplicates in the code.
+** Cons: An additional parameter will require a change in the parser.
+// end::attendance[]
 
 // tag::attendance[]
 [[attendance]]
@@ -692,17 +825,17 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* * *` |admin |delete accounts from people |remove the account from people who do not need it anymore
 
-|`* * *` |admin/tutor |add a new exam |
+|`* * *` |tutor/admin |add a new exam |
 
-|`* * *` |admin/tutor |delete an exam |remove entries that I no longer need
+|`* * *` |tutor/admin |delete an exam |remove entries that I no longer need
 
-|`* * *` |admin/tutor |edit an exam |update the details of exam entries
+|`* * *` |tutor/admin |edit an exam |update the details of exam entries
 
-|`* * *` |admin/tutor |register a user for an exam|allow the user to know of the exam and keep track of the number of exam-takers
+|`* * *` |tutor/admin |register a user for an exam|allow the user to know of the exam and keep track of the number of exam-takers
 
-|`* * *` |admin/tutor |deregister a user for an exam|remove entries that I made wrongly or no longer need
+|`* * *` |tutor/admin |deregister a user for an exam|remove entries that I made wrongly or no longer need
 
-|`* * *` |admin/tutor |view the lists of exams|manage the exams
+|`* * *` |tutor/admin |view the lists of exams|manage the exams
 
 |`* *` |user |view my privilege |know what commands I have access to
 
@@ -714,7 +847,7 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`*` |user with many persons in the address book |sort persons by name |locate a person easily
 
-|`*` |user with many exams in the exam book |sort exams by a specificied field |locate an exam easily
+|`*` |user with many exams in the exam book |sort exams by a specified field |locate an exam easily
 |=======================================================================
 
 _{More to be added}_
@@ -756,7 +889,10 @@ Use case ends.
 
 [discrete]
 === Use case: Delete person
-
+[discrete]
+==== System: AdressBook, ExamBook
+[discrete]
+==== Actors: Tutor, Admin
 *MSS*
 
 1.  User requests to list persons.
@@ -786,7 +922,7 @@ Use case resumes at step 2.
 [discrete]
 ==== System: ExamBook
 [discrete]
-==== Actor: Admin,Tutor
+==== Actor: Tutor, Admin
 *MSS*
 
 1. User requests to add exam.
@@ -815,9 +951,9 @@ Use case ends.
 [discrete]
 === Use case: Delete exam
 [discrete]
-==== System: AdressBook,ExamBook
+==== System: AdressBook, ExamBook
 [discrete]
-==== Actor: Admin,Tutor
+==== Actor: Tutor, Admin
 *MSS*
 
 1.  User requests to list exams.
@@ -845,9 +981,9 @@ Use case resumes at step 2.
 [discrete]
 === Use case: Edit exam
 [discrete]
-==== System: AdressBook,ExamBook
+==== System: AdressBook, ExamBook
 [discrete]
-==== Actor: Admin,Tutor
+==== Actor: Tutor, Admin
 *MSS*
 
 1.  User requests to list exams.
@@ -933,9 +1069,9 @@ Use case resumes at step 4.
 [discrete]
 === Use case: Deregister for an exam
 [discrete]
-==== System: AdressBook,ExamBook
+==== System: AdressBook, ExamBook
 [discrete]
-==== Actor: Admin,Tutor
+==== Actor: Tutor, Admin
 *MSS*
 
 1.  User requests to list exams.
@@ -979,7 +1115,7 @@ Use case resumes at step 4.
 [discrete]
 ==== System: ExamBook
 [discrete]
-==== Actor: Admin,Tutor
+==== Actor: Tutor, Admin
 *MSS*
 
 1.  User requests to list exams.
@@ -1296,11 +1432,36 @@ _{ more test cases ... }_
 
 .. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
 .. Test case: `delete 1` +
-   Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
+   Expected: First contact is deleted from the list. Details of the deleted contact shown in the status console.
 .. Test case: `delete 0` +
+<<<<<<< HEAD
    Expected: No person is deleted. Error details are shown in the status message. Status bar remains the same.
 .. Other incorrect delete commands to try: `delete`, `delete x` (where x is larger than the list size) _{give more}_ +
+=======
+   Expected: No person is deleted. Error details shown in the status console. Console bar remains the same.
+.. Other incorrect delete commands to try: `delete`, `delete x` (where x is larger than the list size), `delete a` (where a is not an integer)+
+>>>>>>> 3260a2af751174d56dd65788734080ec648f39fb
    Expected: Similar to previous.
+   
+=== Accessing a command of different privilege level
+
+. Accessing a command of different privilege level than of current user
+
+.. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
+.. Test case: `delete 1` +
+   Expected: No person is deleted. Error details shown in the status console. Console bar remains the same.
+.. Other commands of different privilege to try: `examslist`, `listall`, `deleteexam 1` +
+   Expected: Similar to previous.
+
+=== Adding a duplicate person
+
+. Add an person while it already exists in the address book.  
+.. Test case: `add John Doe p/98765432 e/johnd@gmail.com a/311, Clementi Ave 2, #02-25 t/friends t/owesMoney` +
+   Expected: Contact is added to the list. Details of the added contact shown in the status console. List in the output console is updated.
+.. Test case: `add John Doe p/98765432 e/johnd@gmail.com a/311, Clementi Ave 2, #02-25 t/friends t/owesMoney` after the previous test case was preformed. +
+   Expected: No person is added. Error details shown in the status console. Console bar remains the same.
+.. Other similar commands to try: `addexam`, `addassess`
+   Expected: Similar to previous.   
 
 _{ more test cases ... }_
 

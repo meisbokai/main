@@ -1,6 +1,6 @@
 package seedu.addressbook.commands.assessment;
 
-import seedu.addressbook.commands.Command;
+import seedu.addressbook.commands.commandformat.indexformat.IndexFormatCommand;
 import seedu.addressbook.commands.commandresult.CommandResult;
 import seedu.addressbook.common.Messages;
 import seedu.addressbook.data.person.ReadOnlyPerson;
@@ -8,7 +8,7 @@ import seedu.addressbook.data.person.ReadOnlyPerson;
 /**
  * Shows grades of the person identified using the last displayed index.
  */
-public class ViewGradesCommand extends Command {
+public class ViewGradesCommand extends IndexFormatCommand {
 
     public static final String COMMAND_WORD = "viewgrades";
 
@@ -18,16 +18,6 @@ public class ViewGradesCommand extends Command {
             + "Example: " + COMMAND_WORD + " 1";
 
     public static final String MESSAGE_VIEW_GRADES_DETAILS = "Viewing grades: %1$s";
-
-    /**
-     * Constructor used for Privileges
-     * Command constructed has no functionality
-     * */
-    public ViewGradesCommand() { }
-
-    public ViewGradesCommand(int targetVisibleIndex) {
-        super(targetVisibleIndex);
-    }
 
     @Override
     public CommandResult execute() {
@@ -44,7 +34,7 @@ public class ViewGradesCommand extends Command {
 
     @Override
     public Category getCategory() {
-        return Category.PERSON;
+        return Category.ASSESSMENT;
     }
 
     @Override

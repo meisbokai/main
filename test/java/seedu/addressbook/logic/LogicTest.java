@@ -3,6 +3,7 @@ package seedu.addressbook.logic;
 import static junit.framework.TestCase.assertEquals;
 import static seedu.addressbook.common.Messages.MESSAGE_COMMAND_NOT_FOUND;
 import static seedu.addressbook.common.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.addressbook.common.Messages.MESSAGE_NO_NON_PRIVATE_EXAMS;
 import static seedu.addressbook.common.Messages.MESSAGE_PERSON_NOT_IN_ADDRESSBOOK;
 import static seedu.addressbook.common.Messages.MESSAGE_WRONG_NUMBER_ARGUMENTS;
 import static seedu.addressbook.logic.CommandAssertions.assertCommandBehavior;
@@ -20,9 +21,6 @@ import org.junit.rules.TemporaryFolder;
 
 import seedu.addressbook.TestDataHelper;
 import seedu.addressbook.commands.Command;
-import seedu.addressbook.commands.DeregisterExamCommand;
-import seedu.addressbook.commands.RegisterExamCommand;
-import seedu.addressbook.commands.ViewExamsCommand;
 import seedu.addressbook.commands.account.ListAccountCommand;
 import seedu.addressbook.commands.account.LogoutCommand;
 import seedu.addressbook.commands.assessment.AddAssessmentCommand;
@@ -31,7 +29,10 @@ import seedu.addressbook.commands.commandresult.MessageType;
 import seedu.addressbook.commands.exams.AddExamCommand;
 import seedu.addressbook.commands.exams.ClearExamsCommand;
 import seedu.addressbook.commands.exams.DeleteExamCommand;
+import seedu.addressbook.commands.exams.DeregisterExamCommand;
 import seedu.addressbook.commands.exams.EditExamCommand;
+import seedu.addressbook.commands.exams.RegisterExamCommand;
+import seedu.addressbook.commands.exams.ViewExamsCommand;
 import seedu.addressbook.commands.fees.EditFeesCommand;
 import seedu.addressbook.commands.fees.ViewFeesCommand;
 import seedu.addressbook.commands.general.ExitCommand;
@@ -238,7 +239,7 @@ public class LogicTest {
         assertCommandBehavior("clear",
                 ClearCommand.MESSAGE_SUCCESS,
                 AddressBook.empty(),
-                false,
+                true,
                 Collections.emptyList(),
                 true);
     }
@@ -491,7 +492,7 @@ public class LogicTest {
         // execute command and verify result
         assertCommandBehavior(
                 helper.generateAddExamCommand(toBeAdded),
-                String.format(AddExamCommand.MESSAGE_SUCCESS, toBeAdded, toBeAdded.isPrivate() ? " private" : ""),
+                String.format(AddExamCommand.MESSAGE_SUCCESS, toBeAdded),
                 expected, true);
     }
 
@@ -508,7 +509,7 @@ public class LogicTest {
 
         // execute command and verify result
         assertCommandBehavior(
-                helper.generateAddExamCommand(toBeAdded), EditExamCommand.MESSAGE_DUPLICATE_EXAM,
+                helper.generateAddExamCommand(toBeAdded), AddExamCommand.MESSAGE_DUPLICATE_EXAM,
                 expected,
                 true);
     }
@@ -623,12 +624,11 @@ public class LogicTest {
     public void executeExamsListShowsAllExams() throws Exception {
         // prepare expectations
         TestDataHelper helper = new TestDataHelper();
-        List<Exam> threeExams = setUpThreeExamsNoTakers(helper);
-        ExamBook expected = helper.generateExamBook(threeExams);
+        ExamBook expected = helper.generateExamBook(false, true);
         List<? extends ReadOnlyExam> expectedList = expected.getAllExam().immutableListView();
 
         // prepare exam book state
-        helper.addToExamBook(examBook, threeExams);
+        helper.addToExamBook(examBook, false, true);
 
         assertCommandBehavior("examslist",
                 Command.getMessageForExamListShownSummary(expectedList),
@@ -1171,7 +1171,7 @@ public class LogicTest {
         expected.editExam(e2, e4);
 
         assertCommandBehavior("editexam 2 p/n e/Exam 4 s/Subject 4 d/01-02-2018 dt/Held in 4",
-                String.format(EditExamCommand.MESSAGE_EDIT_EXAM_SUCCESS, e2, e4, e4.isPrivate() ? " private" : ""),
+                String.format(EditExamCommand.MESSAGE_EDIT_EXAM_SUCCESS, e2, e4),
                 expected,
                 false,
                 threeExams,
@@ -1599,27 +1599,38 @@ public class LogicTest {
         Person p1 = helper.generatePerson(1, false, 1, false , 2);
         Person p2 = helper.generatePerson(2, false, 1, false, 2);
         Person p2Viewable = helper.generatePerson(2, false, 1, false, 2);
+        Person p3 = helper.generatePerson(3, false);
         p2.addExam(e2);
-        List<Person> lastShownList = helper.generatePersonList(p1, p2);
+        List<Person> lastShownList = helper.generatePersonList(p1, p2, p3);
         helper.addToAddressBook(addressBook, lastShownList);
         logic.setLastShownList(lastShownList);
 
         AddressBook expected = helper.generateAddressBook(lastShownList);
 
         assertCommandBehavior("viewexams 1",
-                String.format(ViewExamsCommand.MESSAGE_VIEW_EXAMS_PERSON_SUCCESS, p1.getAsTextShowExam()),
+                String.format(ViewExamsCommand.MESSAGE_VIEW_EXAMS_PERSON_SUCCESS, p1.getAsTextShowOnlyName()),
+                p1.getAsTextShowExam(),
                 expected,
                 false,
                 lastShownList);
 
         assertCommandBehavior("viewexams 2",
-                String.format(ViewExamsCommand.MESSAGE_VIEW_EXAMS_PERSON_SUCCESS, p2.getAsTextShowExam()),
+                String.format(ViewExamsCommand.MESSAGE_VIEW_EXAMS_PERSON_SUCCESS, p2.getAsTextShowOnlyName()),
+                p2.getAsTextShowExam(),
                 expected,
                 false,
                 lastShownList);
 
         assertCommandBehavior("viewexams 2",
-                String.format(ViewExamsCommand.MESSAGE_VIEW_EXAMS_PERSON_SUCCESS, p2Viewable.getAsTextShowExam()),
+                String.format(ViewExamsCommand.MESSAGE_VIEW_EXAMS_PERSON_SUCCESS, p2Viewable.getAsTextShowOnlyName()),
+                p2Viewable.getAsTextShowExam(),
+                expected,
+                false,
+                lastShownList);
+
+        assertCommandBehavior("viewexams 3",
+                String.format(ViewExamsCommand.MESSAGE_VIEW_EXAMS_PERSON_SUCCESS, p3.getAsTextShowOnlyName()),
+                MESSAGE_NO_NON_PRIVATE_EXAMS,
                 expected,
                 false,
                 lastShownList);
@@ -1663,7 +1674,7 @@ public class LogicTest {
                 ClearCommand.MESSAGE_SUCCESS,
                 AddressBook.empty(),
                 expectedExamBook,
-                false,
+                true,
                 false,
                 Collections.emptyList(),
                 Collections.emptyList());
@@ -1797,7 +1808,7 @@ public class LogicTest {
         AddressBook expectedAddressBook = helper.generateAddressBook(newList);
 
         assertCommandBehavior("editexam 2 p/n e/Exam 4 s/Subject 4 d/01-02-2018 dt/Held in 4",
-                String.format(EditExamCommand.MESSAGE_EDIT_EXAM_SUCCESS, e2, e4, e4.isPrivate() ? " private" : ""),
+                String.format(EditExamCommand.MESSAGE_EDIT_EXAM_SUCCESS, e2, e4),
                 expectedAddressBook,
                 expectedExamBook,
                 false,

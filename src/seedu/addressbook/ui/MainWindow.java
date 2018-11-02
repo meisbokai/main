@@ -10,11 +10,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Level;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import seedu.addressbook.Main;
 import seedu.addressbook.commands.commandresult.CommandResult;
 import seedu.addressbook.commands.general.ExitCommand;
 import seedu.addressbook.data.person.Assessment;
@@ -34,7 +36,6 @@ public class MainWindow {
 
     @FXML
     private TextField commandInput;
-
 
     @FXML
     private TextArea outputConsole;
@@ -174,14 +175,23 @@ public class MainWindow {
                 exitApp();
             }
         } catch (Exception e) {
-            display(e.getMessage());
-            throw new RuntimeException(e);
+            displayStatus(e.getMessage() + "\nExiting App...");
+            Main.LOGGER.log(Level.WARNING, e.getMessage());
+            // If this error occurs, data between addressbook and storage is likely to be desynced,
+            // so we force close the app to ensure synchronisation.
+            final int delayTime = 3000;
+            exitApp(delayTime);
         }
     }
 
     /** Exits the app after a given delay*/
     private void exitApp() {
-        final int delayInMillis = 500;
+        final int defaultDelayTime = 500;
+        exitApp(defaultDelayTime);
+    }
+
+    /** Exits the app after a given delay*/
+    private void exitApp(int delay) {
         TimerTask task = new TimerTask() {
             public void run() {
                 try {
@@ -192,6 +202,6 @@ public class MainWindow {
             }
         };
         Timer timer = new Timer("Timer");
-        timer.schedule(task, delayInMillis);
+        timer.schedule(task, delay);
     }
 }

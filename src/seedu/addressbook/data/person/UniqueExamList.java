@@ -123,16 +123,16 @@ public class UniqueExamList implements Iterable<Exam> {
     /**
      * Replaces an exam and adds in a new exam with updated details at the same index
      * @param exam the original exam.
-     * @param newExam the new exam with updated details.
+     * @param updatedExam the new exam with updated details.
      * @throws ExamNotFoundException if the original exam could not be found in the list.
      */
-    public void updateExam(Exam exam, Exam newExam) throws ExamNotFoundException {
+    public void updateExam(Exam exam, Exam updatedExam) throws ExamNotFoundException {
         boolean isExamPresent = false;
         if (internalList.contains(exam)) {
             isExamPresent = true;
             int index = internalList.indexOf(exam);
             internalList.remove(exam);
-            internalList.add(index, newExam);
+            internalList.add(index, updatedExam);
         }
         if (!isExamPresent) {
             throw new ExamNotFoundException();

@@ -1,18 +1,18 @@
-package seedu.addressbook.commands;
+package seedu.addressbook.commands.exams;
 
+import seedu.addressbook.commands.commandformat.indexformat.IndexFormatCommand;
+import seedu.addressbook.commands.commandformat.indexformat.ObjectTargeted;
 import seedu.addressbook.commands.commandresult.CommandResult;
 import seedu.addressbook.common.Messages;
 import seedu.addressbook.data.person.Exam;
 import seedu.addressbook.data.person.Person;
-import seedu.addressbook.data.person.ReadOnlyExam;
-import seedu.addressbook.data.person.ReadOnlyPerson;
 import seedu.addressbook.data.person.UniqueExamList;
 import seedu.addressbook.data.person.UniquePersonList;
 
 /**
  * Registers a person identified using its last displayed index for a exam identified using its last displayed index.
  */
-public class RegisterExamCommand extends Command {
+public class RegisterExamCommand extends IndexFormatCommand {
     public static final String COMMAND_WORD = "regexam";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ":\n"
@@ -21,11 +21,13 @@ public class RegisterExamCommand extends Command {
             + "Parameters: PERSON_INDEX EXAM_INDEX\n\t"
             + "Example: " + COMMAND_WORD + " 1 1";
 
-    public static final String MESSAGE_REGISTER_EXAM_SUCCESS = "Exam has person registered: %1$s";
+    public static final String MESSAGE_REGISTER_EXAM_SUCCESS = "Person after exam registration: %1$s";
     public static final String MESSAGE_EXAM_ALREADY_REGISTERED =
             "The person is already registered under the targeted exam!";
+    public static final int REQUIRED_ARGUMENTS = 2;
 
     private int targetExamIndex;
+
 
     /**
      * Constructor used for Privileges
@@ -35,23 +37,21 @@ public class RegisterExamCommand extends Command {
     }
 
     public RegisterExamCommand(int targetVisibleIndex, int targetExamIndex) {
-        super(targetVisibleIndex);
+        setTargetIndex(targetVisibleIndex, ObjectTargeted.PERSON);
         this.targetExamIndex = targetExamIndex;
     }
 
     @Override
     public CommandResult execute() {
         try {
-            final ReadOnlyPerson targetPerson = getTargetPerson();
-            final ReadOnlyExam targetExam = getTargetExam(targetExamIndex);
-            Person personToEdit = addressBook.findPerson(targetPerson);
-            Exam exam = examBook.findExam(targetExam);
+            final Person personToEdit = getTargetPerson();
+            final Exam exam = getTargetExam(targetExamIndex);
             if (!personToEdit.isExamPresent(exam)) {
                 Exam originalExam = new Exam(exam);
                 exam.setTakers(exam.getTakers() + 1);
                 personToEdit.addExam(exam);
                 addressBook.updateExam(originalExam, exam);
-                return new CommandResult(String.format(MESSAGE_REGISTER_EXAM_SUCCESS, targetPerson));
+                return new CommandResult(String.format(MESSAGE_REGISTER_EXAM_SUCCESS, personToEdit));
             } else {
                 return new CommandResult(MESSAGE_EXAM_ALREADY_REGISTERED);
             }

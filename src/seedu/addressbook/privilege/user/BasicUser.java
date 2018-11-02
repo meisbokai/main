@@ -6,10 +6,10 @@ import java.util.Comparator;
 import java.util.List;
 
 import seedu.addressbook.commands.Command;
-import seedu.addressbook.commands.ViewExamsCommand;
 import seedu.addressbook.commands.account.ListAccountCommand;
 import seedu.addressbook.commands.account.LoginCommand;
 import seedu.addressbook.commands.account.LogoutCommand;
+import seedu.addressbook.commands.exams.ViewExamsCommand;
 import seedu.addressbook.commands.general.ExitCommand;
 import seedu.addressbook.commands.general.HelpCommand;
 import seedu.addressbook.commands.person.FindCommand;

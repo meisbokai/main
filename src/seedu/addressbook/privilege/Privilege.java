@@ -46,8 +46,8 @@ public class Privilege {
     /**
      * Signals that an operation would have changed the properties of the currently logged in user.
      */
-    public static class SelfTargetingException extends Exception {
-        protected SelfTargetingException() {
+    public static class SelfModifyingException extends Exception {
+        public SelfModifyingException() {
             super("Operation would result in errors due effects on logged in user");
         }
     }
@@ -126,11 +126,11 @@ public class Privilege {
 
     /**
      * Checks if the target is the currently logged in user
-     * @throws SelfTargetingException if the above is true
+     * @throws SelfModifyingException if the above is true
      */
-    public void checkTargetIsSelf(ReadOnlyPerson person) throws SelfTargetingException {
+    public void checkTargetIsSelf(ReadOnlyPerson person) throws SelfModifyingException {
         if (isTargetSelf(person)) {
-            throw new SelfTargetingException();
+            throw new SelfModifyingException();
         }
     }
 

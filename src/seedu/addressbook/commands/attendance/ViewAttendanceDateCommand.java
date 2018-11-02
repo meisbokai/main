@@ -29,7 +29,7 @@ public class ViewAttendanceDateCommand extends Command {
 
     // Constructor
     public ViewAttendanceDateCommand(String date) throws IllegalValueException {
-        if (!isValidDate(date)) {
+        if (!isValidDate(date) && !"0".equals(date)) {
             throw new IllegalValueException(MESSAGE_DATE_CONSTRAINTS);
         }
         this.date = date;
@@ -61,7 +61,7 @@ public class ViewAttendanceDateCommand extends Command {
                 absent += (n + "\n");
             }
 
-            return new CommandResult(String.format(MESSAGE_SUCCESS) + outputDate + ":\n"
+            return new CommandResult(MESSAGE_SUCCESS + outputDate + ":\n"
                     + "Present\n" + present + "\n"
                     + "Absent\n" + absent + "\n");
 
@@ -73,5 +73,10 @@ public class ViewAttendanceDateCommand extends Command {
     @Override
     public String getCommandUsageMessage() {
         return MESSAGE_USAGE;
+    }
+
+    @Override
+    public Category getCategory() {
+        return Category.ATTENDANCE;
     }
 }

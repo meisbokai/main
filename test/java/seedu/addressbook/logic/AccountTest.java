@@ -26,6 +26,7 @@ import seedu.addressbook.commands.account.AddAccountCommand;
 import seedu.addressbook.commands.account.DeleteAccountCommand;
 import seedu.addressbook.commands.account.LoginCommand;
 import seedu.addressbook.commands.account.LogoutCommand;
+import seedu.addressbook.commands.person.ClearCommand;
 import seedu.addressbook.data.AddressBook;
 import seedu.addressbook.data.ExamBook;
 import seedu.addressbook.data.StatisticsBook;
@@ -522,5 +523,25 @@ public class AccountTest {
     public void executeLogoutSuccess() throws Exception {
         assertCommandBehavior("logout", LogoutCommand.MESSAGE_SUCCESS);
         assertTrue(privilege.isBase());
+    }
+
+    @Test
+    public void executeClearStoppedAsLoggedIn() throws Exception {
+        TestDataHelper helper = new TestDataHelper();
+        TestDataHelper.ThreePersons threePersons = helper.generateThreePersons();
+        AddressBook expected = new AddressBook();
+
+        setUpThreePerson(addressBook, expected, logic, threePersons);
+
+        final Person p2 = threePersons.getActualPerson(2);
+
+        privilege.setMyPerson(p2);
+
+        assertCommandBehavior("clear",
+                ClearCommand.MESSAGE_DELETING_SELF,
+                expected,
+                false,
+                threePersons.getExpected(),
+                true);
     }
 }

@@ -36,6 +36,11 @@ public class StorageStub extends Storage {
         //this is blank on purpose
     }
 
+    /**Stub function*/
+    public void syncAddressBookExamBook(AddressBook addressBook, ExamBook examBook){
+        //this is blank on purpose
+    }
+
     public AddressBook load() {
         return new AddressBook();
     }

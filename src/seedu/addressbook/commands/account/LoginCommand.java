@@ -7,7 +7,7 @@ import seedu.addressbook.commands.commandresult.CommandResult;
 import seedu.addressbook.data.account.Account;
 import seedu.addressbook.data.person.Person;
 import seedu.addressbook.data.person.UniquePersonList;
-import seedu.addressbook.logic.Logic;
+import seedu.addressbook.logic.Logic.WrongPasswordEnteredException;
 
 /**
  * Changes the master password to a new one.
@@ -30,9 +30,9 @@ public class LoginCommand extends KeywordsFormatCommand {
     private String userName;
     private String password;
 
-    private void validatePassword(Account account) throws Logic.WrongPasswordEnteredException {
+    private void validatePassword(Account account) throws WrongPasswordEnteredException {
         if (!password.equals(account.getPassword())) {
-            throw new Logic.WrongPasswordEnteredException();
+            throw new WrongPasswordEnteredException();
         }
     }
 
@@ -59,7 +59,7 @@ public class LoginCommand extends KeywordsFormatCommand {
                     requestedPerson.getName().toString(),
                     requestedAccount.getPrivilege().getLevelAsString());
             return new CommandResult(message);
-        } catch (Logic.WrongPasswordEnteredException wpe) {
+        } catch (WrongPasswordEnteredException wpe) {
             return new CommandResult(MESSAGE_WRONG_PASSWORD);
         } catch (UniquePersonList.PersonNotFoundException pnf) {
             return new CommandResult(MESSAGE_PERSON_NOT_IN_ADDRESSBOOK);

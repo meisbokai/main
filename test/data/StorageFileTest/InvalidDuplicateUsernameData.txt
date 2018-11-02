@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<AddressBook>
+<AddressBook isPermAdmin="false">
     <persons>
         <name>John Doe</name>
         <phone isPrivate="false">98765432</phone>
@@ -9,6 +9,11 @@
             <value>0.00</value>
             <duedate>00-00-0000</duedate>
         </fees>
+        <account>
+            <username>DuplicatedUsername</username>
+            <password>pw</password>
+            <privilege>Admin</privilege>
+        </account>
     </persons>
     <persons>
         <name>Betsy Crowe</name>
@@ -19,8 +24,11 @@
             <value>0.00</value>
             <duedate>00-00-0000</duedate>
         </fees>
-        <tagged>friend</tagged>
-        <tagged>criminal</tagged>
+        <account>
+            <username>DuplicatedUsername</username>
+            <password>password</password>
+            <privilege>Basic</privilege>
+        </account>
     </persons>
-    <password></password>
+    <password>default_pw</password>
 </AddressBook>

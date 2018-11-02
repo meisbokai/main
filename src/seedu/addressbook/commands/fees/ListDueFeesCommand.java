@@ -21,9 +21,10 @@ public class ListDueFeesCommand extends Command {
         return new CommandResult(getMessageForFeesListShownSummary(addressBook.dueFeesPerson(date)),
                 addressBook.dueFeesPerson(date), PersonListFormat.FEES_DUE_DETAILS);
     }
+
     @Override
     public Category getCategory() {
-        return Category.PERSON;
+        return Category.FEES;
     }
 
     @Override

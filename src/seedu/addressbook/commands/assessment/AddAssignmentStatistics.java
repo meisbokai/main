@@ -15,10 +15,10 @@ public class AddAssignmentStatistics extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ":\n" + "Adds new statistic to the StatisticsBook. "
             + "Statistics can be marked private by prepending 'p' to the prefix of the field.\n\t"
-            + "Parameters: SUBJECTNAME [p]en/EXAMNAME [p]ts/TOP SCORER [p]av/AVERAGE [p]te/TOTAL EXAM TAKERS "
+            + "Parameters: SUBJECTNAME [p]e/EXAMNAME [p]ts/TOP SCORER [p]av/AVERAGE [p]te/TOTAL EXAM TAKERS "
             + "[p]ab/TOTAL NUMBER ABSENT [p]tp/ TOTAL PASS [p]mm/MAX MIN\n\t"
             + "Example: " + COMMAND_WORD
-            + " Mathematics en/Midterm ts/John Doe av/21.5 te/86 ab/4 tp/83 mm/35 98";
+            + " Mathematics e/Midterm ts/John Doe av/21.5 te/86 ab/4 tp/83 mm/35 98";
 
     public static final String MESSAGE_SUCCESS = "New statistic added : %1$s";
     public static final String MESSAGE_DUPLICATE_STATISTIC = "This statistic already exists in the statistics book!";
@@ -54,6 +54,11 @@ public class AddAssignmentStatistics extends Command {
     @Override
     public boolean isMutating() {
         return true;
+    }
+
+    @Override
+    public Category getCategory() {
+        return Category.ASSESSMENT;
     }
 
     @Override

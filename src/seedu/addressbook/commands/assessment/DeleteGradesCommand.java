@@ -1,6 +1,7 @@
 package seedu.addressbook.commands.assessment;
 
-import seedu.addressbook.commands.Command;
+import seedu.addressbook.commands.commandformat.indexformat.IndexFormatCommand;
+import seedu.addressbook.commands.commandformat.indexformat.ObjectTargeted;
 import seedu.addressbook.commands.commandresult.CommandResult;
 import seedu.addressbook.common.Messages;
 import seedu.addressbook.data.person.Assessment;
@@ -10,7 +11,7 @@ import seedu.addressbook.data.person.UniquePersonList;
 /**
  * Deregisters a person identified using its last displayed index for a exam identified using its last displayed index.
  */
-public class DeleteGradesCommand extends Command {
+public class DeleteGradesCommand extends IndexFormatCommand {
     public static final String COMMAND_WORD = "deletegrades";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ":\n"
@@ -24,8 +25,6 @@ public class DeleteGradesCommand extends Command {
     public static final String MESSAGE_ASSESSMENT_NOT_PRESENT =
             "The assessment has not been added to this person!";
 
-    private int targetAssessmentIndex;
-
     /**
      * Constructor used for Privileges
      * Command constructed has no functionality
@@ -34,16 +33,15 @@ public class DeleteGradesCommand extends Command {
     }
 
     public DeleteGradesCommand(int targetVisibleIndex, int targetAssessmentIndex) {
-        super(targetVisibleIndex);
-        this.targetAssessmentIndex = targetAssessmentIndex;
+        setTargetIndex(targetVisibleIndex, ObjectTargeted.PERSON);
+        setTargetIndex(targetAssessmentIndex, ObjectTargeted.ASSESSMENT);
     }
 
     @Override
     public CommandResult execute() {
         try {
             final Person person = addressBook.findPerson(getTargetReadOnlyPerson());
-
-            final Assessment assessment = getTargetAssessment(targetAssessmentIndex);
+            final Assessment assessment = getTargetAssessment();
 
             if (!person.isAssessmentPresent(assessment)) {
                 return new CommandResult(MESSAGE_ASSESSMENT_NOT_PRESENT);

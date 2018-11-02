@@ -55,12 +55,11 @@ public class CommandResult {
     public CommandResult(String statusConsoleMessage,
                          String outputConsoleMessage) {
         this.statusConsoleMessage = statusConsoleMessage;
-
         this.outputConsoleMessage = outputConsoleMessage;
     }
 
     public CommandResult(String statusConsoleMessage, List<?> relevantList) {
-        // By default, assume list is list of ReadOnlyPersons, and shows all details.
+        // By default, assume list is list of ReadOnlyPerson, and shows all details.
         this(statusConsoleMessage, relevantList, DEFAULT_LIST_FORMAT, DEFAULT_LIST_TYPE);
     }
 
@@ -175,6 +174,7 @@ public class CommandResult {
     public boolean hasOutputMessage() {
         return Optional.ofNullable(outputConsoleMessage).isPresent() || hasRelevantList();
     }
+
     public String getOutputConsoleMessage() {
         return Optional.ofNullable(outputConsoleMessage).orElse(BLANK_MESSAGE);
     }

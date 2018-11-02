@@ -3,7 +3,7 @@ package seedu.addressbook.commands.person;
 import java.util.List;
 import java.util.Set;
 
-import seedu.addressbook.commands.Command;
+import seedu.addressbook.commands.commandformat.indexformat.IndexFormatCommand;
 import seedu.addressbook.commands.commandresult.CommandResult;
 import seedu.addressbook.common.Messages;
 import seedu.addressbook.data.person.Exam;
@@ -15,7 +15,7 @@ import seedu.addressbook.privilege.Privilege;
 /**
  * Deletes a person identified using its last displayed index from the address book.
  */
-public class DeleteCommand extends Command {
+public class DeleteCommand extends IndexFormatCommand {
 
     public static final String COMMAND_WORD = "delete";
 
@@ -37,17 +37,17 @@ public class DeleteCommand extends Command {
 
             Set<Exam> examSet = target.getExams();
             for (Exam e: examSet) {
-                Exam examAfter = new Exam(e);
-                examAfter.setTakers(examAfter.getTakers() - 1);
-                examBook.updateExam(e, examAfter);
-                addressBook.updateExam(e, examAfter);
+                Exam updatedExam = new Exam(e);
+                updatedExam.setTakers(updatedExam.getTakers() - 1);
+                examBook.updateExam(e, updatedExam);
+                addressBook.updateExam(e, updatedExam);
             }
             return new CommandResult(String.format(MESSAGE_DELETE_PERSON_SUCCESS, target), updatedList);
         } catch (IndexOutOfBoundsException ie) {
             return new CommandResult(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
         } catch (PersonNotFoundException pnfe) {
             return new CommandResult(Messages.MESSAGE_PERSON_NOT_IN_ADDRESSBOOK);
-        } catch (Privilege.SelfTargetingException ste) {
+        } catch (Privilege.SelfModifyingException ste) {
             return new CommandResult(MESSAGE_DELETING_SELF);
         } catch (UniqueExamList.ExamNotFoundException enfe) {
             return new CommandResult(Messages.MESSAGE_EXAM_NOT_IN_EXAMBOOK);

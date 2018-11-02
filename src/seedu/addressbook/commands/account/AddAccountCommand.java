@@ -2,7 +2,8 @@ package seedu.addressbook.commands.account;
 
 import java.util.List;
 
-import seedu.addressbook.commands.Command;
+import seedu.addressbook.commands.commandformat.indexformat.IndexFormatCommand;
+import seedu.addressbook.commands.commandformat.indexformat.ObjectTargeted;
 import seedu.addressbook.commands.commandresult.CommandResult;
 import seedu.addressbook.common.Messages;
 import seedu.addressbook.data.account.Account;
@@ -14,7 +15,7 @@ import seedu.addressbook.data.person.UniquePersonList.PersonNotFoundException;
 /**
  * Deletes a person identified using it's last displayed index from the address book.
  */
-public class AddAccountCommand extends Command {
+public class AddAccountCommand extends IndexFormatCommand {
 
     public static final String COMMAND_WORD = "addacc";
 
@@ -42,7 +43,7 @@ public class AddAccountCommand extends Command {
     }
     public AddAccountCommand(int targetVisibleIndex, String username, String password, String privilege)
             throws IllegalValueException {
-        super(targetVisibleIndex);
+        setTargetIndex(targetVisibleIndex, ObjectTargeted.PERSON);
         try {
             toAdd = new Account(username, password, privilege);
         } catch (IllegalValueException ive) {

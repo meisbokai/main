@@ -2,18 +2,18 @@ package seedu.addressbook.commands.account;
 
 import java.util.List;
 
-import seedu.addressbook.commands.Command;
+import seedu.addressbook.commands.commandformat.indexformat.IndexFormatCommand;
 import seedu.addressbook.commands.commandresult.CommandResult;
 import seedu.addressbook.common.Messages;
 import seedu.addressbook.data.person.Person;
 import seedu.addressbook.data.person.ReadOnlyPerson;
 import seedu.addressbook.data.person.UniquePersonList.PersonNotFoundException;
-import seedu.addressbook.privilege.Privilege.SelfTargetingException;
+import seedu.addressbook.privilege.Privilege.SelfModifyingException;
 
 /**
  * Deletes the account of a person identified using it's last displayed index from the address book.
  */
-public class DeleteAccountCommand extends Command {
+public class DeleteAccountCommand extends IndexFormatCommand {
 
     public static final String COMMAND_WORD = "delacc";
 
@@ -45,7 +45,7 @@ public class DeleteAccountCommand extends Command {
             return new CommandResult(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
         } catch (PersonNotFoundException pnfe) {
             return new CommandResult(Messages.MESSAGE_PERSON_NOT_IN_ADDRESSBOOK);
-        } catch (SelfTargetingException ste) {
+        } catch (SelfModifyingException ste) {
             return new CommandResult(MESSAGE_DELETING_SELF);
         }
     }

@@ -101,19 +101,19 @@ public class Person implements ReadOnlyPerson {
     /**
      * Checks if the exam is already registered
      */
-    public boolean isExamPresent(Exam exam) {
-        boolean present = false;
+    public boolean isExamPresent(ReadOnlyExam exam) {
+        boolean isPresent = false;
         if (exams.contains(exam)) {
-            present = true;
+            isPresent = true;
         }
-        return present;
+        return isPresent;
     }
 
     /**
      * Removes the specified exam
      * @param exam to remove from person
      */
-    public void removeExam(Exam exam) {
+    public void removeExam(ReadOnlyExam exam) {
         exams.remove(exam);
     }
 

@@ -1,18 +1,18 @@
-package seedu.addressbook.commands;
+package seedu.addressbook.commands.exams;
 
+import seedu.addressbook.commands.commandformat.indexformat.IndexFormatCommand;
+import seedu.addressbook.commands.commandformat.indexformat.ObjectTargeted;
 import seedu.addressbook.commands.commandresult.CommandResult;
 import seedu.addressbook.common.Messages;
 import seedu.addressbook.data.person.Exam;
 import seedu.addressbook.data.person.Person;
-import seedu.addressbook.data.person.ReadOnlyExam;
-import seedu.addressbook.data.person.ReadOnlyPerson;
 import seedu.addressbook.data.person.UniqueExamList;
 import seedu.addressbook.data.person.UniquePersonList;
 
 /**
  * Deregisters a person identified using its last displayed index for an exam identified using its last displayed index.
  */
-public class DeregisterExamCommand extends Command {
+public class DeregisterExamCommand extends IndexFormatCommand {
     public static final String COMMAND_WORD = "deregexam";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ":\n"
@@ -25,6 +25,7 @@ public class DeregisterExamCommand extends Command {
             + "Identified Person is now: %2$s";
     public static final String MESSAGE_EXAM_NOT_REGISTERED =
             "The person is not registered under the targeted exam!";
+    public static final int REQUIRED_ARGUMENTS = 2;
 
     private int targetExamIndex;
 
@@ -36,17 +37,15 @@ public class DeregisterExamCommand extends Command {
     }
 
     public DeregisterExamCommand(int targetVisibleIndex, int targetExamIndex) {
-        super(targetVisibleIndex);
+        setTargetIndex(targetVisibleIndex, ObjectTargeted.PERSON);
         this.targetExamIndex = targetExamIndex;
     }
 
     @Override
     public CommandResult execute() {
         try {
-            final ReadOnlyPerson targetPerson = getTargetPerson();
-            final ReadOnlyExam targetExam = getTargetExam(targetExamIndex);
-            Person personToEdit = addressBook.findPerson(targetPerson);
-            Exam exam = examBook.findExam(targetExam);
+            final Person personToEdit = getTargetPerson();
+            final Exam exam = getTargetExam(targetExamIndex);
             if (!personToEdit.isExamPresent(exam)) {
                 return new CommandResult(MESSAGE_EXAM_NOT_REGISTERED);
             } else {
@@ -54,7 +53,7 @@ public class DeregisterExamCommand extends Command {
                 Exam originalExam = new Exam(exam);
                 exam.setTakers(exam.getTakers() - 1);
                 addressBook.updateExam(originalExam, exam);
-                return new CommandResult(String.format(MESSAGE_DEREGISTER_EXAM_SUCCESS, exam, targetPerson));
+                return new CommandResult(String.format(MESSAGE_DEREGISTER_EXAM_SUCCESS, exam, personToEdit));
             }
         } catch (ExamIndexOutOfBoundsException eie) {
             return new CommandResult(Messages.MESSAGE_INVALID_EXAM_DISPLAYED_INDEX);

@@ -4,7 +4,6 @@ import static java.lang.Integer.parseInt;
 import static seedu.addressbook.common.Messages.MESSAGE_COMMAND_NOT_FOUND;
 import static seedu.addressbook.common.Messages.MESSAGE_DATE_CONSTRAINTS;
 import static seedu.addressbook.common.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.addressbook.common.Messages.MESSAGE_INVALID_DATE;
 import static seedu.addressbook.common.Messages.MESSAGE_WRONG_NUMBER_ARGUMENTS;
 
 import java.text.SimpleDateFormat;
@@ -20,10 +19,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import seedu.addressbook.commands.Command;
-import seedu.addressbook.commands.DeregisterExamCommand;
 import seedu.addressbook.commands.IncorrectCommand;
-import seedu.addressbook.commands.RegisterExamCommand;
-import seedu.addressbook.commands.ViewExamsCommand;
 import seedu.addressbook.commands.account.AddAccountCommand;
 import seedu.addressbook.commands.account.DeleteAccountCommand;
 import seedu.addressbook.commands.account.ListAccountCommand;
@@ -41,11 +37,16 @@ import seedu.addressbook.commands.attendance.UpdateAttendanceCommand;
 import seedu.addressbook.commands.attendance.ViewAttendanceDateCommand;
 import seedu.addressbook.commands.attendance.ViewAttendancePersonCommand;
 import seedu.addressbook.commands.commandformat.KeywordsFormatCommand;
+import seedu.addressbook.commands.commandformat.indexformat.IndexFormatCommand;
+import seedu.addressbook.commands.commandformat.indexformat.ObjectTargeted;
 import seedu.addressbook.commands.exams.AddExamCommand;
 import seedu.addressbook.commands.exams.ClearExamsCommand;
 import seedu.addressbook.commands.exams.DeleteExamCommand;
+import seedu.addressbook.commands.exams.DeregisterExamCommand;
 import seedu.addressbook.commands.exams.EditExamCommand;
 import seedu.addressbook.commands.exams.ExamsListCommand;
+import seedu.addressbook.commands.exams.RegisterExamCommand;
+import seedu.addressbook.commands.exams.ViewExamsCommand;
 import seedu.addressbook.commands.fees.EditFeesCommand;
 import seedu.addressbook.commands.fees.ListDueFeesCommand;
 import seedu.addressbook.commands.fees.ListFeesCommand;
@@ -166,7 +167,7 @@ public class Parser {
             return prepareFees(arguments);
 
         case DeleteCommand.COMMAND_WORD:
-            return prepareSingleIndexCommand(arguments, new DeleteCommand());
+            return prepareSingleIndexCommand(arguments, new DeleteCommand(), ObjectTargeted.PERSON);
 
         case ClearCommand.COMMAND_WORD:
             return prepareVoidCommand(arguments, new ClearCommand());
@@ -181,10 +182,10 @@ public class Parser {
             return prepareVoidCommand(arguments, new ListAllCommand());
 
         case ViewCommand.COMMAND_WORD:
-            return prepareSingleIndexCommand(arguments, new ViewCommand());
+            return prepareSingleIndexCommand(arguments, new ViewCommand(), ObjectTargeted.PERSON);
 
         case ViewAllCommand.COMMAND_WORD:
-            return prepareSingleIndexCommand(arguments, new ViewAllCommand());
+            return prepareSingleIndexCommand(arguments, new ViewAllCommand(), ObjectTargeted.PERSON);
 
         case ExitCommand.COMMAND_WORD:
             return prepareVoidCommand(arguments, new ExitCommand());
@@ -211,13 +212,14 @@ public class Parser {
             return prepareAddGrades(arguments);
 
         case ViewGradesCommand.COMMAND_WORD:
-            return prepareSingleIndexCommand(arguments, new ViewGradesCommand());
+            return prepareSingleIndexCommand(arguments, new ViewGradesCommand(), ObjectTargeted.PERSON);
 
         case AddAccountCommand.COMMAND_WORD:
             return prepareAddAccount(arguments);
 
         case DeleteAccountCommand.COMMAND_WORD:
-            return prepareSingleIndexCommand(arguments, new DeleteAccountCommand());
+            return prepareSingleIndexCommand(arguments, new DeleteAccountCommand(),
+                    ObjectTargeted.PERSON);
 
         case ListAccountCommand.COMMAND_WORD:
             return prepareVoidCommand(arguments, new ListAccountCommand());
@@ -247,7 +249,7 @@ public class Parser {
             return prepareViewDateAttendance(arguments);
 
         case ExamsListCommand.COMMAND_WORD:
-            return new ExamsListCommand();
+            return prepareVoidCommand(arguments, new ExamsListCommand());
 
         case ListFeesCommand.COMMAND_WORD:
             return new ListFeesCommand();
@@ -259,7 +261,7 @@ public class Parser {
             return prepareDeleteExam(arguments);
 
         case ClearExamsCommand.COMMAND_WORD:
-            return new ClearExamsCommand();
+            return prepareVoidCommand(arguments, new ClearExamsCommand());
 
         case EditExamCommand.COMMAND_WORD:
             return prepareEditExam(arguments);
@@ -271,13 +273,13 @@ public class Parser {
             return prepareDeregisterExam(arguments);
 
         case ViewExamsCommand.COMMAND_WORD:
-            return prepareViewExams(arguments);
+            return prepareSingleIndexCommand(arguments, new ViewExamsCommand(), ObjectTargeted.PERSON);
 
         case AddAssessmentCommand.COMMAND_WORD:
             return prepareAddAssessment(arguments);
 
         case DeleteAssessmentCommand.COMMAND_WORD:
-            return prepareDeleteAssessment(arguments);
+            return prepareSingleIndexCommand(arguments, new DeleteAssessmentCommand(), ObjectTargeted.ASSESSMENT);
 
         case ListAssessmentCommand.COMMAND_WORD:
             return new ListAssessmentCommand();
@@ -378,10 +380,12 @@ public class Parser {
      * @param args full command args string
      * @return the prepared command
      */
-    private Command prepareSingleIndexCommand(String args, Command command) {
+    private Command prepareSingleIndexCommand(String args,
+                                              IndexFormatCommand command,
+                                              ObjectTargeted objectTargeted) {
         try {
             final int targetIndex = parseArgsAsDisplayedIndex(args);
-            command.setTargetIndex(targetIndex);
+            command.setTargetIndex(targetIndex, objectTargeted);
             return command;
         } catch (ParseException | NumberFormatException e) {
             return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
@@ -646,13 +650,11 @@ public class Parser {
         } catch (NumberFormatException nfe) { //do the most specific catch on top
             return new IncorrectCommand(nfe.getMessage());
         } catch (java.text.ParseException pe) {
-            return new IncorrectCommand(String.format(MESSAGE_INVALID_DATE,
-                    UpdateAttendanceCommand.MESSAGE_USAGE));
+            return new IncorrectCommand(MESSAGE_DATE_CONSTRAINTS);
         } catch (IllegalValueException ive) {
-            return new IncorrectCommand(String.format(MESSAGE_INVALID_DATE + MESSAGE_DATE_CONSTRAINTS
-                    + UpdateAttendanceCommand.MESSAGE_USAGE));
+            return new IncorrectCommand(MESSAGE_DATE_CONSTRAINTS
+                    + UpdateAttendanceCommand.MESSAGE_USAGE);
         }
-
     }
 
     /**
@@ -682,11 +684,10 @@ public class Parser {
         } catch (NumberFormatException nfe) { //do the most specific catch on top
             return new IncorrectCommand(nfe.getMessage());
         } catch (java.text.ParseException pe) {
-            return new IncorrectCommand(String.format(MESSAGE_INVALID_DATE,
-                    UpdateAttendanceCommand.MESSAGE_USAGE));
+            return new IncorrectCommand(MESSAGE_DATE_CONSTRAINTS);
         } catch (IllegalValueException ive) {
-            return new IncorrectCommand(String.format(MESSAGE_INVALID_DATE + MESSAGE_DATE_CONSTRAINTS
-                    + ReplaceAttendanceCommand.MESSAGE_USAGE));
+            return new IncorrectCommand(MESSAGE_DATE_CONSTRAINTS + MESSAGE_DATE_CONSTRAINTS
+                    + ReplaceAttendanceCommand.MESSAGE_USAGE);
         }
 
     }
@@ -721,19 +722,12 @@ public class Parser {
                     ViewAttendanceDateCommand.MESSAGE_USAGE));
         }
         try {
-            if (!"0".equals(matcher.group("date"))) {
-                SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-                dateFormat.parse(matcher.group("date").trim());
-            }
-
             return new ViewAttendanceDateCommand(matcher.group("date"));
         } catch (NumberFormatException nfe) { //do the most specific catch on top
             return new IncorrectCommand(nfe.getMessage());
-        } catch (java.text.ParseException pe) {
-            return new IncorrectCommand(String.format(MESSAGE_INVALID_DATE + ViewAttendanceDateCommand.MESSAGE_USAGE));
         } catch (IllegalValueException ive) {
-            return new IncorrectCommand(String.format(MESSAGE_INVALID_DATE + MESSAGE_DATE_CONSTRAINTS
-                    + ViewAttendanceDateCommand.MESSAGE_USAGE));
+            return new IncorrectCommand(MESSAGE_DATE_CONSTRAINTS
+                    + ViewAttendanceDateCommand.MESSAGE_USAGE);
         }
     }
 
@@ -818,9 +812,10 @@ public class Parser {
         }
 
         String[] arr = matcher.group("keywords").split("\\s+");
-        if (arr.length != 2) {
-            return new IncorrectCommand(String.format(MESSAGE_WRONG_NUMBER_ARGUMENTS , 2, arr.length,
-                    RegisterExamCommand.MESSAGE_USAGE));
+        if (arr.length != RegisterExamCommand.REQUIRED_ARGUMENTS) {
+            return new IncorrectCommand(String.format(MESSAGE_WRONG_NUMBER_ARGUMENTS,
+                    RegisterExamCommand.REQUIRED_ARGUMENTS,
+                    arr.length, RegisterExamCommand.MESSAGE_USAGE));
         }
         try {
             final int targetIndex = parseArgsAsDisplayedIndex(arr[0]);
@@ -846,9 +841,10 @@ public class Parser {
         }
 
         String[] arr = matcher.group("keywords").split("\\s+");
-        if (arr.length != 2) {
-            return new IncorrectCommand(String.format(MESSAGE_WRONG_NUMBER_ARGUMENTS , 2, arr.length,
-                    DeregisterExamCommand.MESSAGE_USAGE));
+        if (arr.length != DeregisterExamCommand.REQUIRED_ARGUMENTS) {
+            return new IncorrectCommand(String.format(MESSAGE_WRONG_NUMBER_ARGUMENTS,
+                    DeregisterExamCommand.REQUIRED_ARGUMENTS,
+                    arr.length, DeregisterExamCommand.MESSAGE_USAGE));
         }
         try {
             final int targetIndex = parseArgsAsDisplayedIndex(arr[0]);
@@ -857,22 +853,6 @@ public class Parser {
         } catch (ParseException | NumberFormatException e) {
             return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
                     DeregisterExamCommand.MESSAGE_USAGE));
-        }
-    }
-
-    /**
-     * Parses arguments in the context of the view exams command.
-     *
-     * @param args full command args string
-     * @return the prepared command
-     */
-    private Command prepareViewExams(String args) {
-        try {
-            final int targetIndex = parseArgsAsDisplayedIndex(args);
-            return new ViewExamsCommand(targetIndex);
-        } catch (ParseException | NumberFormatException e) {
-            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-                    ViewExamsCommand.MESSAGE_USAGE));
         }
     }
 
@@ -895,22 +875,6 @@ public class Parser {
             );
         } catch (IllegalValueException ive) {
             return new IncorrectCommand(ive.getMessage());
-        }
-    }
-
-    /**
-     * Parses arguments in the context of the delete assessment command.
-     *
-     * @param args full command args string
-     * @return the prepared command
-     */
-    private Command prepareDeleteAssessment(String args) {
-        try {
-            final int targetIndex = parseArgsAsDisplayedIndex(args);
-            return new DeleteAssessmentCommand(targetIndex);
-        } catch (ParseException | NumberFormatException e) {
-            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-                    DeleteAssessmentCommand.MESSAGE_USAGE));
         }
     }
 
