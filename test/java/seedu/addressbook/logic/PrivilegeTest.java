@@ -138,6 +138,16 @@ public class PrivilegeTest {
     }
 
     @Test
+    public void executeRaisePrivilegeLoggedIn() throws Exception {
+        TestDataHelper helper = new TestDataHelper();
+        Person person = helper.adam();
+        privilege.setMyPerson(person);
+        String expectedMessage = String.format(RaisePrivilegeCommand.MESSAGE_LOGGED_IN, person.getName());
+        CommandAssertions.assertCommandBehavior("raise default_pw", expectedMessage);
+        assertEquals(privilege.getUser(), new BasicUser());
+    }
+
+    @Test
     public void executeRaisePrivilegeSuccessDefaultPassword() throws Exception {
         String defaultPassword = AddressBook.DEFAULT_MASTER_PASSWORD;
         CommandAssertions.assertCommandBehavior("raise " + defaultPassword,

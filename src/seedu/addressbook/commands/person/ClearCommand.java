@@ -20,6 +20,7 @@ public class ClearCommand extends Command {
     public static final String MESSAGE_SUCCESS = "Address book has been cleared!";
     public static final String MESSAGE_DELETING_SELF = "Clearing the address book"
             + " will delete the currently logged in account\n"
+            + "Logout and raise privilege to Admin using master password to execute this command."
             + "Raise privilege using master password to execute this command instead.";
 
     @Override

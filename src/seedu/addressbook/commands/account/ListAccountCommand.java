@@ -22,6 +22,8 @@ public class ListAccountCommand extends Command {
     @Override
     public CommandResult execute() {
         List<ReadOnlyPerson> allPersons = addressBook.getAllPersons().immutableListView();
+
+        // We do not need an immutable list as this is a copy of UniquePersonList's internal list
         final List<ReadOnlyPerson> personsWithAccount = allPersons.stream()
                 .filter(ReadOnlyPerson::hasAccount).collect(Collectors.toList());
         return new CommandResult(getMessageForPersonListShownSummary(personsWithAccount), personsWithAccount,

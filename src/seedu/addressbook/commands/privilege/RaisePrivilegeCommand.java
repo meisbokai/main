@@ -19,6 +19,8 @@ public class RaisePrivilegeCommand extends KeywordsFormatCommand {
 
     public static final String MESSAGE_WRONG_PASSWORD = "Wrong password entered";
     public static final String MESSAGE_SUCCESS = "Privilege changed to %1$s";
+    public static final String MESSAGE_LOGGED_IN = "You are logged in as %1$s.\n"
+            + "Logout to execute this command.";
     private static final int REQUIRED_ARGUMENTS = 1;
 
     private String password;
@@ -32,6 +34,9 @@ public class RaisePrivilegeCommand extends KeywordsFormatCommand {
     @Override
     public CommandResult execute() {
         try {
+            if (privilege.getMyPerson().isPresent()) {
+                return new CommandResult(String.format(MESSAGE_LOGGED_IN, privilege.getMyPerson().get().getName()));
+            }
             validatePassword();
             privilege.raiseToAdmin();
             return new CommandResult(String.format(MESSAGE_SUCCESS, privilege.getLevelAsString()));
