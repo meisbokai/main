@@ -3,7 +3,6 @@
 						"*.jar", "*.war", "*.ear", ".idea/", "*.iml", "out/", "/bin/", "/data/", "publish.sh",
 						".gradle/", "build/"],
 	"formats": ["adoc", "cs", "css", "fxml", "gradle", "html", "java", "js", "json", "jsp", "md", "py", "tag", "xml"],
-	"ignoreCommitList": [""],
 	"authors":
 	[
 		{
