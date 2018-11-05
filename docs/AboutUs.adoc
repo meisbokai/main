@@ -10,8 +10,7 @@ We are a team based in the http://www.comp.nus.edu.sg[School of Computing, Natio
 
 === Ng Tek In
 image::0wn463.png[width="150", align="left"]
-{empty}[https://github.com/0wn463[github]]
-{empty}[<<0wn463#, Project Portfolio>>]
+{empty}[https://github.com/0wn463[github]] [<<0wn463#, portfolio>>]
 
 Role: Team Lead +
 Responsibilities: Managing Pull Requests +
@@ -31,7 +30,7 @@ Feature: Exams and Examlist
 
 === Meghana Narayanan
 image::meg1456.png[width="150", align="left"]
-{empty}[https://github.com/meg1456[github]]
+{empty}[https://github.com/meg1456[github]] [<<meg1456#, portfolio>>]
 
 Role: Deliverables and Deadlines In-charge +
 Responsibilities: Ensuring work is completed on time +
@@ -41,7 +40,7 @@ Feature: Tests and Grades
 
 === Neow Bo Kai
 image::meisbokai.png[width="150", align="left"]
-{empty}[https://github.com/meisbokai[github]]
+{empty}[https://github.com/meisbokai[github]] [<<meisbokai#, portfolio>>]
 
 Role: Developer + Code Quality Check +
 Responsibilities: Code Quality +
@@ -51,7 +50,7 @@ Feature: Attendance
 
 === Lucas Lim
 image::lucdx.png[width="150", align="left"]
-{empty}[https://github.com/lucdx[github]]
+{empty}[https://github.com/lucdx[github]] [<<lucdx#, portfolio>>]
 
 Role: Documentation and Scribe +
 Responsibilities: Coherent documents +

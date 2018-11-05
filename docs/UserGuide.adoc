@@ -14,8 +14,9 @@ endif::[]
 
 == Introduction
 ClassRepo is targeted at secondary school users who *prefer to use a desktop app for managing their school details*.
-ClassRepo is *optimized for those who prefer to work with a Command Line Interface* (CLI). Interested? Jump to the
-<<Quick Start>> to get started. Enjoy!
+ClassRepo is *optimized for those who prefer to work with a Command Line Interface* (CLI). +
+
+Interested? Jump to the <<Quick Start>> to get started. Enjoy!
 
 == Quick Start
 
@@ -62,58 +63,56 @@ Below are the commands that deals with privilege:
 ==== Raises your privilege level : `raise` image:Basic.png[16,16]
 
 Raises the privilege level to Admin. Requires the master password. +
-Format: `viewall PASSWORD`
+Format: `raise PASSWORD`
 
 [NOTE]
 ====
 The default master password when first deploying ClassRepo is `default_pw`.
 ====
 
-****
 Example(s):
 
 * `raise default_pw` +
 Raises your privilege level to Admin.
-****
 
 ==== See your privilege level : `viewpri` image:Basic.png[16,16]
 
 Displays your current privilege level as well as the account you are logged in as +
 Format: `viewpri`
 
-
 ==== Change the master password : `editpw` image:Admin.png[16,16]
 Changes the master password. Requires the current master password and Admin privileges. +
 Format: `editpw OLD_PASSWORD NEW_PASSWORD`
 
-Changes the master password to `NEW_PASSWORD`, if the provided `OLD_PASSWORD` is correct. +
+****
+Changes the master password to `NEW_PASSWORD`, if the provided `OLD_PASSWORD` is correct.
+****
 
 [NOTE]
 ====
 It is recommended to change the master password when first deploying ClassRepo.
 ====
 
-****
 Example(s):
 
 * `editpw default_pw new_pw` +
 Changes the master password to "new_pw".
-****
 
 ==== Sets default privilege : `perm` image:Admin.png[16,16]
 
-Sets/Unsets the privilege to be Admin when starting a session. +
-Format: `perm BOOLEAN` +
+Sets/Unsets the privilege to be Admin when starting a new session. +
+Format: `perm BOOLEAN`
+
+****
 Enter `BOOLEAN` as `true` to set the default privilege to be Admin. +
 Enter `BOOLEAN` as `false` to set the default privilege to be Basic.
-
+****
 
 [NOTE]
 ====
 This is recommended to be only done on machines that you are certain only administrators of your school have access to.
 ====
 
-****
 Example(s):
 
 * `raise default_pw` +
@@ -123,7 +122,7 @@ Sets the default privilege when starting a session to be Admin.
 * `raise default_pw` +
 `perm false` +
 Sets the default privilege when starting a session to be Basic.
-****
+
 // end::privilege[]
 
 === Person Commands
@@ -141,7 +140,7 @@ items with `...` after them can have multiple instances. Order of parameters are
 Put a `p` before the phone / email / address prefixes to mark it as `private`. `private` details can only
 be seen using the `viewall` command.
 
-Persons can have any number of tags (including 0)
+Persons can have any number of tags (including 0).
 ****
 
 Example(s):
@@ -151,27 +150,20 @@ Example(s):
 
 ==== Listing all persons (simplied view): `list` image:Basic.png[16,16]
 
-
 Shows a list of all persons in the address book. +
 
 [NOTE]
 ====
-This shows only the names of each person in the addressbook. +
+This shows only the names of each person in the address book. +
 For a more detailed view, refer to <<listall, List (detailed view)>>
 ====
 
 Format: `list`
 
 [[listall]]
-==== Listing all persons (detailed view) : `listall`  image:Tutor.png[16,16]
+==== Listing all persons (detailed view) : `listall` image:Tutor.png[16,16]
 Displays all persons (showing all non-private details) in the address book as a list with index numbers. +
-Format: `listall` +
-
-****
-Example(s):
-
-* `listall` +
-****
+Format: `listall` 
 
 ==== Finding all persons containing any keyword in their name: `find` image:Basic.png[16,16]
 
@@ -190,7 +182,7 @@ Example(s):
 Returns `John Doe` but not `john`.
 
 * `find Betsy Tim John` +
-Returns Any person having names `Betsy`, `Tim`, or `John`.
+Returns any persons having names `Betsy`, `Tim`, or `John`.
 
 ==== Deleting a person : `delete` image:Admin.png[16,16]
 
@@ -199,7 +191,7 @@ Format: `delete INDEX`
 
 ****
 Deletes the person at the specified `INDEX`.
-The index refers to the index number shown in the most recent listing.
+The index refers to the index number shown in the most recent person listing.
 ****
 
 Example(s):
@@ -219,7 +211,7 @@ Format: `view INDEX`
 
 ****
 Views the person at the specified `INDEX`.
-The index refers to the index number shown in the most recent listing.
+The index refers to the index number shown in the most recent person listing.
 ****
 
 Example(s):
@@ -239,7 +231,7 @@ Format: `viewall INDEX`
 
 ****
 Views all details of the person at the specified `INDEX`.
-The index refers to the index number shown in the most recent listing.
+The index refers to the index number shown in the most recent person listing.
 ****
 
 Example(s):
@@ -252,21 +244,94 @@ Views all details of the 2nd person in the address book.
 `viewall 1` +
 Views all details of the 1st person in the results of the `find` command.
 
-==== View your own details : `viewself`  image:Basic.png[16,16]
+==== View your own details : `viewself` image:Basic.png[16,16]
 
 Displays the all the details of the user, provided the user is logged in. +
 Format: `viewself`
 
-==== Clearing all entries : `clear`  image:Admin.png[16,16]
+==== Clearing all entries : `clear` image:Admin.png[16,16]
 
 Clears all entries from the address book. +
 Format: `clear`
+
+// tag::account[]
+[[account]]
+=== Account Commands
+Below are the commands that deal with accounts:
+
+==== Add an account to a person: `addacc` image:Admin.png[16,16]
+Adds an account to the target person. +
+Format: `addacc INDEX USERNAME PASSWORD PRIVILEGE_LEVEL`
+
+****
+Creates an account for the person with INDEX as specified by the last shown person listing. +
+USERNAME and PASSWORD will be used for logging in. +
+****
+
+[NOTE]
+=====
+PRIVILEGE_LEVEL can be of type "Basic", "Tutor" or "Admin".
+=====
+
+Example(s):
+
+* `list`  +
+`addacc 1 JohnDoe1337 P455W0RD Admin` +
+Adds an account with the username of `JohnDoe1337`, password of `P455W0RD` and privilege level of `Admin` 
+to the first person in the list.
+
+==== Delete the account of a person: `delacc` image:Admin.png[16,16]
+Deletes the account of the target person. +
+Format: `delacc INDEX`
+
+****
+Deletes the account of the person with INDEX as specified by the last shown list.
+****
+
+Example(s):
+
+* `list`  +
+`delacc 1` +
+Deletes the account of the first person in the list, provided that he has an account.
+
+==== Login to an account: `login` image:Basic.png[16,16]
+Log in to the account with the specified username and password. +
+Format: `login USERNAME PASSWORD`
+
+****
+Logs into the account with the given USERNAME and PASSWORD. +
+Sets the current privilege level to that of the account.
+****
+
+Example(s):
+
+* `login JohnDoe1337 P455W0RD` +
+Login an account with the username of `JohnDoe1337` and password of `P455W0RD`, provided it exists.
+
+==== Logout of an account: `logout` image:Basic.png[16,16]
+Logout of the current account. +
+Format: `logout`
+
+****
+Logout from the currently signed in account. +
+Also resets the privilege back to the level of a Basic User.
+****
+
+Example(s):
+
+* `logout` +
+Logs out of the current account, provided there is privilege or account to relinquish.
+
+==== Displays the list of people with account: `listacc` image:Basic.png[16,16]
+Shows a list of all persons with an account in the address book. +
+Format: `listacc`
+// end::account[]
 
 //tag::Exam[]
 === Exam Commands
 Below are the commands that deals with exam data:
 
-==== Adding an exam : `addexam`
+==== Adding an exam : `addexam` image:Tutor.png[16,16]
 
 Adds an exam to the exam book. +
 Format: `addexam [p]e/EXAM_NAME s/SUBJECT_NAME d/EXAM_DATE st/EXAM_START_TIME et/EXAM_END_TIME dt/EXAM_DETAILS`
@@ -283,7 +348,7 @@ Example(s):
 
 * `addexam pe/2017 English Finals Paper 2 s/English d/01-12-2017 st/08:00 et/10:00 dt/No Pencils Allowed`
 
-==== Deleting an exam : `deleteexam`
+==== Deleting an exam : `deleteexam` image:Tutor.png[16,16]
 Deletes the specified exam from the exam book. Irreversible. Persons registered for the corresponding exam will have the exam deleted as well. +
 Format: `deleteexam INDEX`
 
@@ -292,19 +357,18 @@ Deletes the exam at the specified `INDEX`.
 The index refers to the index number shown in the most recent exams listing.
 ****
 
-Example:
+Example(s):
 
 * `examslist` +
 `deleteexam 2` +
 Deletes the 2nd exam in the exam book.
 
-==== Editing an exam : `editexam`
+==== Editing an exam : `editexam` image:Tutor.png[16,16]
 Edits the specified exam from the exam book. Persons registered for the corresponding exam will have the exam details updated as well. +
 Format: `editexam INDEX [p/PRIVATE_STATUS] [e/EXAM_NAME] [s/SUBJECT_NAME] [d/EXAM_DATE] [st/EXAM_START_TIME] [et/EXAM_END_TIME] [dt/EXAM_DETAILS]`
 
 ****
 Words in `UPPER_CASE` are the parameters, items in `SQUARE_BRACKETS` are optional. Order of parameters are fixed. At least 1 item in `SQUARE_BRACKETS` must be present.
-
 ****
 
 [NOTE]
@@ -320,12 +384,12 @@ Example(s):
 * `examslist` +
 `editexam 1 dt/Cancelled`
 
-==== Listing all exams : `examslist`
+==== Listing all exams : `examslist` image:Tutor.png[16,16]
 
 Shows a list of all exams in the exam book. +
 Format: `examslist`
 
-==== Registering for an exam : `regexam`
+==== Registering for an exam : `regexam` image:Tutor.png[16,16]
 
 Registers a specified person for a specified exam. +
 Format: `regexam PERSON_INDEX EXAM_INDEX`
@@ -342,37 +406,31 @@ Changes to an exam in the exam book will change the corresponding exam for all p
 Exams registered for a person will not be shown in the `list` command and only viewable under the `viewall` and `viewexams` command.
 =====
 
-Example:
+Example(s):
 
 * `examslist` +
 `list` +
 `regexam 2 2` +
 Registers the 2nd person in the address book for the 2nd exam in the exam book.
 
-==== Deregistering for an exam : `deregexam`
+==== Deregistering for an exam : `deregexam` image:Tutor.png[16,16]
 
 Deregister a specified person for a specified exam. +
 Format: `deregexam PERSON_INDEX EXAM_INDEX`
 
 ****
-<<<<<<< HEAD
-Deregisters a specified person for a specified exam.
-The person index refers to the index number shown in the most recent persons listing.
-The exam index refers to the index number shown in the most recent exams listing.
-=======
-Degisters a specified person for a specified exam.
 The `PERSON_INDEX` refers to the index number shown in the most recent persons listing.
 The `EXAM_INDEX` refers to the index number shown in the most recent exams listing.
-=======
->>>>>>> 3260a2af751174d56dd65788734080ec648f39fb
 ****
+
+Example(s):
 
 * `examslist` +
 `list` +
 `deregexam 2 2` +
 Deregisters the 2nd person in the address book for the 2nd exam in the exam book.
 
-==== Viewing exams : `viewexams`
+==== Viewing exams : `viewexams` image:Basic.png[16,16]
 
 View the non-private exams for a person at the specified `INDEX`. +
 Format: `viewexams INDEX`
@@ -382,13 +440,13 @@ Views the non-private exams of the person at the specified `INDEX`.
 The index refers to the index number shown in the most recent persons listing.
 ****
 
-Example:
+Example(s):
 
 * `list` +
 `viewexams 1` +
 Views the non-private exams of the 1st person in the address book.
 
-==== Clearing all entries : `clearexams`
+==== Clearing all entries : `clearexams` image:Tutor.png[16,16]
 
 Clears all entries from the exam book. All exams will be cleared in the address book as well. +
 Format: `clearexams`
@@ -417,16 +475,17 @@ Example(s):
 
 * `list` +
 `editfees 1 344.41 31-10-2018`
-* `editfees 2 0.60 01-01-2019`
+* `list` +
+`editfees 2 0.60 01-01-2019`
 
-==== View fees of a person : `viewfees`  image:Tutor.png[16,16]
+==== View fees of a person : `viewfees` image:Tutor.png[16,16]
 
 Displays the fees(private) of the specified person. +
 Format: `viewfees INDEX`
 
 ****
 Views the fees of the person at the specified `INDEX`.
-The index refers to the index number shown in the most recent listing.
+The index refers to the index number shown in the most recent person listing.
 ****
 
 Example(s):
@@ -439,7 +498,7 @@ Views fees of the 2nd person in the address book.
 `viewall 1` +
 Views fees of the 1st person in the results of the `find` command.
 
-==== List all fees of every person : `listfees`  image:Tutor.png[16,16]
+==== List all fees of every person : `listfees` image:Tutor.png[16,16]
 
 Displays the fees(private) of all the people in the AddressBook. +
 Format: `listfees`
@@ -449,7 +508,7 @@ Views the fees of all the people with respect to their INDEX.
 Shows only the index, name and fees.
 ****
 
-==== List only people with due fees : `listdue`  image:Tutor.png[16,16]
+==== List only people with due fees : `listdue` image:Tutor.png[16,16]
 
 Displays the fees(private) of all the people in the AddressBook with overdue Fees. +
 Format: `listdue`
@@ -460,7 +519,7 @@ Shows only the index, name, fee and due status.
 Adds a "feesdue" tag to the people shown for easier tracking in the future.
 ****
 
-Examples:
+Example(s):
 
 * `listdue` +
 `viewall 1` +
@@ -469,81 +528,13 @@ Including the "feesdue" tag.
 
 //end::Fees[]
 
-// tag::account[]
-[[account]]
-=== Account Commands
-Below are the commands that deal with accounts:
-
-==== Add an account to a person: `addacc`  image:Admin.png[16,16]
-Adds an account to the target person. +
-Format: `addacc INDEX USERNAME PASSWORD USER_TYPE` +
-Creates an account for the person with INDEX as specified by the last shown list. +
-USERNAME and PASSWORD will be used for logging in. +
-
-[NOTE]
-=====
-USER_TYPE can be of type "Basic", "Tutor" or "Admin".
-=====
-
-****
-Example(s):
-
-* `list`  +
-`addacc 1 JohnDoe1337 P455W0RD Admin` +
-Adds an account with the username of `JohnDoe1337` and password of `P455W0RD` to the first person in the list.
-****
-
-==== Delete the account of a person: `delacc`  image:Admin.png[16,16]
-Deletes the account of the target person. +
-Format: `delacc INDEX`
-Deletes the account of the person with INDEX as specified by the last shown list. +
-
-****
-Example(s):
-
-* `list`  +
-`delacc 1` +
-Deletes the account of the first person in the list, provided that he has an account.
-****
-
-==== Login to an account: `login`  image:Basic.png[16,16]
-Log in to the account with the specified username and password. +
-Format: `login USERNAME PASSWORD` +
-Logs into the account with the given USERNAME and PASSWORD. +
-Sets the current privilege level to that of the account.
-
-****
-Example(s):
-
-* `login 1 JohnDoe1337 P455W0RD Admin`
-Login an account with the username of `JohnDoe1337` and password of `P455W0RD`, provided it exists.
-****
-
-==== Logout of an account: `logout`  image:Basic.png[16,16]
-Logout of the current account. +
-Format: `logout` +
-Logout from the currently signed in account. +
-Also resets the privilege back to the level of a Basic User.
-
-****
-Example(s):
-
-* `logout`
-Logs out of the current account, provided there is privilege or account to relinquish.
-****
-
-==== Displays the list of people with account: `listacc`  image:Basic.png[16,16]
-Shows a list of all persons with an account in the address book. +
-Format: `listacc`
-// end::account[]
-
 // tag::Grades[]
 
 === Grade Commands
 
 Below are the commands that deals with grades/assessments of students:
 
-==== Adding an Assessment : `addassess`
+==== Adding an Assessment : `addassess` image:Tutor.png[16,16]
 
 Adds an assessment to the address book. +
 Format: `addassess ASSESSMENT_NAME`
@@ -551,7 +542,6 @@ Format: `addassess ASSESSMENT_NAME`
 ****
 Words in `UPPER_CASE` are the parameters. There is only one parameter for this command, which is the exam or assessment
 name. Duplicate assessments cannot be added.
-
 ****
 
 Example(s):
@@ -560,12 +550,12 @@ Example(s):
 
 * `addassess Mathematics final class test`
 
-==== Listing all assessments : `listassess`
+==== Listing all assessments : `listassess` image:Tutor.png[16,16]
 
 Shows a list of all assessments in the address book, along with an index for each +
 Format: `listassess`
 
-==== Deleting an assessment : `deleteassess`
+==== Deleting an assessment : `deleteassess` image:Tutor.png[16,16]
 Deletes the specified assessment from the assessment book, based on the index. Irreversible. +
 Format: `deleteassess INDEX`
 
@@ -574,161 +564,164 @@ Deletes the assessment at the specified `INDEX`.
 The index refers to the index number shown in the most recent assessments listing.
 ****
 
-Example:
+Example(s):
 
-==== Adding grades to a person : `addgrades`
+* `listassess` + 
+`deleteassess 1`
+
+==== Adding grades to a person : `addgrades` image:Tutor.png[16,16]
 
 Adds grades to selected student/person for a specific assessment listed in addressbook. +
 Format: `addgrades PERSON_INDEX ASSESSMENT_INDEX GRADES`
 
-- Grades are numeric. No restriction on upper limit! It is up to the teacher to decide what the total marks are.
-
 ****
 Words in `UPPER_CASE` are the parameters. There are three parameters for this command, which are the index of the person
-or student, index of the appropriate assessment and the grades themselves.
+or student, index of the appropriate assessment and the grades themselves. +
+Grades are numeric. No restriction on upper limit! It is up to the teacher to decide what the total marks are.
+****
 
+[NOTE]
+====
 *NOTE*: You MUST list all persons and assessments first before using this command! +
 i.e. Indices are selected after first carrying out the `list` and `listassess` commands respectively
-
-****
+====
 
 Example(s):
 
-* `list`
-* `listassess`
-* `addgrades 1 1 89` +
+* `list` +
+`listassess` +
+`addgrades 1 1 89` +
 
 - Restriction in v1.3: The grades can only be 'int' values, not 'float'
 
-==== Viewing grades of a person : `viewgrades`
+==== Viewing grades of a person : `viewgrades` image:Tutor.png[16,16]
 
 View the grades for all assessments of a selected student/person. +
 Format: `viewgrades PERSON_INDEX`
 
 ****
-<<<<<<< HEAD
-Words in `UPPER_CASE` are the parameters. There is only one parameter for this command, which is the index of the person whos grades you want to view.
-=======
-
 Words in `UPPER_CASE` are the parameters. There is only one parameter for this command, which is the index of the person
 or student whose grades you want to view.
->>>>>>> 3260a2af751174d56dd65788734080ec648f39fb
-
 ****
 
 Example(s):
 
 * `viewgrades 1` +
-*  The results will be displayed as a list of assessments the student has taken and their corresponding grades.
+The results will be displayed as a list of assessments the student has taken and their corresponding grades.
 
-==== Deleting a grade : `deletegrades`
+==== Deleting a grade : `deletegrades` image:Tutor.png[16,16]
 Deletes the specified assessment and respective grades of a student. It is irreversible. +
 Format: `deletegrades PERSON_INDEX ASSESSMENT_INDEX`
 
 ****
-<<<<<<< HEAD
-Deletes the grades and assessment at the specified `ASSESSMENT_INDEX` of a person specified by the `PERSON_INDEX`.
-=======
-
-Deletes the assessment and respective grades for the specified `PERSON_INDEX` and `ASSESSMENT_INDEX`.
->>>>>>> 3260a2af751174d56dd65788734080ec648f39fb
+Deletes respective grades for the specified `PERSON_INDEX` for the respective assessment at the specified `ASSESSMENT_INDEX`.
 The index refers to the index number shown in the most recent person and assessments listing respectively.
-*NOTE*: You must first list all persons and assessments before using this command!
 ****
 
-Example:
+[NOTE]
+====
+You must first list all persons and assessments before using this command!
+====
 
-* `deletegrades 1 2`
-* `listassess` -- Check the updated list
-- Deletes the grades corresponding to the 2nd assessment in the address book for the student at index 1 in the address book.
-- *IMPORTANT NOTE*: This does not delete grades for the second assessment as per the listing in view grades command, rather
+Example(s):
+
+* `list` +
+`listassess` +
+`deletegrades 1 2` +
+`listassess` -- Check the updated list +
+Deletes the grades corresponding to the 2nd assessment in the address book for the student at index 1 in the address book. +
+*IMPORTANT NOTE*: This does not delete grades for the second assessment as per the listing in view grades command, rather
 for the assessment in second index as seen in list assess command.
 // end::Grades[]
 
 // tag::attendance[]
-<<<<<<< HEAD
-[[attendance]]
-=======
->>>>>>> 3260a2af751174d56dd65788734080ec648f39fb
 === Attendance Commands
 
-==== Updates the attendance of a person: `attendance`
+Below are the commands that deals with attendance data:
+
+==== Updates the attendance of a person: `attendance` image:Tutor.png[16,16]
 Updates the attendance of the target person. +
 Format: `attendance INDEX d/DATE att/ATTENDANCE`
+
+****
 Updates the attendance of the person with INDEX as specified by the last shown list according to the DATE. +
 ~*If~ ~the~ ~input~ ~date~ ~is~ ~0~ ~(e.g.~ ~d/0)~~,~ ~the~ ~current~ ~date~ ~will~ ~be~ ~used~
 ****
+
 Example(s):
 
 * `list`  +
 `attendance 1 d/29-09-2018 att/1` +
 Marks the attendance of the first person in the list as present for the date 29th September 2018.
 
-
 * `list`  +
 `attendance 1 d/0 att/0` +
 Marks the attendance of the first person on the list as absent for today's date.
-****
 
-==== Replaces the attendance of a person: `replaceAtten`
+==== Replaces the attendance of a person: `replaceAtten` image:Tutor.png[16,16]
 Replaces the current attendance of the target person. +
 Format: `replaceAtten INDEX d/DATE att/ATTENDANCE`
-Replaces the attendance of the person with INDEX as specified by the last shown list according to the DATE. +
 
 ****
-Examples:
+Replaces the attendance of the person with INDEX as specified by the last shown list according to the DATE.
+****
+
+Example(s):
 
 * `list`  +
 `replaceAtten 1 d/29-09-2018 att/1` +
 Replaces the attendance of the first person in the list as present for the date 29th September 2018.
-****
 
-==== View the attendance of a person: `viewAttenPerson`
+==== View the attendance of a person: `viewAttenPerson` image:Tutor.png[16,16]
 View the attendance of the target person. +
 Format: `viewAttenPerson INDEX`
-View the attendance of the person with INDEX as specified by the last shown list. +
 
 ****
-Examples:
+View the attendance of the person with INDEX as specified by the last shown list.
+****
+
+Example(s):
 
 * `list`  +
-`viewAttenPerson 1`
+`viewAttenPerson 1` +
 Views the attendance of the first person on the list.
-****
 
-==== View the attendance of a date: `viewAttenDate`
+==== View the attendance of a date: `viewAttenDate` image:Tutor.png[16,16]
 View the attendance of the given date. +
 Format: `viewAttenDate DATE`
+
+****
 Shows a list of people who were present and absent on a particular date. +
 If a person's attendance has yet to be taken, the person's name will default be under absent. +
 ~*If~ ~the~ ~input~ ~date~ ~is~ ~0~ ~(e.g.~ ~d/0)~~,~ ~the~ ~current~ ~date~ ~will~ ~be~ ~used~
-
 ****
-Examples:
+
+Example(s):
 
 * `viewAttenDate d/28-10-2018` +
-Shows a list of people who were present on a particular date. +
+Shows a list of people who were present on a particular date.
 
 * `viewAttenDate d/0` +
-Shows a list of people who were present today. +
-****
+Shows a list of people who were present today.
 // end::attendance[]
 
 == Saving the data
 
+Data is saved in the hard disk automatically after any command that changes the data.
 
-Address book data are saved in the hard disk automatically after any command that changes the data.
-
-There is no need to save manually. Address book data are saved in a file called `addressbook.txt` in the project root folder.
+There is no need to save manually. Address book data, exam book data and statistics book data are saved in files called `addressbook.txt`, `exams.txt` and `statistics.txt` respectively in the project root folder.
 
 == Handling Errors
 
 1. ClassRepo does not start up when running the jar file. +
-*Plausible cause*: `addressbook.txt`, `exambook.txt` or `statistic.txt` contains invalid data.
-*Solution*: Fix the data error in the problematic file. 
+*Plausible cause*: `addressbook.txt`, `exambook.txt` or `statistic.txt` contains invalid data. +
+*Solution*: Fix the data error in the problematic file. +
 Refer to `log.txt` to find the underlying error. +
 
 2. ClassRepo shuts down mid-operation. +
 *Plausible cause*: `addressbook.txt`, `exambook.txt` or `statistic.txt` was set to read-only during
-a data saving operation. ClassRepo shuts itself down to ensure synchronisation of AppData and storage data.
+a data saving operation. ClassRepo shuts itself down to ensure synchronisation of AppData and storage data. +
 *Solution*: Ensure that the data files are not set as read-only. 
+
+== Known Bugs
+1. ClassRepo ASCII art may be formatted wrongly on OS's such as Mac.

@@ -1,5 +1,4 @@
 = Meghana Narayanan - Project Portfolio
-
 :site-section: AboutUs
 :imagesDir: ../images
 :stylesDir: ../stylesheets

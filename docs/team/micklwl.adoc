@@ -1,8 +1,11 @@
 = Mick Lee - Project Portfolio
 :site-section: AboutUs
+:toc:
+:toc-title:
 :imagesDir: ../images
 :stylesDir: ../stylesheets
 
+[discrete]
 == PROJECT: ClassRepo
 
 == Overview
@@ -21,7 +24,6 @@ I served as the project’s bug tester, to ensure that each feature added will b
 ** Highlights: This enhancement affects existing commands and commands to be added in future. It required an in-depth analysis of design alternatives. The implementation too was challenging as it required changes to existing commands.
 ** Credits: https://stackoverflow.com/a/30578421[Victor Hernandez] for the base valid date checker method
 
-
 * *Other contributions*:
 
 ** Project management:
@@ -31,6 +33,7 @@ I served as the project’s bug tester, to ensure that each feature added will b
 *** Split test code to different folders for better organisation : Coming soon
 ** Documentation:
 *** Adapted original Developer Guide to suit our product: https://github.com/CS2113-AY1819S1-F10-1/main/pull/156[#156]
+*** Standardised format for documentation: https://github.com/CS2113-AY1819S1-F10-1/main/pull/184[#184]
 ** Community:
 *** PRs reviewed (with non-trivial review comments): https://github.com/CS2113-AY1819S1-F10-1/main/pull/68[#68]
 

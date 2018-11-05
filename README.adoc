@@ -11,7 +11,7 @@ image:https://api.codacy.com/project/badge/Grade/e1ed6200448148c6a6c8d955ee177c6
 image::Ui.png[width="600"]
 
 * This is a CLI (Command Line Interface) Database application *written in OOP fashion*. It has a very basic GUI.
-* The application manages and facilitates data entry and viewing for a tuition centre.
+* The application manages and facilitates data entry and viewing for a secondary school.
 * Students, tutors and admins can access information with increasing privileges respectively.
 
 *What's in Version 1.3*
