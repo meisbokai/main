@@ -1,8 +1,8 @@
 package seedu.addressbook.logic;
 
 import static junit.framework.TestCase.assertEquals;
-import static seedu.addressbook.common.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.addressbook.common.Messages.MESSAGE_DATE_CONSTRAINTS;
+import static seedu.addressbook.common.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.addressbook.common.Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX;
 import static seedu.addressbook.logic.CommandAssertions.assertCommandBehavior;
 
