@@ -13,6 +13,7 @@ import javax.xml.bind.annotation.XmlValue;
 import seedu.addressbook.common.Utils;
 import seedu.addressbook.data.account.Account;
 import seedu.addressbook.data.exception.IllegalValueException;
+import seedu.addressbook.data.person.Attendance;
 import seedu.addressbook.data.person.Exam;
 import seedu.addressbook.data.person.Person;
 import seedu.addressbook.data.person.ReadOnlyPerson;
@@ -36,8 +37,8 @@ public class AdaptedPerson {
     @XmlElement(required = true)
     private AdaptedContactDetail address;
 
-    //    @XmlElement(required = true)
-    //    private AdaptedAttendance attendance;
+    @XmlElement
+    private AdaptedAttendance attendances;
 
     @XmlElement
     private List<AdaptedExam> exams = new ArrayList<>();
@@ -88,7 +89,7 @@ public class AdaptedPerson {
 
         fees = new AdaptedFees(source.getFees());
 
-        //attendance = new AdaptedAttendance(source.getAttendance());
+        attendances = new AdaptedAttendance(source.getAttendance());
 
         exams = new ArrayList<>();
         for (Exam exam : source.getExams()) {
@@ -161,6 +162,9 @@ public class AdaptedPerson {
             final Address address = new Address(this.address.value, this.address.isPrivate);
             final Person person = new Person(name, phone, email, address, tags, examList);
             person.setFees(this.fees.toModelType());
+
+            final Attendance attendance = attendances.toModelType();
+            person.setAttendance(attendance);
 
             Optional<AdaptedAccount> optAccount = Optional.ofNullable(account);
 
