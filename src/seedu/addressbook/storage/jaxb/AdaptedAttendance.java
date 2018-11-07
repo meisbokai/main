@@ -61,23 +61,23 @@ public class AdaptedAttendance {
      *
      * @throws IllegalValueException if there were any data constraints violated in the adapted person
      */
-        public Attendance toModelType() throws IllegalValueException {
-            final Attendance attendance = new Attendance();
-            for (int i = 0; i < attendanceDate.size(); i++) {
-                String date = attendanceDate.get(i);
-                String isPresentString = attendanceIsPresent.get(i);
-                Boolean isPresent;
-                if ("Present".equals(isPresentString)) {
-                    isPresent = true;
-                } else if ("Absent".equals(isPresentString)) {
-                    isPresent = false;
-                } else {
-                    throw new IllegalValueException("NIL attendance, please report this to the developers");
-                }
-                attendance.addAttendance(date, isPresent, false);
+    public Attendance toModelType() throws IllegalValueException {
+        final Attendance attendance = new Attendance();
+        for (int i = 0; i < attendanceDate.size(); i++) {
+            String date = attendanceDate.get(i);
+            String isPresentString = attendanceIsPresent.get(i);
+            Boolean isPresent;
+            if ("Present".equals(isPresentString)) {
+                isPresent = true;
+            } else if ("Absent".equals(isPresentString)) {
+                isPresent = false;
+            } else {
+                throw new IllegalValueException("NIL attendance, please report this to the developers");
             }
-            return attendance;
+            attendance.addAttendance(date, isPresent, false);
         }
+        return attendance;
+    }
 }
 
 
