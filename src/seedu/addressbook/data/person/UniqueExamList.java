@@ -59,10 +59,22 @@ public class UniqueExamList implements Iterable<Exam> {
     }
 
     /**
-     * Checks if the list contains an equivalent exam as the given argument.
+     * Checks if the list contains an equivalent base exam as the given argument.
      */
     public boolean contains(ReadOnlyExam toCheck) {
         return internalList.contains(toCheck);
+    }
+
+    /**
+     * Checks if the list contains an fully equivalent exam as the given argument.
+     */
+    public boolean containsFully(ReadOnlyExam toCheck) {
+        for (Exam e: internalList) {
+            if (e.equalsFully(toCheck)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

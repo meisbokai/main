@@ -7,7 +7,7 @@ import seedu.addressbook.data.person.UniqueExamList.DuplicateExamException;
 import seedu.addressbook.data.person.UniqueExamList.ExamNotFoundException;
 
 /**
- * Represents the entire exams book. Contains the data of the exams book.
+ * Represents the entire exam book. Contains the data of the exam book.
  */
 public class ExamBook {
 
@@ -36,7 +36,7 @@ public class ExamBook {
     /**
      * Adds a exam to the exam book.
      *
-     * @throws DuplicateExamException if an exam with equivalent data already exists.
+     * @throws DuplicateExamException if an exam with equivalent base data already exists.
      */
     public void addExam(Exam toAdd) throws DuplicateExamException {
         examList.add(toAdd);
@@ -89,6 +89,13 @@ public class ExamBook {
      */
     public Exam findExam(ReadOnlyExam exam) throws ExamNotFoundException {
         return examList.find(exam);
+    }
+
+    /**
+     * Checks if an fully equivalent exam exists in the exam book.
+     */
+    public boolean contains(ReadOnlyExam exam) {
+        return examList.containsFully(exam);
     }
 
     /**

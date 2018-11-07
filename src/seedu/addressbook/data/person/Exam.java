@@ -7,6 +7,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Objects;
 
+import seedu.addressbook.common.Messages;
 import seedu.addressbook.data.exception.IllegalValueException;
 
 /**
@@ -22,14 +23,12 @@ public class Exam implements ReadOnlyExam {
     public static final String EXAM_END_TIME_EXAMPLE = "10:00";
     public static final String EXAM_DETAILS_EXAMPLE = "Held in MPSH";
 
-    public static final String MESSAGE_DATE_CONSTRAINTS =
-            "Exam date should be in the format DD-MM-YYYY and valid.";
     public static final String MESSAGE_TIME_CONSTRAINTS =
-            "Exam time should be in 24 hours format HH:MM and valid.";
+            "Time should be in 24 hours format HH:MM and valid.";
     public static final String MESSAGE_TIME_INTERVAL_CONSTRAINTS =
-            "Exam time interval is inaccurate.";
+            "Time interval is inaccurate.";
 
-    public static final String TIME_VALIDATION_REGEX = "(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]";
+    private static final String TIME_VALIDATION_REGEX = "(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]";
 
     private String examName;
     private String subjectName;
@@ -52,7 +51,7 @@ public class Exam implements ReadOnlyExam {
         this.subjectName = subjectName.trim();
         String trimmedDate = examDate.trim();
         if (!isValidDate(trimmedDate)) {
-            throw new IllegalValueException(MESSAGE_DATE_CONSTRAINTS);
+            throw new IllegalValueException(Messages.MESSAGE_DATE_CONSTRAINTS);
         }
         this.examDate = trimmedDate;
         String trimmedStartTime = examStartTime.trim();
@@ -119,18 +118,9 @@ public class Exam implements ReadOnlyExam {
         return isValid;
     }
 
-    public String getPrintableExamString() {
-        if (isPrivate) {
-            return "private Exam: " + examName + " " + subjectName + " " + examDate + " "
-                    + examStartTime + " " + examEndTime + " " + examDetails + " " + takers;
-        }
-        return "Exam: " + examName + " " + subjectName + " " + examDate + " "
-                + examStartTime + " " + examEndTime + " " + examDetails + " " + takers;
-    }
-
     @Override
     public String toString() {
-        return getPrintableExamString();
+        return getAsTextShowAll();
     }
 
     @Override
@@ -189,5 +179,14 @@ public class Exam implements ReadOnlyExam {
 
     public void setTakers(int takers) {
         this.takers = takers;
+    }
+
+    /**
+     * To check if an exam is fully equal to another exam
+     */
+    public boolean equalsFully(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof ReadOnlyExam // instanceof handles nulls
+                && this.isFullyEqual((ReadOnlyExam) other)); // state check
     }
 }

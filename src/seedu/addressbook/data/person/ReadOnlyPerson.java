@@ -186,7 +186,7 @@ public interface ReadOnlyPerson {
                 if (exam.isPrivate()) {
                     continue;
                 }
-                builder.append(exam.getPrintableExamString()).append("\n");
+                builder.append(exam).append("\n");
             }
         }
         return builder.toString();

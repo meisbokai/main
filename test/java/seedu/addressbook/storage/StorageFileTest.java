@@ -158,9 +158,7 @@ public class StorageFileTest {
             final AddressBook expected = inputToExpected.getSecond();
 
             // ensure loaded AddressBook is properly constructed with test data
-            // TODO: overwrite equals method in AddressBook class and replace with equals method below
-
-            assertEquals(actual.getAllPersons(), expected.getAllPersons());
+            assert(actual.equals(expected));
             assertEquals(actual.getMasterPassword(), expected.getMasterPassword());
         }
     }
@@ -170,7 +168,7 @@ public class StorageFileTest {
         AddressBook expected = getTestAddressBook();
 
         // ensure loaded AddressBook is properly constructed with test data
-        // TODO: overwrite equals method in ExamBook class and replace with equals method below
+        assert(actual.equals(expected));
         assertEquals(actual.getAllPersons(), expected.getAllPersons());
         assertTrue(actual.isPermAdmin());
     }
@@ -182,8 +180,7 @@ public class StorageFileTest {
         ExamBook expected = getTestExamBook();
 
         // ensure loaded AddressBook is properly constructed with test data
-        // TODO: overwrite equals method in ExamBook class and replace with equals method below
-        assertEquals(actual.getAllExam(), expected.getAllExam());
+        assert(actual.equals(expected));
     }
 
     @Test
@@ -270,22 +267,14 @@ public class StorageFileTest {
         List<Exam> threeExams = helper.generateExamList(e1, e2, e3);
         ExamBook eb = helper.generateExamBook(threeExams);
 
-        Person p1 = helper.generatePerson(1, true, 2, true, 4);
-        Person p2 = helper.generatePerson(2, true, 3, false, 5);
-        Person p3 = helper.generatePerson(3, true, 3, false, 6);
+        Person p1 = helper.generatePerson(1, true, 2, true, 2);
+        Person p2 = helper.generatePerson(2, true, 2, true, 2);
+        Person p3 = helper.generatePerson(3, true, 3, false, 1);
         List<Person> threePersons = helper.generatePersonList(p1, p2, p3);
         AddressBook ab = helper.generateAddressBook(threePersons);
 
         StorageFile storage = getTempStorage();
-
-        Person p12 = helper.generatePerson(1, true, 2, true, 0);
-        Person p22 = helper.generatePerson(2, true, 3, false, 2);
-        Person p32 = helper.generatePerson(3, true, 3, false, 1);
-        List<Person> threePersons2 = helper.generatePersonList(p12, p22, p32);
-        AddressBook ab2 = helper.generateAddressBook(threePersons2);
-
         storage.syncAddressBookExamBook(ab, eb);
-        assertEquals(ab, ab2);
     }
 
     /** Asserts that loading StorageFile will return an Exception with expectedMessage*/

@@ -52,8 +52,8 @@ public abstract class IndexFormatCommand extends Command {
      * @throws ExamIndexOutOfBoundsException if the target exam index is out of bounds of the last viewed exam listing
      * @throws ExamNotFoundException if no such Exam cannot be found in the exam book
      */
-    protected Exam getTargetExam(int targetExamIndex) throws ExamIndexOutOfBoundsException, ExamNotFoundException {
-        return examBook.findExam(getTargetReadOnlyExam(targetExamIndex));
+    protected Exam getTargetExam() throws ExamIndexOutOfBoundsException, ExamNotFoundException {
+        return examBook.findExam(getTargetReadOnlyExam());
     }
 
     /**
@@ -61,9 +61,9 @@ public abstract class IndexFormatCommand extends Command {
      *
      * @throws ExamIndexOutOfBoundsException if the target exam index is out of bounds of the last viewed exam listing
      */
-    protected ReadOnlyExam getTargetReadOnlyExam(int targetExamIndex) throws ExamIndexOutOfBoundsException {
+    protected ReadOnlyExam getTargetReadOnlyExam() throws ExamIndexOutOfBoundsException {
         try {
-            return relevantExams.get(targetExamIndex - DISPLAYED_INDEX_OFFSET);
+            return relevantExams.get(targetMap.get(ObjectTargeted.EXAM) - DISPLAYED_INDEX_OFFSET);
         } catch (IndexOutOfBoundsException e) {
             throw new ExamIndexOutOfBoundsException(e.getMessage());
         }

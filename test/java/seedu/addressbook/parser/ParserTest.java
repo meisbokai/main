@@ -483,7 +483,7 @@ public class ParserTest {
                 Exam.SUBJECT_NAME_EXAMPLE, Exam.EXAM_DATE_EXAMPLE, Exam.EXAM_START_TIME_EXAMPLE,
                 Exam.EXAM_END_TIME_EXAMPLE, Exam.EXAM_DETAILS_EXAMPLE);
         final EditExamCommand result = parseAndAssertCommandType(input, EditExamCommand.class);
-        assertEquals(result.getTargetExamIndex(), testIndex);
+        assertEquals(result.getTargetIndex(ObjectTargeted.EXAM), testIndex);
     }
 
     @Test

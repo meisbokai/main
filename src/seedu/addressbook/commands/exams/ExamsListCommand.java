@@ -8,7 +8,7 @@ import seedu.addressbook.commands.commandresult.ListType;
 import seedu.addressbook.data.person.ReadOnlyExam;
 
 /**
- * Lists all persons in the address book to the user.
+ * Lists all exams in the exam book to the user.
  */
 public class ExamsListCommand extends Command {
 

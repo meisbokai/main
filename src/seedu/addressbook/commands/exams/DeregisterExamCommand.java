@@ -22,12 +22,11 @@ public class DeregisterExamCommand extends IndexFormatCommand {
             + "Example: " + COMMAND_WORD + " 1 1";
 
     public static final String MESSAGE_DEREGISTER_EXAM_SUCCESS = "After deregistering, %1$s\n"
-            + "Identified Person is now: %2$s";
+            + "Identified Person is now: %2$s\n"
+            + "A refresh of the person's view may be required to see the updates.";
     public static final String MESSAGE_EXAM_NOT_REGISTERED =
             "The person is not registered under the targeted exam!";
     public static final int REQUIRED_ARGUMENTS = 2;
-
-    private int targetExamIndex;
 
     /**
      * Constructor used for Privileges
@@ -38,14 +37,14 @@ public class DeregisterExamCommand extends IndexFormatCommand {
 
     public DeregisterExamCommand(int targetVisibleIndex, int targetExamIndex) {
         setTargetIndex(targetVisibleIndex, ObjectTargeted.PERSON);
-        this.targetExamIndex = targetExamIndex;
+        setTargetIndex(targetExamIndex, ObjectTargeted.EXAM);
     }
 
     @Override
     public CommandResult execute() {
         try {
             final Person personToEdit = getTargetPerson();
-            final Exam exam = getTargetExam(targetExamIndex);
+            final Exam exam = getTargetExam();
             if (!personToEdit.isExamPresent(exam)) {
                 return new CommandResult(MESSAGE_EXAM_NOT_REGISTERED);
             } else {

@@ -1,7 +1,10 @@
 package seedu.addressbook.commands.exams;
 
+import java.util.List;
+
 import seedu.addressbook.commands.Command;
 import seedu.addressbook.commands.commandresult.CommandResult;
+import seedu.addressbook.commands.commandresult.ListType;
 import seedu.addressbook.data.exception.IllegalValueException;
 import seedu.addressbook.data.person.Exam;
 import seedu.addressbook.data.person.ReadOnlyExam;
@@ -14,7 +17,8 @@ public class AddExamCommand extends Command {
 
     public static final String COMMAND_WORD = "addexam";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ":\n" + "Adds a exam to the exam book. "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ":\n" + "Adds a exam to the exam book, "
+            + "with takers initialised as 0. "
             + "Exams can be marked private by prepending 'p' to the prefix of the exam name prefix.\n\t"
             + "Parameters: [p]e/EXAM_NAME s/SUBJECT_NAME  d/EXAM_DATE st/EXAM_START_TIME "
             + "et/EXAM_END_TIME dt/EXAM_DETAILS\n\t"
@@ -54,7 +58,8 @@ public class AddExamCommand extends Command {
     public CommandResult execute() {
         try {
             examBook.addExam(toAdd);
-            return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
+            final List<ReadOnlyExam> updatedList = examBook.getAllExam().immutableListView();
+            return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd), updatedList, ListType.EXAMS);
         } catch (UniqueExamList.DuplicateExamException dpe) {
             return new CommandResult(MESSAGE_DUPLICATE_EXAM);
         }

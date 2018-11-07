@@ -1,7 +1,10 @@
 package seedu.addressbook.commands.exams;
 
+import java.util.List;
+
 import seedu.addressbook.commands.commandformat.indexformat.IndexFormatCommand;
 import seedu.addressbook.commands.commandresult.CommandResult;
+import seedu.addressbook.commands.commandresult.ListType;
 import seedu.addressbook.common.Messages;
 import seedu.addressbook.data.person.ReadOnlyExam;
 import seedu.addressbook.data.person.UniqueExamList.ExamNotFoundException;
@@ -20,26 +23,14 @@ public class DeleteExamCommand extends IndexFormatCommand {
 
     public static final String MESSAGE_DELETE_EXAM_SUCCESS = "Deleted %1$s";
 
-    private int targetExamIndex;
-
-    /**
-     * Constructor used for Privileges
-     * Command constructed has no functionality
-     * */
-    public DeleteExamCommand() {
-    }
-
-    public DeleteExamCommand(int targetExamIndex) {
-        this.targetExamIndex = targetExamIndex;
-    }
-
     @Override
     public CommandResult execute() {
         try {
-            final ReadOnlyExam target = getTargetReadOnlyExam(targetExamIndex);
+            final ReadOnlyExam target = getTargetReadOnlyExam();
             examBook.removeExam(target);
             addressBook.removeExam(target);
-            return new CommandResult(String.format(MESSAGE_DELETE_EXAM_SUCCESS, target));
+            final List<ReadOnlyExam> updatedList = examBook.getAllExam().immutableListView();
+            return new CommandResult(String.format(MESSAGE_DELETE_EXAM_SUCCESS, target), updatedList, ListType.EXAMS);
         } catch (ExamIndexOutOfBoundsException eie) {
             return new CommandResult(Messages.MESSAGE_INVALID_EXAM_DISPLAYED_INDEX);
         } catch (ExamNotFoundException enfe) {

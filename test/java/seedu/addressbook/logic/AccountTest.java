@@ -59,8 +59,12 @@ public class AccountTest {
         StorageFile saveFile;
         ExamBook examBook = new ExamBook();
         StatisticsBook statisticsBook = new StatisticsBook();
-        saveFile = new StorageFile(saveFolder.newFile("testSaveFile.txt").getPath());
-        stubFile = new StorageStub(saveFolder.newFile("testStubFile.txt").getPath());
+        saveFile = new StorageFile(saveFolder.newFile("testSaveFile.txt").getPath(),
+                saveFolder.newFile("testExamFile.txt").getPath(),
+                saveFolder.newFile("testStatisticsFile.txt").getPath());
+        stubFile = new StorageStub(saveFolder.newFile("testStubFile.txt").getPath(),
+                saveFolder.newFile("testStubExamFile.txt").getPath(),
+                saveFolder.newFile("testStubStatisticsFile.txt").getPath());
         saveFile.save(addressBook);
         privilege = new Privilege(new AdminUser());
         logic = new Logic(stubFile, addressBook, examBook, statisticsBook, privilege);
@@ -76,7 +80,6 @@ public class AccountTest {
         helper.addToAddressBook(addressBook, threePersons.getActual());
         logic.setLastShownList(threePersons.getActual());
     }
-
 
     @Test
     public void executeAddAccountInvalidArgument() throws Exception {

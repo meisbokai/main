@@ -21,13 +21,11 @@ public class RegisterExamCommand extends IndexFormatCommand {
             + "Parameters: PERSON_INDEX EXAM_INDEX\n\t"
             + "Example: " + COMMAND_WORD + " 1 1";
 
-    public static final String MESSAGE_REGISTER_EXAM_SUCCESS = "Person after exam registration: %1$s";
+    public static final String MESSAGE_REGISTER_EXAM_SUCCESS = "Person after exam registration: %1$s\n"
+            + "A refresh of the person's view may be required to see the updates.";
     public static final String MESSAGE_EXAM_ALREADY_REGISTERED =
             "The person is already registered under the targeted exam!";
     public static final int REQUIRED_ARGUMENTS = 2;
-
-    private int targetExamIndex;
-
 
     /**
      * Constructor used for Privileges
@@ -36,16 +34,19 @@ public class RegisterExamCommand extends IndexFormatCommand {
     public RegisterExamCommand() {
     }
 
+    /**
+     * Convenience constructor using raw values.
+     */
     public RegisterExamCommand(int targetVisibleIndex, int targetExamIndex) {
         setTargetIndex(targetVisibleIndex, ObjectTargeted.PERSON);
-        this.targetExamIndex = targetExamIndex;
+        setTargetIndex(targetExamIndex, ObjectTargeted.EXAM);
     }
 
     @Override
     public CommandResult execute() {
         try {
             final Person personToEdit = getTargetPerson();
-            final Exam exam = getTargetExam(targetExamIndex);
+            final Exam exam = getTargetExam();
             if (!personToEdit.isExamPresent(exam)) {
                 Exam originalExam = new Exam(exam);
                 exam.setTakers(exam.getTakers() + 1);

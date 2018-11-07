@@ -1,9 +1,12 @@
 package seedu.addressbook.commands.exams;
 
+import java.util.List;
 import java.util.Map;
 
 import seedu.addressbook.commands.commandformat.indexformat.IndexFormatCommand;
+import seedu.addressbook.commands.commandformat.indexformat.ObjectTargeted;
 import seedu.addressbook.commands.commandresult.CommandResult;
+import seedu.addressbook.commands.commandresult.ListType;
 import seedu.addressbook.common.Messages;
 import seedu.addressbook.data.exception.IllegalValueException;
 import seedu.addressbook.data.person.Exam;
@@ -34,7 +37,6 @@ public class EditExamCommand extends IndexFormatCommand {
             "PRIVATE_STATUS is denoted by \"y\" or \"n\" only.";
 
     private Map<ExamField, String> changedDetails;
-    private int targetExamIndex;
 
     /**
      * Constructor used for Privileges
@@ -49,25 +51,25 @@ public class EditExamCommand extends IndexFormatCommand {
      * @param changedDetails contains the details to be changed
      * @throws IllegalValueException if there are no details to be changed
      */
-
     public EditExamCommand(int targetExamIndex, Map<ExamField, String> changedDetails) throws IllegalValueException {
         if (changedDetails.isEmpty()) {
             throw new IllegalValueException(MESSAGE_NO_ARGS_FOUND + MESSAGE_USAGE);
         }
-        this.targetExamIndex = targetExamIndex;
+        setTargetIndex(targetExamIndex, ObjectTargeted.EXAM);
         this.changedDetails = changedDetails;
     }
 
     @Override
     public CommandResult execute() {
         try {
-            final ReadOnlyExam target = getTargetReadOnlyExam(targetExamIndex);
+            final ReadOnlyExam target = getTargetReadOnlyExam();
             Exam initial = new Exam(target);
             Exam editedExam = createEditedExam(initial, changedDetails);
             examBook.editExam(target, editedExam);
             addressBook.updateExam(initial, editedExam);
+            final List<ReadOnlyExam> updatedList = examBook.getAllExam().immutableListView();
             return new CommandResult(String.format(MESSAGE_EDIT_EXAM_SUCCESS, target,
-                        editedExam));
+                        editedExam), updatedList, ListType.EXAMS);
         } catch (ExamIndexOutOfBoundsException eie) {
             return new CommandResult(Messages.MESSAGE_INVALID_EXAM_DISPLAYED_INDEX);
         } catch (UniqueExamList.ExamNotFoundException enfe) {
@@ -99,27 +101,22 @@ public class EditExamCommand extends IndexFormatCommand {
         return MESSAGE_USAGE;
     }
 
-    public int getTargetExamIndex() {
-        return targetExamIndex;
-    }
-
     /**
      * Creates a new exam using the details provided to the initial exam.
-     * @param initial is the exam to have its details changed
+     * @param exam is the exam to have its details changed
      * @param changedDetails contains the details to be changed, not empty
      * @return the edited exam
      * @throws IllegalValueException if there are any errors in the fields
      */
-
-    private Exam createEditedExam(Exam initial, Map<ExamField, String>changedDetails) throws IllegalValueException {
-        String examName = initial.getExamName();
-        String subjectName = initial.getSubjectName();
-        String examDate = initial.getExamDate();
-        String examStartTime = initial.getExamStartTime();
-        String examEndTime = initial.getExamEndTime();
-        String examDetails = initial.getExamDetails();
-        int takers = initial.getTakers();
-        boolean isPrivate = initial.isPrivate();
+    private Exam createEditedExam(Exam exam, Map<ExamField, String>changedDetails) throws IllegalValueException {
+        String examName = exam.getExamName();
+        String subjectName = exam.getSubjectName();
+        String examDate = exam.getExamDate();
+        String examStartTime = exam.getExamStartTime();
+        String examEndTime = exam.getExamEndTime();
+        String examDetails = exam.getExamDetails();
+        int takers = exam.getTakers();
+        boolean isPrivate = exam.isPrivate();
 
         for (Map.Entry<ExamField, String> entry : changedDetails.entrySet()) {
             ExamField attribute = entry.getKey();

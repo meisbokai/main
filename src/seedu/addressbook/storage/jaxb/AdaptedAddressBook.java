@@ -76,10 +76,7 @@ public class AdaptedAddressBook {
             checkDuplicateUsername(usernameSet, modelPerson);
         }
         final String masterPassword = password;
-        final List<Assessment> assessmentList = new ArrayList<>();
-        for (Assessment assessment : assessments) {
-            assessmentList.add(assessment);
-        }
+        final List<Assessment> assessmentList = new ArrayList<>(assessments);
         final AddressBook ab = new AddressBook(new UniquePersonList(personList),
                 new UniqueAssessmentsList(assessmentList),
                 masterPassword);

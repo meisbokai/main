@@ -31,7 +31,7 @@ import seedu.addressbook.stubs.StorageStub;
 
 
 /**
- * For further testing of methods in Attendance class
+ * For testing of Attendance Commands
  */
 public class AttendanceTest {
 
@@ -49,19 +49,21 @@ public class AttendanceTest {
         StorageFile saveFile;
 
         addressBook = new AddressBook();
-        Privilege privilege = new Privilege(new AdminUser());
         ExamBook examBook = new ExamBook();
         StatisticsBook statisticBook = new StatisticsBook();
         // Privilege set to admin to allow all commands.
         // Privilege restrictions are tested separately under PrivilegeTest.
-        saveFile = new StorageFile(saveFolder.newFile("testSaveFile.txt").getPath());
-        stubFile = new StorageStub(saveFolder.newFile("testStubFile.txt").getPath());
+        Privilege privilege = new Privilege(new AdminUser());
+
+        saveFile = new StorageFile(saveFolder.newFile("testSaveFile.txt").getPath(),
+                saveFolder.newFile("testExamFile.txt").getPath(),
+                saveFolder.newFile("testStatisticsFile.txt").getPath());
+        stubFile = new StorageStub(saveFolder.newFile("testStubFile.txt").getPath(),
+                saveFolder.newFile("testStubExamFile.txt").getPath(),
+                saveFolder.newFile("testStubStatisticsFile.txt").getPath());
         saveFile.save(addressBook);
         logic = new Logic(stubFile, addressBook, examBook, statisticBook, privilege);
-        CommandAssertions.setData(saveFile, addressBook, logic, examBook, statisticBook);
-        saveFile.saveExam(examBook);
-        saveFile.saveStatistics(statisticBook);
-        saveFile.save(addressBook);
+        CommandAssertions.setData(saveFile, addressBook, logic);
     }
 
     /** This file contains the following test:
@@ -168,7 +170,7 @@ public class AttendanceTest {
         logic.setLastShownList(threePersons);
 
         assertCommandBehavior("attendance 1 d/0 att/1",
-                String.format(UpdateAttendanceCommand.MESSAGE_SUCCESS + p1Expected.getName()),
+                UpdateAttendanceCommand.MESSAGE_SUCCESS + p1Expected.getName(),
                 expectedBook,
                 false,
                 threePersons);

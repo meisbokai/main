@@ -29,7 +29,7 @@ To run a Gradle command, open a command window on the project folder and enter t
 `./gradlew clean test`
 
 [NOTE]
-If you do not specify any tasks, Gradlew will run the default tasks `clean` `test` `asciidoctor` `checkStyleMain` `checkStyleTest
+If you do not specify any tasks, Gradlew will run the default tasks `clean` `test` `asciidoctor` `checkstyleMain` `checkstyleTest
 
 == Cleaning the Project
 
@@ -79,6 +79,8 @@ The set of code style rules implemented can be found in `config/checkstyle/check
 
 * **`test`** +
 Runs all tests.
+
+Here is an example:
 
 * `./gradlew clean test` -- Cleans the project and runs tests
 

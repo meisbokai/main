@@ -2,15 +2,11 @@ package seedu.addressbook;
 
 import static seedu.addressbook.ui.Gui.DISPLAYED_INDEX_OFFSET;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Random;
 import java.util.Set;
 import java.util.StringJoiner;
 
@@ -130,6 +126,7 @@ public class TestDataHelper {
 
     /**
      * Generates a valid exam using the given seed.
+     * Takers is left as 0.
      * Running this function with the same parameter values guarantees the returned exam will have the same state.
      * Each unique seed will generate a unique Exam object.
      *
@@ -151,8 +148,7 @@ public class TestDataHelper {
      * @param takers used to determine the number of exam-takers
      */
     public Exam generateExam(int seed, boolean isExamPrivate, int takers) throws Exception {
-        Exam exam = new Exam(("Exam " + seed), ("Subject " + seed), "01-02-2018",
-                "10:00", "12:00", ("Held in " + seed), isExamPrivate);
+        Exam exam = generateExam(seed, isExamPrivate);
         exam.setTakers(takers);
         return exam;
     }
@@ -194,27 +190,27 @@ public class TestDataHelper {
         return (" dt/");
     }
 
-    public String getTopScorerPrefix (String value) {
+    public String getTopScorerPrefix () {
         return (" ts/");
     }
 
-    public String getAverageScorePrefix (String value) {
+    public String getAverageScorePrefix () {
         return (" av/");
     }
 
-    public String getTotalExamTakersPrefix (String value) {
+    public String getTotalExamTakersPrefix () {
         return (" te/");
     }
 
-    public String getNumberAbsentPrefix (String value) {
+    public String getNumberAbsentPrefix () {
         return (" ab/");
     }
 
-    public String getTotalPassPrefix (String value) {
+    public String getTotalPassPrefix () {
         return (" tp/");
     }
 
-    public String getMaxMinPrefix (String value) {
+    public String getMaxMinPrefix () {
         return (" mm/");
     }
 
@@ -277,12 +273,12 @@ public class TestDataHelper {
         StringJoiner cmd = new StringJoiner(" ");
         String subjectField = s.getSubjectName();
         String examNameField = getExamNamePrefix(s.isPrivate()) + s.getExamName();
-        String topScorerField = getTopScorerPrefix(s.getTopScorer()) + s.getTopScorer();
-        String averageScoreField = getAverageScorePrefix(s.getAverageScore()) + s.getAverageScore();
-        String totalExamTakersField = getTotalExamTakersPrefix(s.getTotalExamTakers()) + s.getTotalExamTakers();
-        String numberAbsentField = getNumberAbsentPrefix(s.getNumberAbsent()) + s.getNumberAbsent();
-        String totalPassField = getTotalPassPrefix(s.getTotalPass()) + s.getTotalPass();
-        String maxMinField = getMaxMinPrefix(s.getMaxMin()) + s.getMaxMin();
+        String topScorerField = getTopScorerPrefix() + s.getTopScorer();
+        String averageScoreField = getAverageScorePrefix() + s.getAverageScore();
+        String totalExamTakersField = getTotalExamTakersPrefix() + s.getTotalExamTakers();
+        String numberAbsentField = getNumberAbsentPrefix() + s.getNumberAbsent();
+        String totalPassField = getTotalPassPrefix() + s.getTotalPass();
+        String maxMinField = getMaxMinPrefix() + s.getMaxMin();
 
         cmd.add("addstatistics");
         cmd.add(subjectField);
@@ -346,14 +342,6 @@ public class TestDataHelper {
     }
 
     /**
-     * Removes special characters in a string for exam values
-     */
-    public String removeSpecialChar(String value) {
-        String newValue = value.replaceAll("[^a-zA-Z0-9!@\\.,]", "");
-        return newValue;
-    }
-
-    /**
      * Generates an AddressBook with auto-generated persons.
      * @param isPrivateStatuses flags to indicate if all contact details of respective persons should be set to
      *                          private.
@@ -393,7 +381,7 @@ public class TestDataHelper {
     }
 
     /**
-     * Creates a list of Persons based on the give Person objects.
+     * Creates a list of Persons based on the given Person objects.
      */
     public List<Person> generatePersonList(Person... persons) {
         return new ArrayList<>(Arrays.asList(persons));
@@ -427,7 +415,7 @@ public class TestDataHelper {
     }
 
     /**
-     * Creates a list of Exams based on the give Exam objects.
+     * Creates a list of Exams based on the given Exam objects.
      */
     public List<Exam> generateExamList(Exam... exams) {
         return new ArrayList<>(Arrays.asList(exams));
@@ -441,54 +429,10 @@ public class TestDataHelper {
     public List<Exam> generateExamList(Boolean... isPrivateStatuses) throws Exception {
         List<Exam> exams = new ArrayList<>();
         int i = 1;
-        for (Boolean p: isPrivateStatuses) {
+        for (Boolean p : isPrivateStatuses) {
             exams.add(generateExam(i++, p));
         }
         return exams;
-    }
-
-    /**
-     * Generates a valid date using a seed
-     */
-    public String generateDate(int seed) {
-        Long max = 0L;
-        Long min = 100000000000L;
-        SimpleDateFormat spf = new SimpleDateFormat("dd-MM-yyyy");
-        Random rnd = new Random(seed);
-        Long randomLong = (rnd.nextLong() % (max - min)) + min;
-        Date date = new Date(randomLong);
-        return removeSpecialChar(spf.format(date));
-    }
-
-    /**
-     * Generates a valid time using a seed
-     */
-    public String generateTime(int seed) {
-        Long max = 0L;
-        Long min = 100000000000L;
-        SimpleDateFormat spf = new SimpleDateFormat("HH:mm");
-        Random rnd = new Random(seed);
-        Long randomLong = (rnd.nextLong() % (max - min)) + min;
-        Date date = new Date(randomLong);
-        return removeSpecialChar(spf.format(date));
-    }
-
-    /**
-     * Generate the next time
-     */
-    public String addTimeInterval(String time) {
-        String timeString = new StringBuilder(time).insert(2, ":").toString();
-        SimpleDateFormat spf = new SimpleDateFormat("HH:mm");
-        try {
-            Date date = spf.parse(timeString);
-            Long nextTime = date.getTime();
-            nextTime += (2 * 60 * 60 * 1000);
-            Date nextDate = new Date(nextTime);
-            return removeSpecialChar(spf.format(nextDate));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return time;
     }
 
     /**

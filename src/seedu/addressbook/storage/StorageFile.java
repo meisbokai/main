@@ -22,7 +22,6 @@ import seedu.addressbook.data.StatisticsBook;
 import seedu.addressbook.data.exception.IllegalValueException;
 import seedu.addressbook.data.person.Exam;
 import seedu.addressbook.data.person.Person;
-import seedu.addressbook.data.person.UniqueExamList;
 import seedu.addressbook.storage.jaxb.AdaptedAddressBook;
 import seedu.addressbook.storage.jaxb.AdaptedExamBook;
 import seedu.addressbook.storage.jaxb.AdaptedStatisticsBook;
@@ -77,10 +76,6 @@ public class StorageFile extends Storage {
     public StorageFile() throws InvalidStorageFilePathException,
             InvalidInitialisationException {
         this(DEFAULT_STORAGE_FILEPATH, DEFAULT_EXAMS_FILEPATH, DEFAULT_STATISTICS_FILEPATH);
-    }
-
-    public StorageFile(String filePath) throws InvalidStorageFilePathException, InvalidInitialisationException {
-        this(filePath, DEFAULT_EXAMS_FILEPATH, DEFAULT_STATISTICS_FILEPATH);
     }
 
     /**
@@ -244,8 +239,7 @@ public class StorageFile extends Storage {
         } catch (JAXBException jaxbe) {
             throw new StorageOperationException("Error parsing exam file data format");
         } catch (IllegalValueException ive) {
-            throw new StorageOperationException("Exam file contains illegal data values; "
-                    + "data type constraints not met");
+            throw new StorageOperationException(ive.getMessage());
         }
     }
 
@@ -304,25 +298,18 @@ public class StorageFile extends Storage {
         } catch (JAXBException jaxbe) {
             throw new StorageOperationException("Error parsing statistics file data format");
         } catch (IllegalValueException ive) {
-            throw new StorageOperationException("Statistics File contains illegal data values; "
-                    + "data type constraints not met");
+            throw new StorageOperationException(ive.getMessage());
         }
     }
 
     /**
      * Checks the exams of each person to see if they exist in the ExamBook
-     * Removes and re-add the exams in person from the ExamBook
-     * due to the fact that the exam takers may be unequal as not checked during equality check.
      * @throws StorageOperationException if exam data of a person was modified
      */
     public void syncAddressBookExamBook(AddressBook addressBook, ExamBook examBook) throws StorageOperationException {
         for (Person p : addressBook.getAllPersons()) {
             for (Exam e : p.getExams()) {
-                try {
-                    p.removeExam(e);
-                    p.addExam(examBook.findExam(e));
-                    save(addressBook);
-                } catch (UniqueExamList.ExamNotFoundException efe) {
+                if (!examBook.contains(e)) {
                     throw new StorageOperationException("A person has an exam not in ExamBook!");
                 }
             }

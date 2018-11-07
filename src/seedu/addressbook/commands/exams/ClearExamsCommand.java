@@ -1,7 +1,11 @@
 package seedu.addressbook.commands.exams;
 
+import java.util.List;
+
 import seedu.addressbook.commands.Command;
 import seedu.addressbook.commands.commandresult.CommandResult;
+import seedu.addressbook.commands.commandresult.ListType;
+import seedu.addressbook.data.person.ReadOnlyExam;
 
 /**
  * Clears the exam book.
@@ -19,7 +23,8 @@ public class ClearExamsCommand extends Command {
     public CommandResult execute() {
         examBook.clear();
         addressBook.clearAllExam();
-        return new CommandResult(MESSAGE_SUCCESS);
+        final List<ReadOnlyExam> updatedList = examBook.getAllExam().immutableListView();
+        return new CommandResult(MESSAGE_SUCCESS, updatedList, ListType.EXAMS);
     }
 
     @Override

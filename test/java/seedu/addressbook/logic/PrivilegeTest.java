@@ -35,6 +35,7 @@ import seedu.addressbook.storage.StorageFile;
 import seedu.addressbook.stubs.StorageStub;
 
 public class PrivilegeTest {
+
     /**
      * This tests for Commands that affects or depends on Privilege
      */
@@ -42,14 +43,19 @@ public class PrivilegeTest {
     public TemporaryFolder saveFolder = new TemporaryFolder();
     private AddressBook addressBook = new AddressBook();
     private Privilege privilege = new Privilege();
+
     @Before
     public void setUp() throws Exception {
         StorageStub stubFile;
         StorageFile saveFile;
         ExamBook examBook = new ExamBook();
         StatisticsBook statisticsBook = new StatisticsBook();
-        saveFile = new StorageFile(saveFolder.newFile("testSaveFile.txt").getPath());
-        stubFile = new StorageStub(saveFolder.newFile("testStubFile.txt").getPath());
+        saveFile = new StorageFile(saveFolder.newFile("testSaveFile.txt").getPath(),
+                saveFolder.newFile("testExamFile.txt").getPath(),
+                saveFolder.newFile("testStatisticsFile.txt").getPath());
+        stubFile = new StorageStub(saveFolder.newFile("testStubFile.txt").getPath(),
+                saveFolder.newFile("testStubExamFile.txt").getPath(),
+                saveFolder.newFile("testStubStatisticsFile.txt").getPath());
         saveFile.save(addressBook);
 
         Logic logic = new Logic(stubFile, addressBook, examBook, statisticsBook, privilege);
