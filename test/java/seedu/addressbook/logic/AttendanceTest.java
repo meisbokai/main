@@ -544,5 +544,4 @@ public class AttendanceTest {
                 false,
                 threePersons);
     }
-
 }
