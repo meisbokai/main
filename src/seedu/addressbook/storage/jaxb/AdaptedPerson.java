@@ -135,6 +135,10 @@ public class AdaptedPerson {
             return true;
         }
 
+        if (attendances != null && attendances.isAnyRequiredFieldMissing()) {
+            return true;
+        }
+
         // second call only happens if phone/email/address are all not null
         return Utils.isAnyNull(name, phone, email, address, fees)
                 || Utils.isAnyNull(phone.value, email.value, address.value)
@@ -163,8 +167,12 @@ public class AdaptedPerson {
             final Person person = new Person(name, phone, email, address, tags, examList);
             person.setFees(this.fees.toModelType());
 
-            final Attendance attendance = attendances.toModelType();
-            person.setAttendance(attendance);
+            Optional<AdaptedAttendance> optAttendance = Optional.ofNullable(attendances);
+
+            if (optAttendance.isPresent()) {
+                final Attendance attendance = attendances.toModelType();
+                person.setAttendance(attendance);
+            }
 
             Optional<AdaptedAccount> optAccount = Optional.ofNullable(account);
 
