@@ -6,7 +6,6 @@ import java.util.Map;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlValue;
 
 import seedu.addressbook.common.Utils;
 import seedu.addressbook.data.exception.IllegalValueException;
@@ -73,8 +72,7 @@ public class AdaptedAttendance {
                 } else if ("Absent".equals(isPresentString)) {
                     isPresent = false;
                 } else {
-                    // TODO edit the error message AFTER 2AM :)
-                    throw new IllegalValueException("Will think of something later");
+                    throw new IllegalValueException("NIL attendance, please report this to the developers");
                 }
                 attendance.addAttendance(date, isPresent, false);
             }
