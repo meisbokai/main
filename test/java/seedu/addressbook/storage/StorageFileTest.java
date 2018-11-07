@@ -162,6 +162,7 @@ public class StorageFileTest {
             assertEquals(actual.getMasterPassword(), expected.getMasterPassword());
         }
     }
+
     @Test
     public void load_validFormatIsPerm() throws Exception {
         AddressBook actual = getStorage("ValidDataWithIsPerm.txt").load();
@@ -277,6 +278,16 @@ public class StorageFileTest {
         storage.syncAddressBookExamBook(ab, eb);
     }
 
+    @Test
+    public void load_validAttendance() throws Exception {
+        AddressBook actual = getStorage("ValidDataWithAttendance.txt").load();
+        AddressBook expected = getTestAddressBook();
+
+        // ensure loaded AddressBook is properly constructed with test data
+        assert(actual.equals(expected));
+        assertEquals(actual.getAllPersons(), expected.getAllPersons());
+    }
+
     /** Asserts that loading StorageFile will return an Exception with expectedMessage*/
     private void assertReturnsExceptionMessage(StorageFile storage, String expectedMessage) throws Exception {
         try {
@@ -357,5 +368,4 @@ public class StorageFileTest {
                 "83", "71", "0", "70", "90 26", true));
         return sb;
     }
-
 }
