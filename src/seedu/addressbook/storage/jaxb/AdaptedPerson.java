@@ -135,10 +135,6 @@ public class AdaptedPerson {
             return true;
         }
 
-        if (attendances != null && attendances.isAnyRequiredFieldMissing()) {
-            return true;
-        }
-
         // second call only happens if phone/email/address are all not null
         return Utils.isAnyNull(name, phone, email, address, fees)
                 || Utils.isAnyNull(phone.value, email.value, address.value)
