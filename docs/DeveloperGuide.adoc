@@ -258,11 +258,8 @@ An Example of how feature 5 - `Registering a person for an exam` works:
 . A new exam is created to keep a copy of the original exam.
 . The exam has its number of exam takers increased by 1.
 . The exam is added to the specific person.
-<<<<<<< HEAD
-. For both the AddressBook and ExamBook, any copies of the original exam are removed and replaced with the new exam.
-=======
 . For the AddressBook, any copies of the original exam is removed and replaced with the new exam.
->>>>>>> 3260a2af751174d56dd65788734080ec648f39fb
+
 
 This is demostrated by the following sequence diagram:
 [[fig-registerPersonDiagram]]
