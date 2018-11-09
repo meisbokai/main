@@ -95,6 +95,15 @@ public class StorageFileTest {
     }
 
     @Test
+    public void load_invalidExamFormatInAddressBook_exceptionThrown() throws Exception {
+        // The file contains valid xml data, but does not match the AddressBook class
+        StorageFile storage = getStorage("InvalidMissingExamFieldData.txt", "ValidExamData.txt",
+                "ValidStatistics.txt");
+        thrown.expect(StorageOperationException.class);
+        storage.load();
+    }
+
+    @Test
     public void load_invalidFieldFormat_exceptionThrown() throws Exception {
         // The file contains valid xml data, but contains an invalid field
         StorageFile storage = getStorage("InvalidFieldData.txt", "ValidExamData.txt",
@@ -153,13 +162,15 @@ public class StorageFileTest {
                 "ValidDataWithAccount.txt", getTestAddressBook(true, true)));
         inputToExpectedOutputs.add(new Pair<>(
                 "ValidDataWithoutPassword.txt", getTestAddressBook(true, false)));
+        inputToExpectedOutputs.add(new Pair<>(
+                "ValidDataWithExam.txt", getTestAddressBook(true, false)));
 
         for (Pair<String, AddressBook> inputToExpected: inputToExpectedOutputs) {
             final AddressBook actual = getStorage(inputToExpected.getFirst()).load();
             final AddressBook expected = inputToExpected.getSecond();
 
             // ensure loaded AddressBook is properly constructed with test data
-            assert(actual.equals(expected));
+            assertEquals(actual, expected);
             assertEquals(actual.getMasterPassword(), expected.getMasterPassword());
         }
     }
@@ -170,7 +181,7 @@ public class StorageFileTest {
         AddressBook expected = getTestAddressBook();
 
         // ensure loaded AddressBook is properly constructed with test data
-        assert(actual.equals(expected));
+        assertEquals(actual, expected);
         assertEquals(actual.getAllPersons(), expected.getAllPersons());
         assertTrue(actual.isPermAdmin());
     }
@@ -182,7 +193,7 @@ public class StorageFileTest {
         ExamBook expected = getTestExamBook();
 
         // ensure loaded AddressBook is properly constructed with test data
-        assert(actual.equals(expected));
+        assertEquals(actual, expected);
     }
 
     @Test
@@ -338,15 +349,18 @@ public class StorageFileTest {
                 new Email("johnd@gmail.com", false),
                 new Address("John street, block 123, #01-01", false),
                 Collections.emptySet());
+        Exam exam = new Exam("Math Midterms", "Mathematics", "01-12-2018", "09:00", "10:00", "Held in MPSH", false);
+        exam.setTakers(1);
+        john.addExam(exam);
         if (hasAccount) {
             john.setAccount(new Account("user", "pw", "Admin"));
         }
         ab.addPerson(john);
         ab.addPerson(new Person(new Name("Betsy Crowe"),
-                                new Phone("1234567", true),
-                                new Email("betsycrowe@gmail.com", false),
-                                new Address("Newgate Prison", true),
-                                new HashSet<>(Arrays.asList(new Tag("friend"), new Tag("criminal")))));
+                new Phone("1234567", true),
+                new Email("betsycrowe@gmail.com", false),
+                new Address("Newgate Prison", true),
+                new HashSet<>(Arrays.asList(new Tag("friend"), new Tag("criminal")))));
         if (!isUsingDefaultPassword) {
             ab.setMasterPassword("newPassword");
         }
@@ -374,7 +388,8 @@ public class StorageFileTest {
         return getTestAddressBookWithAttendance(false, false);
     }
 
-    private AddressBook getTestAddressBookWithAttendance(boolean isUsingDefaultPassword, boolean hasAccount) throws Exception {
+    private AddressBook getTestAddressBookWithAttendance(boolean isUsingDefaultPassword, boolean hasAccount)
+            throws Exception {
         AddressBook ab = new AddressBook();
         final Person john = new Person(new Name("John Doe"),
                 new Phone("98765432", false),

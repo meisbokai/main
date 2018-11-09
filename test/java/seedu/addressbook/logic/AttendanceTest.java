@@ -311,7 +311,8 @@ public class AttendanceTest {
     @Test
     public void executeReplaceAttendanceInvalidArgsFormat() throws Exception {
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, ReplaceAttendanceCommand.MESSAGE_USAGE);
-        assertCommandBehavior("replaceAtten 1 d/29-09-1996 att/ ", expectedMessage);
+        assertCommandBehavior("replaceAtten 1 d/29-09-1996 att/ ", expectedMessage
+        );
     }
 
     @Test

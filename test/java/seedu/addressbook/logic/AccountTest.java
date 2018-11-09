@@ -84,7 +84,8 @@ public class AccountTest {
     @Test
     public void executeAddAccountInvalidArgument() throws Exception {
         assertCommandBehavior("addacc",
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddAccountCommand.MESSAGE_USAGE));
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddAccountCommand.MESSAGE_USAGE)
+        );
     }
 
     @Test
@@ -96,13 +97,15 @@ public class AccountTest {
             "addacc 2 username password TUTOR TrailingArgument"};
         for (String input : inputs) {
             assertCommandBehavior(input,
-                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddAccountCommand.MESSAGE_USAGE));
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddAccountCommand.MESSAGE_USAGE)
+            );
         }
     }
 
     @Test
     public void executeAddAccountInvalidIndex() throws Exception {
-        assertInvalidIndexBehaviorForCommand("addacc", "", "username password BASIC");
+        assertInvalidIndexBehaviorForCommand("addacc", "", "username password BASIC"
+        );
     }
 
     @Test
