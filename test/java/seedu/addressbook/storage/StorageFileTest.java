@@ -420,4 +420,30 @@ public class StorageFileTest {
 
         return ab;
     }
+
+    @Test
+    public void save_validAddressBookWithAttendance() throws Exception {
+        AddressBook ab = getTestAddressBookWithAttendance(true, false);
+        ExamBook eb = getTestExamBook();
+        StatisticsBook sb = getTestStatisticsBook();
+        StorageFile storage = getTempStorage();
+        storage.saveExam(eb);
+        storage.save(ab);
+        storage.saveStatistics(sb);
+        // Checks that the password and isPerm is saved as a new field
+        assertStorageFilesEqual(storage, getStorage("ValidDataWithAttendance.txt"));
+
+        ab = getTestAddressBookWithAttendance();
+        storage = getTempStorage();
+        storage.save(ab);
+
+        assertStorageFilesEqual(storage, getStorage("ValidDataWithAttendance.txt"));
+        assertStorageFilesEqual(storage, getStorage("ValidDataWithAttendance.txt", "ValidExamData.txt",
+                "ValidStatisticsData.txt"));
+
+        ab = getTestAddressBookWithAttendance(true, false);
+        storage = getTempStorage();
+        storage.save(ab);
+        assertStorageFilesEqual(storage, getStorage("ValidDataWithAttendance.txt"));
+    }
 }
