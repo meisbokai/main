@@ -5,7 +5,7 @@
         <phone isPrivate="false">98765432</phone>
         <email isPrivate="false">johnd@gmail.com</email>
         <address isPrivate="false">John street, block 123, #01-01</address>
-        <attendances/>
+        <attendance/>
         <exams isPrivate="false">
             <subjectName>Mathematics</subjectName>
             <examName>Math Midterms</examName>
@@ -30,7 +30,7 @@
         <phone isPrivate="true">1234567</phone>
         <email isPrivate="false">betsycrowe@gmail.com</email>
         <address isPrivate="true">Newgate Prison</address>
-        <attendances/>
+        <attendance/>
         <tagged>friend</tagged>
         <tagged>criminal</tagged>
         <fees isPrivate="true">

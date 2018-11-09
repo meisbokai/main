@@ -38,7 +38,7 @@ public class AdaptedPerson {
     private AdaptedContactDetail address;
 
     @XmlElement
-    private AdaptedAttendance attendances;
+    private AdaptedAttendance attendance;
 
     @XmlElement
     private List<AdaptedExam> exams = new ArrayList<>();
@@ -89,7 +89,7 @@ public class AdaptedPerson {
 
         fees = new AdaptedFees(source.getFees());
 
-        attendances = new AdaptedAttendance(source.getAttendance());
+        attendance = new AdaptedAttendance(source.getAttendance());
 
         exams = new ArrayList<>();
         for (Exam exam : source.getExams()) {
@@ -163,10 +163,10 @@ public class AdaptedPerson {
             final Person person = new Person(name, phone, email, address, tags, examList);
             person.setFees(this.fees.toModelType());
 
-            Optional<AdaptedAttendance> optAttendance = Optional.ofNullable(attendances);
+            Optional<AdaptedAttendance> optAttendance = Optional.ofNullable(attendance);
 
             if (optAttendance.isPresent()) {
-                final Attendance attendance = attendances.toModelType();
+                final Attendance attendance = this.attendance.toModelType();
                 person.setAttendance(attendance);
             }
 
