@@ -528,9 +528,17 @@ Command first.
 // tag::attendance[]
 [[attendance]]
 === Attendance Feature
-// TODO UML to be added here
+[[fig-AttendanceDiagram]]
+.Class Diagram of the Attendance feature
+image::ClassDiagram_Attendance.png[width="800"]
 
-The attendance field is an additional field to every `Person` object.
+The attendance field is an additional field to every `Person` object:
+
+. Each Person will have an Attendance object
+. Each Attendance object will contain a Hashmap, which will store the attendance of each person by keying each date to a boolean (isPresent).
+. UniquePersonList will contain 2 lists, containing a list of people who are present or absent for each particular date.
+. Users can thus check the attendance of a particular person, or for a particular date.
+
 
 ==== Current Implementation
 The AddressBook contains the attendance of each person for each date that his/her attendance is taken. The current set of commands include:
