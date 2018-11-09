@@ -317,20 +317,11 @@ image::Privilege.png[width="600"]
 
 ==== Current Implementation
 
-<<<<<<< HEAD
-*Logic* is assigned to one *Privilege* object at all times. *Privilege* contains a *User* (specified by the *PrivilegeLevel* enum) and a *Person* (referred to as `myPerson`). +
-*User* defines what access level the *Privilege* object has, which is implemented by *BasicUser*, *TutorUser* and *AdminUser*. +
-*BasicUser* is the class with the lowest access level and the ancestor to other 2 *User* classes. +
-To create an increasing level of access, each *User* of a higher level inherits from the successively lower one. +
-*User* levels have their own list of new commands they can run, which is appended to the list inherited from their parent. +
-=======
 * *Logic* is assigned to one *Privilege* object at all times. *Privilege* contains a *User* (specified by the *PrivilegeLevel* enum) and a *Person* (referred to as `myPerson`). +
 * *User* defines what access level the *Privilege* object have, which is implemented by *BasicUser*, *TutorUser* and *AdminUser*. +
 * *BasicUser* is the class with the lowest access level, and the ancestor to other 2 *User* classes. +
 * To create an increasing level of access, each *User* of a higher level inherits from the successively lower one. +
 * *User* levels have their own list of new commands they can run, which is appended to the list inherited from their parent. +
-
->>>>>>> 3260a2af751174d56dd65788734080ec648f39fb
 
 * *Account* class, which contains its respective *Privilege* object as well as login details, assigns an access level to a *Person*. +
 * When switching *Privilege* levels, the *Privilege* object referred to by *Logic* will point its *User*(`user`) and *Person*(`myPerson`) to those of the desired *Privilege level*, as seen below in the Object Diagram and Sequence Diagram. +
@@ -603,6 +594,8 @@ An example of how feature 1 - `Updating a person's attendance` works:
 === Attendance Feature
 // TODO UML to be added here
 
+The attendance field is an additional field to every `Person` object.
+
 ==== Current Implementation
 The AddressBook contains the attendance of each person for each date that his/her attendance is taken. The current set of commands include:
 
@@ -657,6 +650,19 @@ An example of how feature 1 - `Updating a person's attendance` works:
 * **Alternative 3:** Have the user input an additional parameter (Boolean overWrite) if they want to overwrite the current data
 ** Pros: Similar to alternative 1, having the user input an additional parameter and only having 1 method in the Attendance object can reduce the need to have unnecessary duplicates in the code.
 ** Cons: An additional parameter will require a change in the parser.
+
+===== Aspect: How to store data in xml, addressbook.txt
+* **Alternative 1 (Current choice):** Use 2 list to store a list of dates and a list of absent/present
+** Pros: Simple implementation, and utilizes the fact that each date can only have either present/absent. Iterating through the map to generate the 2 list will thus ensure that the data is in order
+** Cons: In the xml format, data will be stored as 2 separate lists, which may not be as user friendly to edit directly.
+
+* **Alternative 2:** Use a list of pairs, Pair <String Date, Boolean isPresent>
+** Pros: Only requires 1 single list to store the data of the entire map
+** Cons: Such implementation will require a Pair object, which will require additional methods and classes, thus requiring longer code.
+
+* **Alternative 3:** Convert Hashmap to xml directly
+** Pros: Direct transfer of data will thus require less memory space to store the same data.
+** Cons: A Hashmap to xml converter will require either a very long code (unnecessary for only 1 map), or requires the import of an external library.
 // end::attendance[]
 
 == Documentation
@@ -1434,13 +1440,8 @@ _{ more test cases ... }_
 .. Test case: `delete 1` +
    Expected: First contact is deleted from the list. Details of the deleted contact shown in the status console.
 .. Test case: `delete 0` +
-<<<<<<< HEAD
-   Expected: No person is deleted. Error details are shown in the status message. Status bar remains the same.
-.. Other incorrect delete commands to try: `delete`, `delete x` (where x is larger than the list size) _{give more}_ +
-=======
    Expected: No person is deleted. Error details shown in the status console. Console bar remains the same.
 .. Other incorrect delete commands to try: `delete`, `delete x` (where x is larger than the list size), `delete a` (where a is not an integer)+
->>>>>>> 3260a2af751174d56dd65788734080ec648f39fb
    Expected: Similar to previous.
    
 === Accessing a command of different privilege level
