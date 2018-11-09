@@ -24,7 +24,10 @@
         <phone isPrivate="true">1234567</phone>
         <email isPrivate="false">betsycrowe@gmail.com</email>
         <address isPrivate="true">Newgate Prison</address>
-        <attendances/>
+        <attendances>
+            <attendanceDate>07-11-2018</attendanceDate>
+            <attendanceIsPresent>Present</attendanceIsPresent>
+        </attendances>
         <tagged>friend</tagged>
         <tagged>criminal</tagged>
         <fees isPrivate="true">
