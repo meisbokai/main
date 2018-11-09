@@ -25,6 +25,7 @@ import seedu.addressbook.data.StatisticsBook;
 import seedu.addressbook.data.account.Account;
 import seedu.addressbook.data.exception.IllegalValueException;
 import seedu.addressbook.data.person.AssignmentStatistics;
+import seedu.addressbook.data.person.Attendance;
 import seedu.addressbook.data.person.Exam;
 import seedu.addressbook.data.person.Person;
 import seedu.addressbook.data.person.details.Address;
@@ -281,10 +282,10 @@ public class StorageFileTest {
     @Test
     public void load_validAttendance() throws Exception {
         AddressBook actual = getStorage("ValidDataWithAttendance.txt").load();
-        AddressBook expected = getTestAddressBook();
+        AddressBook expected = getTestAddressBookWithAttendance();
 
         // ensure loaded AddressBook is properly constructed with test data
-        assert(actual.equals(expected));
+        assertEquals(actual, expected);
         assertEquals(actual.getAllPersons(), expected.getAllPersons());
     }
 
@@ -367,5 +368,41 @@ public class StorageFileTest {
         sb.addStatistic(new AssignmentStatistics("English", "final", "Mark",
                 "83", "71", "0", "70", "90 26", true));
         return sb;
+    }
+
+    private AddressBook getTestAddressBookWithAttendance() throws Exception {
+        return getTestAddressBookWithAttendance(false, false);
+    }
+
+    private AddressBook getTestAddressBookWithAttendance(boolean isUsingDefaultPassword, boolean hasAccount) throws Exception {
+        AddressBook ab = new AddressBook();
+        final Person john = new Person(new Name("John Doe"),
+                new Phone("98765432", false),
+                new Email("johnd@gmail.com", false),
+                new Address("John street, block 123, #01-01", false),
+                Collections.emptySet());
+        Attendance attendanceJohn = new Attendance();
+        attendanceJohn.getAttendancePersonMap().put("07-11-2018", false);
+        john.setAttendance(attendanceJohn);
+        if (hasAccount) {
+            john.setAccount(new Account("user", "pw", "Admin"));
+        }
+        ab.addPerson(john);
+
+        final Person betsy = new Person(new Name("Betsy Crowe"),
+                new Phone("1234567", true),
+                new Email("betsycrowe@gmail.com", false),
+                new Address("Newgate Prison", true),
+                new HashSet<>(Arrays.asList(new Tag("friend"), new Tag("criminal"))));
+        Attendance attendanceBetsy = new Attendance();
+        attendanceBetsy.getAttendancePersonMap().put("07-11-2018", true);
+        betsy.setAttendance(attendanceBetsy);
+        ab.addPerson(betsy);
+
+        if (!isUsingDefaultPassword) {
+            ab.setMasterPassword("default_pw");
+        }
+
+        return ab;
     }
 }
