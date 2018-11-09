@@ -66,7 +66,7 @@ public class AdaptedAttendance {
         for (int i = 0; i < attendanceDate.size(); i++) {
             String date = attendanceDate.get(i);
             String isPresentString = attendanceIsPresent.get(i);
-            Boolean isPresent;
+            final boolean isPresent;
             if ("Present".equals(isPresentString)) {
                 isPresent = true;
             } else if ("Absent".equals(isPresentString)) {
