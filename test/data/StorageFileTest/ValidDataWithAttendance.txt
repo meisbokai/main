@@ -32,4 +32,3 @@
     </persons>
     <password>default_pw</password>
 </AddressBook>
-
