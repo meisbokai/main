@@ -532,6 +532,10 @@ Command first.
 .Class Diagram of the Attendance feature
 image::ClassDiagram_Attendance.png[width="800"]
 
+[[fig-AttendanceDiagramWithMethods]]
+.Class Diagram that links from UniquePersonList to Attendance object, including methods
+image::ClassDiagram_Attendance_with_Methods.png[width='800']
+
 The attendance field is an additional field to every `Person` object:
 
 . Each Person will have an Attendance object
