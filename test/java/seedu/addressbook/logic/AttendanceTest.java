@@ -101,14 +101,14 @@ public class AttendanceTest {
      */
 
     @Test
-    public void executeUpdateAttendanceInvalidArgsFormat() throws Exception {
+    public void execute_UpdateAttendance_InvalidArgsFormat() throws Exception {
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, UpdateAttendanceCommand.MESSAGE_USAGE);
         assertCommandBehavior("attendance 1 d/29-09-1996 att/ ", expectedMessage);
         assertCommandBehavior("attendance 2", expectedMessage);
     }
 
     @Test
-    public void executeUpdateAttendanceInvalidDateFormat() throws Exception {
+    public void execute_UpdateAttendance_InvalidDateFormat() throws Exception {
         String expectedMessage = MESSAGE_DATE_CONSTRAINTS;
         TestDataHelper helper = new TestDataHelper();
         Person p1 = helper.generatePerson(1, false);
@@ -126,7 +126,7 @@ public class AttendanceTest {
     }
 
     @Test
-    public void executeUpdateAttendanceUpdateCorrectPerson() throws Exception {
+    public void execute_UpdateAttendance_UpdateCorrectPerson() throws Exception {
         TestDataHelper helper = new TestDataHelper();
         Person p1 = helper.generatePerson(1, false);
         Person p1Expected = helper.generatePerson(1, false);
@@ -152,7 +152,7 @@ public class AttendanceTest {
     }
 
     @Test
-    public void executeUpdateAttendanceNoInputDate() throws Exception {
+    public void execute_UpdateAttendance_NoInputDate() throws Exception {
         TestDataHelper helper = new TestDataHelper();
         Person p1 = helper.generatePerson(1, false);
         Person p1Expected = helper.generatePerson(1, false);
@@ -179,7 +179,7 @@ public class AttendanceTest {
     }
 
     @Test
-    public void executeUpdateAttendanceDuplicateDate() throws Exception {
+    public void execute_UpdateAttendance_DuplicateDate() throws Exception {
         TestDataHelper helper = new TestDataHelper();
         Person p1 = helper.generatePerson(1, false);
 
@@ -200,7 +200,7 @@ public class AttendanceTest {
     }
 
     @Test
-    public void executeUpdateAttendanceInvalidPersonIndex() throws Exception {
+    public void execute_UpdateAttendance_InvalidPersonIndex() throws Exception {
         TestDataHelper helper = new TestDataHelper();
         Person p1 = helper.generatePerson(1, false);
 
@@ -219,7 +219,7 @@ public class AttendanceTest {
     }
 
     @Test
-    public void executeUpdateAttendanceInvalidAttendance() throws Exception {
+    public void execute_UpdateAttendance_InvalidAttendance() throws Exception {
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, UpdateAttendanceCommand.MESSAGE_USAGE);
 
         TestDataHelper helper = new TestDataHelper();
@@ -238,14 +238,14 @@ public class AttendanceTest {
     }
 
     @Test
-    public void executeViewAttendancePersonInvalidArgsFormat() throws Exception {
+    public void execute_ViewAttendance_PersonInvalidArgsFormat() throws Exception {
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT,
                 ViewAttendancePersonCommand.MESSAGE_USAGE);
         assertCommandBehavior("viewAttenPerson ", expectedMessage);
     }
 
     @Test
-    public void executeViewAttendancePersonSuccess() throws Exception {
+    public void execute_ViewAttendance_PersonSuccess() throws Exception {
         TestDataHelper helper = new TestDataHelper();
         Person p1 = helper.generatePerson(1, false);
         Person p1Expected = helper.generatePerson(1, false);
@@ -268,7 +268,7 @@ public class AttendanceTest {
     }
 
     @Test
-    public void executeViewAttendancePersonNilAttendance() throws Exception {
+    public void execute_ViewAttendance_PersonNilAttendance() throws Exception {
         TestDataHelper helper = new TestDataHelper();
         Person p1 = helper.generatePerson(1, false);
         Person p1Expected = helper.generatePerson(1, false);
@@ -290,7 +290,7 @@ public class AttendanceTest {
     }
 
     @Test
-    public void executeViewAttendancePersonInvalidPersonIndex() throws Exception {
+    public void execute_ViewAttendance_PersonInvalidPersonIndex() throws Exception {
         TestDataHelper helper = new TestDataHelper();
         Person p1 = helper.generatePerson(1, false);
 
@@ -309,14 +309,14 @@ public class AttendanceTest {
     }
 
     @Test
-    public void executeReplaceAttendanceInvalidArgsFormat() throws Exception {
+    public void execute_ReplaceAttendance_InvalidArgsFormat() throws Exception {
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, ReplaceAttendanceCommand.MESSAGE_USAGE);
         assertCommandBehavior("replaceAtten 1 d/29-09-1996 att/ ", expectedMessage
         );
     }
 
     @Test
-    public void executeReplaceAttendanceInvalidDateFormat() throws Exception {
+    public void execute_ReplaceAttendance_InvalidDateFormat() throws Exception {
         String expectedMessage = MESSAGE_DATE_CONSTRAINTS;
         TestDataHelper helper = new TestDataHelper();
         Person p1 = helper.generatePerson(1, false);
@@ -334,7 +334,7 @@ public class AttendanceTest {
     }
 
     @Test
-    public void executeReplaceAttendanceSuccess() throws Exception {
+    public void execute_ReplaceAttendance_Success() throws Exception {
         TestDataHelper helper = new TestDataHelper();
         Person p1 = helper.generatePerson(1, false);
 
@@ -355,7 +355,7 @@ public class AttendanceTest {
     }
 
     @Test
-    public void executeReplaceAttendanceNoAttendanceYet() throws Exception {
+    public void execute_ReplaceAttendance_NoAttendanceYet() throws Exception {
         TestDataHelper helper = new TestDataHelper();
         Person p1 = helper.generatePerson(1, false);
 
@@ -374,7 +374,7 @@ public class AttendanceTest {
     }
 
     @Test
-    public void executeReplaceAttendanceNoInputDate() throws Exception {
+    public void execute_ReplaceAttendance_NoInputDate() throws Exception {
         TestDataHelper helper = new TestDataHelper();
         Person p1 = helper.generatePerson(1, false);
         Person p1Expected = helper.generatePerson(1, false);
@@ -401,7 +401,7 @@ public class AttendanceTest {
     }
 
     @Test
-    public void executeReplaceAttendanceInvalidPersonIndex() throws Exception {
+    public void execute_ReplaceAttendance_InvalidPersonIndex() throws Exception {
         TestDataHelper helper = new TestDataHelper();
         Person p1 = helper.generatePerson(1, false);
 
@@ -420,7 +420,7 @@ public class AttendanceTest {
     }
 
     @Test
-    public void executeReplaceAttendanceInvalidAttendance() throws Exception {
+    public void execute_ReplaceAttendance_InvalidAttendance() throws Exception {
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, ReplaceAttendanceCommand.MESSAGE_USAGE);
 
         TestDataHelper helper = new TestDataHelper();
@@ -439,14 +439,14 @@ public class AttendanceTest {
     }
 
     @Test
-    public void executeViewAttendanceDateInvalidArgsFormat() throws Exception {
+    public void execute_ViewAttendance_DateInvalidArgsFormat() throws Exception {
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, ViewAttendanceDateCommand.MESSAGE_USAGE);
         assertCommandBehavior("viewAttenDate ", expectedMessage);
         assertCommandBehavior("viewAttenDate d/", expectedMessage);
     }
 
     @Test
-    public void executeViewAttendanceDateSuccess() throws Exception {
+    public void execute_ViewAttendance_DateSuccess() throws Exception {
         TestDataHelper helper = new TestDataHelper();
         Person p1 = helper.generatePerson(1, false);
         Person p2 = helper.generatePerson(2, false);
@@ -474,7 +474,7 @@ public class AttendanceTest {
     }
 
     @Test
-    public void executeViewAttendanceDateInvalidDateFormat() throws Exception {
+    public void execute_ViewAttendance_DateInvalidDateFormat() throws Exception {
         String expectedMessage = MESSAGE_DATE_CONSTRAINTS + ViewAttendanceDateCommand.MESSAGE_USAGE;
 
         TestDataHelper helper = new TestDataHelper();
@@ -493,7 +493,7 @@ public class AttendanceTest {
     }
 
     @Test
-    public void executeViewAttendanceDateNoInputDate() throws Exception {
+    public void execute_ViewAttendance_DateNoInputDate() throws Exception {
         TestDataHelper helper = new TestDataHelper();
         Person p1 = helper.generatePerson(1, false);
         Person p2 = helper.generatePerson(2, false);
@@ -522,7 +522,7 @@ public class AttendanceTest {
     }
 
     @Test
-    public void executeViewAttendanceDateNoAttendanceTaken() throws Exception {
+    public void execute_ViewAttendance_DateNoAttendanceTaken() throws Exception {
         // Test if the default attendance is "Absent"
         TestDataHelper helper = new TestDataHelper();
         Person p1 = helper.generatePerson(1, false);
