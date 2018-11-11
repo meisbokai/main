@@ -583,7 +583,7 @@ Example(s):
 
 * `addassess Mathematics final class test`
 
-==== Listing all assessments : `listassess` image:Tutor.png[16,16]
+==== Listing all assessments : `listassess` image:Basic.png[16,16]
 
 Shows a list of all assessments in the address book, along with an index for each +
 Format: `listassess`
@@ -700,7 +700,7 @@ If you change/ update grades after already generating a statistic, you must dele
 statistics book to ensure that it is up to date.
 ====
 
-==== Listing all statistics : `liststatistics` image:Tutor.png[16,16]
+==== Listing all statistics : `liststatistics` image:Basic.png[16,16]
 
 Shows a list of all statistics in the statistics book, along with an index for each +
 Format: `liststatistics`
