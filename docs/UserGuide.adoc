@@ -644,7 +644,7 @@ Updates the attendance of the target person. +
 Format: `attendance INDEX d/DATE att/ATTENDANCE`
 
 ****
-Updates the attendance of the person with INDEX as specified by the last shown list according to the DATE. +
+Updates the attendance of the person with INDEX as specified by the last shown list. +
 ~*If~ ~the~ ~input~ ~date~ ~is~ ~0~ ~(e.g.~ ~d/0)~~,~ ~the~ ~current~ ~date~ ~will~ ~be~ ~used~
 ****
 
@@ -663,7 +663,7 @@ Replaces the current attendance of the target person. +
 Format: `replaceAtten INDEX d/DATE att/ATTENDANCE`
 
 ****
-Replaces the attendance of the person with INDEX as specified by the last shown list according to the DATE.
+Replaces the attendance of the person with INDEX as specified by the last shown list.
 ****
 
 Example(s):
@@ -703,6 +703,43 @@ Shows a list of people who were present on a particular date.
 
 * `viewAttenDate d/0` +
 Shows a list of people who were present today.
+
+==== Replaces the attendance of a person: `replaceAtten` image:Tutor.png[16,16]
+Replaces the current attendance of the target person. +
+Format: `replaceAtten INDEX d/DATE att/ATTENDANCE`
+
+****
+Replaces the attendance of the person with INDEX as specified by the last shown list according to the DATE.
+****
+
+Example(s):
+
+* `list`  +
+`replaceAtten 1 d/29-09-2018 att/1` +
+Replaces the attendance of the first person in the list as present for the date 29th September 2018.
+
+=== Coming is v2.0:
+=== Update multiple people attendance: `multiAtten` image:Tutor.png[16,16]
+Updates the attendance of multiple people based on the list of index. +
+Format: `multiAtten i/MULTIPLE_INDEX d/DATE att/ATTENDANCE`
+
+****
+Updates the attendance of muultiple people with a list of INDEX as specified by the last shown list. +
+~*If~ ~the~ ~input~ ~date~ ~is~ ~0~ ~(e.g.~ ~d/0)~~,~ ~the~ ~current~ ~date~ ~will~ ~be~ ~used~ +
+~*If~ ~the~ ~input~ ~index~ ~is~ ~0~ ~(e.g.~ ~i/0)~~,~ ~all~ ~people~ ~in~ ~the~ ~addressbook~ ~will~ ~be~ ~updated~
+****
+
+Example(s):
+
+* `list`  +
+`multiAtten i/1 2 4 5 d/29-09-2018 att/1` +
+Marks the attendance of the people with index 1, 2, 4 and 5 in the list as present for the date 29th September 2018.
+
+* `list`  +
+`attendance i/0  d/0 att/0` +
+Marks the attendance of everybody on the list as absent for today's date.
+
+
 // end::attendance[]
 
 == Saving the data

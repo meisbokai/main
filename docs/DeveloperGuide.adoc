@@ -538,9 +538,9 @@ image::ClassDiagram_Attendance_with_Methods.png[width='800']
 
 The attendance field is an additional field to every `Person` object:
 
-. Each Person will have an Attendance object
-. Each Attendance object will contain a Hashmap, which will store the attendance of each person by keying each date to a boolean (isPresent).
-. UniquePersonList will contain 2 lists, containing a list of people who are present or absent for each particular date.
+. Each `Person` will have an `Attendance` object
+. Each `Attendance` object will contain a Hashmap, which will store the attendance of each person by keying each String `date` to a boolean `isPresent`.
+. `UniquePersonList` will contain 2 lists, containing a list of people who are present or absent for each particular date.
 . Users can thus check the attendance of a particular person, or for a particular date.
 
 
@@ -605,12 +605,23 @@ An example of how feature 1 - `Updating a person's attendance` works:
 ** Cons: In the xml format, data will be stored as 2 separate lists, which may not be as user friendly to edit directly.
 
 * **Alternative 2:** Use a list of pairs, Pair <String Date, Boolean isPresent>
-** Pros: Only requires 1 single list to store the data of the entire map
+** Pros: Only requires 1 single list to store the data of the entire map.
 ** Cons: Such implementation will require a Pair object, which will require additional methods and classes, thus requiring longer code.
 
 * **Alternative 3:** Convert Hashmap to xml directly
 ** Pros: Direct transfer of data will thus require less memory space to store the same data.
 ** Cons: A Hashmap to xml converter will require either a very long code (unnecessary for only 1 map), or requires the import of an external library.
+
+===== Aspect: *Coming in v2.0: How to implement `multiAtten` Command
+* **Alternative 1 (Most likely choice):** `multiAtten` command calls the `attendance` command multiple times
+** Pros: Reduce the need for repeated code since multiAtten command is very similar to attendance command.
+** Pros: Simpler to implement when input is 0 as there is no need to catch index 0 since index 0 will not exist in the UniquePersonList.
+** Cons: Increase in coupling as a change in `attendance` command will cause `multiAtten` command to change.
+
+* **Alternative 2 (Unlikely choice):** Reimplement the command as a brand new command
+** Pros: Cleaner codes
+** Pros: A brand new implementation would allow for future upgrades
+** Cons: Lengthier and repeated code
 // end::attendance[]
 
 == Documentation
