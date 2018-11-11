@@ -14,7 +14,7 @@ image::Ui.png[width="600"]
 * The application manages and facilitates data entry and viewing for a secondary school.
 * Students, tutors and admins can access information with increasing privileges respectively.
 
-*What's in Version 1.3*
+*What's in Version 1.4*
 
 * A simple GUI added to replace the Text UI.
 * A `Logic` class added together with a `LogicTest` class.

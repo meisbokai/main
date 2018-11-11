@@ -17,42 +17,61 @@ Under this project, I serve as the Project Lead, monitoring the merger of Pull R
 
 == Summary of contributions
 
-=== *Major enhancement*: 
+=== *Code Contributed*
+Available https://nuscs2113-ay1819s1.github.io/dashboard/#=undefined&search=0wn463[here]
+
+=== *Main feature implemented*: 
 
 ==== *Privilege* and *Account Features*
 
 * What it does: Restricts available user interactions based on what privilege level they are currently hold. Accounts allow users to authenticate themselves so as to access more commands.
-* Justification: This feature helps fufil the requirement of having different types of user interacting with the system. This creates some form of structure within the system, giving the users access only to the commands that they will need.
+* Justification: This feature helps fufil the requirement of having different types of user interacting with the system. Thus, laying down some form of structure within the system, giving the users access only to the commands that they will need.
 * Highlights: This feature weaves itself into all the commands implemented, which demands careful modification to each of them as to ensure no bugs arise from regression.
-
-=== *Minor enhancement*:
-* Updated code of AddressBook-3 to fulfil the Learning Outcomes expected, to provide a good base to start the project on.
 
 === *Other contributions*:
 
 . Project management:
-* Managed releases `v1.2.1`, `v1.3` and `v1.4` (3 releases) on GitHub
-. Enhancements to existing features:
-* Updated the GUI
-** Added a status console to display status messages
-** Designed and added Koro-san image:Koro-san.png[32,32], our mascot which serves as our Java application icon.
-
-. Documentation:
-* Did cosmetic tweaks
-** Added table of content
-** Made Appendices collapsible
-** Designed and added icons image:Basic.png[16,16] image:Tutor.png[16,16] image:Admin.png[16,16] for easier identification of privilege required for commands
-. Community:
-* PRs reviewed (with non-trivial review comments): https://github.com/CS2113-AY1819S1-F10-1/main/pull/86[#86],  https://github.com/CS2113-AY1819S1-F10-1/main/pull/117[#117], https://github.com/CS2113-AY1819S1-F10-1/main/pull/127[#127]
-* Contributed to forum discussions (examples:  https://github.com/nusCS2113-AY1819S1/forum/issues/30[#30], https://github.com/nusCS2113-AY1819S1/forum/issues/50[#50], https://github.com/nusCS2113-AY1819S1/forum/issues/58[#58])
-. Tools:
+* In charged of merging pull requests and ensuring passing builds in master branch
+* Managed releases `v1.2.1`, `v1.3`,`v1.3.1` and `v1.4` (4 releases) on GitHub
 * Set up several Dev Ops application
 ** Gradle (Build Automaton adapted from AB4)
 ** Travis (Continuous Integration)
 ** Coveralls (Code Coverage)
 ** Codacy (Code Quality)
 ** GitHub Pages (Auto-publishing)
-. Programed a "Command usage to adoc format convertor", available at this https://repl.it/@0WN3D/PresentArcticIntegers[link]
+* Updated code of AddressBook-3 to fulfil the Learning Outcomes expected, to provide a good base to start the project on.
+* Set up labels and milestones on issue tracker
+* Programed a "Command usage to adoc format convertor", available at this https://repl.it/@0WN3D/PresentArcticIntegers[link]
+
+. Enhancements to existing features:
+* Updated the GUI
+** Added a status console to display status messages
+** Designed and added Koro-san image:Koro-san.png[32,32], our mascot which serves as our Java application icon.
+
+. Community:
+* PRs reviewed (with non-trivial review comments): 
+https://github.com/CS2113-AY1819S1-F10-1/main/pull/86[#86], 
+https://github.com/CS2113-AY1819S1-F10-1/main/pull/127[#127], 
+https://github.com/CS2113-AY1819S1-F10-1/main/pull/158[#158], 
+https://github.com/CS2113-AY1819S1-F10-1/main/pull/159[#159]
+
+* Contributed to forum discussions:  
+https://github.com/nusCS2113-AY1819S1/forum/issues/30[#30], 
+https://github.com/nusCS2113-AY1819S1/forum/issues/50[#50], 
+https://github.com/nusCS2113-AY1819S1/forum/issues/58[#58]
+
+* Bug reported to other teams: 
+https://github.com/CS2113-AY1819S1-F09-3/main/issues/254#event-1944677222[#254],
+https://github.com/CS2113-AY1819S1-F09-3/main/issues/256#issuecomment-435553781[#256],
+https://github.com/CS2113-AY1819S1-F09-3/main/issues/258#event-1944205020[#258],
+https://github.com/CS2113-AY1819S1-F09-3/main/issues/261#event-1944698406[#261], 
+https://github.com/CS2113-AY1819S1-F09-3/main/issues/265#event-1944678415[#265],
+
+. Documentation:
+* Did cosmetic tweaks
+** Added table of content
+** Made Appendices collapsible
+** Designed and added icons image:Basic.png[16,16] image:Tutor.png[16,16] image:Admin.png[16,16] for easier identification of privilege required for commands
 
 == Contributions to the User Guide
 

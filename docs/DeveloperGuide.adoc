@@ -181,8 +181,12 @@ image::RegisterExam_Sequence_Diagram.png[width="1200"]
 // end::Exam[]
 
 // tag::privilege[]
-=== Privilege Feature
-The figure below shows the class diagram describing the implementation of the Privilege feature.
+=== Privilege/Account Feature
+The Privilege feature aims to only restrict the user's to their allowed commands, while the Account feature provides a means for the user to authenticate themselves to access more commands.
+
+---
+
+The figure below shows the class diagram describing the implementation of the Privilege/Account feature.
 [[fig-PrivilegeDiagram]]
 .Class Diagram of the Privilege Component
 image::Privilege.png[width="600"]
@@ -190,17 +194,30 @@ image::Privilege.png[width="600"]
 ==== Current Implementation
 
 * *Logic* is assigned to one *Privilege* object at all times. *Privilege* contains a *User* (specified by the *PrivilegeLevel* enum) and a *Person* (referred to as `myPerson`). +
-* *User* defines what access level the *Privilege* object have, which is implemented by *BasicUser*, *TutorUser* and *AdminUser*. +
+* The *User* interface describes the different <<privilege-level, *Privilege* level>> an user can have, which is implemented by *BasicUser*, *TutorUser* and *AdminUser*. +
 * *BasicUser* is the class with the lowest access level, and the ancestor to other 2 *User* classes. +
 * To create an increasing level of access, each *User* of a higher level inherits from the successively lower one. +
 * *User* levels have their own list of new commands they can run, which is appended to the list inherited from their parent. +
 
-* *Account* class, which contains its respective *Privilege* object as well as login details, assigns an access level to a *Person*. +
-* When switching *Privilege* levels, the *Privilege* object referred to by *Logic* will point its *User*(`user`) and *Person*(`myPerson`) to those of the desired *Privilege level*, as seen below in the Object Diagram and Sequence Diagram. +
+* *Account* class, which contains its respective *Privilege* object as well as login details, assigns an *Privilege* level to a *Person*. +
+
+An example of how `logging into an account` works:
+
+. First, the *Command* will retrieve the *Person* with the specified user name, which is gotten from *AddressBook* who receives it from *UniquePersonList*.
+. The *Command* then validates that the specified password matches the password the *Account* belonging to the retrieved person.
+. If the password is correct, the *Command* will update the *Privilege* level(`user`) and its *Person*(`myPerson`) to match that of the *Account*.
+. Finally, the *Command* retrieve the *Name* of the *Person* in a string format to be printed as part of the feedback message.
+
+Step 2 is illustrated in the Object Diagram below.
+
 
 [[fig-PrivilegeObjectDiagram]]
 .How switching Privilege is implemented (Object Diagram)
 image::PrivilegeObjectDiagram.png[width="700"]
+
+---
+
+The Sequence Diagram below gives an overview of the process involved in logging into an *Account*
 
 [[fig-LoginSequenceDiagram]]
 .Sequence Diagram for Login Command
@@ -210,63 +227,63 @@ image::Login_Sequence_Diagram.png[width="600"]
 
 ===== Aspect: How to define a privilege level of Privilege
 
-* **Alternative 1 (current choice):** Instantiate user's of the different access level. Privilege contains an enum UserType which point to each of these instantiated objects.
-** Pros: Allow us to make use of inheritance to organize the list (higher access level User's list of allowed commands will always be a superset of that of a lower access level). +
-The usage of enums also allows us to keep a reference to the created User object, which allows us to point back to these object if need be, rather than having to instantiate new ones each time.
-** Cons: Requires the use of User class to represent the different access levels
-* **Alternative 2:** Use an enum to indicate the current access level. List of allowed commands will be generated base on the value of this enum.
-** Pros: Does not require a separate class to represent the different access levels.
-** Cons: Difficult to maintain the list of allowed commands.
-* **Alternative 3:** Use a String to determine the Privilege level.
+* **Alternative 1 (current choice):** Instantiate *User* objects of the different access level. *Privilege* contains an enum *UserType* which point to each of these instantiated objects.
+** Pros: Allow us to make use of inheritance to organize the list (higher access level *User's* list of allowed *Commands* will always be a superset of that of a lower access level). +
+The usage of enums also allows us to keep a reference to the created *User* object, which allows us to point back to these object if need be, rather than having to instantiate new ones each time.
+** Cons: Requires the use of *User* class to represent the different access levels
+* **Alternative 2:** Use an enum to indicate the current access level. List of allowed *Commands* will be generated base on the value of this enum.
+** Pros: Does not require a separate class to represent the different *Privilege* levels.
+** Cons: Difficult to maintain the list of allowed *Commands*.
+* **Alternative 3:** Use a String to determine the *Privilege* level.
 ** Pros: Easy to implement and parse.
-** Cons: Very prone to undetected bugs, like misspelling the Privilege levels.
+** Cons: Very prone to undetected bugs, like misspelling the *Privilege* levels.
 
-===== Aspect: How to define the access level required by the command
+===== Aspect: How to define the required *Privilege* level of *Commands*
 
-* **Alternative 1 (current choice):** Each User holds a list of commands they can run
-** Pros: Easy to maintain the list of commands a User can run (just a Command Array).
-** Cons: Difficult to find what access level a command requires. Requires looping through the array to find the presence of the given command.
+* **Alternative 1 (current choice):** Each *User* holds a list of *Commands* they can run
+** Pros: Easy to maintain the list of available *Commands* for a given *User*.
+** Cons: Difficult to find the required *Privilege* level a *Command*, as it requires looping through the list to find the presence of the given *Command*.
 
-* **Alternative 2:** Each command knows what access level is required to run it
-** Pros: Easy to find what access level a command requires
-** Cons: Difficult to see what commands a given User can run. Difficult to organize the commands by their required access level.
+* **Alternative 2:** Each *Command* knows what access level is required to run it
+** Pros: Easy to find what access level a *Command* requires
+** Cons: Difficult to see the *Commands* available to a given *User* can run, thus making it hard to organize the *Commands* by their required access level.
 
 * **Alternative 3:** Have both 1 and 2
-** Pros: Doing both the above operation becomes easy
-** Cons: Difficult to maintain both information. Access level information is now stored in 2 separate locations and needs to be in sync
+** Pros: Doing both the above operations become easy
+** Cons: Difficult to maintain both information. The required *Privilege* level for *Commands* will be stored in 2 separate locations and needs to be in sync.
 
-===== Aspect: How to update the privilege of Logic given an Account to log into
+===== Aspect: How to update the *Privilege* of *Logic* when logging into an *Account*
 
-* **Alternative 1 (current choice):** The Privilege object attached to Logic will copy the User and the Person attached to the given Account object, into its own user and myPerson respectively.
-** Pros: Does not require the Command to interact with Logic, thus reducing coupling.
+* **Alternative 1 (current choice):** The *Privilege* object attached to *Logic* will copy the *User* and the *Person* attached to the given *Account* object, into its own variables.
+** Pros: Does not require the *Command* to interact with *Logic*, thus reducing coupling.
 ** Cons: A bit more awkward solution than the Alternative 2
-* **Alternative 2:** Change Logic to point to the new Privilege object inside of Account.
+* **Alternative 2:** Make *Logic's* variable to point to the new *Privilege* object inside of Account.
 ** Pros: Quick to implement.
-** Cons: a Higher level of coupling compared to Alternative 1. Also, would require storing or instantiating a default Privilege and making Logic point to this new object if Logout Command were to be called.
+** Cons: Has a higher level of coupling compared to Alternative 1. Also, would require storing or instantiating a default *Privilege* object and making *Logic* point to this new object if *Logout Command* were to be called.
 
-===== Aspect: Default required access levels for commands
+===== Aspect: Default required access levels for *Commands*
 
-* **Alternative 1 (current choice):** Access level is set to Admin by default
-** Pros: If a developer forgets to give access level to a Command, it will to still be functional.
-** Cons: May mask the fact that the Command has the unintended access level of Admin.
+* **Alternative 1 (current choice):** Required *Privilege* level is set to Admin by default
+** Pros: If a developer forgets to assign a required *Privilege* level to a *Command*, it will to still be functional.
+** Cons: May mask the fact that the *Command* has the unintended access level of Admin, which is a minor drawback.
 
-* **Alternative 2:** Enforce all Commands to be assigned an access level
-** Pros: Forces developers to be deliberate with their access level assigned to commands
-** Cons: Program will fail to integrate if any of the developers forgot to assign an access level to their newly developed commands.
+* **Alternative 2:** Enforce all *Commands* to be assigned an access level
+** Pros: Forces developers to be deliberate with their access level assigned to *Commands*.
+** Cons: Program will fail to integrate if any of the developers forgot to assign an access level to their newly developed *Command*.
 
 ===== Aspect: Who throws InsufficientPrivilege Exception
 
-* **Alternative 1 (current choice):** Logic throws the Exception
+* **Alternative 1 (current choice):** *Logic* throws the Exception
 ** Pros: It is a common starting point of commands, so it is easy to implement it to throw the Exception
-** Cons: Blurs the responsibility of commands being the one throwing the Exception
+** Cons: Blurs the responsibility of *Commands* being the one throwing Exceptions
 
-* **Alternative 2:** Each Command checks the Privilege level during execute()
-** Pros: Keeps to the responsibility of Commands being the one to throw the Exception when they are being executed
-** Cons: Requires backdating all the commands to include this function in their execute(). Also prone to errors as a developer may forget to call this function in their execute() of their newly developed Commands.
+* **Alternative 2:** Each *Command* checks the *Privilege* level during execute()
+** Pros: Keeps to the responsibility of *Commands* being the one to throw the Exception.
+** Cons: Requires backdating all *Commands* to include this function in their execute(). Also prone to errors as a developer may forget to call this function in their execute() of their newly developed *Command*.
 
-* **Alternative 3:** Have a function that checks the Privilege level in parent Command that is called during execute()
-** Pros: Same as 2.
-** Cons: Same as 2, but instead of using individual functions, we are repeatedly using the inherited function instead
+* **Alternative 3:** Have a function that checks the *Privilege* level in parent command that is called during execute()
+** Pros: Same as **Alternative 2**.
+** Cons: Same as **Alternative 2**, but instead of using individual functions, we are repeatedly using the inherited function instead
 // end::privilege[]
 
 // tag::Grades[]
@@ -359,12 +376,22 @@ image::Assessment_Seq_Diagram.png[width="800"]
 
 // tag::Fees[]
 === Fees Feature
+[[fig-FeesDiagram]]
+.Class Diagram of Fees
+image::FeesClassDiag.png[width="800"]
+
+Fees are an additional field to every `Person` object:
+
+. Each Person will have a Fees object
+. Fees contain both a String value as well as a String duedate
+. Users can thus check the Fees of a particular person, or list out all the fees of the Persons in the address book
 
 ==== Current Implementation
-A private attribute under the Person class is initialised when a Person is added to the AddressBook. This attribute holds 2 Strings, one being the monetary value of
-the fee and the other being the due date for the respective fee. The current set of commands include:
+An attribute under the Person class is initialised when a Person is added to the AddressBook. This attribute holds 2 Strings, one being the monetary value of
+the fee and the other being the duedate for that respective fee. The current set of commands include:
 
 . `Editing a Fee`
+. `Paying a Fee in full`
 . `Viewing Fee of a Person`
 . `Listing all Fees`
 . `Listing all Due Fees`
@@ -374,6 +401,12 @@ An Example of how command 1 - `Editing the Fee of a Person` works:
 . The admin will be able to use the 'editfees' command to add a new fee to the Person.
 . The existing fee with its date will be replaced by this new value in the Person object in the AddressBook.
 . The updated fees will then be store in the AddressBook and will be automatically private, only viewable by the admin and tutors.
+
+This is shown in the diagram below.
+
+[[fig-EditFeesSequenceDiagram]]
+.Sequence Diagram of EditFeesCommand
+image::EditFeesSequenceDiag.png[width="800"]
 
 ==== Design Considerations
 
@@ -387,6 +420,14 @@ An Example of how command 1 - `Editing the Fee of a Person` works:
 * **Alternative 3:** A compulsory attribute under Person Class hence occupying a data field in the input for AddPersonCommand.
 ** Pros: Easy to implement and parse.
 ** Cons: Input for Add Command would be too long as it will have too many data entry points.
+
+===== Aspect: Paying a fee for a Person
+* **Alternative 1 (current choice):** Separate command for Admin to indicate a Person to have paid fees fully.
+** Pros: Convenient for admins to control Fees data of each Person. +
+** Cons: May seem redundant for 2 Commands to change the attributes of Fees.
+* **Alternative 2:** Using EditFeesCommand to indicate the payment of Fees when edited back to 0 value.
+** Pros: Lesser commands in the Fees feature, therefore lesser clutter.
+** Cons: Counter intuitive as Admin would have to manually edit values to be "0.00".
 
 ===== Aspect: How to List fees of everyone
 * **Alternative 1 (current choice):** Shallow copies the internalList of ReadOnlyPerson, sorts the copy with a custom comparator and prints the list,
@@ -715,7 +756,7 @@ Click to Expand
 === Use case: Add person
 [discrete]
 ==== Actors: Tutor, Admin
-*MSS*
+<<mss, *MSS*>> 
 
 1. User requests to add person.
 2. ClassRepo requests the details of the person to add.
@@ -741,7 +782,7 @@ Use case ends.
 ==== System: AdressBook, ExamBook
 [discrete]
 ==== Actors: Tutor, Admin
-*MSS*
+<<mss, *MSS*>> 
 
 1.  User requests to list persons.
 2.  ClassRepo shows a list of persons.
@@ -769,7 +810,7 @@ Use case resumes at step 2.
 ==== System: ExamBook
 [discrete]
 ==== Actor: Tutor, Admin
-*MSS*
+<<mss, *MSS*>> 
 
 1. User requests to add exam.
 2. ClassRepo requests the details of the exam to add.
@@ -795,7 +836,7 @@ Use case ends.
 ==== System: AdressBook, ExamBook
 [discrete]
 ==== Actor: Tutor, Admin
-*MSS*
+<<mss, *MSS*>> 
 
 1.  User requests to list exams.
 2.  ClassRepo shows a list of exams.
@@ -821,7 +862,7 @@ Use case resumes at step 2.
 ==== System: AdressBook, ExamBook
 [discrete]
 ==== Actor: Tutor, Admin
-*MSS*
+<<mss, *MSS*>> 
 
 1.  User requests to list exams.
 2.  ClassRepo shows a list of exams.
@@ -857,7 +898,8 @@ Use case resumes at step 2.
 ==== System: AdressBook, ExamBook
 [discrete]
 ==== Actor: Tutor, Admin
-*MSS*
+<<mss, *MSS*>> 
+
 
 1.  User requests to list exams.
 2.  ClassRepo shows a list of exams.
@@ -894,7 +936,7 @@ Use case resumes at step 4.
 ==== System: AdressBook, ExamBook
 [discrete]
 ==== Actor: Tutor, Admin
-*MSS*
+<<mss, *MSS*>> 
 
 1.  User requests to list exams.
 2.  ClassRepo shows a list of exams.
@@ -931,7 +973,7 @@ Use case resumes at step 4.
 ==== System: ExamBook
 [discrete]
 ==== Actor: Tutor, Admin
-*MSS*
+<<mss, *MSS*>> 
 
 1.  User requests to list exams.
 2.  ClassRepo shows a list of exams.
@@ -948,7 +990,7 @@ Use case ends.
 [discrete]
 === Use case: View a person's exams
 
-*MSS*
+<<mss, *MSS*>> 
 
 1.  User requests to list persons.
 2.  ClassRepo shows a list of persons.
@@ -979,7 +1021,7 @@ Use case ends.
 [discrete]
 === Use case: View the user's own details
 
-*MSS*
+<<mss, *MSS*>> 
 
 1.  User requests to view his own details
 2.  ClassRepo shows the details of the person associated with the logged-in account
@@ -995,7 +1037,7 @@ Use case ends.
 
 [discrete]
 === Use case: Raise privilege to Admin
-*MSS*
+<<mss, *MSS*>> 
 
 1. User requests to increase his privilege
 2. ClassRepo requests authentication password
@@ -1019,7 +1061,7 @@ Use case ends
 === Use case: Change master password
 [discrete]
 ==== Actor: Admin
-*MSS*
+<<mss, *MSS*>> 
 
 1. User requests to change the master password
 2. ClassRepo requests the current password
@@ -1045,7 +1087,7 @@ User case resumes from step 4
 === Use case: Add account to a person
 [discrete]
 ==== Actor: Admin
-*MSS*
+<<mss, *MSS*>> 
 
 1.  User requests to list persons
 2.  AddressBook shows a list of persons
@@ -1087,7 +1129,7 @@ Use case resumes at step 2.
 [discrete]
 ==== Actor: Admin
 
-*MSS*
+<<mss, *MSS*>> 
 
 1.  User requests to list persons
 2.  AddressBook shows a list of persons
@@ -1120,7 +1162,7 @@ Use case resumes at step 2.
 [discrete]
 === Use case: Login to an account
 
-*MSS*
+<<mss, *MSS*>> 
 
 1.  User requests to log in
 2.  AddressBook requests username and password
@@ -1156,7 +1198,7 @@ Use case ends.
 [discrete]
 === Use case: Logout of an account
 
-*MSS*
+<<mss, *MSS*>> 
 
 1.  User requests to log out
 2.  ClassRepo logs the user out of his account
@@ -1176,7 +1218,7 @@ Use case ends.
 [discrete]
 === Use case: View your current privilege
 
-*MSS*
+<<mss, *MSS*>> 
 
 1.  User requests to view his privilege
 2.  ClassRepo shows the privilege level and the account the user is logged in as
@@ -1208,7 +1250,10 @@ A contact detail that is not meant to be shared with others
 [[private-exam]] Private exam::
 An exam with details that are not meant to be released to the students yet
 
-Main Success Scenario::
+[[privilege-level]] Privilege Level::
+Describes the authority of the current user. Interchangable with the term "access level"
+
+[[mss]] Main Success Scenario::
 The Main Success Scenario (MSS) describes the most straightforward interaction for a given use case, which assumes that nothing goes wrong.
 
 [appendix]
@@ -1278,5 +1323,13 @@ These instructions only provide a starting point for testers to work on; testers
    Expected: Similar to previous.      
 
 . _{explain how to simulate a missing/corrupted file and the expected behaviour}_
+
+_{ more test cases ... }_
+
+=== Instructions for Manual Testing
+
+. Dealing with missing/corrupted data files
+
+.. _{explain how to simulate a missing/corrupted file and the expected behaviour}_
 
 _{ more test cases ... }_

@@ -4,6 +4,8 @@
 :imagesDir: images
 :stylesDir: stylesheets
 
+image:https://www.comp.nus.edu.sg/templates/t3_nus2015/images/assets/logos/logo.png[NUS-SOC,644,115]
+
 We are a team based in the http://www.comp.nus.edu.sg[School of Computing, National University of Singapore].
 This project was done for our CS2113T module during AY1819-S1 and our group number is F10-1.
 
@@ -15,7 +17,7 @@ image::0wn463.png[width="150", align="left"]
 
 Role: Team Lead +
 Responsibilities: Managing Pull Requests +
-Feature: Privilege
+Feature: Privilege and Account
 
 '''
 

@@ -13,6 +13,9 @@ endif::[]
 :repoURL: https://github.com/CS2113-AY1819S1-F10-1/main
 
 == Introduction
+
+image::Banner.png[450,290]
+
 ClassRepo is targeted at secondary school users who *prefer to use a desktop app for managing all their school related
 information*.
 ClassRepo is *optimized for those who prefer to work with a Command Line Interface* (CLI). +
@@ -322,7 +325,7 @@ Example(s):
 Logs out of the current account, provided there is privilege or account to relinquish.
 
 ==== Displays the list of people with account: `listacc` image:Basic.png[16,16]
-Shows a list of all persons with an account in the address book. +
+Shows a list of all persons with an account in the address book, showing only names and user type. +
 Format: `listacc`
 // end::account[]
 
@@ -491,6 +494,23 @@ Example(s):
 * `list` +
 `editfees 2 0.60 01-01-2019`
 
+==== Removing the fees of a person: `paidfees` image:Admin.png[16,16]
+
+Removes the fees from a person, once he/she has paid in full, in the address book. +
+Format: `paidfees INDEX` +
+
+****
+Words in `UPPER_CASE` are the parameters.
+The INDEX refers to the index number shown in the most recent person listing.
+****
+
+Example(s):
+
+* `list` +
+`paidfees 2` +
+Fees of the 2nd person in the address book are now fully paid.
+
+
 ==== View fees of a person : `viewfees` image:Tutor.png[16,16]
 
 Displays the fees(private) of the specified person. +
@@ -498,7 +518,7 @@ Format: `viewfees INDEX`
 
 ****
 Views the fees of the person at the specified `INDEX`.
-The index refers to the index number shown in the most recent person listing.
+The INDEX refers to the index number shown in the most recent person listing.
 ****
 
 Example(s):
@@ -834,5 +854,5 @@ Refer to `log.txt` to find the underlying error. +
 a data saving operation. ClassRepo shuts itself down to ensure synchronisation of AppData and storage data. +
 *Solution*: Ensure that the data files are not set as read-only. 
 
-== Known Bugs
-1. ClassRepo ASCII art may be incorrectly formatted on OS's such as Mac.
+== Known Issues
+1. ClassRepo ASCII art may be formatted wrongly on OS's such as Mac.
