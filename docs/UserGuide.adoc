@@ -16,7 +16,7 @@ endif::[]
 
 image::Banner.png[450,290]
 
-ClassRepo is targeted at secondary school users who *prefer to use a desktop app for managing all their school related
+ClassRepo is targeted at secondary school users who *prefer to use a desktop app for managing all their school-related
 information*.
 ClassRepo is *optimized for those who prefer to work with a Command Line Interface* (CLI). +
 
@@ -139,8 +139,8 @@ Format: `add NAME [p]p/PHONE_NUMBER [p]e/EMAIL [p]a/ADDRESS [t/TAG]...`
 
 ****
 Words in `UPPER_CASE` are the parameters, items in `SQUARE_BRACKETS` are optional,
-items with `...` after them can have multiple instances. Order of parameters are fixed. +
-Put a `p` before the phone / email / address prefixes to mark it as `private`. `private` details can only
+items with `...` after them can have multiple instances. Order of parameters is fixed. +
+Put a `p` before the phone/ email/address prefixes to mark it as `private`. `private` details can only
 be seen using the `viewall` command. +
 Persons can have any number of tags (including 0).
 ****
@@ -165,7 +165,7 @@ Format: `list`
 [[listall]]
 ==== Listing all persons (detailed view) : `listall` image:Tutor.png[16,16]
 Displays all persons (showing all non-private details) in the address book as a list with index numbers. +
-Format: `listall` 
+Format: `listall`
 
 ==== Finding all persons containing any keyword in their name: `find` image:Basic.png[16,16]
 
@@ -279,7 +279,7 @@ Example(s):
 
 * `list`  +
 `addacc 1 JohnDoe1337 P455W0RD Admin` +
-Adds an account with the username of `JohnDoe1337`, password of `P455W0RD` and privilege level of `Admin` 
+Adds an account with the username of `JohnDoe1337`, password of `P455W0RD` and privilege level of `Admin`
 to the first person in the list.
 
 ==== Delete the account of a person: `delacc` image:Admin.png[16,16]
@@ -339,7 +339,7 @@ Adds an exam to the exam book, with the number of takers initialised as `0`. +
 Format: `addexam [p]e/EXAM_NAME s/SUBJECT_NAME d/EXAM_DATE st/EXAM_START_TIME et/EXAM_END_TIME dt/EXAM_DETAILS`
 
 ****
-Words in `UPPER_CASE` are the parameters, items in `SQUARE_BRACKETS` are optional. Order of parameters are fixed. +
+Words in `UPPER_CASE` are the parameters, items in `SQUARE_BRACKETS` are optional. Order of parameters is fixed. +
 Put a `p` before the exam name prefix to mark the exam as `private`.
 ****
 
@@ -371,7 +371,7 @@ Format: `editexam INDEX [p/PRIVATE_STATUS] [e/EXAM_NAME] [s/SUBJECT_NAME] [d/EXA
 ****
 Edits the exam at the specified `INDEX`.
 The index refers to the index number shown in the most recent exams listing.
-Words in `UPPER_CASE` are the parameters, items in `SQUARE_BRACKETS` are optional. Order of parameters are fixed. At least 1 item in `SQUARE_BRACKETS` must be present.
+Words in `UPPER_CASE` are the parameters, items in `SQUARE_BRACKETS` are optional. Order of parameters is fixed. At least 1 item in `SQUARE_BRACKETS` must be present.
 ****
 
 [NOTE]
@@ -436,7 +436,7 @@ Deregisters the 2nd person in the address book for the 2nd exam in the exam book
 
 ==== Viewing exams : `viewexams` image:Basic.png[16,16]
 
-View the exams for a specificied person in the address book. +
+View the exams for a specified person in the address book. +
 Format: `viewexams INDEX`
 
 ****
@@ -447,7 +447,7 @@ The index refers to the index number shown in the most recent persons listing.
 [NOTE]
 =====
 This command will work for all `INDEX` only when the user is of `Tutor` and `Admin` privileges. +
-If the user has `no` privileges, the user `must` be logged into an account and can execute the command to view `only` his own `non-private exams`.   
+If the user has `no` privileges, the user `must` be logged into an account and can execute the command to view `only` his own `non-private exams`.
 =====
 
 Example(s):
@@ -481,7 +481,7 @@ FEE must have the form of 2 decimal places +
 DUE_DATE must have the form of DD-MM-YYYY
 
 ****
-Words in `UPPER_CASE` are the parameters, the order of parameters are fixed.
+Words in `UPPER_CASE` are the parameters, the order of parameters is fixed.
 
 Fees are automatically marked as `private`. `private` details can only
 be seen using the `viewall` command, or for fees specifically, the `viewfees` command.
@@ -599,7 +599,7 @@ The index refers to the index number shown in the most recent assessments listin
 
 Example(s):
 
-* `listassess` + 
+* `listassess` +
 `deleteassess 1`
 
 ==== Adding grades to a person : `addgrades` image:Tutor.png[16,16]
@@ -612,7 +612,7 @@ Words in `UPPER_CASE` are the parameters. There are three parameters for this co
 or student, index of the appropriate assessment and the grades themselves. +
 1. Grades are numeric +
 2. Grade values can only be positive integers (>= 0) +
-3. No restriction on upper limit! It is up to the teacher to decide what the total marks are. +
+3. No restriction on the upper limit! It is up to the teacher to decide what the total marks are. +
 4. In case of any mistake in the entry or necessity to update grade, you can overwrite a previously entered value by
 simply using the same function again! +
 `addgrades PERSON_INDEX ASSESSMENT_INDEX UPDATED_GRADES`
@@ -668,7 +668,7 @@ Example(s):
 `listassess` -- Check the updated list +
 Deletes the grades corresponding to the 2nd assessment in the address book for the student at index 1 in the address book. +
 *IMPORTANT NOTE*: This does not delete grades for the second assessment as per the listing in view grades command, rather
-for the assessment in second index as seen in list assess command.
+for the assessment in the second index as seen in list assess command.
 
 ==== Adding a statistic : `addstatistics` image:Tutor.png[16,16]
 
@@ -708,7 +708,7 @@ Format: `liststatistics`
 [NOTE]
 ====
 If you delete an assessment after generating its statistics, this statistic will still remain in the statistics book. This
-is to ensure that the school can maintain a record of all its statistics over time, if needed, even though the assessment
+is to ensure that the school can maintain a record of all its statistics over time if needed, even though the assessment
 may have ended and the grades are awarded to students. It is up to the school to decide how long they want to store their
 statistics for.
 ====
@@ -731,7 +731,7 @@ Example(s):
 // tag::attendance[]
 === Attendance Commands
 
-Below are the commands that deals with attendance data:
+Below are the commands that deal with attendance data:
 
 ==== Updates the attendance of a person: `attendance` image:Tutor.png[16,16]
 Updates the attendance of the target person. +
