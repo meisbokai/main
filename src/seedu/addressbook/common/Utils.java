@@ -5,13 +5,17 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import seedu.addressbook.data.person.Person;
 
 /**
  * Utility methods
  */
 public class Utils {
+    private static final String DATE_PATTERN = "dd-MM-yyyy";
 
     /**
      * Checks whether any of the given items are null.
@@ -54,8 +58,7 @@ public class Utils {
      */
     public static boolean isValidDate(String value) {
         boolean isValid;
-        final String format = "dd-MM-yyyy";
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_PATTERN);
         try {
             String parsedDate = LocalDate.parse(value, formatter).format(formatter);
             isValid = value.equals(parsedDate);
@@ -63,5 +66,42 @@ public class Utils {
             isValid = false;
         }
         return isValid;
+    }
+
+    /**
+     * Custom comparator for Date string in Fees in the form of DD-MM-YYYY
+     * Allows for sorting of Person's list according to YYYYMMDD of Fees section.
+     */
+    public static class FeesComparator implements Comparator<Person> {
+        @Override
+        public int compare(Person p1, Person p2) {
+            String person1 = convertToValidDateStringUser(p1.getFees().duedate);
+            String person2 = convertToValidDateStringUser(p2.getFees().duedate);
+            return person1.compareTo
+                    (person2);
+        }
+    }
+
+    /**
+     * Date Converter to use for comparisons during Fees command
+     * Such as sorting and if dates have passed relative to User's current date.
+     */
+    public static String convertToValidDateStringUser (String value) {
+        StringBuilder result = new StringBuilder();
+        result.append(value.substring(6, 10));
+        result.append(value.substring(3, 5));
+        result.append(value.substring(0, 2));
+        return result.toString();
+    }
+
+    /**
+     * Date Converter for system date to String for comparison
+     */
+    public static String convertToValidDateStringSystem (String value) {
+        StringBuilder result = new StringBuilder();
+        result.append(value.substring(0, 4));
+        result.append(value.substring(5, 7));
+        result.append(value.substring(9, 10));
+        return result.toString();
     }
 }

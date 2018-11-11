@@ -45,6 +45,7 @@ public class AdaptedPerson {
 
     @XmlElement
     private List<AdaptedTag> tagged = new ArrayList<>();
+
     @XmlElement
     private AdaptedAccount account;
 
@@ -156,6 +157,7 @@ public class AdaptedPerson {
             for (AdaptedExam exam : exams) {
                 examList.add(exam.toModelType());
             }
+
             final Name name = new Name(this.name);
             final Phone phone = new Phone(this.phone.value, this.phone.isPrivate);
             final Email email = new Email(this.email.value, this.email.isPrivate);

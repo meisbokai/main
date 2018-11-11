@@ -139,7 +139,6 @@ public class Privilege {
     }
 
     public String getRequiredPrivilegeAsString(Command command) {
-        // TODO Fix this potato code
         String requiredPrivilege = "PRIVILEGE NOT FOUND";
         for (PrivilegeLevels p : PrivilegeLevels.values()) {
             if (p.getUserType().isAllowedCommand(command)) {

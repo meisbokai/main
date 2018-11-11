@@ -8,9 +8,14 @@
 [discrete]
 == PROJECT: ClassRepo
 
-== Overview
+== Introduction
 
-ClassRepo is a desktop address book application written in Java that targets secondary schools for usage by their students, tutors and staff. The user interacts with it using a CLI, and it has a very basic GUI. This portfolio is meant to document the contributions that I made to the project.
+The purpose of this portfolio is to document the specific contributions I have made to this project. The project was carried out over the course of one semester in the National University of Singapore(NUS), under the module CS2113T, which aims to teach Software Engineering principles and Object-Oriented Programming. ClassRepo was done by a team of 5 including myself.
+
+== Project Overview
+
+ClassRepo is a desktop address book application written in Java that targets secondary schools for usage by their students, tutors and admins. It serves to integrate all the functionalities that the user would need in their seconday school lives and/or school operations.
+The user interacts with it using a CLI, and it has a very basic GUI. It is an enhanced version of the AddressBook Level-3 application by the sed-edu team.
 
 == Role
 
@@ -18,24 +23,27 @@ I served as the project’s bug tester, to ensure that each feature added will b
 
 == Summary of contributions
 
-* *Major enhancement*: added the *Exams feature*
+* *Code contributed*: https://nuscs2113-ay1819s1.github.io/dashboard/#=undefined&search=micklwl[here]
+
+* *Main feature implemented*: added the *Exams feature*
 ** What it does: allows staff to create and manage exams held in the school, as well as registering students for them. 
-** Justification: This feature improves the product significantly because exams would be present in every school and it would be valuable for the staff to manage them in a single application. Students would be able to benefit as they can check their exam schedules without the need to ask others or record them separately.
-** Highlights: This enhancement affects existing commands and commands to be added in future. It required an in-depth analysis of design alternatives. The implementation too was challenging as it required changes to existing commands.
-** Credits: https://stackoverflow.com/a/30578421[Victor Hernandez] for the base valid date checker method
+** Justification: This feature improves the product significantly because exams would be present in every school and it would be valuable for the school tutors and admins to manage them in a single application. Students would be able to benefit as they can check their exam schedules without the need to ask others or record them separately.
+** Highlights: This enhancement affects existing commands, data structures and commands to be added in future. It required an in-depth analysis of design alternatives. The implementation too was challenging as it required changes to existing commands and data structures. This is because a single exam object is closely related to the whole AddressBook.
+** Credits: https://stackoverflow.com/a/30578421[Victor Hernandez] for the base valid date checker method.
 
 * *Other contributions*:
 
-** Project management:
-*** Set up milestones for own feature development on GitHub
+** Contributions to project management:
+*** Helped to manage issues posted in GitHub
 ** Enhancements to existing features:
-*** Wrote additional tests for existing features to increase coverage from x% to y% (Coming Soon)
-*** Split test code to different folders for better organisation : Coming soon
-** Documentation:
-*** Adapted original Developer Guide to suit our product: https://github.com/CS2113-AY1819S1-F10-1/main/pull/156[#156]
+*** Split test code to different folders for better organisation: https://github.com/CS2113-AY1819S1-F10-1/main/pull/205[#205]
+** Contributions to project documentation:
+*** Helped to port over and adapted AddressBook - Level 4 documents to ensure working links for website: https://github.com/CS2113-AY1819S1-F10-1/main/pull/156[#156], https://github.com/CS2113-AY1819S1-F10-1/main/pull/206[#206]
 *** Standardised format for documentation: https://github.com/CS2113-AY1819S1-F10-1/main/pull/184[#184]
-** Community:
+** Evidence of helping others:
 *** PRs reviewed (with non-trivial review comments): https://github.com/CS2113-AY1819S1-F10-1/main/pull/68[#68]
+*** Manually tested all features in my team's application and reported any issues: https://github.com/CS2113-AY1819S1-F10-1/main/issues/161[#161], https://github.com/CS2113-AY1819S1-F10-1/main/issues/173[#173]
+*** Manually tested other teams' applications and reported any issues: https://github.com/CS2113-AY1819S1-T16-4/main/issues/192[#192], https://github.com/CS2113-AY1819S1-T16-4/main/issues/197[#197]  
 
 == Contributions to the User Guide
 

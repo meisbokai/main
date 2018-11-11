@@ -13,7 +13,11 @@ endif::[]
 :repoURL: https://github.com/CS2113-AY1819S1-F10-1/main
 
 == Introduction
-ClassRepo is targeted at secondary school users who *prefer to use a desktop app for managing their school details*.
+
+image::Banner.png[450,290]
+
+ClassRepo is targeted at secondary school users who *prefer to use a desktop app for managing all their school related
+information*.
 ClassRepo is *optimized for those who prefer to work with a Command Line Interface* (CLI). +
 
 Interested? Jump to the <<Quick Start>> to get started. Enjoy!
@@ -135,11 +139,9 @@ Format: `add NAME [p]p/PHONE_NUMBER [p]e/EMAIL [p]a/ADDRESS [t/TAG]...`
 
 ****
 Words in `UPPER_CASE` are the parameters, items in `SQUARE_BRACKETS` are optional,
-items with `...` after them can have multiple instances. Order of parameters are fixed.
-
+items with `...` after them can have multiple instances. Order of parameters are fixed. +
 Put a `p` before the phone / email / address prefixes to mark it as `private`. `private` details can only
-be seen using the `viewall` command.
-
+be seen using the `viewall` command. +
 Persons can have any number of tags (including 0).
 ****
 
@@ -323,7 +325,7 @@ Example(s):
 Logs out of the current account, provided there is privilege or account to relinquish.
 
 ==== Displays the list of people with account: `listacc` image:Basic.png[16,16]
-Shows a list of all persons with an account in the address book. +
+Shows a list of all persons with an account in the address book, showing only names and user type. +
 Format: `listacc`
 // end::account[]
 
@@ -333,12 +335,11 @@ Below are the commands that deals with exam data:
 
 ==== Adding an exam : `addexam` image:Tutor.png[16,16]
 
-Adds an exam to the exam book. +
+Adds an exam to the exam book, with the number of takers initialised as `0`. +
 Format: `addexam [p]e/EXAM_NAME s/SUBJECT_NAME d/EXAM_DATE st/EXAM_START_TIME et/EXAM_END_TIME dt/EXAM_DETAILS`
 
 ****
-Words in `UPPER_CASE` are the parameters, items in `SQUARE_BRACKETS` are optional. Order of parameters are fixed.
-
+Words in `UPPER_CASE` are the parameters, items in `SQUARE_BRACKETS` are optional. Order of parameters are fixed. +
 Put a `p` before the exam name prefix to mark the exam as `private`.
 ****
 
@@ -368,6 +369,8 @@ Edits the specified exam from the exam book. Persons registered for the correspo
 Format: `editexam INDEX [p/PRIVATE_STATUS] [e/EXAM_NAME] [s/SUBJECT_NAME] [d/EXAM_DATE] [st/EXAM_START_TIME] [et/EXAM_END_TIME] [dt/EXAM_DETAILS]`
 
 ****
+Edits the exam at the specified `INDEX`.
+The index refers to the index number shown in the most recent exams listing.
 Words in `UPPER_CASE` are the parameters, items in `SQUARE_BRACKETS` are optional. Order of parameters are fixed. At least 1 item in `SQUARE_BRACKETS` must be present.
 ****
 
@@ -395,7 +398,7 @@ Registers a specified person for a specified exam. +
 Format: `regexam PERSON_INDEX EXAM_INDEX`
 
 ****
-Registers a specified person for a specified exam.
+Registers the person at the specified `PERSON_INDEX` for the exam at the specified `EXAM_INDEX`.
 The `PERSON_INDEX` refers to the index number shown in the most recent persons listing.
 The `EXAM_INDEX` refers to the index number shown in the most recent exams listing.
 ****
@@ -403,7 +406,7 @@ The `EXAM_INDEX` refers to the index number shown in the most recent exams listi
 [NOTE]
 =====
 Changes to an exam in the exam book will change the corresponding exam for all persons registered under it, be it an 'edit' or a 'delete'.
-Exams registered for a person will not be shown in the `list` command and only viewable under the `viewall` and `viewexams` command.
+Exams registered for a person will not be shown in the `list` command and only viewable under the `viewall`, `viewself` and `viewexams` command.
 =====
 
 Example(s):
@@ -419,6 +422,7 @@ Deregister a specified person for a specified exam. +
 Format: `deregexam PERSON_INDEX EXAM_INDEX`
 
 ****
+Deregisters the person at the specified `PERSON_INDEX` for the exam at the specified `EXAM_INDEX`.
 The `PERSON_INDEX` refers to the index number shown in the most recent persons listing.
 The `EXAM_INDEX` refers to the index number shown in the most recent exams listing.
 ****
@@ -432,19 +436,31 @@ Deregisters the 2nd person in the address book for the 2nd exam in the exam book
 
 ==== Viewing exams : `viewexams` image:Basic.png[16,16]
 
-View the non-private exams for a person at the specified `INDEX`. +
+View the exams for a specificied person in the address book. +
 Format: `viewexams INDEX`
 
 ****
-Views the non-private exams of the person at the specified `INDEX`.
+Views the exams of the person at the specified `INDEX`.
 The index refers to the index number shown in the most recent persons listing.
 ****
 
+[NOTE]
+=====
+This command will work for all `INDEX` only when the user is of `Tutor` and `Admin` privileges. +
+If the user has `no` privileges, the user `must` be logged into an account and can execute the command to view `only` his own `non-private exams`.   
+=====
+
 Example(s):
 
-* `list` +
+* `login user pw` +
+`list` +
 `viewexams 1` +
-Views the non-private exams of the 1st person in the address book.
+Views the non-private exams of the 1st person in the address book, *if the logged-account belongs to him/her*.
+
+* `login admin admin` +
+`list` +
+`viewexams 1` +
+Views the exams of the 1st person in the address book, *if the logged-account belongs to a tutor/admin*.
 
 ==== Clearing all entries : `clearexams` image:Tutor.png[16,16]
 
@@ -478,6 +494,23 @@ Example(s):
 * `list` +
 `editfees 2 0.60 01-01-2019`
 
+==== Removing the fees of a person: `paidfees` image:Admin.png[16,16]
+
+Removes the fees from a person, once he/she has paid in full, in the address book. +
+Format: `paidfees INDEX` +
+
+****
+Words in `UPPER_CASE` are the parameters.
+The INDEX refers to the index number shown in the most recent person listing.
+****
+
+Example(s):
+
+* `list` +
+`paidfees 2` +
+Fees of the 2nd person in the address book are now fully paid.
+
+
 ==== View fees of a person : `viewfees` image:Tutor.png[16,16]
 
 Displays the fees(private) of the specified person. +
@@ -485,7 +518,7 @@ Format: `viewfees INDEX`
 
 ****
 Views the fees of the person at the specified `INDEX`.
-The index refers to the index number shown in the most recent person listing.
+The INDEX refers to the index number shown in the most recent person listing.
 ****
 
 Example(s):
@@ -577,7 +610,12 @@ Format: `addgrades PERSON_INDEX ASSESSMENT_INDEX GRADES`
 ****
 Words in `UPPER_CASE` are the parameters. There are three parameters for this command, which are the index of the person
 or student, index of the appropriate assessment and the grades themselves. +
-Grades are numeric. No restriction on upper limit! It is up to the teacher to decide what the total marks are.
+1. Grades are numeric +
+2. Grade values can only be positive integers (>= 0) +
+3. No restriction on upper limit! It is up to the teacher to decide what the total marks are. +
+4. In case of any mistake in the entry or necessity to update grade, you can overwrite a previously entered value by
+simply using the same function again! +
+`addgrades PERSON_INDEX ASSESSMENT_INDEX UPDATED_GRADES`
 ****
 
 [NOTE]
@@ -592,8 +630,6 @@ Example(s):
 `listassess` +
 `addgrades 1 1 89` +
 
-- Restriction in v1.3: The grades can only be 'int' values, not 'float'
-
 ==== Viewing grades of a person : `viewgrades` image:Tutor.png[16,16]
 
 View the grades for all assessments of a selected student/person. +
@@ -601,7 +637,8 @@ Format: `viewgrades PERSON_INDEX`
 
 ****
 Words in `UPPER_CASE` are the parameters. There is only one parameter for this command, which is the index of the person
-or student whose grades you want to view.
+or student whose grades you want to view. This is based on the index number shown in the most recent person listing. +
+Using `list` command
 ****
 
 Example(s):
@@ -614,7 +651,7 @@ Deletes the specified assessment and respective grades of a student. It is irrev
 Format: `deletegrades PERSON_INDEX ASSESSMENT_INDEX`
 
 ****
-Deletes respective grades for the specified `PERSON_INDEX` for the respective assessment at the specified `ASSESSMENT_INDEX`.
+Deletes grades for the specified `PERSON_INDEX` and their respective assessment at the specified `ASSESSMENT_INDEX`.
 The index refers to the index number shown in the most recent person and assessments listing respectively.
 ****
 
@@ -632,6 +669,63 @@ Example(s):
 Deletes the grades corresponding to the 2nd assessment in the address book for the student at index 1 in the address book. +
 *IMPORTANT NOTE*: This does not delete grades for the second assessment as per the listing in view grades command, rather
 for the assessment in second index as seen in list assess command.
+
+==== Adding a statistic : `addstatistics` image:Tutor.png[16,16]
+
+Adds a statistic to the statistics book. +
+Format: `addstatistics ASSESSMENT_INDEX`
+
+****
+Words in `UPPER_CASE` are the parameters. There is only one parameter for this command which is the assessment index as
+shown in the most recent assessments listing. +
+
+This command automatically calculates and adds statistics for a given assessment based on all the grades or scores
+previously entered to students for that particular assessment. These statistics include: +
+1. Average Score +
+2. Total Number of Exam Takers +
+3. Maximum Score +
+4. Minimum Score +
+
+****
+
+Example(s):
+
+* `listassess`
+* `addstatistics 1` +
+
+
+[NOTE]
+====
+If you change/ update grades after already generating a statistic, you must delete that statistic and re-add it to the
+statistics book to ensure that it is up to date.
+====
+
+==== Listing all statistics : `liststatistics` image:Tutor.png[16,16]
+
+Shows a list of all statistics in the statistics book, along with an index for each +
+Format: `liststatistics`
+
+[NOTE]
+====
+If you delete an assessment after generating its statistics, this statistic will still remain in the statistics book. This
+is to ensure that the school can maintain a record of all its statistics over time, if needed, even though the assessment
+may have ended and the grades are awarded to students. It is up to the school to decide how long they want to store their
+statistics for.
+====
+
+==== Deleting a statistic : `deletestatistics` image:Tutor.png[16,16]
+Deletes the specified statistic from the statistics book, based on the index. Irreversible. +
+Format: `deletstatistics INDEX`
+
+****
+Deletes the statistic at the specified `INDEX`.
+The index refers to the index number shown in the most recent statistics listing.
+****
+
+Example(s):
+
+* `liststatistics` +
+`deletestatistics 1`
 // end::Grades[]
 
 // tag::attendance[]
@@ -751,14 +845,14 @@ There is no need to save manually. Address book data, exam book data and statist
 == Handling Errors
 
 1. ClassRepo does not start up when running the jar file. +
-*Plausible cause*: `addressbook.txt`, `exambook.txt` or `statistic.txt` contains invalid data. +
+*Plausible cause*: `addressbook.txt`, `exams.txt` or `statistics.txt` contains invalid data. +
 *Solution*: Fix the data error in the problematic file. +
 Refer to `log.txt` to find the underlying error. +
 
 2. ClassRepo shuts down mid-operation. +
-*Plausible cause*: `addressbook.txt`, `exambook.txt` or `statistic.txt` was set to read-only during
+*Plausible cause*: `addressbook.txt`, `exams.txt` or `statistics.txt` was set to read-only during
 a data saving operation. ClassRepo shuts itself down to ensure synchronisation of AppData and storage data. +
 *Solution*: Ensure that the data files are not set as read-only. 
 
-== Known Bugs
+== Known Issues
 1. ClassRepo ASCII art may be formatted wrongly on OS's such as Mac.

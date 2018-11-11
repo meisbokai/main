@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 import seedu.addressbook.commands.Command;
 import seedu.addressbook.data.person.Assessment;
+import seedu.addressbook.data.person.AssignmentStatistics;
 import seedu.addressbook.data.person.Exam;
 import seedu.addressbook.data.person.Person;
 import seedu.addressbook.data.person.ReadOnlyExam;
@@ -45,6 +46,13 @@ public abstract class IndexFormatCommand extends Command {
         } catch (IndexOutOfBoundsException iob) {
             throw new AssessmentIndexOutOfBoundsException(iob.getMessage());
         }
+    }
+
+    /**
+     * Extracts the the target statistics in the last shown list from the given arguments.
+     */
+    protected AssignmentStatistics getTargetStatistic() throws IndexOutOfBoundsException {
+        return relevantStatistics.get(targetMap.get(ObjectTargeted.STATISTIC) - DISPLAYED_INDEX_OFFSET);
     }
 
     /**

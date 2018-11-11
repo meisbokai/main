@@ -20,6 +20,7 @@ import seedu.addressbook.Main;
 import seedu.addressbook.commands.commandresult.CommandResult;
 import seedu.addressbook.commands.general.ExitCommand;
 import seedu.addressbook.data.person.Assessment;
+import seedu.addressbook.data.person.AssignmentStatistics;
 import seedu.addressbook.data.person.ReadOnlyExam;
 import seedu.addressbook.data.person.ReadOnlyPerson;
 import seedu.addressbook.formatter.Formatter;
@@ -78,17 +79,18 @@ public class MainWindow {
     private void displayResult(CommandResult result) {
         clearOutputConsole();
         closeAsciiArt();
-        final Optional<List<? extends ReadOnlyPerson>> resultPersons = result.getRelevantPersons();
+        final Optional<List<? extends ReadOnlyPerson>> optResultPersons = result.getRelevantPersons();
+        optResultPersons.ifPresent((p) -> display(p, result.getPersonListFormat()));
 
-        resultPersons.ifPresent((p) -> display(p, result.getPersonListFormat()));
-        //TODO: Clean up Optional code
-        final Optional<List<? extends ReadOnlyExam>> resultExams = result.getRelevantExams();
-        final Optional<List<? extends Assessment>> resultAssessment = result.getRelevantAssessments();
-        if (resultExams.isPresent()) {
-            displayExams(resultExams.get());
-        } else if (resultAssessment.isPresent()) {
-            displayAssessments(resultAssessment.get());
-        }
+        final Optional<List<? extends ReadOnlyExam>> optResultExams = result.getRelevantExams();
+        optResultExams.ifPresent(this::displayExams);
+
+        final Optional<List<? extends Assessment>> optResultAssessment = result.getRelevantAssessments();
+        optResultAssessment.ifPresent(this::displayAssessments);
+
+        final Optional<List<? extends AssignmentStatistics>> optStatisticsList = result.getRelevantStatistics();
+        optStatisticsList.ifPresent(this::displayStatistics);
+
         display(result.getOutputConsoleMessage());
     }
     /** Displays the welcome message**/
@@ -152,10 +154,17 @@ public class MainWindow {
         }
     }
     /**
-     * Displays the list of exams in the output display area, formatted as an indexed list.
+     * Displays the list of assessments in the output display area, formatted as an indexed list.
      */
     private void displayAssessments(List<? extends Assessment> assessments) {
         display(Formatter.formatAssessments(assessments));
+    }
+
+    /**
+     * Displays the list of assessments in the output display area, formatted as an indexed list.
+     */
+    private void displayStatistics(List<? extends AssignmentStatistics> statistics) {
+        display(Formatter.formatStatistics(statistics));
     }
 
     private void closeAsciiArt() {

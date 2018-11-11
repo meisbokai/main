@@ -3,8 +3,12 @@ package seedu.addressbook.privilege.user;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.logging.Level;
 
+import seedu.addressbook.Main;
 import seedu.addressbook.commands.Command;
 import seedu.addressbook.commands.account.ListAccountCommand;
 import seedu.addressbook.commands.account.LoginCommand;
@@ -49,6 +53,30 @@ public class BasicUser implements User {
 
     protected void addAllowedCommands(List<Command> newAllowedCommands) {
         allowedCommands.addAll(newAllowedCommands);
+        assert allowedCommandContainsNoDuplicate();
+    }
+
+    /** Returns if allowedCommand contains no duplicate
+     *  If false, logs the duplicated command into the logger
+     */
+    protected boolean allowedCommandContainsNoDuplicate() {
+        Set<Command> commandSet = new HashSet<>();
+        Set<Command> duplicatedCommands = new HashSet<>();
+        for (Command allowCommand: allowedCommands) {
+            // Java Set.add method returns true if element not already in set
+            if (!commandSet.add(allowCommand)) {
+                duplicatedCommands.add(allowCommand);
+            }
+        }
+
+        if (duplicatedCommands.isEmpty()) {
+            return true;
+        } else {
+            for (Command duplicatedCommand: duplicatedCommands) {
+                Main.LOGGER.log(Level.WARNING, String.format("Duplicated %s for different User", duplicatedCommand));
+            }
+            return false;
+        }
     }
 
     protected void setCurrentLevel(PrivilegeLevel currentLevel) {

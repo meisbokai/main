@@ -7,17 +7,22 @@
 
 == Overview
 
-ClassRepO is a desktop address book application written in Java that targets secondary schools for usage by their students, tutors and staff. This portfolio is meant to document the contributions that I made to the project.
+ClassRepO is a desktop address book application written in Java that targets secondary schools for usage by their students, tutors and staff.
+It is an address book like application to provide a one stop portal for all in the school to access and update any information.
+This portfolio is meant to document the contributions that I made to the project.
 
 == Roles
 Under this project, I serve as the Scribe, monitoring all the documentation related to the project, thus ensuring that they are both coherent and informative.
 
 == Summary of contributions
 
+* Code Contributed - https://nuscs2113-ay1819s1.github.io/dashboard/#=undefined&search=lucdx&sort=displayName&since=2018-09-12&until=2018-11-05&timeframe=day&reverse=false&repoSort=true[RepoSense]
+
 * *Major enhancement*: added *Fees* feature
 ** What it does: Allows the tagging both staff and students with their respective fees and the dates these fees are due.
 ** Justification: This feature gives way to another important attribute being tracked in a school system.
-** Highlights: This feature allows for tracking of every Person's fee in the address book without actually manipulating the addressbook data. It also automatically adds a 'Fees Due' tag to the person.
+** Highlights: This feature allows for tracking of every Person's fee in the address book without actually manipulating the addressbook data.
+It also automatically adds a 'Fees Due' tag to the person and allows for easy viewing of people with due fees.
 
 * *Minor enhancement*: Added a History Command to show the history of commands inputted by the user in that usage session, so as to visually identify mistakes in past commands.
 
@@ -25,17 +30,17 @@ Under this project, I serve as the Scribe, monitoring all the documentation rela
 
 ** Project management:
 *** Managed relevant documentation ie. `About Us` on GitHub, as well as to spot and rectify mistakes made in said documentation.
-** Enhancements to existing features:
-*** TBC
-**** TBC
 
 ** Documentation:
 *** Did cosmetic tweaks
-**** TBC
-**** TBC
-**** TBC
+**** Tidied up team's documentation to have consistent language and format.
+**** Checks to ensure there's no spelling and grammatical errors.
 ** Community:
-*** PRs reviewed (with non-trivial review comments): https://github.com/CS2113-AY1819S1-F10-1/main/pull/86[#86]
+*** PRs reviewed (with non-trivial review comments): https://github.com/CS2113-AY1819S1-F10-1/main/pull/86[#86], https://github.com/CS2113-AY1819S1-F10-1/main/pull/223[#223]
+*** Reported bugs and suggestions for other teams in the class: https://github.com/CS2113-AY1819S1-W13-1/main/issues/116[#116], https://github.com/CS2113-AY1819S1-W13-1/main/issues/119[#119],
+ https://github.com/CS2113-AY1819S1-W13-1/main/issues/123[#123], https://github.com/CS2113-AY1819S1-W13-1/main/issues/125[#125],
+ https://github.com/CS2113-AY1819S1-W13-1/main/issues/130[#130], https://github.com/CS2113-AY1819S1-W13-1/main/issues/133[#133],
+ https://github.com/CS2113-AY1819S1-W13-1/main/issues/140[#140]
 
 == Contributions to the User Guide
 

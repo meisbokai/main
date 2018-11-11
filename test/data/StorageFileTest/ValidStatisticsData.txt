@@ -1,23 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <StatisticsBook>
-    <statisticsList isPrivate="false">
-        <subjectName>Spanish</subjectName>
-        <examName>Verbs Quiz</examName>
-        <topScorer>Pedro</topScorer>
-        <averageScore>95</averageScore>
-        <totalExamTakers>10</totalExamTakers>
-        <numberAbsent>3</numberAbsent>
-        <totalPass>7</totalPass>
-        <maxMin>100 87</maxMin>
+    <statisticsList>
+        <examName>Mathematics midterms</examName>
+        <averageScore>72.0</averageScore>
+        <totalExamTakers>102</totalExamTakers>
+        <maxScore>98.0</maxScore>
+        <minScore>32.0</minScore>
     </statisticsList>
-    <statisticsList isPrivate="false">
-        <subjectName>Science</subjectName>
-        <examName>Final Assessment</examName>
-        <topScorer>Ryan</topScorer>
-        <averageScore>71</averageScore>
-        <totalExamTakers>31</totalExamTakers>
-        <numberAbsent>1</numberAbsent>
-        <totalPass>30</totalPass>
-        <maxMin>97 52</maxMin>
+    <statisticsList>
+        <examName>Spanish final</examName>
+        <averageScore>88.0</averageScore>
+        <totalExamTakers>67</totalExamTakers>
+        <maxScore>97.0</maxScore>
+        <minScore>52.0</minScore>
     </statisticsList>
 </StatisticsBook>

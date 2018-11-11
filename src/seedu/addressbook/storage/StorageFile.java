@@ -303,7 +303,8 @@ public class StorageFile extends Storage {
     }
 
     /**
-     * Checks the exams of each person to see if they exist in the ExamBook
+     * Checks the exams of each person to see if they exist in the ExamBook and
+     * checks if the takers for all exams in ExamBook are all accounted for in the AddressBook
      * @throws StorageOperationException if exam data of a person was modified
      */
     public void syncAddressBookExamBook(AddressBook addressBook, ExamBook examBook) throws StorageOperationException {
@@ -312,6 +313,19 @@ public class StorageFile extends Storage {
                 if (!examBook.contains(e)) {
                     throw new StorageOperationException("A person has an exam not in ExamBook!");
                 }
+            }
+        }
+
+        for (Exam e: examBook.getAllExam()) {
+            int totalCount = e.getTakers();
+            int currentCount = 0;
+            for (Person p: addressBook.getAllPersons()) {
+                if (p.isExamPresent(e)) {
+                    currentCount++;
+                }
+            }
+            if (totalCount != currentCount) {
+                throw new StorageOperationException("An exam has inaccurate number of takers compared to AddressBook!");
             }
         }
     }

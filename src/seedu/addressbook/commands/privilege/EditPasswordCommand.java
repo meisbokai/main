@@ -60,7 +60,6 @@ public class EditPasswordCommand extends KeywordsFormatCommand {
 
     @Override
     public boolean isMutating() {
-        // TODO maybe make it so that it only saves the password portion of the XML
         return true;
     }
 

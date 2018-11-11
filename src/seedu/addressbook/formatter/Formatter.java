@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import seedu.addressbook.data.person.Assessment;
+import seedu.addressbook.data.person.AssignmentStatistics;
 import seedu.addressbook.data.person.Printable;
 import seedu.addressbook.data.person.ReadOnlyExam;
 import seedu.addressbook.data.person.ReadOnlyPerson;
@@ -147,6 +148,15 @@ public class Formatter {
         return format(asIndexedList(formattedAssessments));
     }
 
+    /** Formats the given list of statistics for displaying to the admin user. */
+    public static String formatStatistics(List<? extends AssignmentStatistics> statistics) {
+        final List<String> formattedStatistics = new ArrayList<>();
+        for (AssignmentStatistics stats : statistics) {
+            formattedStatistics.add(stats.getAsTextShowAll());
+        }
+        return format(asIndexedList(formattedStatistics));
+    }
+
     /**
      * Formats a string for an exam to be printed
      */
@@ -166,4 +176,12 @@ public class Formatter {
         return String.format(examFormat, "", examName, subjectName, examDate,
                 examStartTime, examEndTime, examDetails, takers, takerWord);
     }
+
+    /**
+     * Formats a string for an exam to be printed
+     */
+    public static String getPrintableAssessment(String examName) {
+        return examName;
+    }
+
 }

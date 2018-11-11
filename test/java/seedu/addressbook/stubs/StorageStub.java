@@ -12,10 +12,8 @@ public class StorageStub extends Storage {
     private String path;
     private String pathExam;
     private String pathStatistics;
-
-    public StorageStub(String filePath) {
-        path = filePath;
-    }
+    private boolean hasSaved = false;
+    private boolean hasSavedExam = false;
 
     public StorageStub(String filePath, String filePathExam, String filePathStatistics) {
         path = filePath;
@@ -24,12 +22,12 @@ public class StorageStub extends Storage {
     }
 
     /**Stub function*/
-    public void save(AddressBook addressBook){
-        //this is blank on purpose
+    public void save(AddressBook addressBook) {
+        hasSaved = true;
     }
     /**Stub function*/
-    public void saveExam(ExamBook examBook){
-        //this is blank on purpose
+    public void saveExam(ExamBook examBook) {
+        hasSavedExam = true;
     }
     /**Stub function*/
     public void saveStatistics(StatisticsBook statisticsBook){
@@ -39,6 +37,14 @@ public class StorageStub extends Storage {
     /**Stub function*/
     public void syncAddressBookExamBook(AddressBook addressBook, ExamBook examBook){
         //this is blank on purpose
+    }
+
+    public boolean getHasSaved() {
+        return hasSaved;
+    }
+
+    public boolean getHasSavedExams() {
+        return hasSavedExam;
     }
 
     public AddressBook load() {

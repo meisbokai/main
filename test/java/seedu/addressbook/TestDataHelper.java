@@ -12,11 +12,13 @@ import java.util.StringJoiner;
 
 import seedu.addressbook.data.AddressBook;
 import seedu.addressbook.data.ExamBook;
+import seedu.addressbook.data.StatisticsBook;
 import seedu.addressbook.data.account.Account;
 import seedu.addressbook.data.person.Assessment;
 import seedu.addressbook.data.person.AssignmentStatistics;
 import seedu.addressbook.data.person.Exam;
 import seedu.addressbook.data.person.Fees;
+import seedu.addressbook.data.person.Grades;
 import seedu.addressbook.data.person.Person;
 import seedu.addressbook.data.person.details.Address;
 import seedu.addressbook.data.person.details.Email;
@@ -53,25 +55,20 @@ public class TestDataHelper {
     }
 
     /** Test fees for testing**/
-    public Fees fees () throws Exception {
-        String test = "123.45";
-        String testdate = "01-01-2018";
-        return new Fees(test, testdate);
+    public Fees fees (int seed) throws Exception {
+        String value = seed + ".45";
+        String dueDate = "01-0" + seed + "-2018";
+        return new Fees(value, dueDate);
     }
 
-    /** Test exam for testing**/
+    /** Test statistics for testing**/
     public AssignmentStatistics stat() throws Exception {
-        String subjectName = "Spanish";
-        String examName = "Quiz";
-        String topScorer = "Pedro";
-        String averageScore = "95";
-        String totalExamTakers = "10";
-        String numberAbsent = "3";
-        String totalPass = "7";
-        String maxMin = "100 87";
-        boolean isPrivate = false;
-        return new AssignmentStatistics(subjectName, examName, topScorer, averageScore, totalExamTakers, numberAbsent,
-                totalPass, maxMin, isPrivate);
+        String examName = "Spanish Quiz";
+        double averageScore = 100;
+        int totalExamTakers = 1;
+        double maxScore = 100;
+        double minScore = 0;
+        return new AssignmentStatistics(examName, averageScore, totalExamTakers, maxScore, minScore);
     }
 
     /** Test assessment for testing**/
@@ -125,6 +122,32 @@ public class TestDataHelper {
     }
 
     /**
+     * Generates a valid person with a valid assessment and grades using the given seeds.
+     * Running this function with the same parameter values guarantees the returned person will have the same state.
+     * Each unique seed will generate a unique Person object.
+     *
+     * @param seed used to generate the person data field values
+     * @param isAllFieldsPrivate determines if private-able fields (phone, email, address) will be private
+     * @param assessmentSeed used to generate the assessment data field values
+     * @param gradeSeed used to generate the grades data field values
+     */
+    public Person generatePerson(int seed, boolean isAllFieldsPrivate, int assessmentSeed, int gradeSeed) throws
+            Exception {
+        Person p1 = new Person(
+                new Name("Person " + seed),
+                new Phone("" + Math.abs(seed), isAllFieldsPrivate),
+                new Email(seed + "@email", isAllFieldsPrivate),
+                new Address("House of " + seed, isAllFieldsPrivate),
+                new HashSet<>(Arrays.asList(new Tag("tag" + Math.abs(seed)), new Tag("tag" + Math.abs(seed + 1))))
+        );
+
+        Assessment a1 = generateAssessment(assessmentSeed);
+        Grades grades = new Grades(gradeSeed);
+        a1.addGrade(p1, grades);
+        return p1;
+    }
+
+    /**
      * Generates a valid exam using the given seed.
      * Takers is left as 0.
      * Running this function with the same parameter values guarantees the returned exam will have the same state.
@@ -151,6 +174,17 @@ public class TestDataHelper {
         Exam exam = generateExam(seed, isExamPrivate);
         exam.setTakers(takers);
         return exam;
+    }
+
+    /**
+     * Generates a valid assessment using the given seed.
+     * Running this function with the same parameter values guarantees the returned person will have the same state.
+     * Each unique seed will generate a unique Assessment object.
+     *
+     * @param seed used to generate the assessment
+     */
+    public Assessment generateAssessment(int seed) throws Exception {
+        return new Assessment(Integer.toString(seed));
     }
 
     /**Generated the prefix for the field **/
@@ -190,34 +224,6 @@ public class TestDataHelper {
         return (" dt/");
     }
 
-    public String getTopScorerPrefix () {
-        return (" ts/");
-    }
-
-    public String getAverageScorePrefix () {
-        return (" av/");
-    }
-
-    public String getTotalExamTakersPrefix () {
-        return (" te/");
-    }
-
-    public String getNumberAbsentPrefix () {
-        return (" ab/");
-    }
-
-    public String getTotalPassPrefix () {
-        return (" tp/");
-    }
-
-    public String getMaxMinPrefix () {
-        return (" mm/");
-    }
-
-    public String getPrivatePrefix (Boolean isPrivate) {
-        return (isPrivate ? " p" : "");
-    }
-
     /** Generates the correct add command based on the person given */
     public String generateAddCommand(Person p) {
         StringJoiner cmd = new StringJoiner(" ");
@@ -243,7 +249,7 @@ public class TestDataHelper {
         StringJoiner cmd = new StringJoiner(" ");
         cmd.add("editfees");
         cmd.add("2");
-        cmd.add("123.45");
+        cmd.add("1.45");
         cmd.add("01-01-2018");
         return cmd.toString();
     }
@@ -268,31 +274,17 @@ public class TestDataHelper {
         return cmd.toString();
     }
 
-    /** Generates the correct add statistics command based on the exam given */
-    public String generateAddAssignmentStatistics(AssignmentStatistics s) {
+    /** Generates the correct addstatistics command based on the person given */
+    public String generateAddAssignmentStatistics() {
         StringJoiner cmd = new StringJoiner(" ");
-        String subjectField = s.getSubjectName();
-        String examNameField = getExamNamePrefix(s.isPrivate()) + s.getExamName();
-        String topScorerField = getTopScorerPrefix() + s.getTopScorer();
-        String averageScoreField = getAverageScorePrefix() + s.getAverageScore();
-        String totalExamTakersField = getTotalExamTakersPrefix() + s.getTotalExamTakers();
-        String numberAbsentField = getNumberAbsentPrefix() + s.getNumberAbsent();
-        String totalPassField = getTotalPassPrefix() + s.getTotalPass();
-        String maxMinField = getMaxMinPrefix() + s.getMaxMin();
 
         cmd.add("addstatistics");
-        cmd.add(subjectField);
-        cmd.add(examNameField);
-        cmd.add(topScorerField);
-        cmd.add(averageScoreField);
-        cmd.add(totalExamTakersField);
-        cmd.add(numberAbsentField);
-        cmd.add(totalPassField);
-        cmd.add(maxMinField);
+        cmd.add(Integer.toString(1));
+
         return cmd.toString();
     }
 
-    /** Generates the correct addassess command based on the person given */
+    /** Generates the correct addassess command based on the assessment given */
     public String generateAddAssessment(Assessment a) {
         StringJoiner cmd = new StringJoiner(" ");
         String examName = a.getExamName();
@@ -342,6 +334,25 @@ public class TestDataHelper {
     }
 
     /**
+     * Generates a StatisticsBook based on the list of Statistics given.
+     */
+    public StatisticsBook generateStatisticsBook(List<AssignmentStatistics> statistics) throws Exception {
+        StatisticsBook statisticsBook = new StatisticsBook();
+        addToStatisticsBook(statisticsBook, statistics);
+        return statisticsBook;
+    }
+
+    /**
+     * Adds the given list of statistics to the given StatisticsBook
+     */
+    public void addToStatisticsBook(StatisticsBook statisticsBook, List<AssignmentStatistics> statisticsToAdd)
+            throws Exception {
+        for (AssignmentStatistics s: statisticsToAdd) {
+            statisticsBook.addStatistic(s);
+        }
+    }
+
+    /**
      * Generates an AddressBook with auto-generated persons.
      * @param isPrivateStatuses flags to indicate if all contact details of respective persons should be set to
      *                          private.
@@ -377,6 +388,16 @@ public class TestDataHelper {
     public void addToAddressBook(AddressBook addressBook, List<Person> personsToAdd) throws Exception {
         for (Person p: personsToAdd) {
             addressBook.addPerson(p);
+        }
+    }
+
+    /**
+     * Adds the given list of Assessments to the given AddressBook
+     */
+    public void addAssessmentsToAddressBook(AddressBook addressBook, List<Assessment> assessmentsToAdd)
+            throws Exception {
+        for (Assessment a: assessmentsToAdd) {
+            addressBook.addAssessment(a);
         }
     }
 
@@ -433,6 +454,13 @@ public class TestDataHelper {
             exams.add(generateExam(i++, p));
         }
         return exams;
+    }
+
+    /**
+     * Creates a list of Assessments based on the given assessment objects.
+     */
+    public List<Assessment> generateAssessmentsList(Assessment... assessments) {
+        return new ArrayList<>(Arrays.asList(assessments));
     }
 
     /**

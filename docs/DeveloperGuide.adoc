@@ -14,7 +14,7 @@ ifdef::env-github[]
 endif::[]
 :repoURL: https://github.com/CS2113-AY1819S1-F10-1/main/tree/master
 
-By: `Team F10-1`      Since: `Oct 2018`      Licence: `NUS`
+By: `CS2113T-AY1819S1 Team F10-1`      Since: `Aug 2018`      Licence: `MIT`
 
 == Setting up
 
@@ -43,7 +43,7 @@ Do not disable them. If you have disabled them, go to `File` > `Settings` > `Plu
 === Verifying the setup
 
 . Run the `seedu.address.Main` and try a few commands
-. <<Testing,Run the tests>> to ensure they all pass.
+. <<Testing,Run the tests>> to ensure they all pass
 . Open the `StorageFile` file and check for any code errors
 .. Due to an ongoing https://youtrack.jetbrains.com/issue/IDEA-189060[issue] with some of the newer versions of IntelliJ, code errors may be detected even if the project can be built and run successfully
 .. To resolve this, place your cursor over any of the code section highlighted in red. Press kbd:[ALT + ENTER], and select `Add '--add-modules=java.xml.bind' to module compiler options`
@@ -91,143 +91,9 @@ Having both Travis and AppVeyor ensures your App works on both Unix-based platfo
 
 When you are ready to start coding,
 
-1. Get some sense of the overall design by reading <<Design-Architecture>>.
+1. Get some sense of the new features added on from https://github.com/se-edu/addressbook-level3[AddressBook-Level 3] by se-edu by reading <<Implementation>>.
 
-== Design
-
-[[Design-Architecture]]
-=== Architecture
-
-.Architecture Diagram
-image::Architecture.png[width="600"]
-
-The *_Architecture Diagram_* given above explains the high-level design of the App. Given below is a quick overview of each component.
-
-[TIP]
-The `.pptx` files used to create diagrams in this document can be found in the link:{repoURL}/docs/diagrams/[diagrams] folder. To update a diagram, modify the diagram in the pptx file, select the objects of the diagram, and choose `Save as picture`.
-
-`Main` has only one class called link:{repoURL}/src/main/java/seedu/address/MainApp.java[`MainApp`]. It is responsible for,
-
-* At app launch: Initializes the components in the correct sequence, and connects them up with each other.
-* At shut down: Shuts down the components and invokes cleanup method where necessary.
-
-<<Design-Commons,*`Commons`*>> represents a collection of classes used by multiple other components. Two of those classes play important roles at the architecture level.
-
-* `EventsCenter` : This class (written using https://github.com/google/guava/wiki/EventBusExplained[Google's Event Bus library]) is used by components to communicate with other components using events (i.e. a form of _Event Driven_ design)
-* `Logs Center`: Used by many classes to write log messages to the App's log file.
-
-The rest of the App consists of four components.
-
-* <<Design-Ui,*`UI`*>>: The UI of the App.
-* <<Design-Logic,*`Logic`*>>: The command executor.
-* <<Design-Model,*`Model`*>>: Holds the data of the App in-memory.
-* <<Design-Storage,*`Storage`*>>: Reads data from, and writes data to, the hard disk.
-
-Each of the four components
-
-* Defines its _API_ in an `interface` with the same name as the Component.
-* Exposes its functionality using a `{Component Name}Manager` class.
-
-For example, the `Logic` component (see the class diagram given below) defines it's API in the `Logic.java` interface and exposes its functionality using the `LogicManager.java` class.
-
-.Class Diagram of the Logic Component
-image::LogicClassDiagram.png[width="800"]
-
-[discrete]
-==== Events-Driven nature of the design
-
-The _Sequence Diagram_ below shows how the components interact for the scenario where the user issues the command `delete 1`.
-
-.Component interactions for `delete 1` command (part 1)
-image::SDforDeletePerson.png[width="800"]
-
-[NOTE]
-Note how the `Model` simply raises an `AddressBookChangedEvent` when the Address Book data are changed, instead of asking the `Storage` to save the updates to the hard disk.
-
-The diagram below shows how the `EventsCenter` reacts to that event, which eventually results in the updates being saved to the hard disk and the status bar of the UI being updated to reflect the 'Last Updated' time.
-
-.Component interactions for `delete 1` command (part 2)
-image::SDforDeletePersonEventHandling.png[width="800"]
-
-[NOTE]
-Note how the event is propagated through the `EventsCenter` to the `Storage` and `UI` without `Model` having to be coupled to either of them. This is an example of how this Event Driven approach helps us reduce direct coupling between components.
-
-The sections below give more details of each component.
-
-[[Design-Ui]]
-=== UI component
-
-.Structure of the UI Component
-image::UiClassDiagram.png[width="800"]
-
-*API* : link:{repoURL}/src/main/java/seedu/address/ui/Ui.java[`Ui.java`]
-
-The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `OutputConsole`, `StatusConsole`.
-
-The `UI` component uses JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/seedu/addressbook/ui` folder. For example, the layout of the link:{repoURL}/src/seedu/addressbook/ui/MainWindow.java[`MainWindow`] is specified in link:{repoURL}/src/seedu/addressbook/ui/MainWindow.fxml[`MainWindow.fxml`]
-
-The `UI` component,
-
-* Executes user commands using the `Logic` component.
-* Responds to events raised from various parts of the App and updates the UI accordingly.
-
-[[Design-Logic]]
-=== Logic component
-
-[[fig-LogicClassDiagram]]
-.Structure of the Logic Component
-image::LogicClassDiagram.png[width="800"]
-
-*API* :
-link:{repoURL}/src/main/java/seedu/address/logic/Logic.java[`Logic.java`]
-
-.  `Logic` uses the `Parser` class to parse the user command.
-.  This results in a `Command` object which is then executed.
-.  The command execution can affect the `data` (e.g. adding a person).
-.  The result of the command execution is encapsulated as a `CommandResult` object which is passed back to the `Ui`.
-
-Given below is the Sequence Diagram for interactions within the `Logic` component for the `execute("delete 1")` API call.
-
-.Interactions Inside the Logic Component for the `delete 1` Command
-image::DeletePersonSdForLogic.png[width="800"]
-
-[[Design-Model]]
-=== Model component
-
-.Structure of the Model Component
-image::ModelClassDiagram.png[width="800"]
-
-*API* : link:{repoURL}/src/main/java/seedu/address/model/Model.java[`Model.java`]
-
-The `Model`,
-
-* stores the Address Book data.
-* exposes an unmodifiable `ObservableList<Person>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
-* does not depend on any of the other three components.
-
-[NOTE]
-As a more OOP model, we can store a `Tag` list in `Address Book`, which `Person` can reference. This would allow `Address Book` to only require one `Tag` object per unique `Tag`, instead of each `Person` needing their own `Tag` object. An example of how such a model may look like is given below. +
- +
-image:ModelClassBetterOopDiagram.png[width="800"]
-
-[[Design-Storage]]
-=== Storage component
-
-.Structure of the Storage Component
-image::StorageClassDiagram.png[width="800"]
-
-*API* : link:{repoURL}/src/main/java/seedu/address/storage/Storage.java[`Storage.java`]
-
-The `Storage` component,
-
-* can save `UserPref` objects in json format and read it back.
-* can save the Address Book data in xml format and read it back.
-
-[[Design-Commons]]
-=== Common classes
-
-Classes used by multiple components are in the `seedu.addressbook.commons` package.
-
+[[Implementation]]
 == Implementation
 
 This section describes some noteworthy details on how certain features are implemented.
@@ -236,7 +102,7 @@ This section describes some noteworthy details on how certain features are imple
 === Exams Feature
 [[fig-ExamDiagram]]
 .Class Diagram of the Exam feature
-image::Exam.png[width="800"]
+image::Exam.png[width="600"]
 
 ==== Current Implementation
 There is a master ExamBook which contains all the exams. There are several features the ExamBook offers.
@@ -280,11 +146,20 @@ image::RegisterExam_Sequence_Diagram.png[width="1200"]
 ===== Aspect: How the exam data are being updated
 
 * **Alternative 1 (current choice):** Each time there is a change in a field of an Exam, a new Exam is created with the new details and added into the ExamBook and the old Exam is deleted from the ExamBook.
-** Pros: Allows exams to be encapsulated using interface.
-** Cons: Temporary increase in space for the object created during the method .
-* **Alternative 2:** Have no interface.
+** Pros: To enable good synchronisation between the AddressBook and ExamBook as the old hash key is removed and a new hash key is added.
+** Cons: Temporary increase in space for the object created during the method.
+* **Alternative 2:** Edit the original exam directly.
 ** Pros: Easy access to set values.
-** Cons: No encapsulation.
+** Cons: To check if an exam exists for a person, there needs to be iteration and checks using the equals() method due to different hashing, increasing time.
+
+===== Aspect: Exam equality
+
+* **Alternative 1 (current choice):** The current equals() method does not check for full equality.
+** Pros: This is used when there is not a need to check for full equality, such as when adding a new exam to the ExamBook.
+** Cons: Another method is needed to check for full equality.
+* **Alternative 2:** Have the current equals() method check for full equality, with no extra methods.
+** Pros: Less methods and easier to understand implementation.
+** Cons: Duplicate exams can be added, especially after modification of an exam in the ExamBook.
 
 ===== Aspect: Data structure to support the exam commands
 
@@ -302,12 +177,16 @@ image::RegisterExam_Sequence_Diagram.png[width="1200"]
 ** Cons: Extra storage file and hence methods and file paths are needed, this may be confusing and cause much repetition of code.
 * **Alternative 2:** Exams are stored in the same data file as AddressBook.
 ** Pros: Only 1 storage file is needed. Less repetition and variables are needed.
-** Cons: Might be harder for the user to see exams in raw XML format.
+** Cons: Might be harder for the user to see exams in raw XML format as everything is stored together.
 // end::Exam[]
 
 // tag::privilege[]
-=== Privilege Feature
-The figure below shows the class diagram describing the implementation of the Privilege feature.
+=== Privilege/Account Feature
+The Privilege feature aims to only restrict the user's to their allowed commands, while the Account feature provides a means for the user to authenticate themselves to access more commands.
+
+---
+
+The figure below shows the class diagram describing the implementation of the Privilege/Account feature.
 [[fig-PrivilegeDiagram]]
 .Class Diagram of the Privilege Component
 image::Privilege.png[width="600"]
@@ -315,83 +194,96 @@ image::Privilege.png[width="600"]
 ==== Current Implementation
 
 * *Logic* is assigned to one *Privilege* object at all times. *Privilege* contains a *User* (specified by the *PrivilegeLevel* enum) and a *Person* (referred to as `myPerson`). +
-* *User* defines what access level the *Privilege* object have, which is implemented by *BasicUser*, *TutorUser* and *AdminUser*. +
+* The *User* interface describes the different <<privilege-level, *Privilege* level>> an user can have, which is implemented by *BasicUser*, *TutorUser* and *AdminUser*. +
 * *BasicUser* is the class with the lowest access level, and the ancestor to other 2 *User* classes. +
 * To create an increasing level of access, each *User* of a higher level inherits from the successively lower one. +
 * *User* levels have their own list of new commands they can run, which is appended to the list inherited from their parent. +
 
-* *Account* class, which contains its respective *Privilege* object as well as login details, assigns an access level to a *Person*. +
-* When switching *Privilege* levels, the *Privilege* object referred to by *Logic* will point its *User*(`user`) and *Person*(`myPerson`) to those of the desired *Privilege level*, as seen below in the Object Diagram and Sequence Diagram. +
+* *Account* class, which contains its respective *Privilege* object as well as login details, assigns an *Privilege* level to a *Person*. +
+
+An example of how `logging into an account` works:
+
+. First, the *Command* will retrieve the *Person* with the specified user name, which is gotten from *AddressBook* who receives it from *UniquePersonList*.
+. The *Command* then validates that the specified password matches the password the *Account* belonging to the retrieved person.
+. If the password is correct, the *Command* will update the *Privilege* level(`user`) and its *Person*(`myPerson`) to match that of the *Account*.
+. Finally, the *Command* retrieve the *Name* of the *Person* in a string format to be printed as part of the feedback message.
+
+Step 2 is illustrated in the Object Diagram below.
+
 
 [[fig-PrivilegeObjectDiagram]]
 .How switching Privilege is implemented (Object Diagram)
 image::PrivilegeObjectDiagram.png[width="700"]
 
+---
+
+The Sequence Diagram below gives an overview of the process involved in logging into an *Account*
+
 [[fig-LoginSequenceDiagram]]
 .Sequence Diagram for Login Command
 image::Login_Sequence_Diagram.png[width="600"]
----
+
 ==== Design Considerations
 
 ===== Aspect: How to define a privilege level of Privilege
 
-* **Alternative 1 (current choice):** Instantiate user's of the different access level. Privilege contains an enum UserType which point to each of these instantiated objects.
-** Pros: Allow us to make use of inheritance to organize the list (higher access level User's list of allowed commands will always be a superset of that of a lower access level). +
-The usage of enums also allows us to keep a reference to the created User object, which allows us to point back to these object if need be, rather than having to instantiate new ones each time.
-** Cons: Requires the use of User class to represent the different access levels
-* **Alternative 2:** Use an enum to indicate the current access level. List of allowed commands will be generated base on the value of this enum.
-** Pros: Does not require a separate class to represent the different access levels.
-** Cons: Difficult to maintain the list of allowed commands.
-* **Alternative 3:** Use a String to determine the Privilege level.
+* **Alternative 1 (current choice):** Instantiate *User* objects of the different access level. *Privilege* contains an enum *UserType* which point to each of these instantiated objects.
+** Pros: Allow us to make use of inheritance to organize the list (higher access level *User's* list of allowed *Commands* will always be a superset of that of a lower access level). +
+The usage of enums also allows us to keep a reference to the created *User* object, which allows us to point back to these object if need be, rather than having to instantiate new ones each time.
+** Cons: Requires the use of *User* class to represent the different access levels
+* **Alternative 2:** Use an enum to indicate the current access level. List of allowed *Commands* will be generated base on the value of this enum.
+** Pros: Does not require a separate class to represent the different *Privilege* levels.
+** Cons: Difficult to maintain the list of allowed *Commands*.
+* **Alternative 3:** Use a String to determine the *Privilege* level.
 ** Pros: Easy to implement and parse.
-** Cons: Very prone to undetected bugs, like misspelling the Privilege levels.
+** Cons: Very prone to undetected bugs, like misspelling the *Privilege* levels.
 
-===== Aspect: How to define the access level required by the command
+===== Aspect: How to define the required *Privilege* level of *Commands*
 
-* **Alternative 1 (current choice):** Each User holds a list of commands they can run
-** Pros: Easy to maintain the list of commands a User can run (just a Command Array).
-** Cons: Difficult to find what access level a command requires. Requires looping through the array to find the presence of the given command.
+* **Alternative 1 (current choice):** Each *User* holds a list of *Commands* they can run
+** Pros: Easy to maintain the list of available *Commands* for a given *User*.
+** Cons: Difficult to find the required *Privilege* level a *Command*, as it requires looping through the list to find the presence of the given *Command*.
 
-* **Alternative 2:** Each command knows what access level is required to run it
-** Pros: Easy to find what access level a command requires
-** Cons: Difficult to see what commands a given User can run. Difficult to organize the commands by their required access level.
+* **Alternative 2:** Each *Command* knows what access level is required to run it
+** Pros: Easy to find what access level a *Command* requires
+** Cons: Difficult to see the *Commands* available to a given *User* can run, thus making it hard to organize the *Commands* by their required access level.
 
 * **Alternative 3:** Have both 1 and 2
-** Pros: Doing both the above operation becomes easy
-** Cons: Difficult to maintain both information. Access level information is now stored in 2 separate locations and needs to be in sync
+** Pros: Doing both the above operations become easy
+** Cons: Difficult to maintain both information. The required *Privilege* level for *Commands* will be stored in 2 separate locations and needs to be in sync.
 
-===== Aspect: How to update the privilege of Logic given an Account to log into
+===== Aspect: How to update the *Privilege* of *Logic* when logging into an *Account*
 
-* **Alternative 1 (current choice):** The Privilege object attached to Logic will copy the User and the Person attached to the given Account object, into its own user and myPerson respectively.
-** Pros: Does not require the Command to interact with Logic, thus reducing coupling.
+* **Alternative 1 (current choice):** The *Privilege* object attached to *Logic* will copy the *User* and the *Person* attached to the given *Account* object, into its own variables.
+** Pros: Does not require the *Command* to interact with *Logic*, thus reducing coupling.
 ** Cons: A bit more awkward solution than the Alternative 2
-* **Alternative 2:** Change Logic to point to the new Privilege object inside of Account.
+* **Alternative 2:** Make *Logic's* variable to point to the new *Privilege* object inside of Account.
 ** Pros: Quick to implement.
-** Cons: a Higher level of coupling compared to Alternative 1. Also, would require storing or instantiating a default Privilege and making Logic point to this new object if Logout Command were to be called.
+** Cons: Has a higher level of coupling compared to Alternative 1. Also, would require storing or instantiating a default *Privilege* object and making *Logic* point to this new object if *Logout Command* were to be called.
 
-===== Aspect: Default required access levels for commands
+===== Aspect: Default required access levels for *Commands*
 
-* **Alternative 1 (current choice):** Access level is set to Admin by default
-** Pros: If a developer forgets to give access level to a Command, it will to still be functional.
-** Cons: May mask the fact that the Command has the unintended access level of Admin.
+* **Alternative 1 (current choice):** Required *Privilege* level is set to Admin by default
+** Pros: If a developer forgets to assign a required *Privilege* level to a *Command*, it will to still be functional.
+** Cons: May mask the fact that the *Command* has the unintended access level of Admin, which is a minor drawback.
 
-* **Alternative 2:** Enforce all Commands to be assigned an access level
-** Pros: Forces developers to be deliberate with their access level assigned to commands
-** Cons: Program will fail to integrate if any of the developers forgot to assign an access level to their newly developed commands.
+* **Alternative 2:** Enforce all *Commands* to be assigned an access level
+** Pros: Forces developers to be deliberate with their access level assigned to *Commands*.
+** Cons: Program will fail to integrate if any of the developers forgot to assign an access level to their newly developed *Command*.
 
 ===== Aspect: Who throws InsufficientPrivilege Exception
 
-* **Alternative 1 (current choice):** Logic throws the Exception
+* **Alternative 1 (current choice):** *Logic* throws the Exception
 ** Pros: It is a common starting point of commands, so it is easy to implement it to throw the Exception
-** Cons: Blurs the responsibility of commands being the one throwing the Exception
+** Cons: Blurs the responsibility of *Commands* being the one throwing Exceptions
 
-* **Alternative 2:** Each Command checks the Privilege level during execute()
-** Pros: Keeps to the responsibility of Commands being the one to throw the Exception when they are being executed
-** Cons: Requires backdating all the commands to include this function in their execute(). Also prone to errors as a developer may forget to call this function in their execute() of their newly developed Commands.
+* **Alternative 2:** Each *Command* checks the *Privilege* level during execute()
+** Pros: Keeps to the responsibility of *Commands* being the one to throw the Exception.
+** Cons: Requires backdating all *Commands* to include this function in their execute(). Also prone to errors as a developer may forget to call this function in their execute() of their newly developed *Command*.
 
-* **Alternative 3:** Have a function that checks the Privilege level in parent Command that is called during execute()
-** Pros: Same as 2.
-** Cons: Same as 2, but instead of using individual functions, we are repeatedly using the inherited function instead
+* **Alternative 3:** Have a function that checks the *Privilege* level in parent command that is called during execute()
+** Pros: Same as **Alternative 2**.
+** Cons: Same as **Alternative 2**, but instead of using individual functions, we are repeatedly using the inherited function instead
 // end::privilege[]
 
 // tag::Grades[]
@@ -399,21 +291,37 @@ The usage of enums also allows us to keep a reference to the created User object
 
 ==== Current Implementation
 There is a master StatisticsBook which contains all the statistics for various exams. There is also a list of assessments
-being stored in the AddressBook. The current set of commands include:
+and the grades for these assessments being stored in the AddressBook. The current set of commands include:
 
-. `Adding a new statistics`
 . `Adding a new assessment`
-. `Listing all assessments'
+. `Listing all assessments`
 . `Deleting an assessment`
 . `Adding grades for a student`
 . `Viewing all grades for a student`
 . `Deleting a specific grade for a student`
+. `Adding statistics for an assessment`
+. `Listing all statistics`
+. `Deleting a statistic`
+
+This is the class diagram for the assessments, grades and statistics combined:
+[[fig-AddAssessmentDiagram]]
+.Class Diagram
+image::AssessmentClassDiagram.png[width="800"]
+
+. A list of unique assessments can be stored in the addressbook.
+. Each assessment object contains a Hashmap, with Person as the Key and Grades as the Value. Hence, the grades of all
+students for a particular assessment will be stored together in the same HashMap.
+. Each person object (or student) can have a list of assessments and respective grades under it. This makes sense
+logically since a student will have multiple assessments through the school year.
+. Statistics can be added for any existing assessment. The grades stored in the HasHMap will be used to calculate various
+stats such as average score, total exam takers, max score and min score.
+. This list of statistics is stored in the statisticsbook.
 
 An Example of how feature 2 - `Adding a new assessment to the AddressBook` works:
 
 . The user (teacher/ admin) will be able to use the 'addassess' command to add a new assessment.
-. This assessment will only be added to the Address Book if it is not already present. i.e. duplicate assessments will
-  not be entered.
+. This assessment will only be added to the Address Book if it is not already present. i.e. check for duplicate assessments
+is done.
 . These assessments reflect the exams/homework of the school in general. This list of assessments can then be used to add
   grades to a particular student.
 
@@ -424,21 +332,15 @@ image::Assessment_Seq_Diagram.png[width="800"]
 
 ==== Design Considerations
 
-===== Aspect: 'Assessment' and 'Grades' as classes
-
-* **Alternative 1 (current choice):** Assessments and Grades are created as two separate classes. Assessment class stores the grades of all students for that assessment while a reference to the grades is given to person.
-** Pros: Better design in terms of OOP. Allows easier calculation of statistics per assessment as you can simply loop through all the grades.
+===== Aspect: 'Assessment' and 'Grades' as separate classes
+* **Alternative 1 (current choice):** Assessments and Grades are created as two separate classes. Assessment class stores the grades of all students for that assessment in a HashMap, where the Person (or student) is the key.
+** Pros: Better design in terms of OOP. Allows easier calculation of statistics per assessment as you can simply loop through all the grades. It is also a good model of the real-world where all grades for an assessment will be stored together.
 ** Cons: This is a little more tedious in terms of coding.
 * **Alternative 2:** The Assessment and Grades are combined into a single class with different parameters to take in the exam name and grade respectively.
-** Pros: -
-** Cons: Cannot view the list of assessments separately.
-
-An example of Alternative 1 is demonstrated in the following diagram:
-[[fig-AssessmentandGrades]]
-image::Assessment_Aspect_Example.png[width="800"]
+** Pros: - Storage of the data becomes a little easier and you can just store a list of grades added to each person.
+** Cons: Cannot view the list of assessments separately. This architecture does not make sense in terms of modelling how grades are stored in the real world.
 
 ===== Aspect: Data structure to store grades
-
 * **Alternative 1 (current choice):** The grades are stored using a Map data structure under Assessment class
 ** Pros: Allows easy reference to person class.
 ** Cons: Cannot sort/ order the entries if required.
@@ -446,33 +348,50 @@ image::Assessment_Aspect_Example.png[width="800"]
 ** Pros: Can sort the grades alphabetically if required.
 ** Cons: Difficult to link grades to person.
 
-===== Aspect: Data type for Grades value
-
-* **Alternative 1 (current choice):** The grades are stored as an integer.
-** Pros: Since the ClassRepo is targeted at Secondary Schools where marks out of 100 are usually awarded rather than letter grades, integer makes more sense.
-** Cons: Can only enter whole numbers (Possible improvement: Change to float)
-* **Alternative 2:** Store the grades as a String
-** Pros: Can also enter letter grades (A, B, C etc. if required)
-** Cons: -
-
 ===== Aspect: Creation and Storage of Statistics Book
-
 * **Alternative 1 (current choice):** A separate Statistics Book is created to store the statistics of all assessments. Also, these statistics are stored in a separate txt file (statistics.txt) from AddressBook
-** Pros: These assessment statistics have no link to person. They are a set of separate information accessible to all users (students, teachers and admin). Hence, a separate Statistics Book provides increased clarity and makes sense in terms of the end-usage. This also gives easy access to find and see statistics in raw XML format.
+** Pros: These assessment statistics have no direct link to person object. It is a separate set of information accessible to all users (students, teachers and admin). Hence, a separate Statistics Book provides increased clarity and makes sense in terms of the end-usage. This also gives easy access to find and see statistics in raw XML format.
 ** Cons: Using an extra storage file implies that additional methods and file paths are needed. Makes code lengthier and repetitive.
 * **Alternative 2:** Store statistics in AddressBook itself.
-** Pros: Everything is condensed and can be found in the same spot. Also, only one storage file would be needed. Reduces duplication of files.
-** Cons: It is messy and confusing. Unrelated data is stored together.
+** Pros: Everything is condensed and can be found in the same spot. Also, only one storage file would be needed.
+** Cons: It is messy and confusing in terms of implementation - Unrelated data is being stored together.
 
+===== Aspect: Automatic calculation of statistics
+* **Alternative 1 (current choice):** A fixed set of statistics (average score, total number of exam takers, max score and min score) are automatically calculated inside the application itself.
+** Pros: Reduces human effort. Makes the process of creating a statistic easier for user as they would not have to use any external tools like Excel to do this.
+** Cons: Only the statistics parameters currently built into the app can be added. If the user wants to add any other parameter like pass rate, then it is currently not possible.
+* **Alternative 2:** The user manually calculates statistics using given data by hand and enters it in the app to store.
+** Pros: The user can choose to leave some field blank if wanted.
+** Cons: Extremely tedious. Against the whole point of digitizing the school management as manual paperwork is still involved.
+
+==== Aspect: XML Storage of Assessments and Grades
+* **Alternative 1 (current choice):** Two concurrent lists are used to store the person index (as per latest person list) and respective grades for each assessment.
+** Pros: Since each student only has one grade per assessment, it is practical to store them as lists. Essentially, the keys of the hash map (in index form) and the values are stored as two separate lists. The corresponding pairs can be obtained by reading the entries at the same index in both lists.
+** Cons: This is an adaptation of the HashMap used to store grades in the code.
+
+* **Alternative 2:** Store the grades as a list of pairs (person index and grade value) for each assessment
+** Pros: Storage is more coherent.
+** Cons: Code is lengthier and more strenuous to write.
 // end::Grades[]
+
 // tag::Fees[]
 === Fees Feature
+[[fig-FeesDiagram]]
+.Class Diagram of Fees
+image::FeesClassDiag.png[width="800"]
+
+Fees are an additional field to every `Person` object:
+
+. Each Person will have a Fees object
+. Fees contain both a String value as well as a String duedate
+. Users can thus check the Fees of a particular person, or list out all the fees of the Persons in the address book
 
 ==== Current Implementation
-A private attribute under the Person class is initialised when a Person is added to the AddressBook. This attribute holds 2 Strings, one being the monetary value of
-the fee and the other being the due date for the respective fee. The current set of commands include:
+An attribute under the Person class is initialised when a Person is added to the AddressBook. This attribute holds 2 Strings, one being the monetary value of
+the fee and the other being the duedate for that respective fee. The current set of commands include:
 
 . `Editing a Fee`
+. `Paying a Fee in full`
 . `Viewing Fee of a Person`
 . `Listing all Fees`
 . `Listing all Due Fees`
@@ -482,6 +401,12 @@ An Example of how command 1 - `Editing the Fee of a Person` works:
 . The admin will be able to use the 'editfees' command to add a new fee to the Person.
 . The existing fee with its date will be replaced by this new value in the Person object in the AddressBook.
 . The updated fees will then be store in the AddressBook and will be automatically private, only viewable by the admin and tutors.
+
+This is shown in the diagram below.
+
+[[fig-EditFeesSequenceDiagram]]
+.Sequence Diagram of EditFeesCommand
+image::EditFeesSequenceDiag.png[width="800"]
 
 ==== Design Considerations
 
@@ -495,6 +420,14 @@ An Example of how command 1 - `Editing the Fee of a Person` works:
 * **Alternative 3:** A compulsory attribute under Person Class hence occupying a data field in the input for AddPersonCommand.
 ** Pros: Easy to implement and parse.
 ** Cons: Input for Add Command would be too long as it will have too many data entry points.
+
+===== Aspect: Paying a fee for a Person
+* **Alternative 1 (current choice):** Separate command for Admin to indicate a Person to have paid fees fully.
+** Pros: Convenient for admins to control Fees data of each Person. +
+** Cons: May seem redundant for 2 Commands to change the attributes of Fees.
+* **Alternative 2:** Using EditFeesCommand to indicate the payment of Fees when edited back to 0 value.
+** Pros: Lesser commands in the Fees feature, therefore lesser clutter.
+** Cons: Counter intuitive as Admin would have to manually edit values to be "0.00".
 
 ===== Aspect: How to List fees of everyone
 * **Alternative 1 (current choice):** Shallow copies the internalList of ReadOnlyPerson, sorts the copy with a custom comparator and prints the list,
@@ -675,10 +608,7 @@ The SE-EDU team does not provide support for modified template files.
 
 === Running Tests
 
-There are three ways to run tests.
-
-[TIP]
-The most reliable way to run tests is the 3rd one. The first two methods might fail some GUI tests due to platform/resolution-specific idiosyncrasies.
+There are two ways to run tests.
 
 *Method 1: Using IntelliJ JUnit test runner*
 
@@ -703,13 +633,6 @@ e.g. `seedu.addressbook.commons.UtilsTest`
 e.g. `seedu.addressbook.storage.StorageFileTest`
 ..  Hybrids of unit and integration tests. These tests are checking multiple code units as well as how they are connected together. +
 e.g. `seedu.addressbook.logic.LogicTest`
-
-
-=== Troubleshooting Testing
-**Problem: `HelpWindowTest` fails with a `NullPointerException`.**
-
-* Reason: One of its dependencies, `HelpWindow.html` in `src/main/resources/docs` is missing.
-* Solution: Execute Gradle task `processResources`.
 
 == Dev Ops
 
@@ -833,7 +756,7 @@ Click to Expand
 === Use case: Add person
 [discrete]
 ==== Actors: Tutor, Admin
-*MSS*
+<<mss, *MSS*>> 
 
 1. User requests to add person.
 2. ClassRepo requests the details of the person to add.
@@ -845,12 +768,12 @@ Use case ends.
 *Extensions*
 
 [none]
-* 3a. The details entered is of an invalid format +
+* 3a. The details entered is of an invalid format. +
 ** 3a1. ClassRepo shows an error message. +
 Use case ends. +
 [none]
 * 3b. The person to add already exists in ClassRepo. +
-** 3a1. ClassRepo shows an error message. +
+** 3b1. ClassRepo shows an error message. +
 Use case ends.
 
 [discrete]
@@ -859,28 +782,26 @@ Use case ends.
 ==== System: AdressBook, ExamBook
 [discrete]
 ==== Actors: Tutor, Admin
-*MSS*
+<<mss, *MSS*>> 
 
 1.  User requests to list persons.
 2.  ClassRepo shows a list of persons.
 3.  User requests to delete a specific person in the list.
 4.  ClassRepo deletes the person.
-5.  ClassRepo checks for all the exams the person is registered for and updates the number of exam takers in the ExamBook. Persons in the AddressBook registered under the exams will have their exams details updated.
+5.  ClassRepo checks for all the exams the person is registered for and updates the number of exam takers in the ExamBook.
+6.  ClassRepo updates the exam details for all persons in the AddressBook registered for the exams.
 +
 Use case ends.
 
 *Extensions*
 
 [none]
-* 2a. The list is empty.
-+
+* 2a. The list is empty. +
 Use case ends.
 
-* 3a. The given index is invalid.
-+
+* 3a. The given index is invalid. +
 [none]
-** 3a1. ClassRepo shows an error message.
-+
+** 3a1. ClassRepo shows an error message. +
 Use case resumes at step 2.
 
 [discrete]
@@ -889,7 +810,7 @@ Use case resumes at step 2.
 ==== System: ExamBook
 [discrete]
 ==== Actor: Tutor, Admin
-*MSS*
+<<mss, *MSS*>> 
 
 1. User requests to add exam.
 2. ClassRepo requests the details of the exam to add.
@@ -901,17 +822,12 @@ Use case ends.
 *Extensions*
 
 [none]
-* 3a. The details entered is of an invalid format.
-+
-** 3a1. ClassRepo shows an error message.
-+
-Use case ends.
-+
+* 3a. The details entered is of an invalid format. +
+** 3a1. ClassRepo shows an error message. +
+Use case ends. +
 [none]
-* 3b. The exam to add already exists in ClassRepo.
-+
-** 3a1. ClassRepo shows an error message.
-+
+* 3b. The exam to add already exists in ClassRepo. +
+** 3b1. ClassRepo shows an error message. +
 Use case ends.
 
 [discrete]
@@ -920,7 +836,7 @@ Use case ends.
 ==== System: AdressBook, ExamBook
 [discrete]
 ==== Actor: Tutor, Admin
-*MSS*
+<<mss, *MSS*>> 
 
 1.  User requests to list exams.
 2.  ClassRepo shows a list of exams.
@@ -933,15 +849,11 @@ Use case ends.
 *Extensions*
 
 [none]
-* 2a. The list is empty.
-+
+* 2a. The list is empty. +
 Use case ends.
-
-* 3a. The given index is invalid.
-+
 [none]
-** 3a1. ClassRepo shows an error message.
-+
+* 3a. The given index is invalid. +
+** 3a1. ClassRepo shows an error message. +
 Use case resumes at step 2.
 
 [discrete]
@@ -950,7 +862,7 @@ Use case resumes at step 2.
 ==== System: AdressBook, ExamBook
 [discrete]
 ==== Actor: Tutor, Admin
-*MSS*
+<<mss, *MSS*>> 
 
 1.  User requests to list exams.
 2.  ClassRepo shows a list of exams.
@@ -958,43 +870,36 @@ Use case resumes at step 2.
 4.  ClassRepo requests the details of the exam to edit.
 5.  ClassRepo edits the exam in the ExamBook.
 6.  ClassRepo edits the exam for all persons registered for it in the AddressBook.
+7.  ClassRepo shows a updated list of exams in the ExamBook.
 +
 Use case ends.
 
 *Extensions*
 
 [none]
-* 2a. The list is empty.
-+
+* 2a. The list is empty. +
 Use case ends.
-
-* 3a. The given index is invalid.
-+
 [none]
-** 3a1. ClassRepo shows an error message.
-+
+* 3a. The given index is invalid. +
+** 3a1. ClassRepo shows an error message. +
 Use case resumes at step 2.
-
-* 4a. The details entered is of an invalid format.
-+
 [none]
-** 4a1. ClassRepo shows an error message.
-+
+* 4a. The details entered is of an invalid format. +
+** 4a1. ClassRepo shows an error message. +
 Use case resumes at step 2.
-* 4b. The exam with the changed details already exists in the ExamBook.
-+
 [none]
-** 4b1. ClassRepo shows an error message.
-+
+* 4b. The exam with the changed details already exists in the ExamBook. +
+** 4b1. ClassRepo shows an error message. +
 Use case resumes at step 2.
 
 [discrete]
 === Use case: Register for an exam
 [discrete]
-==== System: AdressBook,ExamBook
+==== System: AdressBook, ExamBook
 [discrete]
-==== Actor: Admin,Tutor
-*MSS*
+==== Actor: Tutor, Admin
+<<mss, *MSS*>> 
+
 
 1.  User requests to list exams.
 2.  ClassRepo shows a list of exams.
@@ -1004,32 +909,25 @@ Use case resumes at step 2.
 6.  ClassRepo edits the person.
 7.  ClassRepo updates the number of exam takers for the specific exam in the ExamBook.
 8.  ClassRepo updates the specific exam for all persons registered for it in the AddressBook.
+9.  ClassRepo shows a updated list of exams of the specified person.
 +
 Use case ends.
 
 *Extensions*
 
 [none]
-* 2a. The list is empty.
-+
+* 2a. The list is empty. +
 Use case ends.
-
-* 4a. The list is empty.
-+
-Use case ends.
-
-* 5a. The given person index is invalid.
-+
 [none]
-** 5a1. ClassRepo shows an error message.
-+
+* 4a. The list is empty. +
+Use case ends.
+[none]
+* 5a. The given person index is invalid. +
+** 5a1. ClassRepo shows an error message. +
 Use case resumes at step 4.
-
-* 5b. The given exam index is invalid.
-+
 [none]
-** 5b1. ClassRepo shows an error message.
-+
+* 5b. The given exam index is invalid. +
+** 5b1. ClassRepo shows an error message. +
 Use case resumes at step 4.
 
 [discrete]
@@ -1038,7 +936,7 @@ Use case resumes at step 4.
 ==== System: AdressBook, ExamBook
 [discrete]
 ==== Actor: Tutor, Admin
-*MSS*
+<<mss, *MSS*>> 
 
 1.  User requests to list exams.
 2.  ClassRepo shows a list of exams.
@@ -1048,32 +946,25 @@ Use case resumes at step 4.
 6.  ClassRepo edits the person.
 7.  ClassRepo updates the number of exam takers for the specific exam in the ExamBook.
 8.  ClassRepo updates the specific exam for all persons registered for it in the AddressBook.
+9.  ClassRepo shows a updated list of exams of the specified person.
 +
 Use case ends.
 
 *Extensions*
 
 [none]
-* 2a. The list is empty.
-+
+* 2a. The list is empty. +
 Use case ends.
-
-* 4a. The list is empty.
-+
-Use case ends.
-
-* 5a. The given person index is invalid.
-+
 [none]
-** 5a1. ClassRepo shows an error message.
-+
+* 4a. The list is empty. +
+Use case ends.
+[none]
+* 5a. The given person index is invalid. +
+** 5a1. ClassRepo shows an error message. +
 Use case resumes at step 4.
-
-* 5b. The given exam index is invalid.
-+
 [none]
-** 5b1. ClassRepo shows an error message.
-+
+* 5b. The given exam index is invalid. +
+** 5b1. ClassRepo shows an error message. +
 Use case resumes at step 4.
 
 [discrete]
@@ -1082,7 +973,7 @@ Use case resumes at step 4.
 ==== System: ExamBook
 [discrete]
 ==== Actor: Tutor, Admin
-*MSS*
+<<mss, *MSS*>> 
 
 1.  User requests to list exams.
 2.  ClassRepo shows a list of exams.
@@ -1099,7 +990,7 @@ Use case ends.
 [discrete]
 === Use case: View a person's exams
 
-*MSS*
+<<mss, *MSS*>> 
 
 1.  User requests to list persons.
 2.  ClassRepo shows a list of persons.
@@ -1111,15 +1002,26 @@ Use case ends.
 *Extensions*
 
 [none]
-* 2a. The list is empty.
-+
+* 2a. The list is empty. +
+Use case ends.
+[none]
+* 3a. User is not a Tutor/Admin and is not logged in. +
+** 3a1. ClassRepo shows an error message. +
+Use case ends.
+[none]
+* 3b. User is logged in as a Student and tries to view exams of other students. +
+** 3b1. ClassRepo shows an error message. +
+Use case ends.
+
+* 4a. User is logged in as a Student and tries to view his own exams. +
+** 4a1. ClassRepo shows a list of his non-private exams. +
 Use case ends.
 
 
 [discrete]
 === Use case: View the user's own details
 
-*MSS*
+<<mss, *MSS*>> 
 
 1.  User requests to view his own details
 2.  ClassRepo shows the details of the person associated with the logged-in account
@@ -1135,7 +1037,7 @@ Use case ends.
 
 [discrete]
 === Use case: Raise privilege to Admin
-*MSS*
+<<mss, *MSS*>> 
 
 1. User requests to increase his privilege
 2. ClassRepo requests authentication password
@@ -1159,7 +1061,7 @@ Use case ends
 === Use case: Change master password
 [discrete]
 ==== Actor: Admin
-*MSS*
+<<mss, *MSS*>> 
 
 1. User requests to change the master password
 2. ClassRepo requests the current password
@@ -1185,7 +1087,7 @@ User case resumes from step 4
 === Use case: Add account to a person
 [discrete]
 ==== Actor: Admin
-*MSS*
+<<mss, *MSS*>> 
 
 1.  User requests to list persons
 2.  AddressBook shows a list of persons
@@ -1227,7 +1129,7 @@ Use case resumes at step 2.
 [discrete]
 ==== Actor: Admin
 
-*MSS*
+<<mss, *MSS*>> 
 
 1.  User requests to list persons
 2.  AddressBook shows a list of persons
@@ -1260,7 +1162,7 @@ Use case resumes at step 2.
 [discrete]
 === Use case: Login to an account
 
-*MSS*
+<<mss, *MSS*>> 
 
 1.  User requests to log in
 2.  AddressBook requests username and password
@@ -1296,7 +1198,7 @@ Use case ends.
 [discrete]
 === Use case: Logout of an account
 
-*MSS*
+<<mss, *MSS*>> 
 
 1.  User requests to log out
 2.  ClassRepo logs the user out of his account
@@ -1316,7 +1218,7 @@ Use case ends.
 [discrete]
 === Use case: View your current privilege
 
-*MSS*
+<<mss, *MSS*>> 
 
 1.  User requests to view his privilege
 2.  ClassRepo shows the privilege level and the account the user is logged in as
@@ -1348,25 +1250,11 @@ A contact detail that is not meant to be shared with others
 [[private-exam]] Private exam::
 An exam with details that are not meant to be released to the students yet
 
-Main Success Scenario::
+[[privilege-level]] Privilege Level::
+Describes the authority of the current user. Interchangable with the term "access level"
+
+[[mss]] Main Success Scenario::
 The Main Success Scenario (MSS) describes the most straightforward interaction for a given use case, which assumes that nothing goes wrong.
-
-[appendix]
-== Product Survey
-
-*Product Name*
-
-Author: ...
-
-Pros:
-
-* ...
-* ...
-
-Cons:
-
-* ...
-* ...
 
 [appendix]
 == Instructions for Manual Testing
@@ -1390,8 +1278,6 @@ These instructions only provide a starting point for testers to work on; testers
 .. Re-launch the app by double-clicking the jar file. +
    Expected: The most recent window size and location are retained.
 
-_{ more test cases ... }_
-
 === Deleting a person
 
 . Deleting a person while all persons are listed
@@ -1401,7 +1287,7 @@ _{ more test cases ... }_
    Expected: First contact is deleted from the list. Details of the deleted contact shown in the status console.
 .. Test case: `delete 0` +
    Expected: No person is deleted. Error details shown in the status console. Console bar remains the same.
-.. Other incorrect delete commands to try: `delete`, `delete x` (where x is larger than the list size), `delete a` (where a is not an integer)+
+.. Other incorrect delete commands to try: `delete`, `delete x` (where x is larger than the list size), `delete a` (where a is not an integer) +
    Expected: Similar to previous.
    
 === Accessing a command of different privilege level
@@ -1416,17 +1302,31 @@ _{ more test cases ... }_
 
 === Adding a duplicate person
 
-. Add an person while it already exists in the address book.  
+. Add a person while it already exists in the address book.  
 .. Test case: `add John Doe p/98765432 e/johnd@gmail.com a/311, Clementi Ave 2, #02-25 t/friends t/owesMoney` +
    Expected: Contact is added to the list. Details of the added contact shown in the status console. List in the output console is updated.
 .. Test case: `add John Doe p/98765432 e/johnd@gmail.com a/311, Clementi Ave 2, #02-25 t/friends t/owesMoney` after the previous test case was preformed. +
    Expected: No person is added. Error details shown in the status console. Console bar remains the same.
-.. Other similar commands to try: `addexam`, `addassess`
+.. Other similar commands to try: `addexam`, `addassess` +
    Expected: Similar to previous.   
+
+=== Data storage
+
+. Dealing with missing/corrupted data files
+
+.. Prerequisites: Run the application at least once to generate the storage files and add in some person data.
+.. Open up `addressbook.txt`.
+.. Edit a field of a person such that it is invalid, eg. the field of `phone` is changed to `notANumber`.
+.. Run the application again. +
+   Expected: The application is unable to be opened. Refer to the `log.txt` in the base folder to check for the error message, which should indicate an error for the phone number.
+.. Other similar edits can be made to `exams.txt` and statistics.txt` to try. +
+   Expected: Similar to previous.      
+
+. _{explain how to simulate a missing/corrupted file and the expected behaviour}_
 
 _{ more test cases ... }_
 
-=== Saving data
+=== Instructions for Manual Testing
 
 . Dealing with missing/corrupted data files
 

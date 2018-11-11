@@ -29,7 +29,7 @@ public class HelpCommand extends Command {
     /**
      * Creates the help manual to the user based on what commands they can access
      * */
-    public static String makeHelpManual() {
+    public String makeHelpManual() {
         StringBuilder builder = new StringBuilder();
         List<Command> allowedCommands = privilege.getAllowedCommands();
         HashSet<Category> seenCategories = new HashSet<>();

@@ -10,6 +10,10 @@ public class Messages {
     public static final String MESSAGE_INVALID_PERSON_DISPLAYED_INDEX = "The person index provided is invalid. "
             + "Run the list/find command to generate a list of person.";
     public static final String MESSAGE_PERSON_NOT_IN_ADDRESSBOOK = "Person could not be found in address book!";
+    public static final String MESSAGE_STATISTIC_NOT_IN_STATISTICSBOOK = "Statistic could not be found in statistics "
+            + "book!";
+    public static final String MESSAGE_INVALID_STATISTICS_DISPLAYED_INDEX = "The statistics index provided is invalid. "
+            + "Run the list/find command to generate a list of statistics.";
     public static final String MESSAGE_PERSONS_LISTED_OVERVIEW = "%1$d persons listed!";
     public static final String MESSAGE_PROGRAM_LAUNCH_ARGS_USAGE = "Launch command format: "
             + "java seedu.addressbook.Main [STORAGE_FILE_PATH]";
@@ -23,6 +27,8 @@ public class Messages {
     public static final String MESSAGE_USING_EXAMS_FILE = "Using exams file : %1$s";
     public static final String MESSAGE_EXAMS_LISTED_OVERVIEW = "%1$d exams listed!";
     public static final String MESSAGE_USING_STATISTICS_FILE = "Using statistics file : %1$s";
+    public static final String MESSAGE_STATISTICS_LISTED_OVERVIEW = "%1$d statistics listed!";
+    public static final String MESSAGE_INVALID_GRADES = "Invalid command format! - Value of grades is out of bounds!";
     public static final String MESSAGE_EXAM_NOT_IN_EXAMBOOK = "Exam could not be found in exam book!";
     public static final String MESSAGE_INVALID_EXAM_DISPLAYED_INDEX = "The exam index provided is invalid. "
             + "Run the examslist command to generate a list of exams.";
@@ -30,7 +36,8 @@ public class Messages {
             + "Run the list/find command to generate a list of assessments.";
     public static final String MESSAGE_ASSESSMENT_NOT_IN_ADDRESSBOOK = "Assessment could not be found in address book!";
     public static final String MESSAGE_ASSESSMENTS_LISTED_OVERVIEW = "%1$d assessments listed!";
-    public static final String MESSAGE_DATE_CONSTRAINTS = "Date format should be in DD-MM-YYYY and valid.\n";
+    public static final String MESSAGE_DATE_CONSTRAINTS = "Date format should be in DD-MM-YYYY and be valid dates.\n";
+    public static final String MESSAGE_FEES_VALUE_CONSTRAINTS = "Fees must be positive and not be 0.00.\n";
     public static final String MESSAGE_WELCOME_ASCII_ART = "\n"
             + "   _____ _               _____             ____   __      ____   ____  \n"
             + "  / ____| |             |  __ \\           / __ \\  \\ \\    / /_ | |___ \\ \n"
@@ -40,7 +47,7 @@ public class Messages {
             + "  \\_____|_|\\__,_|___/___/_|  \\_\\___| .__/ \\____/      \\/    |_(_)____/ \n"
             + "                                   | |                                 \n"
             + "                                   |_|                                 \n";
-    public static final String MESSAGE_NO_NON_PRIVATE_EXAMS = "This person has no non-private exams.";
-    public static final String MESSAGE_NOT_LOGGED_IN_OR_WRONG_TARGET =
-            "You must login and can only check your own details.";
+    public static final String MESSAGE_NO_NON_PRIVATE_EXAMS = "%1$s has no non-private exams.";
+    public static final String MESSAGE_NO_EXAMS = "%1$s has no exams.";
+    public static final String MESSAGE_WRONG_TARGET = "You cannot check the exams of others.";
 }

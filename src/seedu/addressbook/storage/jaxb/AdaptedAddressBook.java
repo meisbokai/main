@@ -25,7 +25,7 @@ public class AdaptedAddressBook {
     private List<AdaptedPerson> persons = new ArrayList<>();
 
     @XmlElement
-    private List<Assessment> assessments = new ArrayList<>();
+    private List<AdaptedAssessment> assessments = new ArrayList<>();
 
     @XmlElement(name = "password", defaultValue = "default_pw")
     private String password;
@@ -47,6 +47,9 @@ public class AdaptedAddressBook {
         source.getAllPersons().forEach(person -> persons.add(new AdaptedPerson(person)));
         password = source.getMasterPassword();
         isPermAdmin = source.isPermAdmin();
+        assessments = new ArrayList<>();
+        source.getAllAssessments().forEach(assessment -> assessments.add(new AdaptedAssessment(assessment,
+                source.getAllPersons())));
     }
 
 
@@ -75,8 +78,11 @@ public class AdaptedAddressBook {
             personList.add(modelPerson);
             checkDuplicateUsername(usernameSet, modelPerson);
         }
+        List<Assessment> assessmentList = new ArrayList<>();
+        for (AdaptedAssessment assess : assessments) {
+            assessmentList.add(assess.toModelType(personList));
+        }
         final String masterPassword = password;
-        final List<Assessment> assessmentList = new ArrayList<>(assessments);
         final AddressBook ab = new AddressBook(new UniquePersonList(personList),
                 new UniqueAssessmentsList(assessmentList),
                 masterPassword);

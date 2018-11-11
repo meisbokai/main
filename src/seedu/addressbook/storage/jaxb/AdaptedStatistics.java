@@ -1,6 +1,5 @@
 package seedu.addressbook.storage.jaxb;
 
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
 import seedu.addressbook.common.Utils;
@@ -11,24 +10,16 @@ import seedu.addressbook.data.person.AssignmentStatistics;
  * JAXB-friendly adapted assignment statistics data holder class.
  */
 public class AdaptedStatistics {
-    @XmlAttribute(required = true)
-    private Boolean isPrivate;
-    @XmlElement(required = true)
-    private String subjectName;
     @XmlElement(required = true)
     private String examName;
     @XmlElement(required = true)
-    private String topScorer;
+    private double averageScore;
     @XmlElement(required = true)
-    private String averageScore;
-    @XmlElement(required = true)
-    private String totalExamTakers;
+    private int totalExamTakers;
     @XmlElement (required = true)
-    private String numberAbsent;
+    private double maxScore;
     @XmlElement (required = true)
-    private String totalPass;
-    @XmlElement (required = true)
-    private String maxMin;
+    private double minScore;
 
     /**
      * No-arg constructor for JAXB use.
@@ -41,23 +32,15 @@ public class AdaptedStatistics {
      * @param source future changes to this will not affect the created AdaptedStatistics
      */
     public AdaptedStatistics(AssignmentStatistics source) {
-        isPrivate = source.isPrivate();
-
-        subjectName = source.getSubjectName();
-
         examName = source.getExamName();
-
-        topScorer = source.getTopScorer();
 
         averageScore = source.getAverageScore();
 
         totalExamTakers = source.getTotalExamTakers();
 
-        numberAbsent = source.getNumberAbsent();
+        maxScore = source.getMaxScore();
 
-        totalPass = source.getTotalPass();
-
-        maxMin = source.getMaxMin();
+        minScore = source.getMinScore();
     }
 
     /**
@@ -69,8 +52,7 @@ public class AdaptedStatistics {
      * so we check for that.
      */
     public boolean isAnyRequiredFieldMissing() {
-        return Utils.isAnyNull(subjectName, examName, topScorer, averageScore, totalExamTakers, numberAbsent,
-                totalPass, maxMin, isPrivate);
+        return Utils.isAnyNull(examName, averageScore, totalExamTakers, maxScore, minScore);
     }
 
     /**
@@ -79,16 +61,11 @@ public class AdaptedStatistics {
      * @throws IllegalValueException if there were any data constraints violated in the adapted statistics
      */
     public AssignmentStatistics toModelType() throws IllegalValueException {
-        final String subjectName = this.subjectName;
         final String examName = this.examName;
-        final String topScorer = this.topScorer;
-        final String averageScore = this.averageScore;
-        final String totalExamTakers = this.totalExamTakers;
-        final String numberAbsent = this.numberAbsent;
-        final String totalPass = this.totalPass;
-        final String maxMin = this.maxMin;
-        final boolean isPrivate = this.isPrivate;
-        return new AssignmentStatistics(subjectName, examName, topScorer, averageScore, totalExamTakers, numberAbsent,
-                totalPass, maxMin, isPrivate);
+        final double averageScore = this.averageScore;
+        final int totalExamTakers = this.totalExamTakers;
+        final double maxScore = this.maxScore;
+        final double minScore = this.minScore;
+        return new AssignmentStatistics(examName, averageScore, totalExamTakers, maxScore, minScore);
     }
 }

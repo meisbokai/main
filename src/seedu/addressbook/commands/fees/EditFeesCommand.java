@@ -1,7 +1,8 @@
 package seedu.addressbook.commands.fees;
 
-import java.util.HashSet;
-import java.util.Set;
+import static seedu.addressbook.common.Messages.MESSAGE_DATE_CONSTRAINTS;
+import static seedu.addressbook.common.Messages.MESSAGE_FEES_VALUE_CONSTRAINTS;
+import static seedu.addressbook.common.Utils.isValidDate;
 
 import seedu.addressbook.commands.commandformat.indexformat.IndexFormatCommand;
 import seedu.addressbook.commands.commandformat.indexformat.ObjectTargeted;
@@ -11,7 +12,6 @@ import seedu.addressbook.data.exception.IllegalValueException;
 import seedu.addressbook.data.person.Fees;
 import seedu.addressbook.data.person.Person;
 import seedu.addressbook.data.person.UniquePersonList.PersonNotFoundException;
-import seedu.addressbook.data.tag.Tag;
 
 /**
  * Adds fees to a respective person
@@ -33,6 +33,12 @@ public class EditFeesCommand extends IndexFormatCommand {
      */
     public EditFeesCommand(int index, String fees, String date) throws IllegalValueException {
         setTargetIndex(index, ObjectTargeted.PERSON);
+        if (!isValidDate(date) && !"0".equals(date)) {
+            throw new IllegalValueException(MESSAGE_DATE_CONSTRAINTS);
+        }
+        if ("0.00".equals(fees)) {
+            throw new IllegalValueException(MESSAGE_FEES_VALUE_CONSTRAINTS);
+        }
         this.fees = new Fees(fees, date);
     }
 
@@ -47,21 +53,15 @@ public class EditFeesCommand extends IndexFormatCommand {
     @Override
     public CommandResult execute() {
         try {
-            Person person = getTargetPerson();
-            person.setFees(fees);
-            if ("0.00".equals(fees.value)) {
-                Set<Tag> temp = new HashSet<>();
-                temp = person.getTags();
-                for (Tag t : temp) {
-                    if ("feesdue".equals(t.tagName)) {
-                        temp.remove(t);
-                    }
-                }
-                person.setTags(temp);
+            try {
+                Person person = getTargetPerson();
+                person.setFees(fees);
+                return new CommandResult(String.format(MESSAGE_SUCCESS, person.getAsTextShowFee()));
+            } catch (PersonNotFoundException pnfe) {
+                return new CommandResult(Messages.MESSAGE_PERSON_NOT_IN_ADDRESSBOOK);
             }
-            return new CommandResult(String.format(MESSAGE_SUCCESS, person.getAsTextShowFee()));
-        } catch (PersonNotFoundException pnfe) {
-            return new CommandResult(Messages.MESSAGE_PERSON_NOT_IN_ADDRESSBOOK);
+        } catch (IndexOutOfBoundsException ie) {
+            return new CommandResult(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
         }
     }
 

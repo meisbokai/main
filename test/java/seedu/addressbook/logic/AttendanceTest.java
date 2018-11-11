@@ -26,7 +26,6 @@ import seedu.addressbook.data.StatisticsBook;
 import seedu.addressbook.data.person.Person;
 import seedu.addressbook.privilege.Privilege;
 import seedu.addressbook.privilege.user.AdminUser;
-import seedu.addressbook.storage.StorageFile;
 import seedu.addressbook.stubs.StorageStub;
 
 
@@ -46,7 +45,6 @@ public class AttendanceTest {
     @Before
     public void setUp() throws Exception {
         StorageStub stubFile;
-        StorageFile saveFile;
 
         addressBook = new AddressBook();
         ExamBook examBook = new ExamBook();
@@ -55,15 +53,11 @@ public class AttendanceTest {
         // Privilege restrictions are tested separately under PrivilegeTest.
         Privilege privilege = new Privilege(new AdminUser());
 
-        saveFile = new StorageFile(saveFolder.newFile("testSaveFile.txt").getPath(),
-                saveFolder.newFile("testExamFile.txt").getPath(),
-                saveFolder.newFile("testStatisticsFile.txt").getPath());
         stubFile = new StorageStub(saveFolder.newFile("testStubFile.txt").getPath(),
                 saveFolder.newFile("testStubExamFile.txt").getPath(),
                 saveFolder.newFile("testStubStatisticsFile.txt").getPath());
-        saveFile.save(addressBook);
         logic = new Logic(stubFile, addressBook, examBook, statisticBook, privilege);
-        CommandAssertions.setData(saveFile, addressBook, logic);
+        CommandAssertions.setData(stubFile, addressBook, logic);
     }
 
     /** This file contains the following test:
@@ -123,7 +117,8 @@ public class AttendanceTest {
                 expectedMessage,
                 expectedBook,
                 false,
-                personList);
+                personList,
+                false);
     }
 
     @Test
@@ -147,7 +142,8 @@ public class AttendanceTest {
                 UpdateAttendanceCommand.MESSAGE_SUCCESS + p1Expected.getName(),
                 expectedBook,
                 false,
-                threePersons);
+                threePersons,
+                true);
 
         assertEquals(p1.getAttendance(), p1Expected.getAttendance());
     }
@@ -174,7 +170,8 @@ public class AttendanceTest {
                 UpdateAttendanceCommand.MESSAGE_SUCCESS + p1Expected.getName(),
                 expectedBook,
                 false,
-                threePersons);
+                threePersons,
+                false);
 
         assertEquals(p1.getAttendance(), p1Expected.getAttendance());
     }
@@ -197,7 +194,8 @@ public class AttendanceTest {
                 UpdateAttendanceCommand.MESSAGE_DUPLICATE_ATTENDANCE,
                 expectedBook,
                 false,
-                personList);
+                personList,
+                false);
     }
 
     @Test
@@ -216,7 +214,8 @@ public class AttendanceTest {
                 MESSAGE_INVALID_PERSON_DISPLAYED_INDEX,
                 expectedBook,
                 false,
-                personList);
+                personList,
+                false);
     }
 
     @Test
@@ -235,7 +234,8 @@ public class AttendanceTest {
                 expectedMessage,
                 expectedBook,
                 false,
-                personList);
+                personList,
+                false);
     }
 
     @Test
@@ -265,7 +265,8 @@ public class AttendanceTest {
                         + ":\n" + p1Expected.viewAttendanceMethod(),
                 expectedBook,
                 false,
-                personListExpected);
+                personListExpected,
+                false);
     }
 
     @Test
@@ -287,7 +288,8 @@ public class AttendanceTest {
                         + ":\n" + p1Expected.viewAttendanceMethod(),
                 expectedBook,
                 false,
-                personList);
+                personList,
+                false);
     }
 
     @Test
@@ -306,7 +308,8 @@ public class AttendanceTest {
                 MESSAGE_INVALID_PERSON_DISPLAYED_INDEX,
                 expectedBook,
                 false,
-                personList);
+                personList,
+                false);
     }
 
     @Test
@@ -331,7 +334,8 @@ public class AttendanceTest {
                 expectedMessage,
                 expectedBook,
                 false,
-                personList);
+                personList,
+                false);
     }
 
     @Test
@@ -352,7 +356,8 @@ public class AttendanceTest {
                 ReplaceAttendanceCommand.MESSAGE_SUCCESS + p1.getName(),
                 expectedBook,
                 false,
-                personList);
+                personList,
+                true);
     }
 
     @Test
@@ -371,7 +376,8 @@ public class AttendanceTest {
                 ReplaceAttendanceCommand.MESSAGE_NO_DUPLICATE_ATTENDANCE,
                 expectedBook,
                 false,
-                personList);
+                personList,
+                false);
     }
 
     @Test
@@ -396,7 +402,8 @@ public class AttendanceTest {
                 ReplaceAttendanceCommand.MESSAGE_SUCCESS + p1Expected.getName(),
                 expectedBook,
                 false,
-                onePersons);
+                onePersons,
+                false);
 
         assertEquals(p1.getAttendance(), p1Expected.getAttendance());
     }
@@ -417,7 +424,8 @@ public class AttendanceTest {
                 MESSAGE_INVALID_PERSON_DISPLAYED_INDEX,
                 expectedBook,
                 false,
-                personList);
+                personList,
+                false);
     }
 
     @Test
@@ -436,7 +444,8 @@ public class AttendanceTest {
                 expectedMessage,
                 expectedBook,
                 false,
-                personList);
+                personList,
+                false);
     }
 
     @Test
@@ -471,7 +480,8 @@ public class AttendanceTest {
                 expectedMessage,
                 expectedBook,
                 false,
-                threePersons);
+                threePersons,
+                false);
     }
 
     @Test
@@ -490,7 +500,8 @@ public class AttendanceTest {
                 expectedMessage,
                 expectedBook,
                 false,
-                personList);
+                personList,
+                false);
     }
 
     @Test
@@ -519,7 +530,8 @@ public class AttendanceTest {
                 expectedMessage,
                 expectedBook,
                 false,
-                threePersons);
+                threePersons,
+                false);
     }
 
     @Test
@@ -544,6 +556,7 @@ public class AttendanceTest {
                 expectedMessage,
                 expectedBook,
                 false,
-                threePersons);
+                threePersons,
+                false);
     }
 }
