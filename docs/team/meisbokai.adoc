@@ -7,35 +7,30 @@
 
 == Overview
 
-ClassRepO is a desktop address book application written in Java that targets secondary schools for usage by their students, tutors and staff. This portfolio is meant to document the contributions that I made to the project.
+ClassRepO is a desktop address book application written in Java that targets secondary schools for usage by their students, tutors and administrative staff. This portfolio is meant to document the contributions that I made to the project.
 
 == Roles
 In this project, I serve mainly as a Code Quality checker. Aside from the code quality, I also ensure that the language used in the documentation is up to standard.
 
 == Summary of contributions
 
-* *Major enhancement*: added a new feature *Attendance*
-** What it does: Allows the address book application to manage each student's attendance.
-** Justification: This feature improves the product significantly as a school already needs to take the students' attendance. A digitalized storage and management of the attendance will make data analysis faster and also reduces the usage of paper (eco-friendly)
-** Highlights: This feature requires editing of existing code as the additional field (attendance) for each person would mean that there will be a need to change portions of the code that are related to the person.
-** Credits: (_to be updated_)
-
-* *Minor enhancement*: (_to be updated_)
+* *Major enhancement*: added a new field *Attendance* which comes with a few commands
+** What it does: Enables the ClassRepO to keep track of the students' attendance.
+** Justification: This feature improves the product significantly as a school already needs to take the students' attendance. A digitalized storage and management of the attendance will make data analysis faster and also reduces the usage of paper (eco-friendly).
+** Highlights: This feature uses different forms of software tricks (storage type) to make searching and editing of data more efficient.
+** Credits: https://stackoverflow.com/a/30578421[Victor Hernandez] for the base valid date checker method
 
 * *Other contributions*:
 
 ** Project management:
-*** _to be updated_
+*** Added config.json file to fix repoSense issue: https://github.com/CS2113-AY1819S1-F10-1/main/pull/210[#210]
 ** Enhancements to existing features:
-*** (_to be updated_)(https://github.com[#insert PR no. here)
-*** (_to be updated_) Wrote additional tests for existing features to increase coverage from _____% to _____%
+*** Continuously updated the feature introduced by me (attendance): https://github.com/CS2113-AY1819S1-F10-1/main/pull/214[#214] | https://github.com/CS2113-AY1819S1-F10-1/main/pull/209[#209] | https://github.com/CS2113-AY1819S1-F10-1/main/pull/2126[#126] | https://github.com/CS2113-AY1819S1-F10-1/main/pull/68[#68]
+*** Wrote additional tests for existing features to increase coverage: https://github.com/CS2113-AY1819S1-F10-1/main/pull/214[#214] | https://github.com/CS2113-AY1819S1-F10-1/main/pull/209[#209] | https://github.com/CS2113-AY1819S1-F10-1/main/pull/2126[#126] | https://github.com/CS2113-AY1819S1-F10-1/main/pull/68[#68]
 ** Documentation:
-*** (_to be updated_) Reviewed grammar and spelling of documentation: https://github.com[#insert PR no. here]
+*** Reviewed grammar and spelling for UG and DG: https://github.com/CS2113-AY1819S1-F10-1/main/pull/209[#209]
 ** Community:
-*** (_to be updated_) PRs reviewed (with non-trivial review comments): https://github.com[#insert PR no. here]
-*** Contributed to forum discussions https://github.com[#insert PR no. here]
-*** (_to be updated_) Reported bugs and suggestions for other teams in the class https://github.com[#insert PR no. here]
-
+*** PRs reviewed (with non-trivial review comments): https://github.com/CS2113-AY1819S1-F10-1/main/pull/221[#221]
 
 == Contributions to the User Guide
 
