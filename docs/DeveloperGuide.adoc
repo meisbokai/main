@@ -31,7 +31,7 @@ Do not disable them. If you have disabled them, go to `File` > `Settings` > `Plu
 === Setting up the project in your computer
 
 . Fork this repo, and clone the fork to your computer
-. Open IntelliJ (if you are not in the welcome screen, click `File` > `Close Project` to close the existing project dialog first)
+. Open IntelliJ (if you are not in the welcome screen, click `File` > `Close Project` to close the existing project dialogue first)
 . Set up the correct JDK version for Gradle
 .. Click `Configure` > `Project Defaults` > `Project Structure`
 .. Click `New...` and find the directory of the JDK
@@ -43,7 +43,7 @@ Do not disable them. If you have disabled them, go to `File` > `Settings` > `Plu
 === Verifying the setup
 
 . Run the `seedu.address.Main` and try a few commands
-. <<Testing,Run the tests>> to ensure they all pass
+. <<Testing, Run the tests>> to ensure they all pass
 . Open the `StorageFile` file and check for any code errors
 .. Due to an ongoing https://youtrack.jetbrains.com/issue/IDEA-189060[issue] with some of the newer versions of IntelliJ, code errors may be detected even if the project can be built and run successfully
 .. To resolve this, place your cursor over any of the code section highlighted in red. Press kbd:[ALT + ENTER], and select `Add '--add-modules=java.xml.bind' to module compiler options`
@@ -118,18 +118,18 @@ Changes to the master ExamBook will affect the corresponding exams in the Addres
 
 An Example of how feature 5 - `Registering a person for an exam` works:
 
-. First the specific exam and person will be identified from the most recent exams and persons listing respectively.
+. First, the specific exam and person will be identified from the most recent exams and persons listing respectively.
 . The specific exam and person is then extracted out of the ExamBook and AddressBook respectively.
 . A check is performed to ensure the specific person is not already registered for the exam.
 . A new exam is created to keep a copy of the original exam.
 . The exam has its number of exam takers increased by 1.
 . The exam is added to the specific person.
-. For the AddressBook, any copies of the original exam is removed and replaced with the new exam.
+. For the AddressBook, any copies of the original exam are removed and replaced with the new exam.
 
 
-This is demostrated by the following sequence diagram:
+This is demonstrated by the following sequence diagram:
 [[fig-registerPersonDiagram]]
-.Sequence Diagram of registering person for an exam with no errors occuring
+.Sequence Diagram of registering a person for an exam with no errors occurring
 image::RegisterExam_Sequence_Diagram.png[width="1200"]
 
 ==== Design Considerations
@@ -138,7 +138,7 @@ image::RegisterExam_Sequence_Diagram.png[width="1200"]
 
 * **Alternative 1 (current choice):** Each time there is a change in the field of an Exam, there has to be iteration through the whole AddressBook or ExamBook to update them.
 ** Pros: Less space is needed.
-** Cons: This can waste some time, if no changes need to be made for example.
+** Cons: This can waste some time if no changes need to be made for example.
 * **Alternative 2:** Store the persons registered for an exam for each exam.
 ** Pros: This makes it faster to update any changes in both AddressBook and ExamBook if needed.
 ** Cons: More data is duplicated and stored in both AddressBook and ExamBook.
@@ -158,7 +158,7 @@ image::RegisterExam_Sequence_Diagram.png[width="1200"]
 ** Pros: This is used when there is not a need to check for full equality, such as when adding a new exam to the ExamBook.
 ** Cons: Another method is needed to check for full equality.
 * **Alternative 2:** Have the current equals() method check for full equality, with no extra methods.
-** Pros: Less methods and easier to understand implementation.
+** Pros: Fewer methods and easier to understand implementation.
 ** Cons: Duplicate exams can be added, especially after modification of an exam in the ExamBook.
 
 ===== Aspect: Data structure to support the exam commands
@@ -199,11 +199,11 @@ image::Privilege.png[width="600"]
 * To create an increasing level of access, each *User* of a higher level inherits from the successively lower one. +
 * *User* levels have their own list of new commands they can run, which is appended to the list inherited from their parent. +
 
-* *Account* class, which contains its respective *Privilege* object as well as login details, assigns an *Privilege* level to a *Person*. +
+* *Account* class, which contains its respective *Privilege* object as well as login details, assigns a *Privilege* level to a *Person*. +
 
 An example of how `logging into an account` works:
 
-. First, the *Command* will retrieve the *Person* with the specified user name, which is gotten from *AddressBook* who receives it from *UniquePersonList*.
+. First, the *Command* will retrieve the *Person* with the specified username, which is gotten from *AddressBook* who receives it from *UniquePersonList*.
 . The *Command* then validates that the specified password matches the password the *Account* belonging to the retrieved person.
 . If the password is correct, the *Command* will update the *Privilege* level(`user`) and its *Person*(`myPerson`) to match that of the *Account*.
 . Finally, the *Command* retrieve the *Name* of the *Person* in a string format to be printed as part of the feedback message.
@@ -259,7 +259,7 @@ The usage of enums also allows us to keep a reference to the created *User* obje
 ** Cons: A bit more awkward solution than the Alternative 2
 * **Alternative 2:** Make *Logic's* variable to point to the new *Privilege* object inside of Account.
 ** Pros: Quick to implement.
-** Cons: Has a higher level of coupling compared to Alternative 1. Also, would require storing or instantiating a default *Privilege* object and making *Logic* point to this new object if *Logout Command* were to be called.
+** Cons: Has a higher level of coupling compared to Alternative 1. Also, would require storing or instantiating a default *Privilege* object and making a *Logic* point to this new object if *Logout Command* were to be called.
 
 ===== Aspect: Default required access levels for *Commands*
 
@@ -312,8 +312,8 @@ image::AssessmentClassDiagram.png[width="800"]
 . Each assessment object contains a Hashmap, with Person as the Key and Grades as the Value. Hence, the grades of all
 students for a particular assessment will be stored together in the same HashMap.
 . Each person object (or student) can have a list of assessments and respective grades under it. This makes sense
-logically since a student will have multiple assessments through the school year.
-. Statistics can be added for any existing assessment. The grades stored in the HasHMap will be used to calculate various
+logically since a student will have multiple assessments throughout the school year.
+. Statistics can be added for an existing assessment. The grades stored in the HasHMap will be used to calculate various
 stats such as average score, total exam takers, max score and min score.
 . This list of statistics is stored in the statisticsbook.
 
@@ -334,7 +334,7 @@ image::Assessment_Seq_Diagram.png[width="800"]
 
 ===== Aspect: 'Assessment' and 'Grades' as separate classes
 * **Alternative 1 (current choice):** Assessments and Grades are created as two separate classes. Assessment class stores the grades of all students for that assessment in a HashMap, where the Person (or student) is the key.
-** Pros: Better design in terms of OOP. Allows easier calculation of statistics per assessment as you can simply loop through all the grades. It is also a good model of the real-world where all grades for an assessment will be stored together.
+** Pros: Better design in terms of OOP. Allows easier calculation of statistics per assessment as you can simply loop through all the grades. It is also a good model of the real world where all grades for an assessment will be stored together.
 ** Cons: This is a little more tedious in terms of coding.
 * **Alternative 2:** The Assessment and Grades are combined into a single class with different parameters to take in the exam name and grade respectively.
 ** Pros: - Storage of the data becomes a little easier and you can just store a list of grades added to each person.
@@ -350,15 +350,15 @@ image::Assessment_Seq_Diagram.png[width="800"]
 
 ===== Aspect: Creation and Storage of Statistics Book
 * **Alternative 1 (current choice):** A separate Statistics Book is created to store the statistics of all assessments. Also, these statistics are stored in a separate txt file (statistics.txt) from AddressBook
-** Pros: These assessment statistics have no direct link to person object. It is a separate set of information accessible to all users (students, teachers and admin). Hence, a separate Statistics Book provides increased clarity and makes sense in terms of the end-usage. This also gives easy access to find and see statistics in raw XML format.
+** Pros: These assessment statistics have no direct link to the person object. It is a separate set of information accessible to all users (students, teachers and admin). Hence, a separate Statistics Book provides increased clarity and makes sense in terms of the end-usage. This also gives easy access to find and see statistics in raw XML format.
 ** Cons: Using an extra storage file implies that additional methods and file paths are needed. Makes code lengthier and repetitive.
 * **Alternative 2:** Store statistics in AddressBook itself.
 ** Pros: Everything is condensed and can be found in the same spot. Also, only one storage file would be needed.
 ** Cons: It is messy and confusing in terms of implementation - Unrelated data is being stored together.
 
 ===== Aspect: Automatic calculation of statistics
-* **Alternative 1 (current choice):** A fixed set of statistics (average score, total number of exam takers, max score and min score) are automatically calculated inside the application itself.
-** Pros: Reduces human effort. Makes the process of creating a statistic easier for user as they would not have to use any external tools like Excel to do this.
+* **Alternative 1 (current choice):** A fixed set of statistics (average score, the total number of exam takers, max score and min score) are automatically calculated inside the application itself.
+** Pros: Reduces human effort. Makes the process of creating a statistic easier for the user as they would not have to use any external tools like Excel to do this.
 ** Cons: Only the statistics parameters currently built into the app can be added. If the user wants to add any other parameter like pass rate, then it is currently not possible.
 * **Alternative 2:** The user manually calculates statistics using given data by hand and enters it in the app to store.
 ** Pros: The user can choose to leave some field blank if wanted.
@@ -400,7 +400,7 @@ An Example of how command 1 - `Editing the Fee of a Person` works:
 
 . The admin will be able to use the 'editfees' command to add a new fee to the Person.
 . The existing fee with its date will be replaced by this new value in the Person object in the AddressBook.
-. The updated fees will then be store in the AddressBook and will be automatically private, only viewable by the admin and tutors.
+. The updated fees will then be stored in the AddressBook and will be automatically private, only viewable by the admin and tutors.
 
 This is shown in the diagram below.
 
@@ -414,7 +414,7 @@ image::EditFeesSequenceDiag.png[width="800"]
 * **Alternative 1 (current choice):** Instantiate Fee attribute under each Person created in the Person Class.
 ** Pros: Allow us to skip the need for another data Class to be saved into any of the storage files, therefore being more convenient and reducing the number of files and Books. +
 ** Cons: May get messy with more data manipulation of the Fees attribute when printing/sorting.
-* **Alternative 2:** Use a seperate date file 'FeesBook' to keep track of each Person and their respective fees.
+* **Alternative 2:** Use a separate date file 'FeesBook' to keep track of each Person and their respective fees.
 ** Pros: Data independency and hence no conflict during data manipulation.
 ** Cons: Cluttered as there may be too many data Books just to track an attribute.
 * **Alternative 3:** A compulsory attribute under Person Class hence occupying a data field in the input for AddPersonCommand.
@@ -427,7 +427,7 @@ image::EditFeesSequenceDiag.png[width="800"]
 ** Cons: May seem redundant for 2 Commands to change the attributes of Fees.
 * **Alternative 2:** Using EditFeesCommand to indicate the payment of Fees when edited back to 0 value.
 ** Pros: Lesser commands in the Fees feature, therefore lesser clutter.
-** Cons: Counter intuitive as Admin would have to manually edit values to be "0.00".
+** Cons: Counterintuitive as Admin would have to manually edit values to be "0.00".
 
 ===== Aspect: How to List fees of everyone
 * **Alternative 1 (current choice):** Shallow copies the internalList of ReadOnlyPerson, sorts the copy with a custom comparator and prints the list,
@@ -448,7 +448,7 @@ the current system date.
 ** Cons: Inability to show the list of Fees of the Persons whose Fees are not yet due. Restricted in presenting data.
 
 ===== Aspect: Using ViewFeesCommand with respect to INDEX
-* **Alternative 1 (current choice):** Follows the other ViewCommands with respect to last INDEX presented following any List Command.
+* **Alternative 1 (current choice):** Follows the other ViewCommands with respect to the last INDEX presented following any List Command.
 ** Pros: Coherent code template as all ViewCommands follow the INDEXED structure. Ability to be flexible depending on which List Command was
 called beforehand.
 ** Cons: May not seem intuitive to view Fee of a specific Person if User only knows Name of the Person, therefore leading to use of the Find
@@ -532,24 +532,24 @@ An example of how feature 1 - `Updating a person's attendance` works:
 ** Pros: Similar to alternative 1, having the user input an additional parameter and only having 1 method in the Attendance object can reduce the need to have unnecessary duplicates in the code.
 ** Cons: An additional parameter will require a change in the parser.
 
-===== Aspect: How to store data in xml, addressbook.txt
+===== Aspect: How to store data in XML, addressbook.txt
 * **Alternative 1 (Current choice):** Use 2 list to store a list of dates and a list of absent/present
-** Pros: Simple implementation, and utilizes the fact that each date can only have either present/absent. Iterating through the map to generate the 2 list will thus ensure that the data is in order
-** Cons: In the xml format, data will be stored as 2 separate lists, which may not be as user friendly to edit directly.
+** Pros: Simple implementation, and utilizes the fact that each date can only have either present/absent. Iterating through the map to generate the 2 lists will thus ensure that the data is in order
+** Cons: In the XML format, data will be stored as 2 separate lists, which may not be as user-friendly to edit directly.
 
 * **Alternative 2:** Use a list of pairs, Pair <String Date, Boolean isPresent>
 ** Pros: Only requires 1 single list to store the data of the entire map.
 ** Cons: Such implementation will require a Pair object, which will require additional methods and classes, thus requiring longer code.
 
-* **Alternative 3:** Convert Hashmap to xml directly
+* **Alternative 3:** Convert Hashmap to XML directly
 ** Pros: Direct transfer of data will thus require less memory space to store the same data.
-** Cons: A Hashmap to xml converter will require either a very long code (unnecessary for only 1 map), or requires the import of an external library.
+** Cons: A Hashmap to XML converter will require either a very long code (unnecessary for only 1 map), or requires the import of an external library.
 
 ==== Coming in v2.0
 ===== Aspect: : How to implement `multiAtten` Command
 * **Alternative 1 (Most likely choice):** `multiAtten` command calls the `attendance` command multiple times
-** Pros: Reduce the need for repeated code since multiAtten command is very similar to attendance command.
-** Pros: Simpler to implement when input is 0 as there is no need to catch index 0 since index 0 will not exist in the UniquePersonList.
+** Pros: Reduce the need for repeated code since the multiAtten command is very similar to attendance command.
+** Pros: Simpler to implement when the input is 0 as there is no need to catch index 0 since index 0 will not exist in the UniquePersonList.
 ** Cons: Increase in coupling as a change in `attendance` command will cause `multiAtten` command to change.
 
 * **Alternative 2 (Unlikely choice):** Reimplement the command as a brand new command
@@ -649,7 +649,7 @@ We use https://travis-ci.org/[Travis CI] and https://www.appveyor.com/[AppVeyor]
 We use https://coveralls.io/[Coveralls] to track the code coverage of our projects. See <<UsingCoveralls#, UsingCoveralls.adoc>> for more details.
 
 === Documentation Previews
-When a pull request has changes to asciidoc files, you can use https://www.netlify.com/[Netlify] to see a preview of how the HTML version of those asciidoc files will look like when the pull request is merged. See <<UsingNetlify#, UsingNetlify.adoc>> for more details.
+When a pull request has changed to asciidoc files, you can use https://www.netlify.com/[Netlify] to see a preview of how the HTML version of those asciidoc files will look like when the pull request is merged. See <<UsingNetlify#, UsingNetlify.adoc>> for more details.
 
 === Making a Release
 
@@ -756,7 +756,7 @@ Click to Expand
 === Use case: Add person
 [discrete]
 ==== Actors: Tutor, Admin
-<<mss, *MSS*>> 
+<<mss, *MSS*>>
 
 1. User requests to add person.
 2. ClassRepo requests the details of the person to add.
@@ -782,7 +782,7 @@ Use case ends.
 ==== System: AdressBook, ExamBook
 [discrete]
 ==== Actors: Tutor, Admin
-<<mss, *MSS*>> 
+<<mss, *MSS*>>
 
 1.  User requests to list persons.
 2.  ClassRepo shows a list of persons.
@@ -810,7 +810,7 @@ Use case resumes at step 2.
 ==== System: ExamBook
 [discrete]
 ==== Actor: Tutor, Admin
-<<mss, *MSS*>> 
+<<mss, *MSS*>>
 
 1. User requests to add exam.
 2. ClassRepo requests the details of the exam to add.
@@ -836,7 +836,7 @@ Use case ends.
 ==== System: AdressBook, ExamBook
 [discrete]
 ==== Actor: Tutor, Admin
-<<mss, *MSS*>> 
+<<mss, *MSS*>>
 
 1.  User requests to list exams.
 2.  ClassRepo shows a list of exams.
@@ -862,7 +862,7 @@ Use case resumes at step 2.
 ==== System: AdressBook, ExamBook
 [discrete]
 ==== Actor: Tutor, Admin
-<<mss, *MSS*>> 
+<<mss, *MSS*>>
 
 1.  User requests to list exams.
 2.  ClassRepo shows a list of exams.
@@ -870,7 +870,7 @@ Use case resumes at step 2.
 4.  ClassRepo requests the details of the exam to edit.
 5.  ClassRepo edits the exam in the ExamBook.
 6.  ClassRepo edits the exam for all persons registered for it in the AddressBook.
-7.  ClassRepo shows a updated list of exams in the ExamBook.
+7.  ClassRepo shows an updated list of exams in the ExamBook.
 +
 Use case ends.
 
@@ -898,7 +898,7 @@ Use case resumes at step 2.
 ==== System: AdressBook, ExamBook
 [discrete]
 ==== Actor: Tutor, Admin
-<<mss, *MSS*>> 
+<<mss, *MSS*>>
 
 
 1.  User requests to list exams.
@@ -909,7 +909,7 @@ Use case resumes at step 2.
 6.  ClassRepo edits the person.
 7.  ClassRepo updates the number of exam takers for the specific exam in the ExamBook.
 8.  ClassRepo updates the specific exam for all persons registered for it in the AddressBook.
-9.  ClassRepo shows a updated list of exams of the specified person.
+9.  ClassRepo shows an updated list of exams of the specified person.
 +
 Use case ends.
 
@@ -936,7 +936,7 @@ Use case resumes at step 4.
 ==== System: AdressBook, ExamBook
 [discrete]
 ==== Actor: Tutor, Admin
-<<mss, *MSS*>> 
+<<mss, *MSS*>>
 
 1.  User requests to list exams.
 2.  ClassRepo shows a list of exams.
@@ -946,7 +946,7 @@ Use case resumes at step 4.
 6.  ClassRepo edits the person.
 7.  ClassRepo updates the number of exam takers for the specific exam in the ExamBook.
 8.  ClassRepo updates the specific exam for all persons registered for it in the AddressBook.
-9.  ClassRepo shows a updated list of exams of the specified person.
+9.  ClassRepo shows an updated list of exams of the specified person.
 +
 Use case ends.
 
@@ -973,7 +973,7 @@ Use case resumes at step 4.
 ==== System: ExamBook
 [discrete]
 ==== Actor: Tutor, Admin
-<<mss, *MSS*>> 
+<<mss, *MSS*>>
 
 1.  User requests to list exams.
 2.  ClassRepo shows a list of exams.
@@ -990,7 +990,7 @@ Use case ends.
 [discrete]
 === Use case: View a person's exams
 
-<<mss, *MSS*>> 
+<<mss, *MSS*>>
 
 1.  User requests to list persons.
 2.  ClassRepo shows a list of persons.
@@ -1009,7 +1009,7 @@ Use case ends.
 ** 3a1. ClassRepo shows an error message. +
 Use case ends.
 [none]
-* 3b. User is logged in as a Student and tries to view exams of other students. +
+* 3b. User is logged in as a Student and tries to view the exams of other students. +
 ** 3b1. ClassRepo shows an error message. +
 Use case ends.
 
@@ -1021,7 +1021,7 @@ Use case ends.
 [discrete]
 === Use case: View the user's own details
 
-<<mss, *MSS*>> 
+<<mss, *MSS*>>
 
 1.  User requests to view his own details
 2.  ClassRepo shows the details of the person associated with the logged-in account
@@ -1037,7 +1037,7 @@ Use case ends.
 
 [discrete]
 === Use case: Raise privilege to Admin
-<<mss, *MSS*>> 
+<<mss, *MSS*>>
 
 1. User requests to increase his privilege
 2. ClassRepo requests authentication password
@@ -1061,11 +1061,11 @@ Use case ends
 === Use case: Change master password
 [discrete]
 ==== Actor: Admin
-<<mss, *MSS*>> 
+<<mss, *MSS*>>
 
 1. User requests to change the master password
 2. ClassRepo requests the current password
-3. User enters current password
+3. User enters the current password
 4. ClassRepo requests the new password
 5. User enters the new password
 6. ClassRepo changes the password to the new one
@@ -1087,7 +1087,7 @@ User case resumes from step 4
 === Use case: Add account to a person
 [discrete]
 ==== Actor: Admin
-<<mss, *MSS*>> 
+<<mss, *MSS*>>
 
 1.  User requests to list persons
 2.  AddressBook shows a list of persons
@@ -1129,7 +1129,7 @@ Use case resumes at step 2.
 [discrete]
 ==== Actor: Admin
 
-<<mss, *MSS*>> 
+<<mss, *MSS*>>
 
 1.  User requests to list persons
 2.  AddressBook shows a list of persons
@@ -1162,7 +1162,7 @@ Use case resumes at step 2.
 [discrete]
 === Use case: Login to an account
 
-<<mss, *MSS*>> 
+<<mss, *MSS*>>
 
 1.  User requests to log in
 2.  AddressBook requests username and password
@@ -1188,7 +1188,7 @@ Use case ends.
 +
 Use case ends.
 
-* 3c. Password does not match the existing account with the given username.
+* 3c. The password does not match the existing account with the given username.
 +
 [none]
 ** 3c1. AddressBook shows an error message.
@@ -1198,7 +1198,7 @@ Use case ends.
 [discrete]
 === Use case: Logout of an account
 
-<<mss, *MSS*>> 
+<<mss, *MSS*>>
 
 1.  User requests to log out
 2.  ClassRepo logs the user out of his account
@@ -1218,7 +1218,7 @@ Use case ends.
 [discrete]
 === Use case: View your current privilege
 
-<<mss, *MSS*>> 
+<<mss, *MSS*>>
 
 1.  User requests to view his privilege
 2.  ClassRepo shows the privilege level and the account the user is logged in as
@@ -1251,7 +1251,7 @@ A contact detail that is not meant to be shared with others
 An exam with details that are not meant to be released to the students yet
 
 [[privilege-level]] Privilege Level::
-Describes the authority of the current user. Interchangable with the term "access level"
+Describes the authority of the current user. Interchangeable with the term "access level"
 
 [[mss]] Main Success Scenario::
 The Main Success Scenario (MSS) describes the most straightforward interaction for a given use case, which assumes that nothing goes wrong.
@@ -1286,35 +1286,35 @@ These instructions only provide a starting point for testers to work on; testers
 .. Test case: `delete 1` +
    Expected: First contact is deleted from the list. Details of the deleted contact shown in the status console.
 .. Test case: `delete 0` +
-   Expected: No person is deleted. Error details shown in the status console. Console bar remains the same.
+   Expected: No person is deleted. Error details are shown in the status console. Console bar remains the same.
 .. Other incorrect delete commands to try: `delete`, `delete x` (where x is larger than the list size), `delete a` (where a is not an integer) +
    Expected: Similar to previous.
-   
+
 === Accessing a command of different privilege level
 
 . Accessing a command of different privilege level than of current user
 
 .. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
 .. Test case: `delete 1` +
-   Expected: No person is deleted. Error details shown in the status console. Console bar remains the same.
+   Expected: No person is deleted. Error details are shown in the status console. Console bar remains the same.
 .. Other commands of different privilege to try: `examslist`, `listall`, `deleteexam 1` +
    Expected: Similar to previous.
 
 === Adding a duplicate person
 
-. Add a person while it already exists in the address book.  
+. Add a person while it already exists in the address book.
 .. Test case: `add John Doe p/98765432 e/johnd@gmail.com a/311, Clementi Ave 2, #02-25 t/friends t/owesMoney` +
    Expected: Contact is added to the list. Details of the added contact shown in the status console. List in the output console is updated.
-.. Test case: `add John Doe p/98765432 e/johnd@gmail.com a/311, Clementi Ave 2, #02-25 t/friends t/owesMoney` after the previous test case was preformed. +
-   Expected: No person is added. Error details shown in the status console. Console bar remains the same.
+.. Test case: `add John Doe p/98765432 e/johnd@gmail.com a/311, Clementi Ave 2, #02-25 t/friends t/owesMoney` after the previous test case was performed. +
+   Expected: No person is added. Error details are shown in the status console. Console bar remains the same.
 .. Other similar commands to try: `addexam`, `addassess` +
-   Expected: Similar to previous.   
+   Expected: Similar to previous.
 
 === Data storage
 
 . Dealing with missing/corrupted data files
 
-.. Prerequisites: Run the application at least once to generate the storage files and add in some person data.
+.. Prerequisites: Run the application at least once to generate the storage files and add in some person's data.
 .. Open up `addressbook.txt`.
 .. Edit a field of a person such that it is invalid, eg. the field of `phone` is changed to `notANumber`.
 .. Run the application again. +
