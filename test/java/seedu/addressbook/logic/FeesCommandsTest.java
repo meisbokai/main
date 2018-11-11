@@ -1,5 +1,6 @@
 package seedu.addressbook.logic;
 
+import static seedu.addressbook.commands.fees.ViewFeesCommand.MESSAGE_VIEWFEE_PERSON_SUCCESS;
 import static seedu.addressbook.common.Messages.MESSAGE_DATE_CONSTRAINTS;
 import static seedu.addressbook.common.Messages.MESSAGE_FEES_VALUE_CONSTRAINTS;
 import static seedu.addressbook.common.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
@@ -276,6 +277,27 @@ public class FeesCommandsTest {
     }
 
     @Test
+    public void executePaidFees_validDataNoFees_successfulMessage() throws Exception {
+        TestDataHelper helper = new TestDataHelper();
+        Person p1 = helper.generatePerson(1, false);
+        Person p2 = helper.generatePerson(2, true);
+        Person p3 = helper.generatePerson(3, true);
+
+        List<Person> threePersons = helper.generatePersonList(p1, p2, p3);
+
+        AddressBook expected = helper.generateAddressBook(threePersons);
+        helper.addToAddressBook(addressBook, threePersons);
+        logic.setLastShownList(threePersons);
+
+        assertCommandBehavior("paidfees 2",
+                String.format(String.format(PaidFeesCommand.MESSAGE_NO_FEES, p2.getAsTextShowOnlyName())),
+                expected,
+                false,
+                threePersons,
+                true);
+    }
+
+    @Test
     public void executePaidFees_validData_successfulMessage() throws Exception {
         TestDataHelper helper = new TestDataHelper();
         Person p1 = helper.generatePerson(1, false);
@@ -285,13 +307,13 @@ public class FeesCommandsTest {
         List<Person> threePersons = helper.generatePersonList(p1, p2, p3);
 
         AddressBook expected = helper.generateAddressBook(threePersons);
-        Fees fee = new Fees("0.00", "00-00-0000");
-        expected.findPerson(p2).setFees(fee);
+        expected.findPerson(p2).setFees(helper.fees(1));
 
         helper.addToAddressBook(addressBook, threePersons);
         logic.setLastShownList(threePersons);
+
         assertCommandBehavior("paidfees 2",
-                String.format(PaidFeesCommand.MESSAGE_SUCCESS, p2.getAsTextShowFee()),
+                "Fees paid: Person 2\nNo Fees owed!\n",
                 expected,
                 true,
                 threePersons,
@@ -340,7 +362,8 @@ public class FeesCommandsTest {
         helper.addToAddressBook(addressBook, threePersons);
         logic.setLastShownList(threePersons);
         assertCommandBehavior("viewfees 2",
-                String.format(ViewFeesCommand.MESSAGE_VIEWFEE_PERSON_SUCCESS, p2.getAsTextShowFee()),
+                String.format(String.format(MESSAGE_VIEWFEE_PERSON_SUCCESS, p2.getName())),
+                p2.getAsTextShowFee(),
                 expected,
                 false,
                 threePersons,

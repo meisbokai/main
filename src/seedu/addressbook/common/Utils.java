@@ -88,9 +88,9 @@ public class Utils {
      */
     public static String convertToValidDateStringUser (String value) {
         StringBuilder result = new StringBuilder();
-        result.append(value.substring(6, 10));
-        result.append(value.substring(3, 5));
-        result.append(value.substring(0, 2));
+        result.append(value, 6, 10);
+        result.append(value, 3, 5);
+        result.append(value, 0, 2);
         return result.toString();
     }
 
@@ -99,9 +99,9 @@ public class Utils {
      */
     public static String convertToValidDateStringSystem (String value) {
         StringBuilder result = new StringBuilder();
-        result.append(value.substring(0, 4));
-        result.append(value.substring(5, 7));
-        result.append(value.substring(9, 10));
+        result.append(value, 0, 4);
+        result.append(value, 5, 7);
+        result.append(value, 8, 10);
         return result.toString();
     }
 }

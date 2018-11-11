@@ -207,10 +207,10 @@ public class Parser {
             return prepareVoidCommand(arguments, new ExamsListCommand());
 
         case ListFeesCommand.COMMAND_WORD:
-            return new ListFeesCommand();
+            return prepareVoidCommand(arguments, new ListFeesCommand());
 
         case ListDueFeesCommand.COMMAND_WORD:
-            return new ListDueFeesCommand();
+            return prepareVoidCommand(arguments, new ListDueFeesCommand());
 
         case DeleteExamCommand.COMMAND_WORD:
             return prepareSingleIndexCommand(arguments, new DeleteExamCommand(), ObjectTargeted.EXAM);
@@ -328,7 +328,7 @@ public class Parser {
         } catch (IllegalValueException ive) {
             return new IncorrectCommand(ive.getMessage());
         } catch (ParseException | NumberFormatException e) {
-            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
+            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditFeesCommand.MESSAGE_USAGE));
         }
     }
 

@@ -1,7 +1,8 @@
 package seedu.addressbook.data.person;
 
-import seedu.addressbook.data.exception.IllegalValueException;
+import static seedu.addressbook.common.Messages.MESSAGE_DATE_CONSTRAINTS;
 
+import seedu.addressbook.data.exception.IllegalValueException;
 
 /**
  * Represents a Person's fees due in the address book.
@@ -10,8 +11,7 @@ import seedu.addressbook.data.exception.IllegalValueException;
 public class Fees implements Printable {
     public static final String EXAMPLE = "$3560.98";
     public static final String MESSAGE_FEES_CONSTRAINTS = "Person's fees should be positive and have 2 decimal places.";
-    public static final String MESSAGE_DATE_CONSTRAINTS = "Due date for fees should be in DD-MM-YYYY.";
-    public static final String FEES_VALIDATION_REGEX = "[0-9]+([,.][0-9]{1,2})?";
+    public static final String FEES_VALIDATION_REGEX = "[0-9]+([,.][0-9]{1,2})";
     public static final String DATE_VALIDATION_REGEX = "[0-9]{1,2}-[0-9]{1,2}-[0-9]{4}";
 
     public final String value;

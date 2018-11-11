@@ -39,6 +39,7 @@ public class EditFeesCommand extends IndexFormatCommand {
         if ("0.00".equals(fees)) {
             throw new IllegalValueException(MESSAGE_FEES_VALUE_CONSTRAINTS);
         }
+        fees = fees.replaceFirst ("^0*", "");
         this.fees = new Fees(fees, date);
     }
 

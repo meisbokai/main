@@ -20,7 +20,7 @@ public class ViewFeesCommand extends IndexFormatCommand {
             + "Parameters: INDEX\n\t"
             + "Example: " + COMMAND_WORD + " 1";
 
-    public static final String MESSAGE_VIEWFEE_PERSON_SUCCESS = "Name: %1$s";
+    public static final String MESSAGE_VIEWFEE_PERSON_SUCCESS = "Viewing person: %1$s";
 
     /**
      * Constructor used for Privileges
@@ -38,7 +38,8 @@ public class ViewFeesCommand extends IndexFormatCommand {
         try {
             final ReadOnlyPerson target = getTargetReadOnlyPerson();
             addressBook.findPerson(target);
-            return new CommandResult(String.format(MESSAGE_VIEWFEE_PERSON_SUCCESS, target.getAsTextShowFee()));
+            return new CommandResult(String.format(MESSAGE_VIEWFEE_PERSON_SUCCESS, target.getName()),
+                    target.getAsTextShowFee());
 
         } catch (IndexOutOfBoundsException ie) {
             return new CommandResult(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);

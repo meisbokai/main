@@ -144,7 +144,7 @@ public interface ReadOnlyPerson {
                 getName(),
                 getFees());
         builder.append(stringChain);
-        builder.append("Overdue!\n");
+        builder.append("Due!\n");
         return builder.toString();
     }
 
