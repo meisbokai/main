@@ -209,21 +209,16 @@ public class Logic {
      *  Updates the {@link #lastShownAssessmentList} if the result contains a list of Assessments.
      */
     private void recordResult(CommandResult result) {
-        final Optional<List<? extends ReadOnlyPerson>> personList = result.getRelevantPersons();
-        personList.ifPresent(a -> lastShownList = a);
+        final Optional<List<? extends ReadOnlyPerson>> optPersonList = result.getRelevantPersons();
+        optPersonList.ifPresent(a -> lastShownList = a);
 
-        final Optional<List<? extends ReadOnlyExam>> examList = result.getRelevantExams();
-        final Optional<List<? extends Assessment>> assessmentList = result.getRelevantAssessments();
-        final Optional<List<? extends AssignmentStatistics>> statisticsList = result.getRelevantStatistics();
-        //TODO: Fix weird code flow
-        if (!personList.isPresent()) {
-            if (examList.isPresent()) {
-                lastShownExamList = examList.get();
-            } else if (assessmentList.isPresent()) {
-                lastShownAssessmentList = assessmentList.get();
-            } else if (statisticsList.isPresent()) {
-                lastShownStatisticsList = statisticsList.get();
-            }
-        }
+        final Optional<List<? extends ReadOnlyExam>> optExamList = result.getRelevantExams();
+        optExamList.ifPresent(a -> lastShownExamList = a);
+
+        final Optional<List<? extends Assessment>> optAssessmentList = result.getRelevantAssessments();
+        optAssessmentList.ifPresent(a -> lastShownAssessmentList = a);
+
+        final Optional<List<? extends AssignmentStatistics>> optStatisticsList = result.getRelevantStatistics();
+        optStatisticsList.ifPresent(a -> lastShownStatisticsList = a);
     }
 }

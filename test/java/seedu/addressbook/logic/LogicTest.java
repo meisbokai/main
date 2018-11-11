@@ -48,7 +48,6 @@ import seedu.addressbook.data.person.details.Phone;
 import seedu.addressbook.data.tag.Tag;
 import seedu.addressbook.privilege.Privilege;
 import seedu.addressbook.privilege.user.AdminUser;
-import seedu.addressbook.storage.StorageFile;
 import seedu.addressbook.stubs.StorageStub;
 
 public class LogicTest {
@@ -66,9 +65,6 @@ public class LogicTest {
 
     @Before
     public void setUp() throws Exception {
-        StorageFile saveFile = new StorageFile(saveFolder.newFile("testSaveFile.txt").getPath(),
-                saveFolder.newFile("testExamFile.txt").getPath(),
-                saveFolder.newFile("testStatisticsFile.txt").getPath());
         StorageStub stubFile = new StorageStub(saveFolder.newFile("testStubFile.txt").getPath(),
                 saveFolder.newFile("testStubExamFile.txt").getPath(),
                 saveFolder.newFile("testStubStatisticsFile.txt").getPath());
@@ -80,11 +76,8 @@ public class LogicTest {
         // Privilege restrictions are tested separately under PrivilegeTest.
         privilege = new Privilege(new AdminUser());
 
-        saveFile.save(addressBook);
-        saveFile.saveExam(examBook);
-        saveFile.saveStatistics(statisticBook);
         logic = new Logic(stubFile, addressBook, examBook, statisticBook, privilege);
-        CommandAssertions.setData(saveFile, addressBook, logic, examBook, statisticBook);
+        CommandAssertions.setData(stubFile, addressBook, logic, examBook, statisticBook);
     }
 
     private void setUpThreePerson(AddressBook addressBook,
@@ -107,7 +100,7 @@ public class LogicTest {
 
     /** Checks if logic's privilege is raised to Admin when calling initPrivilege with PERSONS of isPerm = true.*/
     @Test
-    public void initIsPermSuccess() {
+    public void init_isPerm() {
         final AddressBook ab = new AddressBook();
         ab.setPermAdmin(true);
         logic.setAddressBook(ab);
@@ -134,16 +127,16 @@ public class LogicTest {
     }
 
     @Test
-    public void execute_unknownCommandWord_helpMessage() throws Exception {
+    public void execute_unknownCommandWord_helpMessageShown() throws Exception {
         final HelpCommand helpCommand = new HelpCommand();
         helpCommand.setData(addressBook, statisticBook, new ArrayList<>(), privilege);
         String unknownCommand = "uicfhmowqewca";
-        assertCommandBehavior(unknownCommand, MESSAGE_COMMAND_NOT_FOUND, HelpCommand.makeHelpManual());
+        assertCommandBehavior(unknownCommand, MESSAGE_COMMAND_NOT_FOUND, helpCommand.makeHelpManual());
     }
 
     // Checks if all void commands is rejected if there is a trailing argument.
     @Test
-    public void executeVoidCommands_extraArgs_invalidCommandMessage() throws Exception {
+    public void executeVoidCommands_trailingArg_invalidCommandMessage() throws Exception {
         List<Pair<String, Command>> inputToExpectedOutput = List.of(
                 new Pair<>("clear", new ClearCommand()),
                 new Pair<>("list", new ListCommand()),
@@ -164,13 +157,13 @@ public class LogicTest {
     public void executeHelp() throws Exception {
         final HelpCommand helpCommand = new HelpCommand();
         helpCommand.setData(addressBook, statisticBook, new ArrayList<>(), privilege);
-        assertCommandBehavior("help", HelpCommand.makeHelpManual(), MessageType.OUTPUT);
+        assertCommandBehavior("help", helpCommand.makeHelpManual(), MessageType.OUTPUT);
 
         privilege.raiseToTutor();
-        assertCommandBehavior("help", HelpCommand.makeHelpManual(), MessageType.OUTPUT);
+        assertCommandBehavior("help", helpCommand.makeHelpManual(), MessageType.OUTPUT);
 
         privilege.raiseToAdmin();
-        assertCommandBehavior("help", HelpCommand.makeHelpManual(), MessageType.OUTPUT);
+        assertCommandBehavior("help", helpCommand.makeHelpManual(), MessageType.OUTPUT);
     }
 
     @Test
@@ -179,7 +172,7 @@ public class LogicTest {
     }
 
     @Test
-    public void executeClearSuccess() throws Exception {
+    public void executeClear() throws Exception {
         TestDataHelper helper = new TestDataHelper();
         // generates the 3 test people and execute the add command
         for (int i = 1; i <= 3; ++i) {
@@ -269,7 +262,8 @@ public class LogicTest {
                 AddCommand.MESSAGE_DUPLICATE_PERSON,
                 expected,
                 false,
-                Collections.emptyList());
+                Collections.emptyList(),
+                false);
     }
 
     @Test
@@ -286,7 +280,8 @@ public class LogicTest {
                 Command.getMessageForPersonListShownSummary(expectedList),
                 expected,
                 true,
-                expectedList);
+                expectedList,
+                false);
     }
 
     @Test
@@ -303,7 +298,8 @@ public class LogicTest {
                 Command.getMessageForPersonListShownSummary(expectedList),
                 expected,
                 true,
-                expectedList);
+                expectedList,
+                false);
     }
 
     @Test
@@ -319,7 +315,7 @@ public class LogicTest {
     }
 
     @Test
-    public void executeViewOnlyShowsNonPrivate_validArgs_success() throws Exception {
+    public void executeView_validArgs_successOnlyShowsNonPrivate() throws Exception {
         TestDataHelper helper = new TestDataHelper();
         Person p1 = helper.generatePerson(1, true);
         Person p2 = helper.generatePerson(2, false);
@@ -334,14 +330,16 @@ public class LogicTest {
                 p1.getAsTextHidePrivate(),
                 expected,
                 false,
-                lastShownList);
+                lastShownList,
+                false);
 
         assertCommandBehavior("view 2",
                 String.format(ViewCommand.MESSAGE_VIEW_PERSON_DETAILS, p2.getName()),
                 p2.getAsTextHidePrivate(),
                 expected,
                 false,
-                lastShownList);
+                lastShownList,
+                false);
     }
 
     @Test
@@ -361,7 +359,8 @@ public class LogicTest {
                 MESSAGE_PERSON_NOT_IN_ADDRESSBOOK,
                 expected,
                 false,
-                lastShownList);
+                lastShownList,
+                false);
     }
 
     @Test
@@ -393,7 +392,8 @@ public class LogicTest {
                 p1.getAsTextShowAll(),
                 expected,
                 false,
-                lastShownList);
+                lastShownList,
+                false);
 
 
         assertCommandBehavior("viewall 2",
@@ -401,7 +401,8 @@ public class LogicTest {
                 p2.getAsTextShowAll(),
                 expected,
                 false,
-                lastShownList);
+                lastShownList,
+                false);
     }
 
     @Test
@@ -421,7 +422,8 @@ public class LogicTest {
                 MESSAGE_PERSON_NOT_IN_ADDRESSBOOK,
                 expected,
                 false,
-                lastShownList);
+                lastShownList,
+                false);
     }
 
     @Test
@@ -494,7 +496,8 @@ public class LogicTest {
                 MESSAGE_PERSON_NOT_IN_ADDRESSBOOK,
                 expected,
                 false,
-                threePersons);
+                threePersons,
+                false);
     }
 
     @Test
@@ -520,7 +523,8 @@ public class LogicTest {
                 Command.getMessageForPersonListShownSummary(expectedList),
                 expected,
                 true,
-                expectedList);
+                expectedList,
+                false);
     }
 
     @Test
@@ -540,7 +544,8 @@ public class LogicTest {
                 Command.getMessageForPersonListShownSummary(expectedList),
                 expected,
                 true,
-                expectedList);
+                expectedList,
+                false);
     }
 
     @Test
@@ -560,7 +565,8 @@ public class LogicTest {
                 Command.getMessageForPersonListShownSummary(expectedList),
                 expected,
                 true,
-                expectedList);
+                expectedList,
+                false);
     }
 
     @Test
@@ -583,7 +589,8 @@ public class LogicTest {
                 p2.getAsTextShowAll(),
                 expected,
                 false,
-                threePersons.getExpected());
+                threePersons.getExpected(),
+                false);
     }
 
     @Test

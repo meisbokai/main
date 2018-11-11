@@ -20,7 +20,6 @@ import seedu.addressbook.commands.exams.DeregisterExamCommand;
 import seedu.addressbook.commands.exams.EditExamCommand;
 import seedu.addressbook.commands.exams.ExamsListCommand;
 import seedu.addressbook.commands.exams.RegisterExamCommand;
-import seedu.addressbook.commands.fees.EditFeesCommand;
 import seedu.addressbook.commands.fees.ListDueFeesCommand;
 import seedu.addressbook.commands.fees.ListFeesCommand;
 import seedu.addressbook.commands.fees.ViewFeesCommand;
@@ -44,7 +43,6 @@ public class TutorUser extends BasicUser {
             new ReplaceAttendanceCommand(),
             new ViewAttendancePersonCommand(),
             new ViewAttendanceDateCommand(),
-            new EditFeesCommand(),
             new ListFeesCommand(),
             new ListDueFeesCommand(),
             new AddAssessmentCommand(),

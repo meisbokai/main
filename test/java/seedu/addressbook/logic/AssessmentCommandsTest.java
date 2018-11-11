@@ -34,7 +34,6 @@ import seedu.addressbook.data.person.Assessment;
 import seedu.addressbook.data.person.ReadOnlyPerson;
 import seedu.addressbook.privilege.Privilege;
 import seedu.addressbook.privilege.user.AdminUser;
-import seedu.addressbook.storage.StorageFile;
 import seedu.addressbook.stubs.StorageStub;
 
 /**
@@ -53,9 +52,6 @@ public class AssessmentCommandsTest {
 
     @Before
     public void setUp() throws Exception {
-        StorageFile saveFile = new StorageFile(saveFolder.newFile("testSaveFile.txt").getPath(),
-                saveFolder.newFile("testExamFile.txt").getPath(),
-                saveFolder.newFile("testStatisticsFile.txt").getPath());
         StorageStub stubFile = new StorageStub(saveFolder.newFile("testStubFile.txt").getPath(),
                 saveFolder.newFile("testStubExamFile.txt").getPath(),
                 saveFolder.newFile("testStubStatisticsFile.txt").getPath());
@@ -67,10 +63,8 @@ public class AssessmentCommandsTest {
         // Privilege restrictions are tested separately under PrivilegeTest.
         Privilege privilege = new Privilege(new AdminUser());
 
-        saveFile.save(addressBook);
-        saveFile.saveStatistics(statisticBook);
         Logic logic = new Logic(stubFile, addressBook, examBook, statisticBook, privilege);
-        CommandAssertions.setData(saveFile, addressBook, logic, examBook, statisticBook);
+        CommandAssertions.setData(stubFile, addressBook, logic, examBook, statisticBook);
     }
 
     @Test
@@ -85,7 +79,7 @@ public class AssessmentCommandsTest {
         // execute command and verify result
         assertCommandBehavior(helper.generateAddAssessment(toBeAdded),
                 String.format(AddAssessmentCommand.MESSAGE_SUCCESS, toBeAdded), expected, false,
-                dummyList);
+                dummyList, true);
     }
 
     @Test
@@ -102,7 +96,7 @@ public class AssessmentCommandsTest {
 
         // execute command and verify result
         assertCommandBehavior(helper.generateAddAssessment(toBeAdded),
-                AddAssessmentCommand.MESSAGE_DUPLICATE_ASSESSMENT, expected, false, dummyList);
+                AddAssessmentCommand.MESSAGE_DUPLICATE_ASSESSMENT, expected, false, dummyList, false);
     }
 
     @Test

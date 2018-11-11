@@ -31,7 +31,6 @@ import seedu.addressbook.data.person.ReadOnlyPerson;
 import seedu.addressbook.data.tag.Tag;
 import seedu.addressbook.privilege.Privilege;
 import seedu.addressbook.privilege.user.AdminUser;
-import seedu.addressbook.storage.StorageFile;
 import seedu.addressbook.stubs.StorageStub;
 
 /**
@@ -56,15 +55,11 @@ public class FeesCommandsTest {
         // Privilege restrictions are tested separately under PrivilegeTest.
         Privilege privilege = new Privilege(new AdminUser());
 
-        StorageFile saveFile = new StorageFile(saveFolder.newFile("testSaveFile.txt").getPath(),
-                saveFolder.newFile("testExamFile.txt").getPath(),
-                saveFolder.newFile("testStatisticsFile.txt").getPath());
         StorageStub stubFile = new StorageStub(saveFolder.newFile("testStubFile.txt").getPath(),
                 saveFolder.newFile("testStubExamFile.txt").getPath(),
                 saveFolder.newFile("testStubStatisticsFile.txt").getPath());
-        saveFile.save(addressBook);
         logic = new Logic(stubFile, addressBook, examBook, statisticBook, privilege);
-        CommandAssertions.setData(saveFile, addressBook, logic);
+        CommandAssertions.setData(stubFile, addressBook, logic);
     }
 
     @Test
@@ -91,7 +86,8 @@ public class FeesCommandsTest {
                 String.format(EditFeesCommand.MESSAGE_SUCCESS, p2.getAsTextShowFee()),
                 expected,
                 false,
-                threePersons);
+                threePersons,
+                true);
     }
 
     @Test
@@ -112,14 +108,16 @@ public class FeesCommandsTest {
                 String.format(MESSAGE_DATE_CONSTRAINTS),
                 expected,
                 false,
-                threePersons);
+                threePersons,
+                false);
 
         assertCommandBehavior("viewall 1",
                 String.format(ViewCommand.MESSAGE_VIEW_PERSON_DETAILS, p2.getName()),
                 p2.getAsTextShowAll(),
                 expected,
                 false,
-                threePersons);
+                threePersons,
+                false);
     }
 
     @Test
@@ -139,7 +137,8 @@ public class FeesCommandsTest {
                 MESSAGE_PERSON_NOT_IN_ADDRESSBOOK,
                 expected,
                 false,
-                lastShownList);
+                lastShownList,
+                false);
     }
 
     @Test
@@ -166,7 +165,8 @@ public class FeesCommandsTest {
                 MESSAGE_FEES_VALUE_CONSTRAINTS,
                 expected,
                 false,
-                threePersons);
+                threePersons,
+                false);
     }
 
     @Test
@@ -183,7 +183,8 @@ public class FeesCommandsTest {
                 Command.getMessageForFeesListShownSummary(expectedList),
                 expected,
                 true,
-                expectedList);
+                expectedList,
+                false);
     }
 
     @Test
@@ -198,7 +199,8 @@ public class FeesCommandsTest {
                 Command.getMessageForFeesListShownSummary(expectedList),
                 expected,
                 true,
-                expectedList);
+                expectedList,
+                false);
     }
 
     @Test
@@ -224,7 +226,8 @@ public class FeesCommandsTest {
                 Command.getMessageForFeesListShownSummary(expectedList),
                 expected,
                 true,
-                expectedList);
+                expectedList,
+                false);
     }
 
     @Test
@@ -252,7 +255,8 @@ public class FeesCommandsTest {
                 Command.getMessageForFeesListShownSummary(expectedList),
                 expected2,
                 true,
-                expectedList);
+                expectedList,
+                false);
     }
 
     @Test
@@ -267,7 +271,8 @@ public class FeesCommandsTest {
                 Command.getMessageForFeesListShownSummary(expectedList),
                 expected,
                 true,
-                expectedList);
+                expectedList,
+                false);
     }
 
     @Test
@@ -286,10 +291,11 @@ public class FeesCommandsTest {
         helper.addToAddressBook(addressBook, threePersons);
         logic.setLastShownList(threePersons);
         assertCommandBehavior("paidfees 2",
-                String.format(String.format(PaidFeesCommand.MESSAGE_SUCCESS, p2.getAsTextShowFee())),
+                String.format(PaidFeesCommand.MESSAGE_SUCCESS, p2.getAsTextShowFee()),
                 expected,
                 true,
-                threePersons);
+                threePersons,
+                true);
     }
 
     @Test
@@ -309,7 +315,8 @@ public class FeesCommandsTest {
                 MESSAGE_PERSON_NOT_IN_ADDRESSBOOK,
                 expected,
                 false,
-                lastShownList);
+                lastShownList,
+                false);
     }
 
     @Test

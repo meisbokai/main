@@ -79,20 +79,18 @@ public class MainWindow {
     private void displayResult(CommandResult result) {
         clearOutputConsole();
         closeAsciiArt();
-        final Optional<List<? extends ReadOnlyPerson>> resultPersons = result.getRelevantPersons();
+        final Optional<List<? extends ReadOnlyPerson>> optResultPersons = result.getRelevantPersons();
+        optResultPersons.ifPresent((p) -> display(p, result.getPersonListFormat()));
 
-        resultPersons.ifPresent((p) -> display(p, result.getPersonListFormat()));
-        //TODO: Clean up Optional code
-        final Optional<List<? extends ReadOnlyExam>> resultExams = result.getRelevantExams();
-        final Optional<List<? extends Assessment>> resultAssessment = result.getRelevantAssessments();
-        final Optional<List<? extends AssignmentStatistics>> resultStatistics = result.getRelevantStatistics();
-        if (resultExams.isPresent()) {
-            displayExams(resultExams.get());
-        } else if (resultAssessment.isPresent()) {
-            displayAssessments(resultAssessment.get());
-        } else if (resultStatistics.isPresent()) {
-            displayStatistics(resultStatistics.get());
-        }
+        final Optional<List<? extends ReadOnlyExam>> optResultExams = result.getRelevantExams();
+        optResultExams.ifPresent(this::displayExams);
+
+        final Optional<List<? extends Assessment>> optResultAssessment = result.getRelevantAssessments();
+        optResultAssessment.ifPresent(this::displayAssessments);
+
+        final Optional<List<? extends AssignmentStatistics>> optStatisticsList = result.getRelevantStatistics();
+        optStatisticsList.ifPresent(this::displayStatistics);
+
         display(result.getOutputConsoleMessage());
     }
     /** Displays the welcome message**/

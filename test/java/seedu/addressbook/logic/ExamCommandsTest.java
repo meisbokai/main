@@ -42,7 +42,6 @@ import seedu.addressbook.data.person.Person;
 import seedu.addressbook.data.person.ReadOnlyExam;
 import seedu.addressbook.privilege.Privilege;
 import seedu.addressbook.privilege.user.AdminUser;
-import seedu.addressbook.storage.StorageFile;
 import seedu.addressbook.stubs.StorageStub;
 
 /**
@@ -63,10 +62,6 @@ public class ExamCommandsTest {
     @Before
     public void setUp() throws Exception {
         StorageStub stubFile;
-        StorageFile saveFile;
-        saveFile = new StorageFile(saveFolder.newFile("testSaveFile.txt").getPath(),
-                saveFolder.newFile("testExamFile.txt").getPath(),
-                saveFolder.newFile("testStatisticsFile.txt").getPath());
         stubFile = new StorageStub(saveFolder.newFile("testStubFile.txt").getPath(),
                 saveFolder.newFile("testStubExamFile.txt").getPath(),
                 saveFolder.newFile("testStubStatisticsFile.txt").getPath());
@@ -75,11 +70,8 @@ public class ExamCommandsTest {
         examBook = new ExamBook();
         StatisticsBook statisticBook = new StatisticsBook();
         privilege = new Privilege(new AdminUser());
-
-        saveFile.save(addressBook);
-        saveFile.saveExam(examBook);
         logic = new Logic(stubFile, addressBook, examBook, statisticBook, privilege);
-        CommandAssertions.setData(saveFile, addressBook, logic, examBook, statisticBook);
+        CommandAssertions.setData(stubFile, addressBook, logic, examBook, statisticBook);
     }
 
     @Test
@@ -171,7 +163,7 @@ public class ExamCommandsTest {
 
         assertCommandBehavior("examslist",
                 Command.getMessageForExamListShownSummary(expectedList),
-                expected, true, expectedList);
+                expected, true, expectedList, false);
     }
 
     @Test
@@ -230,7 +222,7 @@ public class ExamCommandsTest {
         examBook.removeExam(e2);
 
         assertCommandBehavior("deleteexam 2", Messages.MESSAGE_EXAM_NOT_IN_EXAMBOOK,
-                expected, false, threeExams);
+                expected, false, threeExams, false);
     }
 
     @Test
@@ -318,7 +310,7 @@ public class ExamCommandsTest {
         examBook.removeExam(e2);
 
         assertCommandBehavior("editexam 2 s/Mathematics", Messages.MESSAGE_EXAM_NOT_IN_EXAMBOOK,
-                expected, false, threeExams);
+                expected, false, threeExams, false);
     }
 
     @Test
@@ -338,7 +330,7 @@ public class ExamCommandsTest {
                 String.format(RegisterExamCommand.MESSAGE_REGISTER_EXAM_SUCCESS, p1Expected.getAsTextShowOnlyName()),
                 p1Expected.getAsTextShowAllExam(),
                 expectedBook, expectedExamBook, false, false,
-                logic.getLastShownList(), logic.getLastShownExamList(), true);
+                logic.getLastShownList(), logic.getLastShownExamList(), true, true);
     }
 
     @Test
@@ -368,7 +360,7 @@ public class ExamCommandsTest {
                 String.format(RegisterExamCommand.MESSAGE_REGISTER_EXAM_SUCCESS, p3Expected.getAsTextShowOnlyName()),
                 p3Expected.getAsTextShowAllExam(),
                 expectedBook, expectedExamBook, false, false,
-                logic.getLastShownList(), logic.getLastShownExamList(), true);
+                logic.getLastShownList(), logic.getLastShownExamList(), true, true);
     }
 
     @Test
@@ -478,7 +470,7 @@ public class ExamCommandsTest {
                         p1Expected.getAsTextShowOnlyName()),
                 p1Expected.getAsTextShowAllExam(),
                 expectedBook, expectedExamBook, false, false,
-                logic.getLastShownList(), logic.getLastShownExamList(), true);
+                logic.getLastShownList(), logic.getLastShownExamList(), true, true);
     }
 
     @Test
@@ -505,7 +497,7 @@ public class ExamCommandsTest {
                 String.format(DeregisterExamCommand.MESSAGE_DEREGISTER_EXAM_SUCCESS, p2.getAsTextShowOnlyName()),
                 p2.getAsTextShowAllExam(),
                 expectedBook, expectedExamBook, false, false,
-                logic.getLastShownList(), logic.getLastShownExamList(), true);
+                logic.getLastShownList(), logic.getLastShownExamList(), true, true);
     }
 
     @Test
@@ -620,15 +612,15 @@ public class ExamCommandsTest {
 
         assertCommandBehavior("viewexams 1",
                 String.format(ViewExamsCommand.MESSAGE_VIEW_EXAMS_PERSON_SUCCESS, p1.getAsTextShowOnlyName()),
-                p1.getAsTextShowExam(), expected, false, lastShownList);
+                p1.getAsTextShowExam(), expected, false, lastShownList, false);
 
         assertCommandBehavior("viewexams 2",
                 String.format(ViewExamsCommand.MESSAGE_VIEW_EXAMS_PERSON_SUCCESS, p2.getAsTextShowOnlyName()),
-                p2.getAsTextShowAllExam(), expected, false, lastShownList);
+                p2.getAsTextShowAllExam(), expected, false, lastShownList, false);
 
         assertCommandBehavior("viewexams 3",
                 String.format(ViewExamsCommand.MESSAGE_VIEW_EXAMS_PERSON_SUCCESS, p3.getAsTextShowOnlyName()),
-                String.format(MESSAGE_NO_EXAMS, p3.getName()), expected, false, lastShownList);
+                String.format(MESSAGE_NO_EXAMS, p3.getName()), expected, false, lastShownList, false);
     }
 
     @Test
@@ -646,7 +638,7 @@ public class ExamCommandsTest {
 
         assertCommandBehavior("viewexams 1",
                 String.format(ViewExamsCommand.MESSAGE_VIEW_EXAMS_PERSON_SUCCESS, p1.getAsTextShowOnlyName()),
-                String.format(MESSAGE_NO_NON_PRIVATE_EXAMS, p1.getName()), addressBook, false, lastShownList);
+                String.format(MESSAGE_NO_NON_PRIVATE_EXAMS, p1.getName()), addressBook, false, lastShownList, false);
     }
 
     @Test
@@ -662,7 +654,7 @@ public class ExamCommandsTest {
         expected.addPerson(p1);
 
         assertCommandBehavior("viewexams 2", MESSAGE_PERSON_NOT_IN_ADDRESSBOOK,
-                expected, false, lastShownList);
+                expected, false, lastShownList, false);
     }
 
     @Test
@@ -679,7 +671,7 @@ public class ExamCommandsTest {
         privilege.setMyPerson(p1);
 
         assertCommandBehavior("viewexams 2", MESSAGE_WRONG_TARGET, addressBook, false,
-                lastShownList);
+                lastShownList, false);
     }
 
     @Test
@@ -695,7 +687,7 @@ public class ExamCommandsTest {
         privilege.resetPrivilege();
 
         assertCommandBehavior("viewexams 2", MESSAGE_NOT_LOGGED_IN, addressBook, false,
-                lastShownList);
+                lastShownList, false);
     }
 
     @Test
@@ -715,7 +707,7 @@ public class ExamCommandsTest {
 
         assertCommandBehavior("viewexams 1",
                 String.format(ViewExamsCommand.MESSAGE_VIEW_EXAMS_PERSON_SUCCESS, p1.getAsTextShowOnlyName()),
-                p1.getAsTextShowExam(), expected, false, lastShownList);
+                p1.getAsTextShowExam(), expected, false, lastShownList, false);
     }
 
     @Test
@@ -735,7 +727,7 @@ public class ExamCommandsTest {
 
         assertCommandBehavior("viewexams 1",
                 String.format(ViewExamsCommand.MESSAGE_VIEW_EXAMS_PERSON_SUCCESS, p1.getAsTextShowOnlyName()),
-                p1.getAsTextShowExam(), expected, false, lastShownList);
+                p1.getAsTextShowExam(), expected, false, lastShownList, false);
     }
 
     @Test
@@ -884,12 +876,12 @@ public class ExamCommandsTest {
         assertCommandBehavior("viewall 1",
                 String.format(ViewCommand.MESSAGE_VIEW_PERSON_DETAILS, p1.getName()),
                 p1.getAsTextShowAll(), expected,
-                false, lastShownList);
+                false, lastShownList, false);
 
         assertCommandBehavior("viewall 2",
                 String.format(ViewCommand.MESSAGE_VIEW_PERSON_DETAILS, p2.getName()),
                 p2.getAsTextShowAll(), expected,
-                false, lastShownList);
+                false, lastShownList, false);
     }
 
     private List<Exam> setUpThreeExamsNoTakers(TestDataHelper helper) throws Exception {

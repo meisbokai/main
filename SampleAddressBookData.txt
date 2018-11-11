@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<AddressBook>
+    <persons>
+        <name>Alice</name>
+        <phone isPrivate="false">98765432</phone>
+        <email isPrivate="false">standard_sender@gmail.com</email>
+        <address isPrivate="false">311, Clementi Ave 2, #02-25</address>
+        <attendance/>
+        <account>
+            <username>alicia</username>
+            <password>secretz</password>
+            <privilege>Tutor</privilege>
+        </account>
+        <fees isPrivate="true">
+            <value>0.00</value>
+            <duedate>00-00-0000</duedate>
+        </fees>
+    </persons>
+    <persons>
+        <name>Bob</name>
+        <phone isPrivate="false">98712332</phone>
+        <email isPrivate="false">standard_receiver@gmail.com</email>
+        <address isPrivate="false">322, Clementi Ave 3, #02-25</address>
+        <attendance/>
+        <account>
+            <username>bobby</username>
+            <password>password_key</password>
+            <privilege>Basic</privilege>
+        </account>
+        <fees isPrivate="true">
+            <value>0.00</value>
+            <duedate>00-00-0000</duedate>
+        </fees>
+    </persons>
+    <persons>
+        <name>Charlie</name>
+        <phone isPrivate="false">72313332</phone>
+        <email isPrivate="false">CCC@gmail.com</email>
+        <address isPrivate="false">NUS</address>
+        <attendance/>
+        <fees isPrivate="true">
+            <value>0.00</value>
+            <duedate>00-00-0000</duedate>
+        </fees>
+    </persons>
+    <persons>
+        <name>Daniel</name>
+        <phone isPrivate="false">31234123</phone>
+        <email isPrivate="false">danielIstheBest@linkedin.com</email>
+        <address isPrivate="false">1500 Grant View Drive</address>
+        <attendance/>
+        <fees isPrivate="true">
+            <value>0.00</value>
+            <duedate>00-00-0000</duedate>
+        </fees>
+    </persons>
+    <persons>
+        <name>Eve</name>
+        <phone isPrivate="false">31234123</phone>
+        <email isPrivate="false">spying_is_fun@yahoo.com</email>
+        <address isPrivate="false">310 Filbert Street</address>
+        <attendance/>
+        <fees isPrivate="true">
+            <value>0.00</value>
+            <duedate>00-00-0000</duedate>
+        </fees>
+    </persons>
+    <persons>
+        <name>Filbert</name>
+        <phone isPrivate="false">31234123</phone>
+        <email isPrivate="false">eves_friend@gmail.com</email>
+        <address isPrivate="false">310 Filbert Street</address>
+        <attendance/>
+        <fees isPrivate="true">
+            <value>0.00</value>
+            <duedate>00-00-0000</duedate>
+        </fees>
+    </persons>
+    <persons>
+        <name>Gary</name>
+        <phone isPrivate="false">8132642</phone>
+        <email isPrivate="false">i_am_not_gray@nus.com</email>
+        <address isPrivate="false">21 Lower Kent Ridge Road</address>
+        <attendance/>
+        <fees isPrivate="true">
+            <value>0.00</value>
+            <duedate>00-00-0000</duedate>
+        </fees>
+    </persons>
+    <persons>
+        <name>Halim</name>
+        <phone isPrivate="false">8212642</phone>
+        <email isPrivate="false">2040C_for_life@nus.com</email>
+        <address isPrivate="false">21 Lower Kent Ridge Road</address>
+        <attendance/>
+        <fees isPrivate="true">
+            <value>0.00</value>
+            <duedate>00-00-0000</duedate>
+        </fees>
+    </persons>
+    <persons>
+        <name>Iris</name>
+        <phone isPrivate="false">91823412</phone>
+        <email isPrivate="false">flowers_are_friends@hotmail.com</email>
+        <address isPrivate="false">1247 Ingram Street</address>
+        <attendance/>
+        <fees isPrivate="true">
+            <value>0.00</value>
+            <duedate>00-00-0000</duedate>
+        </fees>
+    </persons>
+    <persons>
+        <name>John Doe</name>
+        <phone isPrivate="false">74623493</phone>
+        <email isPrivate="false">johndoe@gmail.com</email>
+        <address isPrivate="false">1377 Pennsylvania Avenue</address>
+        <attendance/>
+        <account>
+            <username>johnny</username>
+            <password>pw123</password>
+            <privilege>Admin</privilege>
+        </account>
+        <fees isPrivate="true">
+            <value>0.00</value>
+            <duedate>00-00-0000</duedate>
+        </fees>
+    </persons>
+    <persons>
+        <name>Kelvin</name>
+        <phone isPrivate="false">93726312</phone>
+        <email isPrivate="false">Kelogs@gmail.com</email>
+        <address isPrivate="false">3 Boone Crockett Lane</address>
+        <attendance/>
+        <fees isPrivate="true">
+            <value>0.00</value>
+            <duedate>00-00-0000</duedate>
+        </fees>
+    </persons>
+    <persons>
+        <name>Lira</name>
+        <phone isPrivate="false">74658234</phone>
+        <email isPrivate="false">useless_mod@gmail.com</email>
+        <address isPrivate="false">1580 Cantebury Drive</address>
+        <attendance/>
+        <fees isPrivate="true">
+            <value>0.00</value>
+            <duedate>00-00-0000</duedate>
+        </fees>
+    </persons>
+    <persons>
+        <name>Mufasa</name>
+        <phone isPrivate="false">83265821</phone>
+        <email isPrivate="false">king_lion@disney.com</email>
+        <address isPrivate="false">801 Corbin Branch Road</address>
+        <attendance/>
+        <fees isPrivate="true">
+            <value>0.00</value>
+            <duedate>00-00-0000</duedate>
+        </fees>
+    </persons>
+    <persons>
+        <name>Nemo</name>
+        <phone isPrivate="false">86724123</phone>
+        <email isPrivate="false">have_you_seen_my_dad@disney.com</email>
+        <address isPrivate="false">772 Wyatt Street</address>
+        <attendance/>
+        <fees isPrivate="true">
+            <value>0.00</value>
+            <duedate>00-00-0000</duedate>
+        </fees>
+    </persons>
+    <persons>
+        <name>Olaf</name>
+        <phone isPrivate="false">76835234</phone>
+        <email isPrivate="false">wish_its_summer@gmail.com</email>
+        <address isPrivate="false">3233 Broadway Avenue</address>
+        <attendance/>
+        <fees isPrivate="true">
+            <value>0.00</value>
+            <duedate>00-00-0000</duedate>
+        </fees>
+    </persons>
+    <persons>
+        <name>Pik Ah Chew</name>
+        <phone isPrivate="false">52525252</phone>
+        <email isPrivate="false">lightning_rat@yahoo.com</email>
+        <address isPrivate="false">Pallet Town</address>
+        <attendance/>
+        <fees isPrivate="true">
+            <value>0.00</value>
+            <duedate>00-00-0000</duedate>
+        </fees>
+    </persons>
+    <persons>
+        <name>Qing</name>
+        <phone isPrivate="false">18311831</phone>
+        <email isPrivate="false">chang_chong@gmail.com</email>
+        <address isPrivate="false">432 Bullwater Carriage Road</address>
+        <attendance/>
+        <fees isPrivate="true">
+            <value>0.00</value>
+            <duedate>00-00-0000</duedate>
+        </fees>
+    </persons>
+    <persons>
+        <name>Raphael</name>
+        <phone isPrivate="false">84756243</phone>
+        <email isPrivate="false">cowabunga@gmail.com</email>
+        <address isPrivate="false">Under 3167 Don Jackson Lane</address>
+        <attendance/>
+        <fees isPrivate="true">
+            <value>0.00</value>
+            <duedate>00-00-0000</duedate>
+        </fees>
+    </persons>
+    <persons>
+        <name>Shannon</name>
+        <phone isPrivate="false">98376462</phone>
+        <email isPrivate="false">not_kannon@gmail.com</email>
+        <address isPrivate="false">442 Pine Tree Lane</address>
+        <attendance/>
+        <fees isPrivate="true">
+            <value>0.00</value>
+            <duedate>00-00-0000</duedate>
+        </fees>
+    </persons>
+    <persons>
+        <name>Tesla</name>
+        <phone isPrivate="false">98766782</phone>
+        <email isPrivate="false">ac_rox@gmail.com</email>
+        <address isPrivate="false">1856 Serbia Ville</address>
+        <attendance/>
+        <fees isPrivate="true">
+            <value>0.00</value>
+            <duedate>00-00-0000</duedate>
+        </fees>
+    </persons>
+    <password>default_pw</password>
+</AddressBook>

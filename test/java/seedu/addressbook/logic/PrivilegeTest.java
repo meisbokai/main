@@ -32,7 +32,6 @@ import seedu.addressbook.privilege.Privilege;
 import seedu.addressbook.privilege.user.AdminUser;
 import seedu.addressbook.privilege.user.BasicUser;
 import seedu.addressbook.privilege.user.User;
-import seedu.addressbook.storage.StorageFile;
 import seedu.addressbook.stubs.StorageStub;
 
 public class PrivilegeTest {
@@ -48,23 +47,17 @@ public class PrivilegeTest {
     @Before
     public void setUp() throws Exception {
         StorageStub stubFile;
-        StorageFile saveFile;
         ExamBook examBook = new ExamBook();
         StatisticsBook statisticsBook = new StatisticsBook();
-        saveFile = new StorageFile(saveFolder.newFile("testSaveFile.txt").getPath(),
-                saveFolder.newFile("testExamFile.txt").getPath(),
-                saveFolder.newFile("testStatisticsFile.txt").getPath());
         stubFile = new StorageStub(saveFolder.newFile("testStubFile.txt").getPath(),
                 saveFolder.newFile("testStubExamFile.txt").getPath(),
                 saveFolder.newFile("testStubStatisticsFile.txt").getPath());
-        saveFile.save(addressBook);
-
         Logic logic = new Logic(stubFile, addressBook, examBook, statisticsBook, privilege);
-        CommandAssertions.setData(saveFile, addressBook, logic);
+        CommandAssertions.setData(stubFile, addressBook, logic);
     }
 
     @Test
-    public void executeSayNotLoggedIn() throws Exception {
+    public void executeSay_notLoggedIn_notLoggedInMessageShown() throws Exception {
         final String feedbackFormat = ViewPrivilegeCommand.MESSAGE_NOT_LOGGED_IN
                 + ViewPrivilegeCommand.MESSAGE_PRIVILEGE_FORMAT;
         assertCommandBehavior("viewpri",
@@ -80,7 +73,7 @@ public class PrivilegeTest {
     }
 
     @Test
-    public void executeSayLoggedIn() throws Exception {
+    public void executeSay_loggedIn_success() throws Exception {
         TestDataHelper helper = new TestDataHelper();
         final Person testPerson = helper.adam();
         final String feedbackFormat = String.format(ViewPrivilegeCommand.MESSAGE_LOGGED_IN, testPerson.getName())
@@ -100,13 +93,13 @@ public class PrivilegeTest {
     }
 
     @Test
-    public void assertDefaultPassword() {
+    public void assertDefaultPasswordSetUp() {
         final String defaultPassword = "default_pw";
         assertEquals(addressBook.getMasterPassword(), defaultPassword);
     }
 
     @Test
-    public void executeRaisePrivilegeInvalidArg() throws Exception {
+    public void executeRaisePrivilege_invalidCommand_invalidMessageShown() throws Exception {
         final String[] inputs = {"raise", "raise "};
 
         final String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT,
@@ -119,7 +112,7 @@ public class PrivilegeTest {
     }
 
     @Test
-    public void executeRaisePrivilegeWrongNumberOfArg() throws Exception {
+    public void executeRaisePrivilege_wrongNumberOfArg_wrongNumberOfArgMessageShown() throws Exception {
         // First value of the pair represents String input
         // Second value of the pair represents number of arguments supplied, as an Integer.
         List<Pair<String, Integer>> inputToExpectedOutput = new ArrayList<>();
@@ -138,7 +131,7 @@ public class PrivilegeTest {
     }
 
     @Test
-    public void executeRaisePrivilegeWrongPassword() throws Exception {
+    public void executeRaisePrivilege_wrongPassword_wrongPasswordMessageShown() throws Exception {
         String expectedMessage = RaisePrivilegeCommand.MESSAGE_WRONG_PASSWORD;
         assertCommandBehavior("raise wrong_password", expectedMessage
         );
@@ -146,7 +139,7 @@ public class PrivilegeTest {
     }
 
     @Test
-    public void executeRaisePrivilegeLoggedIn() throws Exception {
+    public void executeRaisePrivilege_loggedIn_loggedInMessageShown() throws Exception {
         TestDataHelper helper = new TestDataHelper();
         Person person = helper.adam();
         privilege.setMyPerson(person);
@@ -157,7 +150,7 @@ public class PrivilegeTest {
     }
 
     @Test
-    public void executeRaisePrivilegeSuccessDefaultPassword() throws Exception {
+    public void executeRaisePrivilege_defaultPassword_success() throws Exception {
         String defaultPassword = AddressBook.DEFAULT_MASTER_PASSWORD;
         assertCommandBehavior("raise " + defaultPassword,
                 String.format(RaisePrivilegeCommand.MESSAGE_SUCCESS, new AdminUser().getPrivilegeLevelAsString())
@@ -166,7 +159,7 @@ public class PrivilegeTest {
     }
 
     @Test
-    public void executeRaisePrivilegeSuccessChangedPassword() throws Exception {
+    public void executeRaisePrivilege_changedPassword_success() throws Exception {
         addressBook.setMasterPassword("new_Password");
         assertCommandBehavior("raise new_Password",
                 String.format(RaisePrivilegeCommand.MESSAGE_SUCCESS, new AdminUser().getPrivilegeLevelAsString())
@@ -175,7 +168,7 @@ public class PrivilegeTest {
     }
 
     @Test
-    public void executeSetPermInvalidCommand() throws Exception {
+    public void executeSetPerm_invalidCommand_invalidMessageShown() throws Exception {
         privilege.raiseToAdmin();
         assertCommandBehavior("perm",
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT,
@@ -184,7 +177,7 @@ public class PrivilegeTest {
     }
 
     @Test
-    public void executeSetPermInvalidDesiredState() throws Exception {
+    public void executeSetPerm_invalidDesiredState_invalidDesiredStateMessageShown() throws Exception {
         privilege.raiseToAdmin();
         assertCommandBehavior("perm wut",
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT,
@@ -193,7 +186,7 @@ public class PrivilegeTest {
     }
 
     @Test
-    public void executeSetPermSuccess() throws Exception {
+    public void executeSetPerm_validInput_success() throws Exception {
         privilege.raiseToAdmin();
         assertCommandBehavior("perm true",
                 String.format(SetPermanentAdminCommand.MESSAGE_SUCCESS, ""));
@@ -205,7 +198,7 @@ public class PrivilegeTest {
     }
 
     @Test
-    public void executeAdminCommandsInsufficientPrivilege() throws Exception {
+    public void executeAdminCommands_insufficientPrivilege_insufficientPrivilegeMessageShown() throws Exception {
         final String[] inputs = {"clear", "editpw default_pw new_pw",
             "add Valid Name p/12345 e/valid@e.mail a/valid, address ",
             "delete 1"};
@@ -215,7 +208,7 @@ public class PrivilegeTest {
     }
 
     @Test
-    public void executeTutorCommandsInsufficientPrivilege() throws Exception {
+    public void executeTutorCommands_insufficientPrivilege_insufficientPrivilegeMessageShown() throws Exception {
         final String[] inputs = {"viewall 1"};
         assertCommandsInsufficientPrivilege(inputs);
     }

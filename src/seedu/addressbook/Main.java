@@ -21,7 +21,7 @@ public class Main extends Application implements Stoppable {
     public static final Logger LOGGER = Logger.getLogger("Foo");
 
     /** Version info of the program. */
-    private static final String VERSION = "ClassRepo - Version 1.3";
+    private static final String VERSION = "ClassRepo - Version 1.4";
 
     public static void main(String[] args) {
         launch(args);

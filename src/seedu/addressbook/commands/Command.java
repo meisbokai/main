@@ -3,6 +3,7 @@ package seedu.addressbook.commands;
 import static seedu.addressbook.common.Messages.MESSAGE_FEES_LISTED_OVERVIEW;
 
 import java.util.List;
+import java.util.Objects;
 
 import seedu.addressbook.commands.commandresult.CommandResult;
 import seedu.addressbook.common.Messages;
@@ -19,6 +20,10 @@ import seedu.addressbook.privilege.Privilege;
  * Represents an executable command.
  */
 public abstract class Command {
+
+    private static final Category DEFAULT_CATEGORY = Category.GENERAL;
+    private static final boolean DEFAULT_IS_MUTATING_SETTING = false;
+
     /**
      * Enum used to indicate which category the command belongs to
      * */
@@ -33,7 +38,7 @@ public abstract class Command {
         ATTENDANCE
     }
 
-    protected static Privilege privilege;
+    protected Privilege privilege;
     protected AddressBook addressBook;
     protected ExamBook examBook;
     protected StatisticsBook statisticsBook;
@@ -124,8 +129,7 @@ public abstract class Command {
         this.addressBook = addressBook;
         this.statisticsBook = statisticsBook;
         this.relevantPersons = relevantPersons;
-        // privilege is static
-        Command.privilege = privilege;
+        this.privilege = privilege;
     }
 
     public void setData(AddressBook addressBook, List<? extends ReadOnlyPerson> relevantPersons,
@@ -139,20 +143,22 @@ public abstract class Command {
         this.relevantStatistics = relevantStatistics;
     }
 
-    //TODO: Fix potato code
+
     public Category getCategory() {
-        return Category.GENERAL;
+        return DEFAULT_CATEGORY;
     }
 
     /**
      * Checks if the command can potentially change the data to be stored
      */
     public boolean isMutating() {
-        return false;
+        return DEFAULT_IS_MUTATING_SETTING;
     }
 
     /**
      * Returns the usage message to be used to construct HelpCommand's message
+     * This is needed as each Command's usage message needs to be static to be accessed by Parser.
+     * This allows the Help Command to retrieve usage messages by looping through each Command.
      */
     public abstract String getCommandUsageMessage();
 
@@ -160,7 +166,19 @@ public abstract class Command {
      * Checks if the command can potentially change the exam data to be stored
      */
     public boolean isExamMutating() {
-        return false;
+        return DEFAULT_IS_MUTATING_SETTING;
     }
 
+    // The below 2 functions is used by Users to determined if a Command already exists in their newAllowedCommands
+    @Override
+    public int hashCode() {
+        // Hash based on class so that we can check if the same command is added to different users
+        return Objects.hash(this.getClass());
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (this.getClass().equals(other.getClass())); // Checks if the classes are the same
+    }
 }

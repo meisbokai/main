@@ -25,7 +25,6 @@ public class AdminUser extends TutorUser {
             new ClearCommand(),
             new EditPasswordCommand(),
             new ClearExamsCommand(),
-            new EditPasswordCommand(),
             new EditFeesCommand(),
             new PaidFeesCommand(),
             new SetPermanentAdminCommand(),

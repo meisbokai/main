@@ -306,7 +306,6 @@ public class Parser {
         final Collection<String> tagStrings = Arrays.asList(tagArguments.replaceFirst(" t/", "").split(" t/"));
         return new HashSet<>(tagStrings);
     }
-    //TODO: Generalize the prepare functions
     /**
      * Parses arguments in the context of the EditFeesCommand command.
      *

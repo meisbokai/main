@@ -114,12 +114,22 @@ public class StorageFileTest {
     }
 
     @Test
-    public void load_invalidFieldFormat_exceptionThrown() throws Exception {
-        // The file contains valid xml data, but contains an invalid field
-        StorageFile storage = getStorage("InvalidFieldData.txt", "ValidExamData.txt",
+    public void load_invalidNameFieldFormat_exceptionThrown() throws Exception {
+        // The file contains valid xml data, but contains an invalid name field
+        StorageFile storage = getStorage("InvalidNameFieldData.txt", "ValidExamData.txt",
                 "ValidStatistics.txt");
         thrown.expect(StorageOperationException.class);
         final String errorMessage = "Error processing Ke$ha: Person names should be spaces or alphanumeric characters";
+        assertReturnsExceptionMessage(storage, errorMessage);
+    }
+
+    @Test
+    public void load_invalidTagFieldFormat_exceptionThrown() throws Exception {
+        // The file contains valid xml data, but contains an invalid tag field
+        StorageFile storage = getStorage("InvalidTagFieldData.txt", "ValidExamData.txt",
+                "ValidStatistics.txt");
+        thrown.expect(StorageOperationException.class);
+        final String errorMessage = "Error processing Kesha: Tags names should be alphanumeric";
         assertReturnsExceptionMessage(storage, errorMessage);
     }
 
