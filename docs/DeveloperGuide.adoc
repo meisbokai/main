@@ -743,6 +743,7 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 |`*` |tutor | edit my student(s)'s attendance | correct any mistakes or make changes if any
 
 |`*` |tutor | view my student(s)' attendance | review and analyse my student(s)'s attendance to see if any of them require help in their work
+|=======================================================================
 
 _{More to be added}_
 
