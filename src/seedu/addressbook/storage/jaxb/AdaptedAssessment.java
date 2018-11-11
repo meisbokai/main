@@ -1,10 +1,18 @@
 package seedu.addressbook.storage.jaxb;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import javax.xml.bind.annotation.XmlElement;
 
 import seedu.addressbook.common.Utils;
 import seedu.addressbook.data.exception.IllegalValueException;
+
 import seedu.addressbook.data.person.Assessment;
+import seedu.addressbook.data.person.Grades;
+import seedu.addressbook.data.person.Person;
+import seedu.addressbook.data.person.UniquePersonList;
 
 /**
  * JAXB-friendly adapted assessment data holder class.
@@ -12,6 +20,12 @@ import seedu.addressbook.data.person.Assessment;
 public class AdaptedAssessment {
     @XmlElement(required = true)
     private String examName;
+
+    @XmlElement(required = true)
+    private List<Integer> personIndex = new ArrayList<>();
+
+    @XmlElement(required = true)
+    private List<Double> grades = new ArrayList<>();
 
     /**
      * No-arg constructor for JAXB use.
@@ -23,8 +37,19 @@ public class AdaptedAssessment {
      *
      * @param source future changes to this will not affect the created AdaptedAssessment
      */
-    public AdaptedAssessment(Assessment source) {
+    public AdaptedAssessment(Assessment source, UniquePersonList allPersons) {
         examName = source.getExamName();
+        Map<Person, Grades> allVals = source.getAllGrades();
+
+        for (Map.Entry<Person, Grades> entry : allVals.entrySet()) {
+            Person person = entry.getKey();
+            int index = allPersons.immutableListView().indexOf(person);
+            personIndex.add(index);
+
+            Grades grade = entry.getValue();
+            double gradeVal = grade.getValue();
+            grades.add(gradeVal);
+        }
     }
 
     /**
@@ -44,8 +69,17 @@ public class AdaptedAssessment {
      *
      * @throws IllegalValueException if there were any data constraints violated in the adapted assessment
      */
-    public Assessment toModelType() throws IllegalValueException {
+    public Assessment toModelType(List<Person> personList) throws IllegalValueException {
         final String examName = this.examName;
-        return new Assessment(examName);
+        Assessment assess = new Assessment(examName);
+
+        for (int i = 0; i < personIndex.size(); i++) {
+            final Person personToInsert = personList.get(i);
+            personToInsert.addAssessment(assess);
+            double gradeVal = grades.get(i);
+            final Grades gradeToInsert = new Grades(gradeVal);
+            assess.addGrade(personToInsert, gradeToInsert);
+        }
+        return assess;
     }
 }

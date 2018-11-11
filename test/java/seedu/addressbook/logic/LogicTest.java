@@ -381,6 +381,7 @@ public class LogicTest {
         TestDataHelper helper = new TestDataHelper();
         Person p1 = helper.generatePerson(1, true);
         Person p2 = helper.generatePerson(2, false);
+        p1.setFees(helper.fees(1));
         List<Person> lastShownList = helper.generatePersonList(p1, p2);
         AddressBook expected = helper.generateAddressBook(lastShownList);
         helper.addToAddressBook(addressBook, lastShownList);

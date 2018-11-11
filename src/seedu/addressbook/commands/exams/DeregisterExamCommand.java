@@ -21,9 +21,8 @@ public class DeregisterExamCommand extends IndexFormatCommand {
             + "Parameters: PERSON_INDEX EXAM_INDEX\n\t"
             + "Example: " + COMMAND_WORD + " 1 1";
 
-    public static final String MESSAGE_DEREGISTER_EXAM_SUCCESS = "After deregistering, %1$s\n"
-            + "Identified Person is now: %2$s\n"
-            + "A refresh of the person's view may be required to see the updates.";
+    public static final String MESSAGE_DEREGISTER_EXAM_SUCCESS = "Exam has been deregistered from person: %1$s!\n"
+            + "Viewing exams of person: %1$s";
     public static final String MESSAGE_EXAM_NOT_REGISTERED =
             "The person is not registered under the targeted exam!";
     public static final int REQUIRED_ARGUMENTS = 2;
@@ -55,7 +54,8 @@ public class DeregisterExamCommand extends IndexFormatCommand {
                 Exam originalExam = new Exam(exam);
                 exam.setTakers(exam.getTakers() - 1);
                 addressBook.updateExam(originalExam, exam);
-                return new CommandResult(String.format(MESSAGE_DEREGISTER_EXAM_SUCCESS, exam, personToEdit));
+                return new CommandResult(String.format(MESSAGE_DEREGISTER_EXAM_SUCCESS,
+                        personToEdit.getAsTextShowOnlyName()), personToEdit.getAsTextShowAllExam());
             }
         } catch (ExamIndexOutOfBoundsException eie) {
             return new CommandResult(Messages.MESSAGE_INVALID_EXAM_DISPLAYED_INDEX);

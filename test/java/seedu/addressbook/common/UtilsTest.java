@@ -72,11 +72,25 @@ public class UtilsTest {
 
     @Test
     public void isValidDate() {
+        //invalid format
         assertFalse(Utils.isValidDate("0132-2018"));
-        assertFalse(Utils.isValidDate("31-02-2018"));
-        assertFalse(Utils.isValidDate("33-02-2018"));
         assertFalse(Utils.isValidDate("notADate"));
+
+        //non leap year
+        assertFalse(Utils.isValidDate("00-02-2018"));
         assertTrue(Utils.isValidDate("01-02-2018"));
+        assertTrue(Utils.isValidDate("28-02-2018"));
+        assertFalse(Utils.isValidDate("29-02-2018"));
+
+        //Check months with 30 and 31 days
+        assertTrue(Utils.isValidDate("30-09-2018"));
+        assertFalse(Utils.isValidDate("31-09-2018"));
+        assertTrue(Utils.isValidDate("31-10-2018"));
+        assertFalse(Utils.isValidDate("32-10-2018"));
+
+        //leap year
+        assertTrue(Utils.isValidDate("29-02-2016"));
+        assertFalse(Utils.isValidDate("30-02-2016"));
     }
 
 }

@@ -13,6 +13,7 @@ import seedu.addressbook.data.AddressBook;
 import seedu.addressbook.data.ExamBook;
 import seedu.addressbook.data.StatisticsBook;
 import seedu.addressbook.data.person.Assessment;
+import seedu.addressbook.data.person.AssignmentStatistics;
 import seedu.addressbook.data.person.ReadOnlyExam;
 import seedu.addressbook.data.person.ReadOnlyPerson;
 import seedu.addressbook.parser.Parser;
@@ -37,6 +38,9 @@ public class Logic {
 
     /** The list of person shown to the user most recently.  */
     private List<? extends Assessment> lastShownAssessmentList = Collections.emptyList();
+
+    /** The list of person shown to the user most recently.  */
+    private List<? extends AssignmentStatistics> lastShownStatisticsList = Collections.emptyList();
 
     /** The list of exam shown to the user most recently.  */
     private List<? extends ReadOnlyExam> lastShownExamList = Collections.emptyList();
@@ -179,7 +183,7 @@ public class Logic {
         final CommandResult result;
 
         command.setData(addressBook, lastShownList, lastShownExamList, lastShownAssessmentList, privilege, examBook,
-                statisticsBook);
+                statisticsBook, lastShownStatisticsList);
 
         // Checking instanceof IncorrectCommand to prevent overwriting the message of an incorrect command
         if (privilege.isAllowedCommand(command) || (command instanceof IncorrectCommand)) {
@@ -210,12 +214,15 @@ public class Logic {
 
         final Optional<List<? extends ReadOnlyExam>> examList = result.getRelevantExams();
         final Optional<List<? extends Assessment>> assessmentList = result.getRelevantAssessments();
+        final Optional<List<? extends AssignmentStatistics>> statisticsList = result.getRelevantStatistics();
         //TODO: Fix weird code flow
         if (!personList.isPresent()) {
             if (examList.isPresent()) {
                 lastShownExamList = examList.get();
             } else if (assessmentList.isPresent()) {
                 lastShownAssessmentList = assessmentList.get();
+            } else if (statisticsList.isPresent()) {
+                lastShownStatisticsList = statisticsList.get();
             }
         }
     }

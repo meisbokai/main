@@ -1,7 +1,10 @@
 package seedu.addressbook.commands.assessment;
 
+import java.util.List;
+
 import seedu.addressbook.commands.Command;
 import seedu.addressbook.commands.commandresult.CommandResult;
+import seedu.addressbook.commands.commandresult.ListType;
 import seedu.addressbook.data.exception.IllegalValueException;
 import seedu.addressbook.data.person.Assessment;
 import seedu.addressbook.data.person.UniqueAssessmentsList;
@@ -52,7 +55,8 @@ public class AddAssessmentCommand extends Command {
     public CommandResult execute() {
         try {
             addressBook.addAssessment(toAdd);
-            return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
+            final List<Assessment> updatedList = addressBook.getAllAssessments().immutableListView();
+            return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd), updatedList, ListType.ASSESSMENT);
         } catch (UniqueAssessmentsList.DuplicateAssessmentException dpe) {
             return new CommandResult(MESSAGE_DUPLICATE_ASSESSMENT);
         }

@@ -68,12 +68,14 @@ public interface ReadOnlyPerson {
                 getName(),
                 getPhone(),
                 getEmail(),
-                getAddress(),
-                getFees());
+                getAddress());
         getAttendance();
 
-        builder.append(stringChain)
-                .append("Tags: ");
+        builder.append(stringChain);
+        if (getFees().isEdited()) {
+            builder.append(Formatter.getPrintableString(true, getFees()));
+        }
+        builder.append("Tags: ");
         for (Tag tag : getTags()) {
             builder.append(tag);
         }
@@ -154,9 +156,13 @@ public interface ReadOnlyPerson {
         final StringBuilder builder = new StringBuilder();
         final String stringChain = Formatter.getPrintableString(
                 true,
-                getName(),
-                getFees());
+                getName());
         builder.append(stringChain);
+        if (getFees().isEdited()) {
+            builder.append(Formatter.getPrintableString(true, getFees()));
+        } else {
+            builder.append("No Fees owed!\n");
+        }
         return builder.toString();
     }
 
@@ -179,13 +185,27 @@ public interface ReadOnlyPerson {
      */
     default String getAsTextShowExam() {
         final StringBuilder builder = new StringBuilder();
+        for (Exam exam : getExams()) {
+            if (exam.isPrivate()) {
+                continue;
+            }
+            builder.append(exam).append("\n");
+        }
+        if (builder.toString().isEmpty()) {
+            builder.append(String.format(Messages.MESSAGE_NO_NON_PRIVATE_EXAMS, getName()));
+        }
+        return builder.toString();
+    }
+
+    /**
+     * Formats the person as text, showing name and all exams.
+     */
+    default String getAsTextShowAllExam() {
+        final StringBuilder builder = new StringBuilder();
         if (getExams().isEmpty()) {
-            builder.append(Messages.MESSAGE_NO_NON_PRIVATE_EXAMS);
+            builder.append(String.format(Messages.MESSAGE_NO_EXAMS, getName()));
         } else {
             for (Exam exam : getExams()) {
-                if (exam.isPrivate()) {
-                    continue;
-                }
                 builder.append(exam).append("\n");
             }
         }

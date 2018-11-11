@@ -42,12 +42,6 @@ public class Person implements ReadOnlyPerson {
         this.fees = new Fees();
     }
 
-    public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags,
-                  Account account, Set<Exam> exams) {
-        this(name, phone, email, address, tags, exams);
-        this.account = account;
-    }
-
     /**
      * Only update the fees when called in setAssessmentsCommand
      * Assumption: Every field must be present and not null.
@@ -80,6 +74,11 @@ public class Person implements ReadOnlyPerson {
      */
     public void setFees(Fees fees) {
         this.fees = fees;
+        if (this.fees.duedate.equals("00-00-0000")) {
+            this.fees.getEdited(false);
+        } else {
+            this.fees.getEdited(true);
+        }
     }
 
     /**
@@ -177,9 +176,7 @@ public class Person implements ReadOnlyPerson {
 
     @Override
     public Fees getFees() {
-        return fees;
-    }
-
+        return fees; }
     @Override
     public Set<Exam> getExams() {
         return new HashSet<>(exams);

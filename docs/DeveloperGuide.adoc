@@ -399,21 +399,37 @@ The usage of enums also allows us to keep a reference to the created User object
 
 ==== Current Implementation
 There is a master StatisticsBook which contains all the statistics for various exams. There is also a list of assessments
-being stored in the AddressBook. The current set of commands include:
+and the grades for these assessments being stored in the AddressBook. The current set of commands include:
 
-. `Adding a new statistics`
 . `Adding a new assessment`
-. `Listing all assessments'
+. `Listing all assessments`
 . `Deleting an assessment`
 . `Adding grades for a student`
 . `Viewing all grades for a student`
 . `Deleting a specific grade for a student`
+. `Adding statistics for an assessment`
+. `Listing all statistics`
+. `Deleting a statistic`
+
+This is the class diagram for the assessments, grades and statistics combined:
+[[fig-AddAssessmentDiagram]]
+.Class Diagram
+image::AssessmentClassDiagram.png[width="800"]
+
+. A list of unique assessments can be stored in the addressbook.
+. Each assessment object contains a Hashmap, with Person as the Key and Grades as the Value. Hence, the grades of all
+students for a particular assessment will be stored together in the same HashMap.
+. Each person object (or student) can have a list of assessments and respective grades under it. This makes sense
+logically since a student will have multiple assessments through the school year.
+. Statistics can be added for any existing assessment. The grades stored in the HasHMap will be used to calculate various
+stats such as average score, total exam takers, max score and min score.
+. This list of statistics is stored in the statisticsbook.
 
 An Example of how feature 2 - `Adding a new assessment to the AddressBook` works:
 
 . The user (teacher/ admin) will be able to use the 'addassess' command to add a new assessment.
-. This assessment will only be added to the Address Book if it is not already present. i.e. duplicate assessments will
-  not be entered.
+. This assessment will only be added to the Address Book if it is not already present. i.e. check for duplicate assessments
+is done.
 . These assessments reflect the exams/homework of the school in general. This list of assessments can then be used to add
   grades to a particular student.
 
@@ -424,21 +440,15 @@ image::Assessment_Seq_Diagram.png[width="800"]
 
 ==== Design Considerations
 
-===== Aspect: 'Assessment' and 'Grades' as classes
-
-* **Alternative 1 (current choice):** Assessments and Grades are created as two separate classes. Assessment class stores the grades of all students for that assessment while a reference to the grades is given to person.
-** Pros: Better design in terms of OOP. Allows easier calculation of statistics per assessment as you can simply loop through all the grades.
+===== Aspect: 'Assessment' and 'Grades' as separate classes
+* **Alternative 1 (current choice):** Assessments and Grades are created as two separate classes. Assessment class stores the grades of all students for that assessment in a HashMap, where the Person (or student) is the key.
+** Pros: Better design in terms of OOP. Allows easier calculation of statistics per assessment as you can simply loop through all the grades. It is also a good model of the real-world where all grades for an assessment will be stored together.
 ** Cons: This is a little more tedious in terms of coding.
 * **Alternative 2:** The Assessment and Grades are combined into a single class with different parameters to take in the exam name and grade respectively.
-** Pros: -
-** Cons: Cannot view the list of assessments separately.
-
-An example of Alternative 1 is demonstrated in the following diagram:
-[[fig-AssessmentandGrades]]
-image::Assessment_Aspect_Example.png[width="800"]
+** Pros: - Storage of the data becomes a little easier and you can just store a list of grades added to each person.
+** Cons: Cannot view the list of assessments separately. This architecture does not make sense in terms of modelling how grades are stored in the real world.
 
 ===== Aspect: Data structure to store grades
-
 * **Alternative 1 (current choice):** The grades are stored using a Map data structure under Assessment class
 ** Pros: Allows easy reference to person class.
 ** Cons: Cannot sort/ order the entries if required.
@@ -446,25 +456,32 @@ image::Assessment_Aspect_Example.png[width="800"]
 ** Pros: Can sort the grades alphabetically if required.
 ** Cons: Difficult to link grades to person.
 
-===== Aspect: Data type for Grades value
-
-* **Alternative 1 (current choice):** The grades are stored as an integer.
-** Pros: Since the ClassRepo is targeted at Secondary Schools where marks out of 100 are usually awarded rather than letter grades, integer makes more sense.
-** Cons: Can only enter whole numbers (Possible improvement: Change to float)
-* **Alternative 2:** Store the grades as a String
-** Pros: Can also enter letter grades (A, B, C etc. if required)
-** Cons: -
-
 ===== Aspect: Creation and Storage of Statistics Book
-
 * **Alternative 1 (current choice):** A separate Statistics Book is created to store the statistics of all assessments. Also, these statistics are stored in a separate txt file (statistics.txt) from AddressBook
-** Pros: These assessment statistics have no link to person. They are a set of separate information accessible to all users (students, teachers and admin). Hence, a separate Statistics Book provides increased clarity and makes sense in terms of the end-usage. This also gives easy access to find and see statistics in raw XML format.
+** Pros: These assessment statistics have no direct link to person object. It is a separate set of information accessible to all users (students, teachers and admin). Hence, a separate Statistics Book provides increased clarity and makes sense in terms of the end-usage. This also gives easy access to find and see statistics in raw XML format.
 ** Cons: Using an extra storage file implies that additional methods and file paths are needed. Makes code lengthier and repetitive.
 * **Alternative 2:** Store statistics in AddressBook itself.
-** Pros: Everything is condensed and can be found in the same spot. Also, only one storage file would be needed. Reduces duplication of files.
-** Cons: It is messy and confusing. Unrelated data is stored together.
+** Pros: Everything is condensed and can be found in the same spot. Also, only one storage file would be needed.
+** Cons: It is messy and confusing in terms of implementation - Unrelated data is being stored together.
 
+===== Aspect: Automatic calculation of statistics
+* **Alternative 1 (current choice):** A fixed set of statistics (average score, total number of exam takers, max score and min score) are automatically calculated inside the application itself.
+** Pros: Reduces human effort. Makes the process of creating a statistic easier for user as they would not have to use any external tools like Excel to do this.
+** Cons: Only the statistics parameters currently built into the app can be added. If the user wants to add any other parameter like pass rate, then it is currently not possible.
+* **Alternative 2:** The user manually calculates statistics using given data by hand and enters it in the app to store.
+** Pros: The user can choose to leave some field blank if wanted.
+** Cons: Extremely tedious. Against the whole point of digitizing the school management as manual paperwork is still involved.
+
+==== Aspect: XML Storage of Assessments and Grades
+* **Alternative 1 (current choice):** Two concurrent lists are used to store the person index (as per latest person list) and respective grades for each assessment.
+** Pros: Since each student only has one grade per assessment, it is practical to store them as lists. Essentially, the keys of the hash map (in index form) and the values are stored as two separate lists. The corresponding pairs can be obtained by reading the entries at the same index in both lists.
+** Cons: This is an adaptation of the HashMap used to store grades in the code.
+
+* **Alternative 2:** Store the grades as a list of pairs (person index and grade value) for each assessment
+** Pros: Storage is more coherent.
+** Cons: Code is lengthier and more strenuous to write.
 // end::Grades[]
+
 // tag::Fees[]
 === Fees Feature
 

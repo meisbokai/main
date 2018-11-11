@@ -20,6 +20,7 @@ import seedu.addressbook.Main;
 import seedu.addressbook.commands.commandresult.CommandResult;
 import seedu.addressbook.commands.general.ExitCommand;
 import seedu.addressbook.data.person.Assessment;
+import seedu.addressbook.data.person.AssignmentStatistics;
 import seedu.addressbook.data.person.ReadOnlyExam;
 import seedu.addressbook.data.person.ReadOnlyPerson;
 import seedu.addressbook.formatter.Formatter;
@@ -84,10 +85,13 @@ public class MainWindow {
         //TODO: Clean up Optional code
         final Optional<List<? extends ReadOnlyExam>> resultExams = result.getRelevantExams();
         final Optional<List<? extends Assessment>> resultAssessment = result.getRelevantAssessments();
+        final Optional<List<? extends AssignmentStatistics>> resultStatistics = result.getRelevantStatistics();
         if (resultExams.isPresent()) {
             displayExams(resultExams.get());
         } else if (resultAssessment.isPresent()) {
             displayAssessments(resultAssessment.get());
+        } else if (resultStatistics.isPresent()) {
+            displayStatistics(resultStatistics.get());
         }
         display(result.getOutputConsoleMessage());
     }
@@ -152,10 +156,17 @@ public class MainWindow {
         }
     }
     /**
-     * Displays the list of exams in the output display area, formatted as an indexed list.
+     * Displays the list of assessments in the output display area, formatted as an indexed list.
      */
     private void displayAssessments(List<? extends Assessment> assessments) {
         display(Formatter.formatAssessments(assessments));
+    }
+
+    /**
+     * Displays the list of assessments in the output display area, formatted as an indexed list.
+     */
+    private void displayStatistics(List<? extends AssignmentStatistics> statistics) {
+        display(Formatter.formatStatistics(statistics));
     }
 
     private void closeAsciiArt() {

@@ -21,8 +21,8 @@ public class RegisterExamCommand extends IndexFormatCommand {
             + "Parameters: PERSON_INDEX EXAM_INDEX\n\t"
             + "Example: " + COMMAND_WORD + " 1 1";
 
-    public static final String MESSAGE_REGISTER_EXAM_SUCCESS = "Person after exam registration: %1$s\n"
-            + "A refresh of the person's view may be required to see the updates.";
+    public static final String MESSAGE_REGISTER_EXAM_SUCCESS = "Exam has been registered to person: %1$s!\n"
+            + "Viewing exams of person: %1$s";
     public static final String MESSAGE_EXAM_ALREADY_REGISTERED =
             "The person is already registered under the targeted exam!";
     public static final int REQUIRED_ARGUMENTS = 2;
@@ -52,7 +52,8 @@ public class RegisterExamCommand extends IndexFormatCommand {
                 exam.setTakers(exam.getTakers() + 1);
                 personToEdit.addExam(exam);
                 addressBook.updateExam(originalExam, exam);
-                return new CommandResult(String.format(MESSAGE_REGISTER_EXAM_SUCCESS, personToEdit));
+                return new CommandResult(String.format(MESSAGE_REGISTER_EXAM_SUCCESS,
+                        personToEdit.getAsTextShowOnlyName()), personToEdit.getAsTextShowAllExam());
             } else {
                 return new CommandResult(MESSAGE_EXAM_ALREADY_REGISTERED);
             }

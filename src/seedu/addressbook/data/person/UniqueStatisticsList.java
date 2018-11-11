@@ -3,6 +3,7 @@ package seedu.addressbook.data.person;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -70,6 +71,15 @@ public class UniqueStatisticsList implements Iterable<AssignmentStatistics> {
     }
 
     /**
+     * Unmodifiable java List view with elements cast as immutable {@link AssignmentStatistics}s.
+     * For use with other methods/libraries.
+     * Any changes to the internal list/elements are immediately visible in the returned list.
+     */
+    public List<AssignmentStatistics> immutableListView() {
+        return Collections.unmodifiableList(internalList);
+    }
+
+    /**
      * Checks if the list contains an equivalent statistics as the given argument.
      */
     public boolean contains(AssignmentStatistics toCheck) {
@@ -79,7 +89,7 @@ public class UniqueStatisticsList implements Iterable<AssignmentStatistics> {
     /**
      * Adds a result to the list.
      *
-     * @throws DuplicateStatisticsException if the person to add is a duplicate of an existing stastic in the list.
+     * @throws DuplicateStatisticsException if the statistic to add is a duplicate of an existing statistic in the list.
      */
     public void add(AssignmentStatistics toAdd) throws DuplicateStatisticsException {
         if (contains(toAdd)) {

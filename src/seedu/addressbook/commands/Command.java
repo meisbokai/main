@@ -10,6 +10,7 @@ import seedu.addressbook.data.AddressBook;
 import seedu.addressbook.data.ExamBook;
 import seedu.addressbook.data.StatisticsBook;
 import seedu.addressbook.data.person.Assessment;
+import seedu.addressbook.data.person.AssignmentStatistics;
 import seedu.addressbook.data.person.ReadOnlyExam;
 import seedu.addressbook.data.person.ReadOnlyPerson;
 import seedu.addressbook.privilege.Privilege;
@@ -39,6 +40,7 @@ public abstract class Command {
     protected List<? extends ReadOnlyPerson> relevantPersons;
     protected List<? extends Assessment> relevantAssessments;
     protected List<? extends ReadOnlyExam> relevantExams;
+    protected List<? extends AssignmentStatistics> relevantStatistics;
 
     /**
      * Signals that the target exam index is out of bounds of the last viewed exams listing
@@ -99,6 +101,17 @@ public abstract class Command {
     }
 
     /**
+     * Constructs a feedback message to summarise an operation that displayed a listing of statistics.
+     *
+     * @param statisticsDisplayed used to generate summary
+     * @return summary message for persons displayed
+     */
+    public static String getMessageForStatisticsListShownSummary(List<? extends AssignmentStatistics>
+                                                                         statisticsDisplayed) {
+        return String.format(Messages.MESSAGE_STATISTICS_LISTED_OVERVIEW, statisticsDisplayed.size());
+    }
+
+    /**
      * Executes the command and returns the result.
      */
     public abstract CommandResult execute();
@@ -117,11 +130,13 @@ public abstract class Command {
 
     public void setData(AddressBook addressBook, List<? extends ReadOnlyPerson> relevantPersons,
                         List<? extends ReadOnlyExam> relevantExams, List<? extends Assessment> relevantAssessments,
-                        Privilege privilege, ExamBook exambook, StatisticsBook statisticsBook) {
+                        Privilege privilege, ExamBook exambook, StatisticsBook statisticsBook,
+                        List<? extends AssignmentStatistics> relevantStatistics) {
         setData(addressBook, statisticsBook, relevantPersons, privilege);
         this.examBook = exambook;
         this.relevantExams = relevantExams;
         this.relevantAssessments = relevantAssessments;
+        this.relevantStatistics = relevantStatistics;
     }
 
     //TODO: Fix potato code

@@ -29,6 +29,7 @@ public class Exam implements ReadOnlyExam {
             "Time interval is inaccurate.";
 
     private static final String TIME_VALIDATION_REGEX = "(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]";
+    private static final String TIME_PATTERN = "HH:mm";
 
     private String examName;
     private String subjectName;
@@ -106,8 +107,7 @@ public class Exam implements ReadOnlyExam {
      */
     public static boolean isValidTimeInterval(String examStart, String examEnd) {
         boolean isValid;
-        String format = "HH:mm";
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(TIME_PATTERN);
         try {
             LocalTime startTime = LocalTime.parse(examStart, formatter);
             LocalTime endTime = LocalTime.parse(examEnd, formatter);

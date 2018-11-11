@@ -13,7 +13,8 @@ endif::[]
 :repoURL: https://github.com/CS2113-AY1819S1-F10-1/main
 
 == Introduction
-ClassRepo is targeted at secondary school users who *prefer to use a desktop app for managing their school details*.
+ClassRepo is targeted at secondary school users who *prefer to use a desktop app for managing all their school related
+information*.
 ClassRepo is *optimized for those who prefer to work with a Command Line Interface* (CLI). +
 
 Interested? Jump to the <<Quick Start>> to get started. Enjoy!
@@ -577,7 +578,12 @@ Format: `addgrades PERSON_INDEX ASSESSMENT_INDEX GRADES`
 ****
 Words in `UPPER_CASE` are the parameters. There are three parameters for this command, which are the index of the person
 or student, index of the appropriate assessment and the grades themselves. +
-Grades are numeric. No restriction on upper limit! It is up to the teacher to decide what the total marks are.
+1. Grades are numeric +
+2. Grade values can only be positive integers (>= 0) +
+3. No restriction on upper limit! It is up to the teacher to decide what the total marks are. +
+4. In case of any mistake in the entry or necessity to update grade, you can overwrite a previously entered value by
+simply using the same function again! +
+`addgrades PERSON_INDEX ASSESSMENT_INDEX UPDATED_GRADES`
 ****
 
 [NOTE]
@@ -592,8 +598,6 @@ Example(s):
 `listassess` +
 `addgrades 1 1 89` +
 
-- Restriction in v1.3: The grades can only be 'int' values, not 'float'
-
 ==== Viewing grades of a person : `viewgrades` image:Tutor.png[16,16]
 
 View the grades for all assessments of a selected student/person. +
@@ -601,7 +605,8 @@ Format: `viewgrades PERSON_INDEX`
 
 ****
 Words in `UPPER_CASE` are the parameters. There is only one parameter for this command, which is the index of the person
-or student whose grades you want to view.
+or student whose grades you want to view. This is based on the index number shown in the most recent person listing. +
+Using `list` command
 ****
 
 Example(s):
@@ -614,7 +619,7 @@ Deletes the specified assessment and respective grades of a student. It is irrev
 Format: `deletegrades PERSON_INDEX ASSESSMENT_INDEX`
 
 ****
-Deletes respective grades for the specified `PERSON_INDEX` for the respective assessment at the specified `ASSESSMENT_INDEX`.
+Deletes grades for the specified `PERSON_INDEX` and their respective assessment at the specified `ASSESSMENT_INDEX`.
 The index refers to the index number shown in the most recent person and assessments listing respectively.
 ****
 
@@ -632,6 +637,63 @@ Example(s):
 Deletes the grades corresponding to the 2nd assessment in the address book for the student at index 1 in the address book. +
 *IMPORTANT NOTE*: This does not delete grades for the second assessment as per the listing in view grades command, rather
 for the assessment in second index as seen in list assess command.
+
+==== Adding a statistic : `addstatistics` image:Tutor.png[16,16]
+
+Adds a statistic to the statistics book. +
+Format: `addstatistics ASSESSMENT_INDEX`
+
+****
+Words in `UPPER_CASE` are the parameters. There is only one parameter for this command which is the assessment index as
+shown in the most recent assessments listing. +
+
+This command automatically calculates and adds statistics for a given assessment based on all the grades or scores
+previously entered to students for that particular assessment. These statistics include: +
+1. Average Score +
+2. Total Number of Exam Takers +
+3. Maximum Score +
+4. Minimum Score +
+
+****
+
+Example(s):
+
+* `listassess`
+* `addstatistics 1` +
+
+
+[NOTE]
+====
+If you change/ update grades after already generating a statistic, you must delete that statistic and re-add it to the
+statistics book to ensure that it is up to date.
+====
+
+==== Listing all statistics : `liststatistics` image:Tutor.png[16,16]
+
+Shows a list of all statistics in the statistics book, along with an index for each +
+Format: `liststatistics`
+
+[NOTE]
+====
+If you delete an assessment after generating its statistics, this statistic will still remain in the statistics book. This
+is to ensure that the school can maintain a record of all its statistics over time, if needed, even though the assessment
+may have ended and the grades are awarded to students. It is up to the school to decide how long they want to store their
+statistics for.
+====
+
+==== Deleting a statistic : `deletestatistics` image:Tutor.png[16,16]
+Deletes the specified statistic from the statistics book, based on the index. Irreversible. +
+Format: `deletstatistics INDEX`
+
+****
+Deletes the statistic at the specified `INDEX`.
+The index refers to the index number shown in the most recent statistics listing.
+****
+
+Example(s):
+
+* `liststatistics` +
+`deletestatistics 1`
 // end::Grades[]
 
 // tag::attendance[]
@@ -761,4 +823,4 @@ a data saving operation. ClassRepo shuts itself down to ensure synchronisation o
 *Solution*: Ensure that the data files are not set as read-only. 
 
 == Known Bugs
-1. ClassRepo ASCII art may be formatted wrongly on OS's such as Mac.
+1. ClassRepo ASCII art may be incorrectly formatted on OS's such as Mac.

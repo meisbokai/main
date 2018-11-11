@@ -18,8 +18,8 @@ public class ListDueFeesCommand extends Command {
     @Override
     public CommandResult execute() {
         String date = java.time.LocalDate.now().toString();
-        return new CommandResult(getMessageForFeesListShownSummary(addressBook.dueFeesPerson(date)),
-                addressBook.dueFeesPerson(date), PersonListFormat.FEES_DUE_DETAILS);
+        return new CommandResult(getMessageForFeesListShownSummary(addressBook.listdueFeesPerson(date)),
+                addressBook.listdueFeesPerson(date), PersonListFormat.FEES_DUE_DETAILS);
     }
 
     @Override

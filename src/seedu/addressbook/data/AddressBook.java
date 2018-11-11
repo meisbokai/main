@@ -68,7 +68,7 @@ public class AddressBook {
     /**
      * Adds an assessment to the address book.
      *
-     * @throws DuplicateAssessmentException if an equivalent person already exists.
+     * @throws DuplicateAssessmentException if an equivalent assessment already exists.
      */
     public void addAssessment(Assessment toAdd) throws DuplicateAssessmentException {
         allAssessments.add(toAdd);
@@ -150,8 +150,8 @@ public class AddressBook {
     /**
      * Loops through the list to get overdue fees
      */
-    public List<ReadOnlyPerson> dueFeesPerson(String date) {
-        return allPersons.dueFees(date);
+    public List<ReadOnlyPerson> listdueFeesPerson(String date) {
+        return allPersons.listdueFees(date);
     }
 
     /**

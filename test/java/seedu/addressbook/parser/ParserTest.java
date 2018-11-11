@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static seedu.addressbook.commands.exams.EditExamCommand.MESSAGE_NO_ARGS_FOUND;
 import static seedu.addressbook.common.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.addressbook.common.Messages.MESSAGE_WRONG_NUMBER_ARGUMENTS;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -16,6 +17,7 @@ import seedu.addressbook.TestDataHelper;
 import seedu.addressbook.commands.Command;
 import seedu.addressbook.commands.IncorrectCommand;
 import seedu.addressbook.commands.assessment.AddAssessmentCommand;
+import seedu.addressbook.commands.assessment.AddGradesCommand;
 import seedu.addressbook.commands.assessment.DeleteAssessmentCommand;
 import seedu.addressbook.commands.assessment.DeleteGradesCommand;
 import seedu.addressbook.commands.assessment.ListAssessmentCommand;
@@ -188,6 +190,30 @@ public class ParserTest {
     }
 
     /**
+     * Test add assessment command
+     */
+    @Test
+    public void addGradesCommand_invalidArgs() {
+        final String[] inputs = {"addgrades", "addgrades ", "addgrades wrong args format"};
+        final String resultMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddGradesCommand.MESSAGE_USAGE);
+        parseAndAssertIncorrectWithMessage(resultMessage, inputs);
+    }
+
+    /**
+     * Test add assessment command
+     */
+    @Test
+    public void addGradesCommand_invalidNumberOfArgs() {
+        final String[] inputs = {
+                //Missing grades value
+                String.format("addgrades 1 2"),
+        };
+        final String resultMessage = String.format(MESSAGE_WRONG_NUMBER_ARGUMENTS, 3, 2,
+                AddGradesCommand.MESSAGE_USAGE);
+        parseAndAssertIncorrectWithMessage(resultMessage, inputs);
+    }
+
+    /**
      * Test double index argument commands
      */
     @Test
@@ -196,6 +222,23 @@ public class ParserTest {
         final String resultMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteGradesCommand.MESSAGE_USAGE);
         parseAndAssertIncorrectWithMessage(resultMessage, inputs);
     }
+
+    @Test
+    public void deleteGradesCommand_argsIsNotDoubleNumber() {
+        final String[] inputs = { "deletegrades notAnumber ", "deletegrades 8*wh12", "deletegrades 1" };
+        final String resultMessage = String.format(MESSAGE_WRONG_NUMBER_ARGUMENTS, 2, 1,
+                DeleteGradesCommand.MESSAGE_USAGE);
+        parseAndAssertIncorrectWithMessage(resultMessage, inputs);
+    }
+
+    //    @Test
+    //    public void deleteGradesCommand_numericArg_indexParsedCorrectly() {
+    //        final int testIndex1 = 1;
+    //        final int testIndex2 = 2;
+    //        final String input = "deletegrades " + testIndex1 + testIndex2;
+    //        final DeleteGradesCommand result = parseAndAssertCommandType(input, DeleteGradesCommand.class);
+    //        assertEquals(result.getTargetIndex(ObjectTargeted.PERSON), testIndex1);
+    //    }
 
     /**
      * Test find persons by keyword in name command
@@ -407,6 +450,19 @@ public class ParserTest {
         } catch (IllegalValueException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Test add assessment command
+     */
+    @Test
+    public void addAssessmentCommand_invalidArgs() {
+        final String[] inputs = {
+            "addassess",
+            "addassess ",
+        };
+        final String resultMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddAssessmentCommand.MESSAGE_USAGE);
+        parseAndAssertIncorrectWithMessage(resultMessage, inputs);
     }
 
     @Test

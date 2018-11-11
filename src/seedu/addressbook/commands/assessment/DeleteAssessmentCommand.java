@@ -1,7 +1,10 @@
 package seedu.addressbook.commands.assessment;
 
+import java.util.List;
+
 import seedu.addressbook.commands.commandformat.indexformat.IndexFormatCommand;
 import seedu.addressbook.commands.commandresult.CommandResult;
+import seedu.addressbook.commands.commandresult.ListType;
 import seedu.addressbook.common.Messages;
 import seedu.addressbook.data.person.Assessment;
 import seedu.addressbook.data.person.UniqueAssessmentsList.AssessmentNotFoundException;
@@ -25,7 +28,9 @@ public class DeleteAssessmentCommand extends IndexFormatCommand {
         try {
             final Assessment target = getTargetAssessment();
             addressBook.removeAssessment(target);
-            return new CommandResult(String.format(MESSAGE_DELETE_ASSESSMENT_SUCCESS, target));
+            final List<Assessment> updatedList = addressBook.getAllAssessments().immutableListView();
+            return new CommandResult(String.format(MESSAGE_DELETE_ASSESSMENT_SUCCESS, target), updatedList,
+                    ListType.ASSESSMENT);
         } catch (AssessmentIndexOutOfBoundsException aie) {
             return new CommandResult(Messages.MESSAGE_INVALID_ASSESSMENT_DISPLAYED_INDEX);
         } catch (AssessmentNotFoundException nfe) {

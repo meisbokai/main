@@ -24,9 +24,11 @@ import seedu.addressbook.data.ExamBook;
 import seedu.addressbook.data.StatisticsBook;
 import seedu.addressbook.data.account.Account;
 import seedu.addressbook.data.exception.IllegalValueException;
+import seedu.addressbook.data.person.Assessment;
 import seedu.addressbook.data.person.AssignmentStatistics;
 import seedu.addressbook.data.person.Attendance;
 import seedu.addressbook.data.person.Exam;
+import seedu.addressbook.data.person.Grades;
 import seedu.addressbook.data.person.Person;
 import seedu.addressbook.data.person.details.Address;
 import seedu.addressbook.data.person.details.Email;
@@ -50,17 +52,25 @@ public class StorageFileTest {
     public void constructor_nullFilePath_exceptionThrown() throws Exception {
         thrown.expect(NullPointerException.class);
         new StorageFile(null, TEST_DATA_FOLDER + "/" + "examBook.txt",
-                TEST_DATA_FOLDER + "/" + "statisticsBook.txt");
+                TEST_DATA_FOLDER + "/" + "statistics.txt");
     }
 
     @Test
     public void constructor_nullExamFilePath_exceptionThrown() throws Exception {
         thrown.expect(NullPointerException.class);
-        new StorageFile(TEST_DATA_FOLDER + "/" + "addressBook.txt", null, null);
+        new StorageFile(TEST_DATA_FOLDER + "/" + "addressBook.txt", null,
+                TEST_DATA_FOLDER + "/" + "statistics.txt");
     }
 
     @Test
-    public void constructor_nullBothFilePath_exceptionThrown() throws Exception {
+    public void constructor_nullStatisticsFilePath_exceptionThrown() throws Exception {
+        thrown.expect(NullPointerException.class);
+        new StorageFile(TEST_DATA_FOLDER + "/" + "addressBook.txt", TEST_DATA_FOLDER + "/"
+                + "examBook.txt", null);
+    }
+
+    @Test
+    public void constructor_nullAllFilePath_exceptionThrown() throws Exception {
         thrown.expect(NullPointerException.class);
         new StorageFile(null, null, null);
     }
@@ -74,15 +84,15 @@ public class StorageFileTest {
     @Test
     public void constructor_noTxtAddressBookExtension_exceptionThrown() throws Exception {
         thrown.expect(IllegalValueException.class);
-        new StorageFile(TEST_DATA_FOLDER + "/" + "InvalidfileName", TEST_DATA_FOLDER + "/" + "exams.txt",
-                TEST_DATA_FOLDER + "/" + "statistics.txt");
+        new StorageFile(TEST_DATA_FOLDER + "/" + "InvalidfileName", TEST_DATA_FOLDER + "/"
+                + "exams.txt", TEST_DATA_FOLDER + "/" + "statistics.txt");
     }
 
     @Test
     public void constructor_noTxtExamBookExtension_exceptionThrown() throws Exception {
         thrown.expect(IllegalValueException.class);
-        new StorageFile(TEST_DATA_FOLDER + "/" + "addressbook.txt", TEST_DATA_FOLDER + "/" + "InvalidExamfileName",
-                TEST_DATA_FOLDER + "/" + "InvalidStatisticsfileName.txt");
+        new StorageFile(TEST_DATA_FOLDER + "/" + "addressbook.txt", TEST_DATA_FOLDER + "/"
+                + "InvalidExamfileName", TEST_DATA_FOLDER + "/" + "statistics.txt");
     }
 
     @Test
@@ -143,7 +153,7 @@ public class StorageFileTest {
     @Test
     public void loadStatistics_invalidFormat_exceptionThrown() throws Exception {
         // The file contains valid xml data, but does not match the StatisticsBook class
-        StorageFile storage = getStorage("NotValidData.txt", "NotValidExamData.txt",
+        StorageFile storage = getStorage("ValidData.txt", "ValidExamData.txt",
                 "notValidStatisticsData.txt");
         thrown.expect(StorageOperationException.class);
         storage.loadStatistics();
@@ -197,6 +207,25 @@ public class StorageFileTest {
     }
 
     @Test
+    public void loadStatistics_validFormat() throws Exception {
+        StatisticsBook actual = getStorage("ValidData.txt", "ValidExamData.txt",
+                "ValidStatisticsData.txt").loadStatistics();
+        StatisticsBook expected = getTestStatisticsBook();
+
+        // ensure loaded StatisticBook is properly constructed with test data
+        assert(actual.equals(expected));
+    }
+
+    @Test
+    public void loadAssessments_validFormat() throws Exception {
+        AddressBook actual = getStorage("ValidDataWithAssessments.txt").load();
+        AddressBook expected = getTestAddressBookWithAssessment();
+
+        // ensure loaded AddressBook is properly constructed with test data
+        assertEquals(actual, expected);
+    }
+
+    @Test
     public void save_nullAddressBook_exceptionThrown() throws Exception {
         StorageFile storage = getTempStorage();
         thrown.expect(NullPointerException.class);
@@ -204,14 +233,14 @@ public class StorageFileTest {
     }
 
     @Test
-    public void save_nullExamBook_exceptionThrown() throws Exception {
+    public void saveExam_nullExamBook_exceptionThrown() throws Exception {
         StorageFile storage = getTempStorage();
         thrown.expect(NullPointerException.class);
         storage.saveExam(null);
     }
 
     @Test
-    public void save_nullStatisticsBook_exceptionThrown() throws Exception {
+    public void saveStatistics_nullStatisticsBook_exceptionThrown() throws Exception {
         StorageFile storage = getTempStorage();
         thrown.expect(NullPointerException.class);
         storage.saveStatistics(null);
@@ -220,12 +249,8 @@ public class StorageFileTest {
     @Test
     public void save_validAddressBook() throws Exception {
         AddressBook ab = getTestAddressBook(true, false);
-        ExamBook eb = getTestExamBook();
-        StatisticsBook sb = getTestStatisticsBook();
         StorageFile storage = getTempStorage();
-        storage.saveExam(eb);
         storage.save(ab);
-        storage.saveStatistics(sb);
         // Checks that the password and isPerm is saved as a new field
         assertStorageFilesEqual(storage, getStorage("ValidDataWithDefaultPassword.txt"));
 
@@ -244,18 +269,49 @@ public class StorageFileTest {
     }
 
     @Test
-    public void save_validExamBook() throws Exception {
+    public void saveExam_validExamBook() throws Exception {
         ExamBook eb = getTestExamBook();
-        AddressBook ab = getTestAddressBook();
         StorageFile storage = getTempStorage();
         storage.saveExam(eb);
-        storage.save(ab);
         assertExamsFilesEqual(storage, getStorage("ValidData.txt", "ValidExamData.txt",
                 "ValidStatisticsData.txt"));
     }
 
     @Test
-    public void personHasMissingExamInExamBook_exceptionThrown() throws Exception {
+    public void saveStatistics_validStatisticsBook() throws Exception {
+        StatisticsBook sb = getTestStatisticsBook();
+        StorageFile storage = getTempStorage();
+        storage.saveStatistics(sb);
+        assertStatisticsFilesEqual(storage, getStorage("ValidData.txt", "ValidExamData.txt",
+                "ValidStatisticsData.txt"));
+    }
+
+
+    @Test
+    public void save_validAddressBookWithAssessments() throws Exception {
+        AddressBook ab = getTestAddressBookWithAssessment(true, false);
+        StorageFile storage = getTempStorage();
+        storage.save(ab);
+        // Checks that the password and isPerm is saved as a new field
+        assertStorageFilesEqual(storage, getStorage("ValidDataWithAssessments.txt"));
+
+        ab = getTestAddressBookWithAssessment();
+        storage = getTempStorage();
+        storage.save(ab);
+
+        assertStorageFilesEqual(storage, getStorage("ValidDataWithAssessments.txt"));
+        assertStorageFilesEqual(storage, getStorage("ValidDataWithAssessments.txt", "ValidExamData.txt",
+                "ValidStatisticsData.txt"));
+
+        ab = getTestAddressBookWithAssessment(true, false);
+        storage = getTempStorage();
+        storage.save(ab);
+        assertStorageFilesEqual(storage, getStorage("ValidDataWithAssessments.txt"));
+    }
+
+
+    @Test
+    public void syncAddressBookExamBook_personHasMissingExamInExamBook_exceptionThrown() throws Exception {
         ExamBook eb = getTestExamBook();
         AddressBook ab = getTestAddressBook();
         TestDataHelper helper = new TestDataHelper();
@@ -272,7 +328,7 @@ public class StorageFileTest {
     }
 
     @Test
-    public void personHasAllExamsInExamBook() throws Exception {
+    public void syncAddressBookExamBook_personHasAllExamsInExamBook() throws Exception {
         TestDataHelper helper = new TestDataHelper();
         Exam e1 = helper.generateExam(1, false, 0);
         Exam e2 = helper.generateExam(2, true, 2);
@@ -287,6 +343,26 @@ public class StorageFileTest {
         AddressBook ab = helper.generateAddressBook(threePersons);
 
         StorageFile storage = getTempStorage();
+        storage.syncAddressBookExamBook(ab, eb);
+    }
+
+    @Test
+    public void syncAddressBookExamBook_inaccurateExamInExamBook_exceptionThrown() throws Exception {
+        TestDataHelper helper = new TestDataHelper();
+        Exam e1 = helper.generateExam(1, false, 5);
+        Exam e2 = helper.generateExam(2, true, 2);
+        Exam e3 = helper.generateExam(3, false, 1);
+        List<Exam> threeExams = helper.generateExamList(e1, e2, e3);
+        ExamBook eb = helper.generateExamBook(threeExams);
+
+        Person p1 = helper.generatePerson(1, true, 2, true, 2);
+        Person p2 = helper.generatePerson(2, true, 2, true, 2);
+        Person p3 = helper.generatePerson(3, true, 3, false, 1);
+        List<Person> threePersons = helper.generatePersonList(p1, p2, p3);
+        AddressBook ab = helper.generateAddressBook(threePersons);
+
+        StorageFile storage = getTempStorage();
+        thrown.expect(StorageOperationException.class);
         storage.syncAddressBookExamBook(ab, eb);
     }
 
@@ -322,6 +398,13 @@ public class StorageFileTest {
      */
     private void assertExamsFilesEqual(StorageFile sf1, StorageFile sf2) throws Exception {
         assertTextFilesEqual(Paths.get(sf1.getPathExam()), Paths.get(sf2.getPathExam()));
+    }
+
+    /**
+     * Asserts that the contents of two statistics files are the same.
+     */
+    private void assertStatisticsFilesEqual(StorageFile sf1, StorageFile sf2) throws Exception {
+        assertTextFilesEqual(Paths.get(sf1.getPathStatistics()), Paths.get(sf2.getPathStatistics()));
     }
 
     private StorageFile getStorage(String fileName, String examFileName, String statisticsFileName) throws Exception {
@@ -377,11 +460,37 @@ public class StorageFileTest {
 
     private StatisticsBook getTestStatisticsBook() throws Exception {
         StatisticsBook sb = new StatisticsBook();
-        sb.addStatistic(new AssignmentStatistics("Mathematics", "Midterms", "John",
-                "72", "102", "4", "98", "95 32", false));
-        sb.addStatistic(new AssignmentStatistics("English", "final", "Mark",
-                "83", "71", "0", "70", "90 26", true));
+        sb.addStatistic(new AssignmentStatistics("Mathematics midterms", 72, 102, 98, 32));
+        sb.addStatistic(new AssignmentStatistics("Spanish final", 88, 67, 97, 52));
         return sb;
+    }
+
+    private AddressBook getTestAddressBookWithAssessment() throws Exception {
+        return getTestAddressBookWithAssessment(false, false);
+    }
+
+    private AddressBook getTestAddressBookWithAssessment(boolean isUsingDefaultPassword, boolean hasAccount) throws
+            Exception {
+        AddressBook ab = new AddressBook();
+        final Person john = new Person(new Name("John Doe"),
+                new Phone("98765432", false),
+                new Email("johnd@gmail.com", false),
+                new Address("John street, block 123, #01-01", false),
+                Collections.emptySet());
+        Assessment assessment = new Assessment("Math Midterms");
+        ab.addAssessment(assessment);
+        Grades gradeVal = new Grades(95);
+        assessment.addGrade(john, gradeVal);
+        if (hasAccount) {
+            john.setAccount(new Account("user", "pw", "Admin"));
+        }
+        ab.addPerson(john);
+
+        if (!isUsingDefaultPassword) {
+            ab.setMasterPassword("default_pw");
+        }
+
+        return ab;
     }
 
     private AddressBook getTestAddressBookWithAttendance() throws Exception {

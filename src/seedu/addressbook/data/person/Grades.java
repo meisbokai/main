@@ -2,6 +2,8 @@ package seedu.addressbook.data.person;
 
 import java.util.Objects;
 
+import seedu.addressbook.data.exception.IllegalValueException;
+
 
 /**
  * Represents student's values
@@ -9,15 +11,28 @@ import java.util.Objects;
 public class Grades implements Printable {
 
     public static final String GRADE_EXAMPLE = "27";
+    public static final String MESSAGE_GRADES_CONSTRAINTS = "Person's grades can only be a positive value (>= 0).";
 
-    private int value;
+    private double value;
 
     /**
      * Validates given grades.
      * */
 
-    public Grades(int grade) {
+    public Grades(double grade) throws IllegalValueException {
+        if (!isValidGrades(grade)) {
+            throw new IllegalValueException(MESSAGE_GRADES_CONSTRAINTS);
+        }
         this.value = grade;
+    }
+
+    /**
+     * Checks if a given value is a valid grade.
+     *
+     */
+
+    public static boolean isValidGrades(Double test) {
+        return (test >= 0);
     }
 
     @Override
@@ -43,7 +58,7 @@ public class Grades implements Printable {
         return "Grade: " + value;
     }
 
-    public int getValue() {
+    public double getValue() {
         return value;
     }
 

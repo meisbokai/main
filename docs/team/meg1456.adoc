@@ -3,14 +3,17 @@
 :imagesDir: ../images
 :stylesDir: ../stylesheets
 
-== PROJECT: ClassRepo
+== ClassRepo
 
-== *Overview*
+== *What Is It?*
 ClassRepo is an enhanced AddressBook application, which is targeted at Secondary Schools to provide them with an easy
 and effective learning management system. The users can interact with it using a CLI. The application also has a GUI
 created with JavaFX. It is written in Java, and has about 10 kLoC.
 
-== Summary of Contribution
+== *How Did I Contribute?*
+
+* Code Contributed - https://nuscs2113-ay1819s1.github.io/dashboard/#=undefined&search=meg1456&sort=displayName&since=2018-09-12&until=2018-11-05&timeframe=day&reverse=false&repoSort=true[RepoSense]
+
 1. *Major Enhancements*: Added the *Grades Feature*
    * Able to add/list/delete assessments
    * Able to add/view/delete grades for students individually, for specific assessments
@@ -28,15 +31,19 @@ created with JavaFX. It is written in Java, and has about 10 kLoC.
    * Project management
    ** ROLE: Deliverable and deadlines in-charge - Managed Issue Tracker on GitHub, Set milestones for own features, deadlines for groups, labels and so on.
 
-   * Enhancements to existing features:
-   ** Wrote additional tests for existing features to increase coverage from --% to --% (Coming Soon)
-
    * Documentation:
    ** Tweaked contents of User Guide, Developer Guide to fit our project. Contributed to 'About Us' page.
 
    * Community:
    ** PRs reviewed (with non-trivial review comments): https://github.com/CS2113-AY1819S1-F10-1/main/pull/159[#159],
-   https://github.com/CS2113-AY1819S1-F10-1/main/pull/157[#157], https://github.com/CS2113-AY1819S1-F10-1/main/pull/86[#86]
+   https://github.com/CS2113-AY1819S1-F10-1/main/pull/157[#157], https://github.com/CS2113-AY1819S1-F10-1/main/pull/86[#86],
+   https://github.com/CS2113-AY1819S1-F10-1/main/pull/86[#168]
+
+   ** Reported bugs and suggestions for teammates: https://github.com/CS2113-AY1819S1-F10-1/main/issues/173[#173]
+
+   ** Reported bugs and suggestions for other teams in the class: https://github.com/CS2113-AY1819S1-W13-4/main/issues/125[#125],
+   https://github.com/CS2113-AY1819S1-W13-4/main/issues/89[#89], https://github.com/CS2113-AY1819S1-W13-4/main/issues/94[#94],
+   https://github.com/CS2113-AY1819S1-W13-4/main/issues/108[#108]
 
 == Contributions to the User Guide
 |===

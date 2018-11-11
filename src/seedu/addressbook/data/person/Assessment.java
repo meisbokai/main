@@ -5,6 +5,8 @@ import java.util.Map;
 import java.util.Objects;
 
 import seedu.addressbook.data.exception.IllegalValueException;
+import seedu.addressbook.data.person.UniqueAssessmentsList.DuplicateGradesException;
+import seedu.addressbook.formatter.Formatter;
 
 /**
  * Represents an assessment of the student
@@ -42,8 +44,12 @@ public class Assessment {
         return this.grade.get(person);
     }
 
-    public void addGrade(Person person, Grades grades) {
+    public void addGrade(Person person, Grades grades) throws DuplicateGradesException {
         grade.put(person, grades);
+    }
+
+    public Map<Person, Grades> getAllGrades() {
+        return grade;
     }
 
     public String getExamName() {
@@ -60,16 +66,13 @@ public class Assessment {
         return getAsTextShowAll();
     }
 
-    public String getPrintableAssessmentString(boolean showPrivate) {
-        return examName;
-    }
 
     /**
      * Formats the assessment as text to show all.
      */
     public String getAsTextShowAll() {
         final StringBuilder builder = new StringBuilder();
-        final String stringChain = getPrintableAssessmentString(true);
+        final String stringChain = Formatter.getPrintableAssessment(examName);
         builder.append(stringChain);
         return builder.toString();
     }
