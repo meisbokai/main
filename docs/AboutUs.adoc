@@ -5,6 +5,7 @@
 :stylesDir: stylesheets
 
 We are a team based in the http://www.comp.nus.edu.sg[School of Computing, National University of Singapore].
+This project was done for our CS2113T module during AY1819-S1 and our group number is F10-1.
 
 == Project Team
 
@@ -18,13 +19,13 @@ Feature: Privilege
 
 '''
 
-=== Mick Lee
+=== Mick Lee Wei Lin
 image::micklwl.png[width="150", align="left"]
 {empty}[http://github.com/micklwl[github]] [<<micklwl#, portfolio>>]
 
 Role: Bug catcher +
 Responsibilities: Managing code tests +
-Feature: Exams and Examlist
+Feature: Exams
 
 '''
 

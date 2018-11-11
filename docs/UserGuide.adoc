@@ -136,11 +136,9 @@ Format: `add NAME [p]p/PHONE_NUMBER [p]e/EMAIL [p]a/ADDRESS [t/TAG]...`
 
 ****
 Words in `UPPER_CASE` are the parameters, items in `SQUARE_BRACKETS` are optional,
-items with `...` after them can have multiple instances. Order of parameters are fixed.
-
+items with `...` after them can have multiple instances. Order of parameters are fixed. +
 Put a `p` before the phone / email / address prefixes to mark it as `private`. `private` details can only
-be seen using the `viewall` command.
-
+be seen using the `viewall` command. +
 Persons can have any number of tags (including 0).
 ****
 
@@ -334,12 +332,11 @@ Below are the commands that deals with exam data:
 
 ==== Adding an exam : `addexam` image:Tutor.png[16,16]
 
-Adds an exam to the exam book. +
+Adds an exam to the exam book, with the number of takers initialised as `0`. +
 Format: `addexam [p]e/EXAM_NAME s/SUBJECT_NAME d/EXAM_DATE st/EXAM_START_TIME et/EXAM_END_TIME dt/EXAM_DETAILS`
 
 ****
-Words in `UPPER_CASE` are the parameters, items in `SQUARE_BRACKETS` are optional. Order of parameters are fixed.
-
+Words in `UPPER_CASE` are the parameters, items in `SQUARE_BRACKETS` are optional. Order of parameters are fixed. +
 Put a `p` before the exam name prefix to mark the exam as `private`.
 ****
 
@@ -369,6 +366,8 @@ Edits the specified exam from the exam book. Persons registered for the correspo
 Format: `editexam INDEX [p/PRIVATE_STATUS] [e/EXAM_NAME] [s/SUBJECT_NAME] [d/EXAM_DATE] [st/EXAM_START_TIME] [et/EXAM_END_TIME] [dt/EXAM_DETAILS]`
 
 ****
+Edits the exam at the specified `INDEX`.
+The index refers to the index number shown in the most recent exams listing.
 Words in `UPPER_CASE` are the parameters, items in `SQUARE_BRACKETS` are optional. Order of parameters are fixed. At least 1 item in `SQUARE_BRACKETS` must be present.
 ****
 
@@ -396,7 +395,7 @@ Registers a specified person for a specified exam. +
 Format: `regexam PERSON_INDEX EXAM_INDEX`
 
 ****
-Registers a specified person for a specified exam.
+Registers the person at the specified `PERSON_INDEX` for the exam at the specified `EXAM_INDEX`.
 The `PERSON_INDEX` refers to the index number shown in the most recent persons listing.
 The `EXAM_INDEX` refers to the index number shown in the most recent exams listing.
 ****
@@ -404,7 +403,7 @@ The `EXAM_INDEX` refers to the index number shown in the most recent exams listi
 [NOTE]
 =====
 Changes to an exam in the exam book will change the corresponding exam for all persons registered under it, be it an 'edit' or a 'delete'.
-Exams registered for a person will not be shown in the `list` command and only viewable under the `viewall` and `viewexams` command.
+Exams registered for a person will not be shown in the `list` command and only viewable under the `viewall`, `viewself` and `viewexams` command.
 =====
 
 Example(s):
@@ -420,6 +419,7 @@ Deregister a specified person for a specified exam. +
 Format: `deregexam PERSON_INDEX EXAM_INDEX`
 
 ****
+Deregisters the person at the specified `PERSON_INDEX` for the exam at the specified `EXAM_INDEX`.
 The `PERSON_INDEX` refers to the index number shown in the most recent persons listing.
 The `EXAM_INDEX` refers to the index number shown in the most recent exams listing.
 ****
@@ -433,19 +433,31 @@ Deregisters the 2nd person in the address book for the 2nd exam in the exam book
 
 ==== Viewing exams : `viewexams` image:Basic.png[16,16]
 
-View the non-private exams for a person at the specified `INDEX`. +
+View the exams for a specificied person in the address book. +
 Format: `viewexams INDEX`
 
 ****
-Views the non-private exams of the person at the specified `INDEX`.
+Views the exams of the person at the specified `INDEX`.
 The index refers to the index number shown in the most recent persons listing.
 ****
 
+[NOTE]
+=====
+This command will work for all `INDEX` only when the user is of `Tutor` and `Admin` privileges. +
+If the user has `no` privileges, the user `must` be logged into an account and can execute the command to view `only` his own `non-private exams`.   
+=====
+
 Example(s):
 
-* `list` +
+* `login user pw` +
+`list` +
 `viewexams 1` +
-Views the non-private exams of the 1st person in the address book.
+Views the non-private exams of the 1st person in the address book, *if the logged-account belongs to him/her*.
+
+* `login admin admin` +
+`list` +
+`viewexams 1` +
+Views the exams of the 1st person in the address book, *if the logged-account belongs to a tutor/admin*.
 
 ==== Clearing all entries : `clearexams` image:Tutor.png[16,16]
 
@@ -813,12 +825,12 @@ There is no need to save manually. Address book data, exam book data and statist
 == Handling Errors
 
 1. ClassRepo does not start up when running the jar file. +
-*Plausible cause*: `addressbook.txt`, `exambook.txt` or `statistic.txt` contains invalid data. +
+*Plausible cause*: `addressbook.txt`, `exams.txt` or `statistics.txt` contains invalid data. +
 *Solution*: Fix the data error in the problematic file. +
 Refer to `log.txt` to find the underlying error. +
 
 2. ClassRepo shuts down mid-operation. +
-*Plausible cause*: `addressbook.txt`, `exambook.txt` or `statistic.txt` was set to read-only during
+*Plausible cause*: `addressbook.txt`, `exams.txt` or `statistics.txt` was set to read-only during
 a data saving operation. ClassRepo shuts itself down to ensure synchronisation of AppData and storage data. +
 *Solution*: Ensure that the data files are not set as read-only. 
 

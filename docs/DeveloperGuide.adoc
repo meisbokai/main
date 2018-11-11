@@ -14,7 +14,7 @@ ifdef::env-github[]
 endif::[]
 :repoURL: https://github.com/CS2113-AY1819S1-F10-1/main/tree/master
 
-By: `Team F10-1`      Since: `Oct 2018`      Licence: `NUS`
+By: `CS2113T-AY1819S1 Team F10-1`      Since: `Aug 2018`      Licence: `MIT`
 
 == Setting up
 
@@ -43,7 +43,7 @@ Do not disable them. If you have disabled them, go to `File` > `Settings` > `Plu
 === Verifying the setup
 
 . Run the `seedu.address.Main` and try a few commands
-. <<Testing,Run the tests>> to ensure they all pass.
+. <<Testing,Run the tests>> to ensure they all pass
 . Open the `StorageFile` file and check for any code errors
 .. Due to an ongoing https://youtrack.jetbrains.com/issue/IDEA-189060[issue] with some of the newer versions of IntelliJ, code errors may be detected even if the project can be built and run successfully
 .. To resolve this, place your cursor over any of the code section highlighted in red. Press kbd:[ALT + ENTER], and select `Add '--add-modules=java.xml.bind' to module compiler options`
@@ -91,143 +91,9 @@ Having both Travis and AppVeyor ensures your App works on both Unix-based platfo
 
 When you are ready to start coding,
 
-1. Get some sense of the overall design by reading <<Design-Architecture>>.
+1. Get some sense of the new features added on from https://github.com/se-edu/addressbook-level3[AddressBook-Level 3] by se-edu by reading <<Implementation>>.
 
-== Design
-
-[[Design-Architecture]]
-=== Architecture
-
-.Architecture Diagram
-image::Architecture.png[width="600"]
-
-The *_Architecture Diagram_* given above explains the high-level design of the App. Given below is a quick overview of each component.
-
-[TIP]
-The `.pptx` files used to create diagrams in this document can be found in the link:{repoURL}/docs/diagrams/[diagrams] folder. To update a diagram, modify the diagram in the pptx file, select the objects of the diagram, and choose `Save as picture`.
-
-`Main` has only one class called link:{repoURL}/src/main/java/seedu/address/MainApp.java[`MainApp`]. It is responsible for,
-
-* At app launch: Initializes the components in the correct sequence, and connects them up with each other.
-* At shut down: Shuts down the components and invokes cleanup method where necessary.
-
-<<Design-Commons,*`Commons`*>> represents a collection of classes used by multiple other components. Two of those classes play important roles at the architecture level.
-
-* `EventsCenter` : This class (written using https://github.com/google/guava/wiki/EventBusExplained[Google's Event Bus library]) is used by components to communicate with other components using events (i.e. a form of _Event Driven_ design)
-* `Logs Center`: Used by many classes to write log messages to the App's log file.
-
-The rest of the App consists of four components.
-
-* <<Design-Ui,*`UI`*>>: The UI of the App.
-* <<Design-Logic,*`Logic`*>>: The command executor.
-* <<Design-Model,*`Model`*>>: Holds the data of the App in-memory.
-* <<Design-Storage,*`Storage`*>>: Reads data from, and writes data to, the hard disk.
-
-Each of the four components
-
-* Defines its _API_ in an `interface` with the same name as the Component.
-* Exposes its functionality using a `{Component Name}Manager` class.
-
-For example, the `Logic` component (see the class diagram given below) defines it's API in the `Logic.java` interface and exposes its functionality using the `LogicManager.java` class.
-
-.Class Diagram of the Logic Component
-image::LogicClassDiagram.png[width="800"]
-
-[discrete]
-==== Events-Driven nature of the design
-
-The _Sequence Diagram_ below shows how the components interact for the scenario where the user issues the command `delete 1`.
-
-.Component interactions for `delete 1` command (part 1)
-image::SDforDeletePerson.png[width="800"]
-
-[NOTE]
-Note how the `Model` simply raises an `AddressBookChangedEvent` when the Address Book data are changed, instead of asking the `Storage` to save the updates to the hard disk.
-
-The diagram below shows how the `EventsCenter` reacts to that event, which eventually results in the updates being saved to the hard disk and the status bar of the UI being updated to reflect the 'Last Updated' time.
-
-.Component interactions for `delete 1` command (part 2)
-image::SDforDeletePersonEventHandling.png[width="800"]
-
-[NOTE]
-Note how the event is propagated through the `EventsCenter` to the `Storage` and `UI` without `Model` having to be coupled to either of them. This is an example of how this Event Driven approach helps us reduce direct coupling between components.
-
-The sections below give more details of each component.
-
-[[Design-Ui]]
-=== UI component
-
-.Structure of the UI Component
-image::UiClassDiagram.png[width="800"]
-
-*API* : link:{repoURL}/src/main/java/seedu/address/ui/Ui.java[`Ui.java`]
-
-The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `OutputConsole`, `StatusConsole`.
-
-The `UI` component uses JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/seedu/addressbook/ui` folder. For example, the layout of the link:{repoURL}/src/seedu/addressbook/ui/MainWindow.java[`MainWindow`] is specified in link:{repoURL}/src/seedu/addressbook/ui/MainWindow.fxml[`MainWindow.fxml`]
-
-The `UI` component,
-
-* Executes user commands using the `Logic` component.
-* Responds to events raised from various parts of the App and updates the UI accordingly.
-
-[[Design-Logic]]
-=== Logic component
-
-[[fig-LogicClassDiagram]]
-.Structure of the Logic Component
-image::LogicClassDiagram.png[width="800"]
-
-*API* :
-link:{repoURL}/src/main/java/seedu/address/logic/Logic.java[`Logic.java`]
-
-.  `Logic` uses the `Parser` class to parse the user command.
-.  This results in a `Command` object which is then executed.
-.  The command execution can affect the `data` (e.g. adding a person).
-.  The result of the command execution is encapsulated as a `CommandResult` object which is passed back to the `Ui`.
-
-Given below is the Sequence Diagram for interactions within the `Logic` component for the `execute("delete 1")` API call.
-
-.Interactions Inside the Logic Component for the `delete 1` Command
-image::DeletePersonSdForLogic.png[width="800"]
-
-[[Design-Model]]
-=== Model component
-
-.Structure of the Model Component
-image::ModelClassDiagram.png[width="800"]
-
-*API* : link:{repoURL}/src/main/java/seedu/address/model/Model.java[`Model.java`]
-
-The `Model`,
-
-* stores the Address Book data.
-* exposes an unmodifiable `ObservableList<Person>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
-* does not depend on any of the other three components.
-
-[NOTE]
-As a more OOP model, we can store a `Tag` list in `Address Book`, which `Person` can reference. This would allow `Address Book` to only require one `Tag` object per unique `Tag`, instead of each `Person` needing their own `Tag` object. An example of how such a model may look like is given below. +
- +
-image:ModelClassBetterOopDiagram.png[width="800"]
-
-[[Design-Storage]]
-=== Storage component
-
-.Structure of the Storage Component
-image::StorageClassDiagram.png[width="800"]
-
-*API* : link:{repoURL}/src/main/java/seedu/address/storage/Storage.java[`Storage.java`]
-
-The `Storage` component,
-
-* can save `UserPref` objects in json format and read it back.
-* can save the Address Book data in xml format and read it back.
-
-[[Design-Commons]]
-=== Common classes
-
-Classes used by multiple components are in the `seedu.addressbook.commons` package.
-
+[[Implementation]]
 == Implementation
 
 This section describes some noteworthy details on how certain features are implemented.
@@ -236,7 +102,7 @@ This section describes some noteworthy details on how certain features are imple
 === Exams Feature
 [[fig-ExamDiagram]]
 .Class Diagram of the Exam feature
-image::Exam.png[width="800"]
+image::Exam.png[width="600"]
 
 ==== Current Implementation
 There is a master ExamBook which contains all the exams. There are several features the ExamBook offers.
@@ -280,11 +146,20 @@ image::RegisterExam_Sequence_Diagram.png[width="1200"]
 ===== Aspect: How the exam data are being updated
 
 * **Alternative 1 (current choice):** Each time there is a change in a field of an Exam, a new Exam is created with the new details and added into the ExamBook and the old Exam is deleted from the ExamBook.
-** Pros: Allows exams to be encapsulated using interface.
-** Cons: Temporary increase in space for the object created during the method .
-* **Alternative 2:** Have no interface.
+** Pros: To enable good synchronisation between the AddressBook and ExamBook as the old hash key is removed and a new hash key is added.
+** Cons: Temporary increase in space for the object created during the method.
+* **Alternative 2:** Edit the original exam directly.
 ** Pros: Easy access to set values.
-** Cons: No encapsulation.
+** Cons: To check if an exam exists for a person, there needs to be iteration and checks using the equals() method due to different hashing, increasing time.
+
+===== Aspect: Exam equality
+
+* **Alternative 1 (current choice):** The current equals() method does not check for full equality.
+** Pros: This is used when there is not a need to check for full equality, such as when adding a new exam to the ExamBook.
+** Cons: Another method is needed to check for full equality.
+* **Alternative 2:** Have the current equals() method check for full equality, with no extra methods.
+** Pros: Less methods and easier to understand implementation.
+** Cons: Duplicate exams can be added, especially after modification of an exam in the ExamBook.
 
 ===== Aspect: Data structure to support the exam commands
 
@@ -302,7 +177,7 @@ image::RegisterExam_Sequence_Diagram.png[width="1200"]
 ** Cons: Extra storage file and hence methods and file paths are needed, this may be confusing and cause much repetition of code.
 * **Alternative 2:** Exams are stored in the same data file as AddressBook.
 ** Pros: Only 1 storage file is needed. Less repetition and variables are needed.
-** Cons: Might be harder for the user to see exams in raw XML format.
+** Cons: Might be harder for the user to see exams in raw XML format as everything is stored together.
 // end::Exam[]
 
 // tag::privilege[]
@@ -330,7 +205,7 @@ image::PrivilegeObjectDiagram.png[width="700"]
 [[fig-LoginSequenceDiagram]]
 .Sequence Diagram for Login Command
 image::Login_Sequence_Diagram.png[width="600"]
----
+
 ==== Design Considerations
 
 ===== Aspect: How to define a privilege level of Privilege
@@ -692,10 +567,7 @@ The SE-EDU team does not provide support for modified template files.
 
 === Running Tests
 
-There are three ways to run tests.
-
-[TIP]
-The most reliable way to run tests is the 3rd one. The first two methods might fail some GUI tests due to platform/resolution-specific idiosyncrasies.
+There are two ways to run tests.
 
 *Method 1: Using IntelliJ JUnit test runner*
 
@@ -720,13 +592,6 @@ e.g. `seedu.addressbook.commons.UtilsTest`
 e.g. `seedu.addressbook.storage.StorageFileTest`
 ..  Hybrids of unit and integration tests. These tests are checking multiple code units as well as how they are connected together. +
 e.g. `seedu.addressbook.logic.LogicTest`
-
-
-=== Troubleshooting Testing
-**Problem: `HelpWindowTest` fails with a `NullPointerException`.**
-
-* Reason: One of its dependencies, `HelpWindow.html` in `src/main/resources/docs` is missing.
-* Solution: Execute Gradle task `processResources`.
 
 == Dev Ops
 
@@ -862,12 +727,12 @@ Use case ends.
 *Extensions*
 
 [none]
-* 3a. The details entered is of an invalid format +
+* 3a. The details entered is of an invalid format. +
 ** 3a1. ClassRepo shows an error message. +
 Use case ends. +
 [none]
 * 3b. The person to add already exists in ClassRepo. +
-** 3a1. ClassRepo shows an error message. +
+** 3b1. ClassRepo shows an error message. +
 Use case ends.
 
 [discrete]
@@ -882,22 +747,20 @@ Use case ends.
 2.  ClassRepo shows a list of persons.
 3.  User requests to delete a specific person in the list.
 4.  ClassRepo deletes the person.
-5.  ClassRepo checks for all the exams the person is registered for and updates the number of exam takers in the ExamBook. Persons in the AddressBook registered under the exams will have their exams details updated.
+5.  ClassRepo checks for all the exams the person is registered for and updates the number of exam takers in the ExamBook.
+6.  ClassRepo updates the exam details for all persons in the AddressBook registered for the exams.
 +
 Use case ends.
 
 *Extensions*
 
 [none]
-* 2a. The list is empty.
-+
+* 2a. The list is empty. +
 Use case ends.
 
-* 3a. The given index is invalid.
-+
+* 3a. The given index is invalid. +
 [none]
-** 3a1. ClassRepo shows an error message.
-+
+** 3a1. ClassRepo shows an error message. +
 Use case resumes at step 2.
 
 [discrete]
@@ -918,17 +781,12 @@ Use case ends.
 *Extensions*
 
 [none]
-* 3a. The details entered is of an invalid format.
-+
-** 3a1. ClassRepo shows an error message.
-+
-Use case ends.
-+
+* 3a. The details entered is of an invalid format. +
+** 3a1. ClassRepo shows an error message. +
+Use case ends. +
 [none]
-* 3b. The exam to add already exists in ClassRepo.
-+
-** 3a1. ClassRepo shows an error message.
-+
+* 3b. The exam to add already exists in ClassRepo. +
+** 3b1. ClassRepo shows an error message. +
 Use case ends.
 
 [discrete]
@@ -950,15 +808,11 @@ Use case ends.
 *Extensions*
 
 [none]
-* 2a. The list is empty.
-+
+* 2a. The list is empty. +
 Use case ends.
-
-* 3a. The given index is invalid.
-+
 [none]
-** 3a1. ClassRepo shows an error message.
-+
+* 3a. The given index is invalid. +
+** 3a1. ClassRepo shows an error message. +
 Use case resumes at step 2.
 
 [discrete]
@@ -975,42 +829,34 @@ Use case resumes at step 2.
 4.  ClassRepo requests the details of the exam to edit.
 5.  ClassRepo edits the exam in the ExamBook.
 6.  ClassRepo edits the exam for all persons registered for it in the AddressBook.
+7.  ClassRepo shows a updated list of exams in the ExamBook.
 +
 Use case ends.
 
 *Extensions*
 
 [none]
-* 2a. The list is empty.
-+
+* 2a. The list is empty. +
 Use case ends.
-
-* 3a. The given index is invalid.
-+
 [none]
-** 3a1. ClassRepo shows an error message.
-+
+* 3a. The given index is invalid. +
+** 3a1. ClassRepo shows an error message. +
 Use case resumes at step 2.
-
-* 4a. The details entered is of an invalid format.
-+
 [none]
-** 4a1. ClassRepo shows an error message.
-+
+* 4a. The details entered is of an invalid format. +
+** 4a1. ClassRepo shows an error message. +
 Use case resumes at step 2.
-* 4b. The exam with the changed details already exists in the ExamBook.
-+
 [none]
-** 4b1. ClassRepo shows an error message.
-+
+* 4b. The exam with the changed details already exists in the ExamBook. +
+** 4b1. ClassRepo shows an error message. +
 Use case resumes at step 2.
 
 [discrete]
 === Use case: Register for an exam
 [discrete]
-==== System: AdressBook,ExamBook
+==== System: AdressBook, ExamBook
 [discrete]
-==== Actor: Admin,Tutor
+==== Actor: Tutor, Admin
 *MSS*
 
 1.  User requests to list exams.
@@ -1021,32 +867,25 @@ Use case resumes at step 2.
 6.  ClassRepo edits the person.
 7.  ClassRepo updates the number of exam takers for the specific exam in the ExamBook.
 8.  ClassRepo updates the specific exam for all persons registered for it in the AddressBook.
+9.  ClassRepo shows a updated list of exams of the specified person.
 +
 Use case ends.
 
 *Extensions*
 
 [none]
-* 2a. The list is empty.
-+
+* 2a. The list is empty. +
 Use case ends.
-
-* 4a. The list is empty.
-+
-Use case ends.
-
-* 5a. The given person index is invalid.
-+
 [none]
-** 5a1. ClassRepo shows an error message.
-+
+* 4a. The list is empty. +
+Use case ends.
+[none]
+* 5a. The given person index is invalid. +
+** 5a1. ClassRepo shows an error message. +
 Use case resumes at step 4.
-
-* 5b. The given exam index is invalid.
-+
 [none]
-** 5b1. ClassRepo shows an error message.
-+
+* 5b. The given exam index is invalid. +
+** 5b1. ClassRepo shows an error message. +
 Use case resumes at step 4.
 
 [discrete]
@@ -1065,32 +904,25 @@ Use case resumes at step 4.
 6.  ClassRepo edits the person.
 7.  ClassRepo updates the number of exam takers for the specific exam in the ExamBook.
 8.  ClassRepo updates the specific exam for all persons registered for it in the AddressBook.
+9.  ClassRepo shows a updated list of exams of the specified person.
 +
 Use case ends.
 
 *Extensions*
 
 [none]
-* 2a. The list is empty.
-+
+* 2a. The list is empty. +
 Use case ends.
-
-* 4a. The list is empty.
-+
-Use case ends.
-
-* 5a. The given person index is invalid.
-+
 [none]
-** 5a1. ClassRepo shows an error message.
-+
+* 4a. The list is empty. +
+Use case ends.
+[none]
+* 5a. The given person index is invalid. +
+** 5a1. ClassRepo shows an error message. +
 Use case resumes at step 4.
-
-* 5b. The given exam index is invalid.
-+
 [none]
-** 5b1. ClassRepo shows an error message.
-+
+* 5b. The given exam index is invalid. +
+** 5b1. ClassRepo shows an error message. +
 Use case resumes at step 4.
 
 [discrete]
@@ -1128,8 +960,19 @@ Use case ends.
 *Extensions*
 
 [none]
-* 2a. The list is empty.
-+
+* 2a. The list is empty. +
+Use case ends.
+[none]
+* 3a. User is not a Tutor/Admin and is not logged in. +
+** 3a1. ClassRepo shows an error message. +
+Use case ends.
+[none]
+* 3b. User is logged in as a Student and tries to view exams of other students. +
+** 3b1. ClassRepo shows an error message. +
+Use case ends.
+
+* 4a. User is logged in as a Student and tries to view his own exams. +
+** 4a1. ClassRepo shows a list of his non-private exams. +
 Use case ends.
 
 
@@ -1369,23 +1212,6 @@ Main Success Scenario::
 The Main Success Scenario (MSS) describes the most straightforward interaction for a given use case, which assumes that nothing goes wrong.
 
 [appendix]
-== Product Survey
-
-*Product Name*
-
-Author: ...
-
-Pros:
-
-* ...
-* ...
-
-Cons:
-
-* ...
-* ...
-
-[appendix]
 == Instructions for Manual Testing
 
 Given below are instructions to test the app manually.
@@ -1407,8 +1233,6 @@ These instructions only provide a starting point for testers to work on; testers
 .. Re-launch the app by double-clicking the jar file. +
    Expected: The most recent window size and location are retained.
 
-_{ more test cases ... }_
-
 === Deleting a person
 
 . Deleting a person while all persons are listed
@@ -1418,7 +1242,7 @@ _{ more test cases ... }_
    Expected: First contact is deleted from the list. Details of the deleted contact shown in the status console.
 .. Test case: `delete 0` +
    Expected: No person is deleted. Error details shown in the status console. Console bar remains the same.
-.. Other incorrect delete commands to try: `delete`, `delete x` (where x is larger than the list size), `delete a` (where a is not an integer)+
+.. Other incorrect delete commands to try: `delete`, `delete x` (where x is larger than the list size), `delete a` (where a is not an integer) +
    Expected: Similar to previous.
    
 === Accessing a command of different privilege level
@@ -1433,20 +1257,26 @@ _{ more test cases ... }_
 
 === Adding a duplicate person
 
-. Add an person while it already exists in the address book.  
+. Add a person while it already exists in the address book.  
 .. Test case: `add John Doe p/98765432 e/johnd@gmail.com a/311, Clementi Ave 2, #02-25 t/friends t/owesMoney` +
    Expected: Contact is added to the list. Details of the added contact shown in the status console. List in the output console is updated.
 .. Test case: `add John Doe p/98765432 e/johnd@gmail.com a/311, Clementi Ave 2, #02-25 t/friends t/owesMoney` after the previous test case was preformed. +
    Expected: No person is added. Error details shown in the status console. Console bar remains the same.
-.. Other similar commands to try: `addexam`, `addassess`
+.. Other similar commands to try: `addexam`, `addassess` +
    Expected: Similar to previous.   
 
-_{ more test cases ... }_
-
-=== Saving data
+=== Data storage
 
 . Dealing with missing/corrupted data files
 
-.. _{explain how to simulate a missing/corrupted file and the expected behaviour}_
+.. Prerequisites: Run the application at least once to generate the storage files and add in some person data.
+.. Open up `addressbook.txt`.
+.. Edit a field of a person such that it is invalid, eg. the field of `phone` is changed to `notANumber`.
+.. Run the application again. +
+   Expected: The application is unable to be opened. Refer to the `log.txt` in the base folder to check for the error message, which should indicate an error for the phone number.
+.. Other similar edits can be made to `exams.txt` and statistics.txt` to try. +
+   Expected: Similar to previous.      
+
+. _{explain how to simulate a missing/corrupted file and the expected behaviour}_
 
 _{ more test cases ... }_
