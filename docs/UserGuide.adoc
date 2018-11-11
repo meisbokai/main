@@ -719,7 +719,7 @@ Example(s):
 Replaces the attendance of the first person in the list as present for the date 29th September 2018.
 
 === Coming is v2.0:
-=== Update multiple people attendance: `multiAtten` image:Tutor.png[16,16]
+==== Update multiple people attendance: `multiAtten` image:Tutor.png[16,16]
 Updates the attendance of multiple people based on the list of index. +
 Format: `multiAtten i/MULTIPLE_INDEX d/DATE att/ATTENDANCE`
 

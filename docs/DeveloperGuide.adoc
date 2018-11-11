@@ -612,7 +612,8 @@ An example of how feature 1 - `Updating a person's attendance` works:
 ** Pros: Direct transfer of data will thus require less memory space to store the same data.
 ** Cons: A Hashmap to xml converter will require either a very long code (unnecessary for only 1 map), or requires the import of an external library.
 
-===== Aspect: *Coming in v2.0: How to implement `multiAtten` Command
+==== Coming in v2.0
+===== Aspect: : How to implement `multiAtten` Command
 * **Alternative 1 (Most likely choice):** `multiAtten` command calls the `attendance` command multiple times
 ** Pros: Reduce the need for repeated code since multiAtten command is very similar to attendance command.
 ** Pros: Simpler to implement when input is 0 as there is no need to catch index 0 since index 0 will not exist in the UniquePersonList.
