@@ -1577,7 +1577,6 @@ The master password is `default_pw`.
 
 === Adding a duplicate person
 
-
 . Add a person while it already exists in the address book. Logged in as admin
 
 .. Test case: `add John Doe p/98765432 e/johnd@gmail.com a/311, Clementi Ave 2, #02-25 t/friends t/owesMoney` +
@@ -1639,15 +1638,25 @@ The master password is `default_pw`.
 .. Test case: `attendance 1 d/0 att/1` after the previous test case was performed. +
    Expected: Error details shown in the status console. Output console remains the same.
 
-=== Updating attendance for a person
+=== Replacing attendance for a person
 
 . Updating attendance for a person while all persons are listed
 
-.. Prerequisites: List all persons using the `list` command. Multiple persons in the list. Logged in as tutor/admin. Attendance was already taken once on same date. 
-.. Test case: `attendance 1 d/0 att/1` +
+.. Prerequisites: List all persons using the `list` command. Multiple persons in the list. Logged in as tutor/admin. Attendance was already taken once on same date.
+.. Test case: `replaceAtten 1 d/0 att/1` +
    Expected: Attendance is updated for person. Status console shows success message. Output console remains the same.
-.. Test case: `attendance 1 d/10-10-2018 att/1`. +
+.. Test case: `replaceAtten 1 d/10-10-2018 att/1`. +
    Expected: Error details shown in the status console. Output console remains the same.
+
+=== Viewing attendance for a person
+
+. View the all attendance of a single person
+
+.. Prerequisites: List all persons using the `list` command. Multiple persons in the list. Logged in as tutor/admin.
+.. Test case: `viewAttenPerson 1` +
+   Expected: Person has no attendance. Status console shows success message. Output console shows nil and nil.
+.. Test case: `viewAttenPerson 1`. +
+   Expected: Attendance is updated for person. Status console show success message. Output console shows the list of attendance.
 
 === Data storage
 
