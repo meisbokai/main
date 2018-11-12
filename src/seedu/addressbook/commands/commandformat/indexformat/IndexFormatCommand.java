@@ -39,6 +39,7 @@ public abstract class IndexFormatCommand extends Command {
 
     /**
      * Extracts the the target assessment in the last shown list from the given arguments.
+     * @throws AssessmentIndexOutOfBoundsException if the target index is out of bounds of the last viewed listing
      */
     protected Assessment getTargetAssessment() throws AssessmentIndexOutOfBoundsException {
         try {
@@ -50,6 +51,7 @@ public abstract class IndexFormatCommand extends Command {
 
     /**
      * Extracts the the target statistics in the last shown list from the given arguments.
+     * @throws IndexOutOfBoundsException if the target index is out of bounds of the last viewed listing
      */
     protected AssignmentStatistics getTargetStatistic() throws IndexOutOfBoundsException {
         return relevantStatistics.get(targetMap.get(ObjectTargeted.STATISTIC) - DISPLAYED_INDEX_OFFSET);

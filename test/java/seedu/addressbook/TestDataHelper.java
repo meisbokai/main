@@ -31,7 +31,7 @@ import seedu.addressbook.data.tag.Tag;
  */
 public class TestDataHelper {
     /** Test person for testing**/
-    public Person adam() throws Exception {
+    public Person makeAdam() throws Exception {
         Name name = new Name("Adam Brown");
         Phone privatePhone = new Phone("111111", true);
         Email email = new Email("adam@gmail.com", false);
@@ -43,7 +43,7 @@ public class TestDataHelper {
     }
 
     /** Test exam for testing**/
-    public Exam math() throws Exception {
+    public Exam makeMathExam() throws Exception {
         String examName = "Math Mid-Terms 2018";
         String subjectName = "Mathematics";
         String date = "06-06-2018";
@@ -55,7 +55,7 @@ public class TestDataHelper {
     }
 
     /** Test fees for testing**/
-    public Fees fees (int seed) throws Exception {
+    public Fees makeFees (int seed) throws Exception {
         String value = seed + ".45";
         String dueDate = "01-0" + seed + "-2018";
         return new Fees(value, dueDate);
@@ -67,12 +67,12 @@ public class TestDataHelper {
         double averageScore = 100;
         int totalExamTakers = 1;
         double maxScore = 100;
-        double minScore = 0;
+        double minScore = 100;
         return new AssignmentStatistics(examName, averageScore, totalExamTakers, maxScore, minScore);
     }
 
     /** Test assessment for testing**/
-    public final Assessment assess () throws Exception {
+    public final Assessment makeAssess () throws Exception {
         String assessment = "CG2271 Midterm";
         return new Assessment(assessment);
     }
@@ -178,7 +178,7 @@ public class TestDataHelper {
 
     /**
      * Generates a valid assessment using the given seed.
-     * Running this function with the same parameter values guarantees the returned person will have the same state.
+     * Running this function with the same parameter values guarantees the returned assessment will have the same state.
      * Each unique seed will generate a unique Assessment object.
      *
      * @param seed used to generate the assessment
@@ -244,7 +244,7 @@ public class TestDataHelper {
         return cmd.toString();
     }
 
-    /** Generates the correct edit fees command based on the person given */
+    /** Generates a standard correct edit fees command*/
     public String generateEditFeesCommand() {
         StringJoiner cmd = new StringJoiner(" ");
         cmd.add("editfees");

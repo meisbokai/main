@@ -23,10 +23,10 @@ public class CommandResult {
     /** The list of exams that was produced by the command */
     private List<? extends ReadOnlyExam> relevantExams;
 
-    /** The list of exams that was produced by the command */
+    /** The list of assessments that was produced by the command */
     private List<? extends Assessment> relevantAssessments;
 
-    /** The list of exams that was produced by the command */
+    /** The list of statistics that was produced by the command */
     private List<? extends AssignmentStatistics> relevantStatistics;
 
     /** The list of persons that was produced by the command */
@@ -175,10 +175,12 @@ public class CommandResult {
         return Optional.ofNullable(outputConsoleMessage).isPresent() || hasRelevantList();
     }
 
+    /** Obtains the output message to be shown to the user. */
     public String getOutputConsoleMessage() {
         return Optional.ofNullable(outputConsoleMessage).orElse(BLANK_MESSAGE);
     }
 
+    /** Obtains the status message to be shown to the user. */
     public String getStatusConsoleMessage() {
         return Optional.ofNullable(statusConsoleMessage).orElse(BLANK_MESSAGE);
     }

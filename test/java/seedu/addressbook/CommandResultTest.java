@@ -43,7 +43,6 @@ public class CommandResultTest {
         assertTrue(commandResultWithPersonList.hasOutputMessage());
         assertTrue(commandResultWithAssessList.hasOutputMessage());
         assertTrue(commandResultWithStatsList.hasOutputMessage());
-
         assertFalse(commandResultWithStatusMessage.hasOutputMessage());
     }
 

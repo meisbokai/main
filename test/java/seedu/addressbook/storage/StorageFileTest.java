@@ -1,6 +1,7 @@
 package seedu.addressbook.storage;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static seedu.addressbook.util.TestUtil.assertTextFilesEqual;
@@ -39,6 +40,7 @@ import seedu.addressbook.storage.Storage.StorageOperationException;
 
 public class StorageFileTest {
     private static final String TEST_DATA_FOLDER = "test/data/StorageFileTest";
+    private static final String SAMPLE_DATA_FOLDER = "sample_data";
     private static final String VALID_EXAM_DATA_PATH = "ValidExamData.txt";
     private static final String VALID_STATISTICS_DATA_PATH = "ValidStatisticsData.txt";
 
@@ -204,6 +206,22 @@ public class StorageFileTest {
         assertEquals(actual, expected);
         assertEquals(actual.getAllPersons(), expected.getAllPersons());
         assertTrue(actual.isPermAdmin());
+    }
+
+    /** Test that the sample data is valid and contains data*/
+    @Test
+    public void load_sampleData_success() throws Exception {
+        StorageFile sampleStorage = new StorageFile(SAMPLE_DATA_FOLDER + "/" + "addressbook.txt",
+                SAMPLE_DATA_FOLDER + "/" + "exams.txt",
+                SAMPLE_DATA_FOLDER + "/" + "statistics.txt");
+
+        AddressBook addressBook = sampleStorage.load();
+        ExamBook examBook = sampleStorage.loadExam();
+        StatisticsBook statisticsBook = sampleStorage.loadStatistics();
+
+        assertNotEquals(addressBook, AddressBook.empty());
+        assertNotEquals(examBook, ExamBook.empty());
+        assertNotEquals(statisticsBook, StatisticsBook.empty());
     }
 
     @Test

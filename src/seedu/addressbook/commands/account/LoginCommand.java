@@ -10,8 +10,7 @@ import seedu.addressbook.data.person.UniquePersonList;
 import seedu.addressbook.logic.Logic.WrongPasswordEnteredException;
 
 /**
- * Changes the master password to a new one.
- * Checks that the old password given is correct.
+ * Log into a previously created account. Privilege is raised/ decreased to match that of your account.
  */
 public class LoginCommand extends KeywordsFormatCommand {
 

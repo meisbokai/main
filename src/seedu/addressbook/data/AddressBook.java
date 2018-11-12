@@ -141,7 +141,7 @@ public class AddressBook {
     }
 
     /**
-     * Loops through the list
+     * Loops through the list to get fees
      */
     public List<ReadOnlyPerson> listFeesPerson() {
         return allPersons.listFees();

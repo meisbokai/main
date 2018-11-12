@@ -144,7 +144,7 @@ public interface ReadOnlyPerson {
                 getName(),
                 getFees());
         builder.append(stringChain);
-        builder.append("Overdue!\n");
+        builder.append("Due!\n");
         return builder.toString();
     }
 
@@ -173,6 +173,9 @@ public interface ReadOnlyPerson {
         final String stringChain = Formatter.getPrintableString(true, getName());
         builder.append(stringChain);
         for (Assessment assessment : getAssessments()) {
+            if (assessment.getGrade(this) == null) {
+                continue;
+            }
             builder.append("Assessment: ").append(assessment).append(" ").append(assessment.getGrade(this))
                     .append("\n");
         }

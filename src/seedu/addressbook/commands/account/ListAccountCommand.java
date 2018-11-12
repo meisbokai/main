@@ -9,7 +9,7 @@ import seedu.addressbook.data.person.ReadOnlyPerson;
 import seedu.addressbook.formatter.PersonListFormat;
 
 /**
- * Lists all persons in the address book to the user.
+ * Lists all persons with accounts in the address book to the user.
  */
 public class ListAccountCommand extends Command {
 

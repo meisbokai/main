@@ -30,17 +30,18 @@ public interface ReadOnlyExam {
 
     /**
      * Returns true if the values inside this object is same as those of the other
-     * Does not include details or takers
+     * Does not include takers
      * (Note: interfaces cannot override .equals)
      */
     default boolean isSameStateAs(ReadOnlyExam other) {
         return other == this // short circuit if same object
                 || (other != null // this is first to avoid NPE below
-                && other.getSubjectName().equals(this.getSubjectName()) // state checks here onwards
-                && other.getExamName().equals(this.getExamName())
-                && other.getExamDate().equals(this.getExamDate())
-                && other.getExamStartTime().equals(this.getExamStartTime())
-                && other.getExamEndTime().equals(this.getExamEndTime())
+                && other.getSubjectName().equalsIgnoreCase(this.getSubjectName()) // state checks here onwards
+                && other.getExamName().equalsIgnoreCase(this.getExamName())
+                && other.getExamDate().equalsIgnoreCase(this.getExamDate())
+                && other.getExamStartTime().equalsIgnoreCase(this.getExamStartTime())
+                && other.getExamEndTime().equalsIgnoreCase(this.getExamEndTime())
+                && other.getExamDetails().equalsIgnoreCase(this.getExamDetails())
                 && (other.isPrivate() == this.isPrivate()));
     }
 
@@ -51,12 +52,12 @@ public interface ReadOnlyExam {
     default boolean isFullyEqual(ReadOnlyExam other) {
         return other == this // short circuit if same object
                 || (other != null // this is first to avoid NPE below
-                && other.getSubjectName().equals(this.getSubjectName()) // state checks here onwards
-                && other.getExamName().equals(this.getExamName())
-                && other.getExamDate().equals(this.getExamDate())
-                && other.getExamStartTime().equals(this.getExamStartTime())
-                && other.getExamEndTime().equals(this.getExamEndTime())
-                && other.getExamDetails().equals(this.getExamDetails())
+                && other.getSubjectName().equalsIgnoreCase(this.getSubjectName()) // state checks here onwards
+                && other.getExamName().equalsIgnoreCase(this.getExamName())
+                && other.getExamDate().equalsIgnoreCase(this.getExamDate())
+                && other.getExamStartTime().equalsIgnoreCase(this.getExamStartTime())
+                && other.getExamEndTime().equalsIgnoreCase(this.getExamEndTime())
+                && other.getExamDetails().equalsIgnoreCase(this.getExamDetails())
                 && other.getTakers() == this.getTakers()
                 && (other.isPrivate() == this.isPrivate()));
     }

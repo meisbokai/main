@@ -6,7 +6,7 @@ import seedu.addressbook.common.Messages;
 import seedu.addressbook.data.person.ReadOnlyPerson;
 
 /**
- * Shows grades of the person identified using the last displayed index.
+ * Shows all grades of the person identified using the index number in the last displayed person list.
  */
 public class ViewGradesCommand extends IndexFormatCommand {
 

@@ -59,14 +59,14 @@ public class ExamBook {
     }
 
     /**
-     * Defensively copied UniqueExamList of all exam in the exam book at the time of the call.
+     * Defensively copied UniqueExamList of all exams in the exam book at the time of the call.
      */
     public UniqueExamList getAllExam() {
         return new UniqueExamList(examList);
     }
 
     /**
-     * Edits a exam in the ExamBook, potentially changing its index number when listing again
+     * Edits an exam in the ExamBook, potentially changing its index number when listing again
      *
      * @throws ExamNotFoundException if no such exam could be found.
      * @throws DuplicateExamException if the new exam already exists in the exam book.
@@ -91,7 +91,7 @@ public class ExamBook {
     }
 
     /**
-     * Checks if an fully equivalent exam exists in the exam book.
+     * Checks if an equivalent exam exists in the exam book.
      */
     public boolean contains(ReadOnlyExam exam) {
         return examList.containsFully(exam);

@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Represents a Person's attendance in the address book.
+ * Represents a person's attendance in the address book.
  */
 
 public class Attendance implements Printable {

@@ -6,7 +6,7 @@ import seedu.addressbook.data.exception.IllegalValueException;
 
 
 /**
- * Represents student's values
+ * Represents the grades or marks of a person
  */
 public class Grades implements Printable {
 
@@ -18,7 +18,6 @@ public class Grades implements Printable {
     /**
      * Validates given grades.
      * */
-
     public Grades(double grade) throws IllegalValueException {
         if (!isValidGrades(grade)) {
             throw new IllegalValueException(MESSAGE_GRADES_CONSTRAINTS);
@@ -28,7 +27,6 @@ public class Grades implements Printable {
 
     /**
      * Checks if a given value is a valid grade.
-     *
      */
 
     public static boolean isValidGrades(Double test) {

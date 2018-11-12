@@ -25,10 +25,12 @@ public class StorageStub extends Storage {
     public void save(AddressBook addressBook) {
         hasSaved = true;
     }
+
     /**Stub function*/
     public void saveExam(ExamBook examBook) {
         hasSavedExam = true;
     }
+
     /**Stub function*/
     public void saveStatistics(StatisticsBook statisticsBook){
         //this is blank on purpose

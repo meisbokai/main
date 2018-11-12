@@ -43,7 +43,6 @@ public class Person implements ReadOnlyPerson {
     }
 
     /**
-     * Only update the fees when called in setAssessmentsCommand
      * Assumption: Every field must be present and not null.
      */
     public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags, Set<Exam> exams) {
@@ -202,7 +201,7 @@ public class Person implements ReadOnlyPerson {
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, phone, email, address, fees, exams, tags);
+        return Objects.hash(name, phone, email, address, fees, tags);
     }
 
     @Override

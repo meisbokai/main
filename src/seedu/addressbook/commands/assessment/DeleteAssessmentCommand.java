@@ -28,6 +28,7 @@ public class DeleteAssessmentCommand extends IndexFormatCommand {
         try {
             final Assessment target = getTargetAssessment();
             addressBook.removeAssessment(target);
+            target.removeAllGrades();
             final List<Assessment> updatedList = addressBook.getAllAssessments().immutableListView();
             return new CommandResult(String.format(MESSAGE_DELETE_ASSESSMENT_SUCCESS, target), updatedList,
                     ListType.ASSESSMENT);

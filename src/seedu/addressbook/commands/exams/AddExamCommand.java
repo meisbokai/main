@@ -11,7 +11,7 @@ import seedu.addressbook.data.person.ReadOnlyExam;
 import seedu.addressbook.data.person.UniqueExamList;
 
 /**
- * Adds an exam in the exam book.
+ * Adds an exam to the exam book.
  */
 public class AddExamCommand extends Command {
 

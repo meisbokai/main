@@ -6,7 +6,7 @@ import seedu.addressbook.data.person.Printable;
 import seedu.addressbook.privilege.Privilege;
 
 /**
- * Represents a Account in the address book.
+ * Represents an account in the address book.
  */
 public class Account implements Printable {
     private final String username;

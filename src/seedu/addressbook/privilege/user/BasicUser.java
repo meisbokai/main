@@ -13,6 +13,8 @@ import seedu.addressbook.commands.Command;
 import seedu.addressbook.commands.account.ListAccountCommand;
 import seedu.addressbook.commands.account.LoginCommand;
 import seedu.addressbook.commands.account.LogoutCommand;
+import seedu.addressbook.commands.assessment.ListAssessmentCommand;
+import seedu.addressbook.commands.assessment.ListStatisticsCommand;
 import seedu.addressbook.commands.exams.ViewExamsCommand;
 import seedu.addressbook.commands.general.ExitCommand;
 import seedu.addressbook.commands.general.HelpCommand;
@@ -39,7 +41,9 @@ public class BasicUser implements User {
             new LogoutCommand(),
             new ExitCommand(),
             new ViewSelfCommand(),
-            new ViewExamsCommand()
+            new ViewExamsCommand(),
+            new ListStatisticsCommand(),
+            new ListAssessmentCommand()
     );
     private List<Command> allowedCommands;
     private PrivilegeLevel currentLevel;
@@ -99,7 +103,7 @@ public class BasicUser implements User {
         allowedCommands.sort(new SortByCategory());
     }
 
-    /** Checks if this privilege level have access to the given command*/
+    /** Checks if this privilege level has access to the given command*/
     public boolean isAllowedCommand(Command command) {
         for (Command allowedCommand: allowedCommands) {
             if (command.getClass().equals(allowedCommand.getClass())) {

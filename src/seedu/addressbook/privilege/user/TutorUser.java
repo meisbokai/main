@@ -5,10 +5,11 @@ import java.util.List;
 
 import seedu.addressbook.commands.Command;
 import seedu.addressbook.commands.assessment.AddAssessmentCommand;
+import seedu.addressbook.commands.assessment.AddAssignmentStatistics;
 import seedu.addressbook.commands.assessment.AddGradesCommand;
 import seedu.addressbook.commands.assessment.DeleteAssessmentCommand;
 import seedu.addressbook.commands.assessment.DeleteGradesCommand;
-import seedu.addressbook.commands.assessment.ListAssessmentCommand;
+import seedu.addressbook.commands.assessment.DeleteStatisticsCommand;
 import seedu.addressbook.commands.assessment.ViewGradesCommand;
 import seedu.addressbook.commands.attendance.ReplaceAttendanceCommand;
 import seedu.addressbook.commands.attendance.UpdateAttendanceCommand;
@@ -18,7 +19,7 @@ import seedu.addressbook.commands.exams.AddExamCommand;
 import seedu.addressbook.commands.exams.DeleteExamCommand;
 import seedu.addressbook.commands.exams.DeregisterExamCommand;
 import seedu.addressbook.commands.exams.EditExamCommand;
-import seedu.addressbook.commands.exams.ExamsListCommand;
+import seedu.addressbook.commands.exams.ListExamsCommand;
 import seedu.addressbook.commands.exams.RegisterExamCommand;
 import seedu.addressbook.commands.fees.ListDueFeesCommand;
 import seedu.addressbook.commands.fees.ListFeesCommand;
@@ -34,7 +35,7 @@ public class TutorUser extends BasicUser {
             new ViewAllCommand(),
             new ListAllCommand(),
             new AddExamCommand(),
-            new ExamsListCommand(),
+            new ListExamsCommand(),
             new DeleteExamCommand(),
             new EditExamCommand(),
             new RegisterExamCommand(),
@@ -46,12 +47,13 @@ public class TutorUser extends BasicUser {
             new ListFeesCommand(),
             new ListDueFeesCommand(),
             new AddAssessmentCommand(),
-            new ListAssessmentCommand(),
             new DeleteAssessmentCommand(),
             new AddGradesCommand(),
             new ViewGradesCommand(),
             new DeleteGradesCommand(),
-            new ViewFeesCommand()
+            new ViewFeesCommand(),
+            new AddAssignmentStatistics(),
+            new DeleteStatisticsCommand()
     );
 
     public TutorUser() {

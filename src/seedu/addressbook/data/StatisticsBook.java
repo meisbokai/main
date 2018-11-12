@@ -24,7 +24,6 @@ public class StatisticsBook {
      *
      * @param statisticsList external changes to this will not affect this statistic book
      */
-
     public StatisticsBook(UniqueStatisticsList statisticsList) {
         this.statisticsList = new UniqueStatisticsList(statisticsList);
     }

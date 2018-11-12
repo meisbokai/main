@@ -9,7 +9,7 @@ import seedu.addressbook.data.exception.IllegalValueException;
 import seedu.addressbook.data.person.Fees;
 
 /**
- * JAXB-friendly adapted tag data holder class.
+ * JAXB-friendly adapted fees data holder class.
  */
 @XmlRootElement(name = "fees")
 public class AdaptedFees {
@@ -27,9 +27,9 @@ public class AdaptedFees {
     public AdaptedFees() {}
 
     /**
-     * Converts a given Tag into this class for JAXB use.
+     * Converts given fees into this class for JAXB use.
      *
-     * @param source future changes to this will not affect the created AdaptedTag
+     * @param source future changes to this will not affect the created AdaptedFees
      */
     public AdaptedFees(Fees source) {
         value = source.value;
@@ -50,9 +50,9 @@ public class AdaptedFees {
     }
 
     /**
-     * Converts this jaxb-friendly adapted object into the object.
+     * Converts this jaxb-friendly adapted object into the Fees object.
      *
-     * @throws IllegalValueException if there were any data constraints violated in the adapted person
+     * @throws IllegalValueException if there were any data constraints violated in the adapted fees
      */
     public Fees toModelType() throws IllegalValueException {
         return new Fees(value, duedate);

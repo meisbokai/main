@@ -13,7 +13,7 @@ import seedu.addressbook.data.person.ReadOnlyPerson;
 import seedu.addressbook.data.person.UniquePersonList.PersonNotFoundException;
 
 /**
- * Deletes a person identified using it's last displayed index from the address book.
+ * Adds an account to a specific person, with a username and password of choice
  */
 public class AddAccountCommand extends IndexFormatCommand {
 
@@ -38,9 +38,9 @@ public class AddAccountCommand extends IndexFormatCommand {
      * Command constructed has no functionality
      * */
     public AddAccountCommand() {
-        //TODO: Fix potato code
         toAdd = null;
     }
+
     public AddAccountCommand(int targetVisibleIndex, String username, String password, String privilege)
             throws IllegalValueException {
         setTargetIndex(targetVisibleIndex, ObjectTargeted.PERSON);

@@ -5,7 +5,7 @@ import seedu.addressbook.commands.commandresult.CommandResult;
 import seedu.addressbook.formatter.PersonListFormat;
 
 /**
- * Lists all persons in the address book to the user.
+ * Lists the fees alongside the name for all persons in the address book.
  */
 public class ListFeesCommand extends Command {
 

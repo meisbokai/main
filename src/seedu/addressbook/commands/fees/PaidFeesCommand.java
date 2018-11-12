@@ -15,7 +15,7 @@ import seedu.addressbook.data.tag.Tag;
 import seedu.addressbook.formatter.PersonListFormat;
 
 /**
- * Remove due fees from a respective person
+ * Removes the due fees from a respective person
  */
 public class PaidFeesCommand extends IndexFormatCommand {
     public static final String COMMAND_WORD = "paidfees";
@@ -26,24 +26,29 @@ public class PaidFeesCommand extends IndexFormatCommand {
             + "Example: " + COMMAND_WORD + " 1";
 
     public static final String MESSAGE_SUCCESS = "Fees paid: %1$s";
+    public static final String MESSAGE_NO_FEES = "%1s does not have any due Fees.";
 
     @Override
     public CommandResult execute() {
         try {
             try {
                 Person person = getTargetPerson();
-                person.setFees(new Fees());
-                Set<Tag> temp = new HashSet<>();
-                temp = person.getTags();
-                for (Tag t : temp) {
-                    if ("feesdue".equals(t.tagName)) {
-                        temp.remove(t);
+                if (person.getFees().isEdited()) {
+                    person.setFees(new Fees());
+                    Set<Tag> temp = new HashSet<>();
+                    temp = person.getTags();
+                    for (Tag t : temp) {
+                        if ("feesdue".equals(t.tagName)) {
+                            temp.remove(t);
+                        }
                     }
+                    person.setTags(temp);
+                    List<ReadOnlyPerson> allPersons = addressBook.getAllPersons().immutableListView();
+                    return new CommandResult(String.format(MESSAGE_SUCCESS, person.getAsTextShowFee()), allPersons,
+                            PersonListFormat.ALL_PUBLIC_DETAILS);
+                } else {
+                    return new CommandResult(String.format(MESSAGE_NO_FEES, person.getAsTextShowOnlyName()));
                 }
-                person.setTags(temp);
-                List<ReadOnlyPerson> allPersons = addressBook.getAllPersons().immutableListView();
-                return new CommandResult(String.format(MESSAGE_SUCCESS, person.getAsTextShowFee()), allPersons,
-                        PersonListFormat.ALL_PUBLIC_DETAILS);
             } catch (PersonNotFoundException pnfe) {
                 return new CommandResult(Messages.MESSAGE_PERSON_NOT_IN_ADDRESSBOOK);
             }

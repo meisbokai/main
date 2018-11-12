@@ -93,6 +93,7 @@ public class MainWindow {
 
         display(result.getOutputConsoleMessage());
     }
+
     /** Displays the welcome message**/
     public void displayWelcomeMessage(String version, String storageFilePath, String examsFilePath,
                                       String statisticsFilePath) {
@@ -106,11 +107,11 @@ public class MainWindow {
 
     /**
      * Displays the list of persons in the output display area, formatted as an indexed list.
-     * Private contact details are hidden.
      */
     private void display(List<? extends ReadOnlyPerson> persons, PersonListFormat personListFormat) {
         display(Formatter.format(persons, personListFormat));
     }
+
     /**
      * Displays the given messages on the output display area, after formatting appropriately.
      */
@@ -133,7 +134,7 @@ public class MainWindow {
     }
 
     /**
-     * Displays the given messages on the output display area, after formatting appropriately.
+     * Displays the given messages on the status display area, after formatting appropriately.
      */
     private void displayStatus(String message) {
         clearStatusConsole();
@@ -141,7 +142,8 @@ public class MainWindow {
     }
 
     /**
-     * Displays the given messages on the output display area, after formatting appropriately.
+     * Displays the given messages from the result of a command on the respective display areas,
+     * after formatting appropriately.
      */
     private void handleDisplay(CommandResult result) {
         clearStatusConsole();
@@ -153,6 +155,7 @@ public class MainWindow {
             displayResult(result);
         }
     }
+
     /**
      * Displays the list of assessments in the output display area, formatted as an indexed list.
      */
@@ -167,6 +170,9 @@ public class MainWindow {
         display(Formatter.formatStatistics(statistics));
     }
 
+    /**
+     * Removes the AsciiArt.
+     */
     private void closeAsciiArt() {
         asciiArt.setText("");
         asciiArt.setManaged(false);
@@ -186,14 +192,14 @@ public class MainWindow {
         } catch (Exception e) {
             displayStatus(e.getMessage() + "\nExiting App...");
             Main.LOGGER.log(Level.WARNING, e.getMessage());
-            // If this error occurs, data between addressbook and storage is likely to be desynced,
+            // If this error occurs, data between the app and storage is likely to be desynced,
             // so we force close the app to ensure synchronisation.
             final int delayTime = 3000;
             exitApp(delayTime);
         }
     }
 
-    /** Exits the app after a given delay*/
+    /** Exits the app after a set delay*/
     private void exitApp() {
         final int defaultDelayTime = 500;
         exitApp(defaultDelayTime);

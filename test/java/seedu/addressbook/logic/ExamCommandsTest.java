@@ -78,7 +78,7 @@ public class ExamCommandsTest {
     public void executeAddExam_validData_success() throws Exception {
         // setup expectations
         TestDataHelper helper = new TestDataHelper();
-        Exam toBeAdded = helper.math();
+        Exam toBeAdded = helper.makeMathExam();
         ExamBook expected = new ExamBook();
         expected.addExam(toBeAdded);
 
@@ -93,7 +93,7 @@ public class ExamCommandsTest {
     public void executeAddExam_duplicateData_duplicateMessage() throws Exception {
         // setup expectations
         TestDataHelper helper = new TestDataHelper();
-        Exam toBeAdded = helper.math();
+        Exam toBeAdded = helper.makeMathExam();
         ExamBook expected = new ExamBook();
         expected.addExam(toBeAdded);
 
@@ -126,7 +126,7 @@ public class ExamCommandsTest {
                 + " %s %s %s dt/" + Exam.EXAM_DETAILS_EXAMPLE;
 
         TestDataHelper helper = new TestDataHelper();
-        Exam toBeAdded = helper.math();
+        Exam toBeAdded = helper.makeMathExam();
         ExamBook expected = new ExamBook();
         expected.addExam(toBeAdded);
 
@@ -152,7 +152,7 @@ public class ExamCommandsTest {
     }
 
     @Test
-    public void executeExamsListShowsAllExams() throws Exception {
+    public void executeListExamsShowsAllExams() throws Exception {
         // prepare expectations
         TestDataHelper helper = new TestDataHelper();
         ExamBook expected = helper.generateExamBook(false, true);
@@ -161,7 +161,7 @@ public class ExamCommandsTest {
         // prepare exam book state
         helper.addToExamBook(examBook, false, true);
 
-        assertCommandBehavior("examslist",
+        assertCommandBehavior("listexams",
                 Command.getMessageForExamListShownSummary(expectedList),
                 expected, true, expectedList, false);
     }
@@ -253,8 +253,7 @@ public class ExamCommandsTest {
 
     @Test
     public void executeEditExam_invalidIndex_invalidIndexMessage() throws Exception {
-        assertInvalidIndexBehaviorForExamCommand("editexam 4 s/Mathematics"
-        );
+        assertInvalidIndexBehaviorForExamCommand("editexam 4 s/Mathematics");
     }
 
     @Test
@@ -531,12 +530,9 @@ public class ExamCommandsTest {
     @Test
     public void executeDeregisterExam_invalidParsedArgs_invalidCommandMessage() throws Exception {
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeregisterExamCommand.MESSAGE_USAGE);
-        assertCommandBehaviorForExam("deregexam not_a_number 2", expectedMessage
-        );
-        assertCommandBehaviorForExam("deregexam 2 not_a_number", expectedMessage
-        );
-        assertCommandBehaviorForExam("deregexam not_a_number not_a_number", expectedMessage
-        );
+        assertCommandBehaviorForExam("deregexam not_a_number 2", expectedMessage);
+        assertCommandBehaviorForExam("deregexam 2 not_a_number", expectedMessage);
+        assertCommandBehaviorForExam("deregexam not_a_number not_a_number", expectedMessage);
     }
 
     @Test

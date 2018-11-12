@@ -2,11 +2,11 @@
 *.class
 
 # Default data file
-addressbook.txt
-backup_data.txt
-exams.txt
-statistics.txt
-log.txt
+/addressbook.txt
+/backup_data.txt
+/exams.txt
+/statistics.txt
+/log.*
 
 # Package Files #
 *.jar

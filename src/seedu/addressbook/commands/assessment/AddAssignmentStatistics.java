@@ -7,7 +7,6 @@ import seedu.addressbook.commands.commandformat.indexformat.IndexFormatCommand;
 import seedu.addressbook.commands.commandresult.CommandResult;
 import seedu.addressbook.commands.commandresult.ListType;
 import seedu.addressbook.common.Messages;
-import seedu.addressbook.data.exception.IllegalValueException;
 import seedu.addressbook.data.person.Assessment;
 import seedu.addressbook.data.person.AssignmentStatistics;
 import seedu.addressbook.data.person.Grades;
@@ -32,26 +31,6 @@ public class AddAssignmentStatistics extends IndexFormatCommand {
 
     private AssignmentStatistics toAdd;
 
-    private String examName;
-    private double averageScore;
-    private int totalExamTakers;
-    private double maxScore;
-    private double minScore;
-
-    /**
-     * Convenience constructor using raw values.
-     *
-     * @throws IllegalValueException if any of the raw values are invalid
-     */
-    public AddAssignmentStatistics () {
-        examName = null;
-        averageScore = -1;
-        totalExamTakers = -1;
-        maxScore = -1;
-        minScore = -1;
-        toAdd = null;
-    }
-
     public AssignmentStatistics getAssignmentStatistics() {
         return toAdd;
     }
@@ -61,35 +40,27 @@ public class AddAssignmentStatistics extends IndexFormatCommand {
         try {
             final Map<Person, Grades> grade;
             Assessment assessName = getTargetAssessment();
-            examName = assessName.getExamName();
+            String examName = assessName.getExamName();
             double maxGrade = 0;
-            double minGrade = 1000000;
+            double minGrade = Double.MAX_VALUE;
+            double averageScore;
             double total = 0;
-            int count = 0;
             grade = assessName.getAllGrades();
+            final int numPersons = grade.size();
+
             for (Grades gradeVal : grade.values()) {
-                if (gradeVal.getValue() > maxGrade) {
-                    maxGrade = gradeVal.getValue();
-                }
-                if (gradeVal.getValue() < minGrade) {
-                    minGrade = gradeVal.getValue();
-                }
-                total = total + (gradeVal.getValue());
-                count = count + 1;
+                maxGrade = Math.max(maxGrade, gradeVal.getValue());
+                minGrade = Math.min(minGrade, gradeVal.getValue());
+                total += gradeVal.getValue();
             }
-            if (count > 0) {
-                averageScore = (double) Math.round((total / count) * 100) / 100;
+            if (numPersons > 0) {
+                averageScore = (double) Math.round((total / numPersons) * 100) / 100;
             } else {
                 averageScore = 0; //to account for empty grades
+                minGrade = 0;
             }
-            totalExamTakers = count;
-            maxScore = maxGrade;
-            if (minGrade == 1000000) { //to account for empty grades
-                minScore = 0;
-            } else {
-                minScore = minGrade;
-            }
-            this.toAdd = new AssignmentStatistics(examName, averageScore, totalExamTakers, maxScore, minScore);
+
+            this.toAdd = new AssignmentStatistics(examName, averageScore, numPersons, maxGrade, minGrade);
             statisticsBook.addStatistic(toAdd);
             final List<AssignmentStatistics> updatedList = statisticsBook.getAllStatistics().immutableListView();
             return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd), updatedList,

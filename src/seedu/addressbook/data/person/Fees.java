@@ -1,17 +1,17 @@
 package seedu.addressbook.data.person;
 
+import static seedu.addressbook.common.Messages.MESSAGE_DATE_CONSTRAINTS;
+
 import seedu.addressbook.data.exception.IllegalValueException;
 
-
 /**
- * Represents a Person's fees due in the address book.
+ * Represents a person's fees due in the address book.
  * Guarantees: immutable;
  */
 public class Fees implements Printable {
     public static final String EXAMPLE = "$3560.98";
     public static final String MESSAGE_FEES_CONSTRAINTS = "Person's fees should be positive and have 2 decimal places.";
-    public static final String MESSAGE_DATE_CONSTRAINTS = "Due date for fees should be in DD-MM-YYYY.";
-    public static final String FEES_VALIDATION_REGEX = "[0-9]+([,.][0-9]{1,2})?";
+    public static final String FEES_VALIDATION_REGEX = "[0-9]+([,.][0-9]{1,2})";
     public static final String DATE_VALIDATION_REGEX = "[0-9]{1,2}-[0-9]{1,2}-[0-9]{4}";
 
     public final String value;
@@ -19,7 +19,7 @@ public class Fees implements Printable {
     private boolean isEdited = false;
 
     /**
-     * Validates given AdaptedFees.
+     * Validates given fees.
      *
      * @throws IllegalValueException if given fees string is invalid.
      */
@@ -36,7 +36,6 @@ public class Fees implements Printable {
 
     /**
      * Initialises all fees of everyone to 0.
-     *
      *
      */
     public Fees() {

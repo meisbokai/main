@@ -9,7 +9,8 @@ import seedu.addressbook.data.person.Person;
 import seedu.addressbook.data.person.UniquePersonList;
 
 /**
- * Deregisters a person identified using its last displayed index for a exam identified using its last displayed index.
+ * Deletes the grades for a person (identified by index in last person listing) for a particular
+ * assessment (identified by index in last assessment listing)
  */
 public class DeleteGradesCommand extends IndexFormatCommand {
     public static final String COMMAND_WORD = "deletegrades";
@@ -47,6 +48,7 @@ public class DeleteGradesCommand extends IndexFormatCommand {
                 return new CommandResult(MESSAGE_ASSESSMENT_NOT_PRESENT);
             } else {
                 person.removeAssessment(assessment);
+                assessment.removeGrades(person);
                 return new CommandResult(String.format(MESSAGE_DELETE_GRADES_SUCCESS, assessment));
             }
         } catch (AssessmentIndexOutOfBoundsException aie) {

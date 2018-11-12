@@ -46,10 +46,9 @@ public class PrivilegeTest {
 
     @Before
     public void setUp() throws Exception {
-        StorageStub stubFile;
         ExamBook examBook = new ExamBook();
         StatisticsBook statisticsBook = new StatisticsBook();
-        stubFile = new StorageStub(saveFolder.newFile("testStubFile.txt").getPath(),
+        StorageStub stubFile = new StorageStub(saveFolder.newFile("testStubFile.txt").getPath(),
                 saveFolder.newFile("testStubExamFile.txt").getPath(),
                 saveFolder.newFile("testStubStatisticsFile.txt").getPath());
         Logic logic = new Logic(stubFile, addressBook, examBook, statisticsBook, privilege);
@@ -75,7 +74,7 @@ public class PrivilegeTest {
     @Test
     public void executeSay_loggedIn_success() throws Exception {
         TestDataHelper helper = new TestDataHelper();
-        final Person testPerson = helper.adam();
+        final Person testPerson = helper.makeAdam();
         final String feedbackFormat = String.format(ViewPrivilegeCommand.MESSAGE_LOGGED_IN, testPerson.getName())
                 + ViewPrivilegeCommand.MESSAGE_PRIVILEGE_FORMAT;
 
@@ -133,19 +132,17 @@ public class PrivilegeTest {
     @Test
     public void executeRaisePrivilege_wrongPassword_wrongPasswordMessageShown() throws Exception {
         String expectedMessage = RaisePrivilegeCommand.MESSAGE_WRONG_PASSWORD;
-        assertCommandBehavior("raise wrong_password", expectedMessage
-        );
+        assertCommandBehavior("raise wrong_password", expectedMessage);
         assertEquals(privilege.getUser(), new BasicUser());
     }
 
     @Test
     public void executeRaisePrivilege_loggedIn_loggedInMessageShown() throws Exception {
         TestDataHelper helper = new TestDataHelper();
-        Person person = helper.adam();
+        Person person = helper.makeAdam();
         privilege.setMyPerson(person);
         String expectedMessage = String.format(RaisePrivilegeCommand.MESSAGE_LOGGED_IN, person.getName());
-        assertCommandBehavior("raise default_pw", expectedMessage
-        );
+        assertCommandBehavior("raise default_pw", expectedMessage);
         assertEquals(privilege.getUser(), new BasicUser());
     }
 
@@ -153,8 +150,7 @@ public class PrivilegeTest {
     public void executeRaisePrivilege_defaultPassword_success() throws Exception {
         String defaultPassword = AddressBook.DEFAULT_MASTER_PASSWORD;
         assertCommandBehavior("raise " + defaultPassword,
-                String.format(RaisePrivilegeCommand.MESSAGE_SUCCESS, new AdminUser().getPrivilegeLevelAsString())
-        );
+                String.format(RaisePrivilegeCommand.MESSAGE_SUCCESS, new AdminUser().getPrivilegeLevelAsString()));
         assertEquals(privilege.getUser(), new AdminUser());
     }
 
@@ -162,8 +158,7 @@ public class PrivilegeTest {
     public void executeRaisePrivilege_changedPassword_success() throws Exception {
         addressBook.setMasterPassword("new_Password");
         assertCommandBehavior("raise new_Password",
-                String.format(RaisePrivilegeCommand.MESSAGE_SUCCESS, new AdminUser().getPrivilegeLevelAsString())
-        );
+                String.format(RaisePrivilegeCommand.MESSAGE_SUCCESS, new AdminUser().getPrivilegeLevelAsString()));
         assertEquals(privilege.getUser(), new AdminUser());
     }
 

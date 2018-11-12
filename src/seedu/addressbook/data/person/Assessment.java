@@ -9,7 +9,7 @@ import seedu.addressbook.data.person.UniqueAssessmentsList.DuplicateGradesExcept
 import seedu.addressbook.formatter.Formatter;
 
 /**
- * Represents an assessment of the student
+ * Represents an assessment conducted in the school, stored in the addressbook
  */
 public class Assessment {
 
@@ -40,18 +40,44 @@ public class Assessment {
         return test.matches(ASSESSMENT_VALIDATION_REGEX);
     }
 
+    /**
+     * Returns the grades for a specfic person
+     */
     public Grades getGrade(ReadOnlyPerson person) {
         return this.grade.get(person);
     }
 
+    /**
+     * Adds the grades given to a specific person
+     */
     public void addGrade(Person person, Grades grades) throws DuplicateGradesException {
         grade.put(person, grades);
     }
 
+    /**
+     * Removes all the grades for the assessment
+     */
+    public void removeAllGrades() {
+        grade.clear();
+    }
+
+    /**
+     * Removes the grades for a specfic person
+     */
+    public void removeGrades(ReadOnlyPerson person) {
+        grade.remove(person);
+    }
+
+    /**
+     * Returns the entire map of grades for all students for this assessment
+     */
     public Map<Person, Grades> getAllGrades() {
         return grade;
     }
 
+    /**
+     * Returns the name of the assessment
+     */
     public String getExamName() {
         return examName;
     }
@@ -65,7 +91,6 @@ public class Assessment {
     public String toString() {
         return getAsTextShowAll();
     }
-
 
     /**
      * Formats the assessment as text to show all.

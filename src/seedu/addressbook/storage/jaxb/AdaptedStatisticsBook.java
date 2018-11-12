@@ -29,7 +29,7 @@ public class AdaptedStatisticsBook {
     /**
      * Converts a given StatisticsBook into this class for JAXB use.
      *
-     * @param source future changes to this will not affect the created AdaptedExamBook
+     * @param source future changes to this will not affect the created AdaptedStatisticsBook
      */
     public AdaptedStatisticsBook(StatisticsBook source) {
         statisticsList = new ArrayList<>();
@@ -51,8 +51,9 @@ public class AdaptedStatisticsBook {
 
 
     /**
-     * Converts this jaxb-friendly {@code AdaptedStatisticsBook} object into the corresponding(@code ExamBook} object.
-     * @throws IllegalValueException if there were any data constraints violated in the adapted exam
+     * Converts this jaxb-friendly {@code AdaptedStatisticsBook} object into the corresponding(@code StatisticsBook}
+     * object.
+     * @throws IllegalValueException if there were any data constraints violated in the adapted statistics
      */
     public StatisticsBook toModelType() throws IllegalValueException {
         final List<AssignmentStatistics> statisticsTempList = new ArrayList<>();
