@@ -641,7 +641,8 @@ Using `list` command
 
 Example(s):
 
-* `viewgrades 1` +
+* `list` +
+`viewgrades 1` +
 The results will be displayed as a list of assessments the student has taken and their corresponding grades.
 
 ==== Deleting a grade : `deletegrades` image:Tutor.png[16,16]
@@ -828,8 +829,6 @@ Marks the attendance of the people with index 1, 2, 4 and 5 in the list as prese
 * `list`  +
 `attendance i/0  d/0 att/0` +
 Marks the attendance of everybody on the list as absent for today's date.
-
-
 // end::attendance[]
 
 == Saving the data
