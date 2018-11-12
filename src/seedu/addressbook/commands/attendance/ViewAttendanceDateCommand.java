@@ -14,7 +14,7 @@ import seedu.addressbook.data.exception.IllegalValueException;
 import seedu.addressbook.data.person.details.Name;
 
 /**
- *  Lists down the people who were present on the particular date.
+ *  Lists all the people who were present on a particular date.
  */
 public class ViewAttendanceDateCommand extends Command {
 

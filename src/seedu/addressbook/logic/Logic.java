@@ -33,16 +33,16 @@ public class Logic {
     private ExamBook examBook;
     private StatisticsBook statisticsBook;
 
-    /** The list of person shown to the user most recently.  */
+    /** The list of persons shown to the user most recently.  */
     private List<? extends ReadOnlyPerson> lastShownList = Collections.emptyList();
 
-    /** The list of person shown to the user most recently.  */
+    /** The list of assessments shown to the user most recently.  */
     private List<? extends Assessment> lastShownAssessmentList = Collections.emptyList();
 
-    /** The list of person shown to the user most recently.  */
+    /** The list of statistics shown to the user most recently.  */
     private List<? extends AssignmentStatistics> lastShownStatisticsList = Collections.emptyList();
 
-    /** The list of exam shown to the user most recently.  */
+    /** The list of exams shown to the user most recently.  */
     private List<? extends ReadOnlyExam> lastShownExamList = Collections.emptyList();
 
     /**
@@ -72,7 +72,7 @@ public class Logic {
         setStatisticsBook(statisticsBook);
     }
 
-    /** Sets privilege as Admin if addressBook isPermAdmin, else remain as Basic*/
+    /** Sets privilege as Admin if addressBook isPermAdmin, else remains at Basic*/
     public void initPrivilege() {
         if (!Optional.ofNullable(privilege).isPresent()) {
             privilege = new Privilege();
@@ -128,7 +128,7 @@ public class Logic {
     }
 
     /**
-     * Unmodifiable view of the current last shown list.
+     * Unmodifiable view of the current last shown person list.
      */
     public List<ReadOnlyPerson> getLastShownList() {
         return Collections.unmodifiableList(lastShownList);
@@ -139,7 +139,7 @@ public class Logic {
     }
 
     /**
-     * Unmodifiable view of the current last shown exams list.
+     * Unmodifiable view of the current last shown assessment list.
      */
     public List<Assessment> getLastShownAssessmentList() {
         return Collections.unmodifiableList(lastShownAssessmentList);
@@ -150,7 +150,7 @@ public class Logic {
     }
 
     /**
-     * Unmodifiable view of the current last shown exams list.
+     * Unmodifiable view of the current last shown exam list.
      */
     public List<ReadOnlyExam> getLastShownExamList() {
         return Collections.unmodifiableList(lastShownExamList);
@@ -207,6 +207,7 @@ public class Logic {
     /** Updates the {@link #lastShownList} if the result contains a list of Persons.
      *  Updates the {@link #lastShownExamList} if the result contains a list of Exams.
      *  Updates the {@link #lastShownAssessmentList} if the result contains a list of Assessments.
+     *  Updates the {@link #lastShownStatisticsList} if the result contains a list of Statistics.
      */
     private void recordResult(CommandResult result) {
         final Optional<List<? extends ReadOnlyPerson>> optPersonList = result.getRelevantPersons();

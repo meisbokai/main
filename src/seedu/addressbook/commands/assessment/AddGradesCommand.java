@@ -11,7 +11,7 @@ import seedu.addressbook.data.person.Person;
 import seedu.addressbook.data.person.UniquePersonList;
 
 /**
- * Adds a grade to person based on person index and assessment index.
+ * Adds a grade for specific assessment to chosen person based on person index and assessment index.
  */
 public class AddGradesCommand extends IndexFormatCommand {
 
@@ -19,13 +19,13 @@ public class AddGradesCommand extends IndexFormatCommand {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ":\n" + "Adds grades to a person based on person index"
             + " and grades index.\n\t"
-            + "Parameters: PERSON_INDEX ASSESSMENT_INDEX Grade\n\t"
+            + "Parameters: PERSON_INDEX ASSESSMENT_INDEX GRADE\n\t"
             + "Example: " + COMMAND_WORD
             + " 1 2 85";
 
     public static final String MESSAGE_ADD_GRADE_SUCCESS = "Grade has been added to %1$s for %2$s assessment";
 
-    private int gradesVal;
+    private double gradesVal;
 
     /**
      * Constructor used for Privileges
@@ -36,9 +36,8 @@ public class AddGradesCommand extends IndexFormatCommand {
     /**
      * Convenience constructor using raw values.
      *
-     * @throws IllegalValueException if any of the raw values are invalid
      */
-    public AddGradesCommand (int targetPersonIndex, int targetAssessIndex, int gradesVal) {
+    public AddGradesCommand (int targetPersonIndex, int targetAssessIndex, double gradesVal) {
         setTargetIndex(targetPersonIndex, ObjectTargeted.PERSON);
         setTargetIndex(targetAssessIndex, ObjectTargeted.ASSESSMENT);
         this.gradesVal = gradesVal;

@@ -44,8 +44,10 @@ public class AdaptedAssessment {
         for (Map.Entry<Person, Grades> entry : allVals.entrySet()) {
             Person person = entry.getKey();
             int index = allPersons.immutableListView().indexOf(person);
+            if (index == -1) {
+                continue;
+            }
             personIndex.add(index);
-
             Grades grade = entry.getValue();
             double gradeVal = grade.getValue();
             grades.add(gradeVal);

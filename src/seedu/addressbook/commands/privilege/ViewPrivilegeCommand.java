@@ -8,7 +8,7 @@ import seedu.addressbook.commands.commandresult.MessageType;
 import seedu.addressbook.data.person.Person;
 
 /**
- * Clears the address book.
+ * Shows current privilege level to the user
  */
 public class ViewPrivilegeCommand extends Command {
 

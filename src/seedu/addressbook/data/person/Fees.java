@@ -5,7 +5,7 @@ import static seedu.addressbook.common.Messages.MESSAGE_DATE_CONSTRAINTS;
 import seedu.addressbook.data.exception.IllegalValueException;
 
 /**
- * Represents a Person's fees due in the address book.
+ * Represents a person's fees due in the address book.
  * Guarantees: immutable;
  */
 public class Fees implements Printable {
@@ -19,7 +19,7 @@ public class Fees implements Printable {
     private boolean isEdited = false;
 
     /**
-     * Validates given AdaptedFees.
+     * Validates given fees.
      *
      * @throws IllegalValueException if given fees string is invalid.
      */
@@ -36,7 +36,6 @@ public class Fees implements Printable {
 
     /**
      * Initialises all fees of everyone to 0.
-     *
      *
      */
     public Fees() {

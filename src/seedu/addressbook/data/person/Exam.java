@@ -11,7 +11,7 @@ import seedu.addressbook.common.Messages;
 import seedu.addressbook.data.exception.IllegalValueException;
 
 /**
- * Represents a exam in the exam book.
+ * Represents an exam in the exam book.
  * Guarantees: details are present and not null, field values are validated.
  */
 public class Exam implements ReadOnlyExam {

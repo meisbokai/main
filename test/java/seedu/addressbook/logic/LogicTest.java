@@ -57,7 +57,6 @@ public class LogicTest {
      */
     @Rule
     public TemporaryFolder saveFolder = new TemporaryFolder();
-
     private AddressBook addressBook;
     private Privilege privilege;
     private StatisticsBook statisticBook;
@@ -192,47 +191,37 @@ public class LogicTest {
     @Test
     public void executeAdd_invalidArgsFormat_invalidCommandMessage() throws Exception {
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE);
-        assertCommandBehavior(
-                "add wrong args wrong args", expectedMessage
-        );
-        assertCommandBehavior(
-                "add Valid Name 12345 e/valid@email.butNoPhonePrefix a/valid, address", expectedMessage
-        );
-        assertCommandBehavior(
-                "add Valid Name p/12345 valid@email.butNoPrefix a/valid, address", expectedMessage
-        );
-        assertCommandBehavior(
-                "add Valid Name p/12345 e/valid@email.butNoAddressPrefix valid, address", expectedMessage
-        );
+        assertCommandBehavior("add wrong args wrong args", expectedMessage);
+        assertCommandBehavior("add Valid Name 12345 e/valid@email.butNoPhonePrefix a/valid, address",
+                expectedMessage);
+        assertCommandBehavior("add Valid Name p/12345 valid@email.butNoPrefix a/valid, address",
+                expectedMessage);
+        assertCommandBehavior("add Valid Name p/12345 e/valid@email.butNoAddressPrefix valid, address",
+                expectedMessage);
     }
 
     @Test
     public void executeAdd_invalidPersonData_invalidMessage() throws Exception {
+        assertCommandBehavior("add []\\[;] p/12345 e/valid@e.mail a/valid, address",
+                Name.MESSAGE_NAME_CONSTRAINTS);
         assertCommandBehavior(
-                "add []\\[;] p/12345 e/valid@e.mail a/valid, address", Name.MESSAGE_NAME_CONSTRAINTS
-        );
-        assertCommandBehavior(
-                "add Valid Name p/not_numbers e/valid@e.mail a/valid, address", Phone.MESSAGE_PHONE_CONSTRAINTS
-        );
-        assertCommandBehavior(
-                "add Valid Name p/12345 e/notAnEmail a/valid, address", Email.MESSAGE_EMAIL_CONSTRAINTS
-        );
-        assertCommandBehavior(
-                "add Valid Name p/12345 e/valid@e.mail a/valid, address t/invalid_-[.tag", Tag.MESSAGE_TAG_CONSTRAINTS
-        );
-        assertCommandBehavior(
-                "add Valid Name p/12345 e/valid@e.mail a/#$%#@#What Am I?", Address.MESSAGE_ADDRESS_CONSTRAINTS
-        );
-        assertCommandBehavior(
-                "add Valid Name p/1234 e/valid@e.mail a/valid, address t/invalid_-[.tag", Tag.MESSAGE_TAG_CONSTRAINTS
-        );
+                "add Valid Name p/not_numbers e/valid@e.mail a/valid, address",
+                Phone.MESSAGE_PHONE_CONSTRAINTS);
+        assertCommandBehavior("add Valid Name p/12345 e/notAnEmail a/valid, address",
+                Email.MESSAGE_EMAIL_CONSTRAINTS);
+        assertCommandBehavior("add Valid Name p/12345 e/valid@e.mail a/valid, address t/invalid_-[.tag",
+                Tag.MESSAGE_TAG_CONSTRAINTS);
+        assertCommandBehavior("add Valid Name p/12345 e/valid@e.mail a/#$%#@#What Am I?",
+                Address.MESSAGE_ADDRESS_CONSTRAINTS);
+        assertCommandBehavior("add Valid Name p/1234 e/valid@e.mail a/valid, address t/invalid_-[.tag",
+                Tag.MESSAGE_TAG_CONSTRAINTS);
     }
 
     @Test
     public void executeAdd_validData_success() throws Exception {
         // setup expectations
         TestDataHelper helper = new TestDataHelper();
-        Person toBeAdded = helper.adam();
+        Person toBeAdded = helper.makeAdam();
         AddressBook expected = new AddressBook();
         expected.addPerson(toBeAdded);
 
@@ -249,7 +238,7 @@ public class LogicTest {
     public void executeAdd_duplicateData_duplicateNotAllowed() throws Exception {
         // setup expectations
         TestDataHelper helper = new TestDataHelper();
-        Person toBeAdded = helper.adam();
+        Person toBeAdded = helper.makeAdam();
         AddressBook expected = new AddressBook();
         expected.addPerson(toBeAdded);
 
@@ -380,7 +369,7 @@ public class LogicTest {
         TestDataHelper helper = new TestDataHelper();
         Person p1 = helper.generatePerson(1, true);
         Person p2 = helper.generatePerson(2, false);
-        p1.setFees(helper.fees(1));
+        p1.setFees(helper.makeFees(1));
         List<Person> lastShownList = helper.generatePersonList(p1, p2);
         AddressBook expected = helper.generateAddressBook(lastShownList);
         helper.addToAddressBook(addressBook, lastShownList);
@@ -610,8 +599,7 @@ public class LogicTest {
         final int requiredArguments = 2;
         int actualArguments = 1;
         assertCommandBehavior("editpw default_pw",
-                String.format(expectedMessage, requiredArguments, actualArguments, EditPasswordCommand.MESSAGE_USAGE)
-        );
+                String.format(expectedMessage, requiredArguments, actualArguments, EditPasswordCommand.MESSAGE_USAGE));
 
         actualArguments = 3;
         assertCommandBehavior("editpw default_pw new_pw extra_arg",
@@ -624,23 +612,18 @@ public class LogicTest {
     public void executeChangePassword_wrongPassword_errorMessage() throws Exception {
         final String initialPassword = addressBook.getMasterPassword();
         String expectedMessage = EditPasswordCommand.MESSAGE_WRONG_PASSWORD;
-        assertCommandBehavior("editpw wrong_password new_password", expectedMessage
-        );
-        assertCommandBehavior("editpw default_password1 new_password", expectedMessage
-        );
-        assertCommandBehavior("editpw Default_password new_password", expectedMessage
-        );
+        assertCommandBehavior("editpw wrong_password new_password", expectedMessage);
+        assertCommandBehavior("editpw default_password1 new_password", expectedMessage);
+        assertCommandBehavior("editpw Default_password new_password", expectedMessage);
         assertEquals(addressBook.getMasterPassword(), initialPassword);
     }
 
     @Test
     public void executeChangePassword_sameAsOldPassword_errorMessage() throws Exception {
         String expectedMessage = EditPasswordCommand.MESSAGE_SAME_AS_OLD_PASSWORD;
-        assertCommandBehavior("editpw default_pw default_pw", expectedMessage
-        );
+        assertCommandBehavior("editpw default_pw default_pw", expectedMessage);
         addressBook.setMasterPassword("new_password");
-        assertCommandBehavior("editpw new_password new_password", expectedMessage
-        );
+        assertCommandBehavior("editpw new_password new_password", expectedMessage);
     }
 
     @Test

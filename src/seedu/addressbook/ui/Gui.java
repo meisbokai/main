@@ -57,6 +57,7 @@ public class Gui {
         return mainWindow;
     }
 
+    /** Create the application icon **/
     private void setUpIcon(Stage stage) {
         final InputStream input = getClass().getResourceAsStream("images/Icon.png");
         final Image image = new Image(input);

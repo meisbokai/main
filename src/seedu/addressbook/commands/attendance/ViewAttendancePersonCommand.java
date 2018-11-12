@@ -8,7 +8,7 @@ import seedu.addressbook.data.person.Person;
 import seedu.addressbook.data.person.UniquePersonList;
 
 /**
- *  Lists down the dates where the person's attendance has been taken.
+ *  Lists all the dates where the person's attendance has been taken.
  */
 public class ViewAttendancePersonCommand extends IndexFormatCommand {
 

@@ -44,8 +44,6 @@ public class AttendanceTest {
 
     @Before
     public void setUp() throws Exception {
-        StorageStub stubFile;
-
         addressBook = new AddressBook();
         ExamBook examBook = new ExamBook();
         StatisticsBook statisticBook = new StatisticsBook();
@@ -53,7 +51,7 @@ public class AttendanceTest {
         // Privilege restrictions are tested separately under PrivilegeTest.
         Privilege privilege = new Privilege(new AdminUser());
 
-        stubFile = new StorageStub(saveFolder.newFile("testStubFile.txt").getPath(),
+        StorageStub stubFile = new StorageStub(saveFolder.newFile("testStubFile.txt").getPath(),
                 saveFolder.newFile("testStubExamFile.txt").getPath(),
                 saveFolder.newFile("testStubStatisticsFile.txt").getPath());
         logic = new Logic(stubFile, addressBook, examBook, statisticBook, privilege);

@@ -10,7 +10,7 @@ import seedu.addressbook.common.Utils;
 import seedu.addressbook.data.exception.DuplicateDataException;
 
 /**
- * A list of exams sorted by their subject names. Does not allow null elements or duplicates.
+ * A list of all exams sorted by the subject names. Does not allow null elements or duplicates.
  *
  * @see Exam#equals(Object)
  * @see Utils#elementsAreUnique(Collection)

@@ -10,7 +10,7 @@ import seedu.addressbook.data.person.ReadOnlyExam;
 import seedu.addressbook.data.person.UniqueExamList.ExamNotFoundException;
 
 /**
- * Deletes a exam identified using its last displayed index from the exam book.
+ * Deletes an exam identified using its last displayed index from the exam book.
  */
 public class DeleteExamCommand extends IndexFormatCommand {
 

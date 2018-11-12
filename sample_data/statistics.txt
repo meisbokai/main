@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<StatisticsBook>
+    <statisticsList>
+        <examName>Math Midterm</examName>
+        <averageScore>50.0</averageScore>
+        <totalExamTakers>1</totalExamTakers>
+        <maxScore>50.0</maxScore>
+        <minScore>50.0</minScore>
+    </statisticsList>
+</StatisticsBook>
+

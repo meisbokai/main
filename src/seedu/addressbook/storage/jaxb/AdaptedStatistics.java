@@ -7,7 +7,7 @@ import seedu.addressbook.data.exception.IllegalValueException;
 import seedu.addressbook.data.person.AssignmentStatistics;
 
 /**
- * JAXB-friendly adapted assignment statistics data holder class.
+ * JAXB-friendly adapted statistics data holder class.
  */
 public class AdaptedStatistics {
     @XmlElement(required = true)

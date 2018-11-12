@@ -148,8 +148,8 @@ public class FormatterTest {
     public void formatAllExam() throws Exception {
         TestDataHelper helper = new TestDataHelper();
         List<Exam> exams = helper.generateExamList(false, true);
-        final String examFormat = " %1$d. %2$sExam: Exam %1$d Subject %1$d 01-02-2018 10:00 12:00 Held in %1$d."
-                + " Takers: 0" + NEWLINE;
+        final String examFormat = " %1$d. %2$sExam: Exam %1$d || Subject: Subject %1$d || Date: 01-02-2018 || "
+                + "Starts: 10:00 || Ends: 12:00 || Details: Held in %1$d || Takers: 0" + NEWLINE;
         String expected = String.format(examFormat, 1, "") + String.format(examFormat, 2, "private ") + " " + NEWLINE;
         assertEquals(expected, Formatter.formatExam(exams));
     }
@@ -158,12 +158,14 @@ public class FormatterTest {
     public void formatExam() throws Exception {
         TestDataHelper helper = new TestDataHelper();
         Exam e1 = helper.generateExam(1, true, 2);
-        String expected = "private Exam: Exam 1 Subject 1 01-02-2018 10:00 12:00 Held in 1. Takers: 2";
+        String expected = "private Exam: Exam 1 || Subject: Subject 1 || Date: 01-02-2018 || "
+            + "Starts: 10:00 || Ends: 12:00 || Details: Held in 1 || Takers: 2";
         assertEquals(expected, Formatter.getPrintableExam(e1.getExamName(), e1.getSubjectName(), e1.getExamDate(),
                 e1.getExamStartTime(), e1.getExamEndTime(), e1.getExamDetails(), e1.getTakers(), e1.isPrivate()));
 
         Exam e2 = helper.generateExam(2, false, 0);
-        expected = "Exam: Exam 2 Subject 2 01-02-2018 10:00 12:00 Held in 2. Takers: 0";
+        expected = "Exam: Exam 2 || Subject: Subject 2 || Date: 01-02-2018 || "
+                + "Starts: 10:00 || Ends: 12:00 || Details: Held in 2 || Takers: 0";
         assertEquals(expected, Formatter.getPrintableExam(e2.getExamName(), e2.getSubjectName(), e2.getExamDate(),
                 e2.getExamStartTime(), e2.getExamEndTime(), e2.getExamDetails(), e2.getTakers(), e2.isPrivate()));
     }

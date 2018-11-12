@@ -10,9 +10,9 @@ import seedu.addressbook.data.person.ReadOnlyExam;
 /**
  * Lists all exams in the exam book to the user.
  */
-public class ExamsListCommand extends Command {
+public class ListExamsCommand extends Command {
 
-    public static final String COMMAND_WORD = "examslist";
+    public static final String COMMAND_WORD = "listexams";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ":\n"
             + "Displays all exams in the exam book as a list with index numbers.\n\t"

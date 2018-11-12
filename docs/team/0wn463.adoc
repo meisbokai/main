@@ -6,14 +6,21 @@
 :stylesDir: ../stylesheets
 
 [discrete]
-== PROJECT: ClassRepO
+== PROJECT: ClassRepo
+
+== Introduction
+This portfolio is meant to document the contributions that I made to this project. This project serves as the platform for undergraduates to apply software engineering principles as part of the module CS2113T provided by the National University of Singapore (NUS). ClassRepo was headed by 5 developers, including myself.
 
 == Overview
 
-ClassRepO is a desktop address book application written in Java that targets secondary schools for usage by their students, tutors and staff. This portfolio is meant to document the contributions that I made to the project.
+ClassRepo is a desktop Java application designed for secondary school students, tutors and staff. It aims to integrate all the functionalities that each user may require during their time in school. +
+
+Functionalities include organising of person data, exams, grades, attendance and fees. Also, a feature to restrict users based on user type is also implemented. +
+
+With the above, this application achieves its goal of increasing efficiency data handling and improving the ease of access to information.
 
 == Roles
-Under this project, I serve as the Project Lead, monitoring the merger of Pull Requests and ensuring the master branch is clean and free of bugs. I also took it upon myself to set up the project's environment (tools and improved codebase), so that the other members of the team can have a easier time developing this product. 
+Under this project, I serve as the Project Lead, monitoring the merger of Pull Requests and ensuring the master branch is clean and free of bugs. I also took it upon myself to set up the project's environment (tools and improved codebase), so that the other team members have an easier time developing this product. 
 
 == Summary of contributions
 
@@ -24,14 +31,14 @@ Available https://nuscs2113-ay1819s1.github.io/dashboard/#=undefined&search=0wn4
 
 ==== *Privilege* and *Account Features*
 
-* What it does: Restricts available user interactions based on what privilege level they are currently hold. Accounts allow users to authenticate themselves so as to access more commands.
-* Justification: This feature helps fufil the requirement of having different types of user interacting with the system. Thus, laying down some form of structure within the system, giving the users access only to the commands that they will need.
+* What it does: The privilege feature restricts available user interactions based on what privilege level they are currently hold. In addition, the account feature allow users to authenticate themselves and raise their privilege level so as to access more commands.
+* Justification: This feature helps fufil the requirement of having different types of user interacting with the system. Thus, setting up the structure within the system by giving access only to the commands the user will need.
 * Highlights: This feature weaves itself into all the commands implemented, which demands careful modification to each of them as to ensure no bugs arise from regression.
 
 === *Other contributions*:
 
 . Project management:
-* In charged of merging pull requests and ensuring passing builds in master branch
+* In charge of merging pull requests and ensuring passing builds in master branch
 * Managed releases `v1.2.1`, `v1.3`,`v1.3.1` and `v1.4` (4 releases) on GitHub
 * Set up several Dev Ops application
 ** Gradle (Build Automaton adapted from AB4)

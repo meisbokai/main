@@ -47,17 +47,15 @@ public class AccountTest {
      */
     @Rule
     public TemporaryFolder saveFolder = new TemporaryFolder();
-
     private AddressBook addressBook = new AddressBook();
     private Privilege privilege;
     private Logic logic;
 
     @Before
     public void setUp() throws Exception {
-        StorageStub stubFile;
         ExamBook examBook = new ExamBook();
         StatisticsBook statisticsBook = new StatisticsBook();
-        stubFile = new StorageStub(saveFolder.newFile("testStubFile.txt").getPath(),
+        StorageStub stubFile = new StorageStub(saveFolder.newFile("testStubFile.txt").getPath(),
                 saveFolder.newFile("testStubExamFile.txt").getPath(),
                 saveFolder.newFile("testStubStatisticsFile.txt").getPath());
 
@@ -79,8 +77,7 @@ public class AccountTest {
     @Test
     public void executeAddAccount_invalidArgument_invalidMessageShown() throws Exception {
         assertCommandBehavior("addacc",
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddAccountCommand.MESSAGE_USAGE)
-        );
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddAccountCommand.MESSAGE_USAGE));
     }
 
     @Test
@@ -92,8 +89,7 @@ public class AccountTest {
             "addacc 2 username password TUTOR TrailingArgument"};
         for (String input : inputs) {
             assertCommandBehavior(input,
-                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddAccountCommand.MESSAGE_USAGE)
-            );
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddAccountCommand.MESSAGE_USAGE));
         }
     }
 
@@ -194,7 +190,6 @@ public class AccountTest {
         }
     }
 
-
     @Test
     public void executeAddAccount_validInput_success() throws Exception {
         TestDataHelper helper = new TestDataHelper();
@@ -241,13 +236,13 @@ public class AccountTest {
     @Test
     public void executeDeleteAccount_invalidArgsFormat_invalidMessageShown() throws Exception {
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteAccountCommand.MESSAGE_USAGE);
-        assertCommandBehavior("delacc ", expectedMessage);
-        assertCommandBehavior("delacc arg not number", expectedMessage);
+        assertCommandBehavior("deleteacc ", expectedMessage);
+        assertCommandBehavior("deleteacc arg not number", expectedMessage);
     }
 
     @Test
     public void executeDeleteAccount_invalidIndex_invalidIndexMessageShown() throws Exception {
-        assertInvalidIndexBehaviorForCommand("delacc");
+        assertInvalidIndexBehaviorForCommand("deleteacc");
     }
 
     @Test
@@ -263,7 +258,7 @@ public class AccountTest {
         addressBook.removePerson(p2);
         expected.removePerson(expectedP2);
 
-        assertCommandBehavior("delacc 2",
+        assertCommandBehavior("deleteacc 2",
                 MESSAGE_PERSON_NOT_IN_ADDRESSBOOK,
                 expected,
                 false,
@@ -278,7 +273,7 @@ public class AccountTest {
         TestDataHelper.ThreePersons threePersons = helper.generateThreePersons();
 
         setUpThreePerson(addressBook, expected, logic, threePersons);
-        assertCommandBehavior("delacc 2",
+        assertCommandBehavior("deleteacc 2",
                 DeleteAccountCommand.MESSAGE_PERSON_ACCOUNT_ABSENT,
                 expected,
                 false,
@@ -300,7 +295,7 @@ public class AccountTest {
         final Person self = threePersons.getActualPerson(1);
         privilege.setMyPerson(self);
 
-        assertCommandBehavior("delacc 1",
+        assertCommandBehavior("deleteacc 1",
                 DeleteAccountCommand.MESSAGE_DELETING_SELF,
                 expected,
                 false,
@@ -321,7 +316,7 @@ public class AccountTest {
         final Person p2 = threePersons.getActualPerson(2);
         p2.setAccount(new Account("user2", "pw2", "basic"));
 
-        assertCommandBehavior("delacc 2",
+        assertCommandBehavior("deleteacc 2",
                 String.format(DeleteAccountCommand.MESSAGE_DELETE_ACCOUNT_PERSON_SUCCESS, p2.getName()),
                 expected,
                 true,
@@ -403,10 +398,10 @@ public class AccountTest {
         p1.setAccount(new Account("username", "password", "Tutor"));
         addressBook.addPerson(p1);
 
-        final AddressBook expectedAddressbook = new AddressBook();
+        final AddressBook expectedAddressBook = new AddressBook();
         Person expectedP1 = helper.generatePerson(1, false);
         expectedP1.setAccount(new Account("username", "password", "Tutor"));
-        expectedAddressbook.addPerson(expectedP1);
+        expectedAddressBook.addPerson(expectedP1);
 
         final String expectedMessage = MESSAGE_WRONG_NUMBER_ARGUMENTS;
         final PrivilegeLevel initialPrivilege = privilege.getUser().getPrivilegeLevel();
@@ -415,7 +410,7 @@ public class AccountTest {
 
         assertCommandBehavior("login username",
                 String.format(expectedMessage, requiredArguments, actualArguments, LoginCommand.MESSAGE_USAGE),
-                expectedAddressbook,
+                expectedAddressBook,
                 false,
                 Collections.emptyList(),
                 false);
@@ -423,7 +418,7 @@ public class AccountTest {
         actualArguments = 1;
         assertCommandBehavior("login password",
                 String.format(expectedMessage, requiredArguments, actualArguments, LoginCommand.MESSAGE_USAGE),
-                expectedAddressbook,
+                expectedAddressBook,
                 false,
                 Collections.emptyList(),
                 false);
@@ -431,7 +426,7 @@ public class AccountTest {
         actualArguments = 3;
         assertCommandBehavior("login username password extra_argument",
                 String.format(expectedMessage, requiredArguments, actualArguments, LoginCommand.MESSAGE_USAGE),
-                expectedAddressbook,
+                expectedAddressBook,
                 false,
                 Collections.emptyList(),
                 false);

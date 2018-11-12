@@ -189,7 +189,7 @@ The Privilege feature aims to only restrict the user's to their allowed commands
 The figure below shows the class diagram describing the implementation of the Privilege/Account feature.
 [[fig-PrivilegeDiagram]]
 .Class Diagram of the Privilege Component
-image::Privilege.png[width="600"]
+image::PrivilegeClassDiagram.png[width="600"]
 
 ==== Current Implementation
 
@@ -1325,7 +1325,7 @@ These instructions only provide a starting point for testers to work on; testers
 .. Edit a field of a person such that it is invalid, eg. the field of `phone` is changed to `notANumber`.
 .. Run the application again. +
    Expected: The application is unable to be opened. Refer to the `log.txt` in the base folder to check for the error message, which should indicate an error for the phone number.
-.. Other similar edits can be made to `exams.txt` and statistics.txt` to try. +
+.. Other similar edits can be made to `exams.txt` and `statistics.txt` to try. +
    Expected: Similar to previous.      
 
 . _{explain how to simulate a missing/corrupted file and the expected behaviour}_
@@ -1334,8 +1334,8 @@ _{ more test cases ... }_
 
 === Instructions for Manual Testing
 
-. Dealing with missing/corrupted data files
+. Loading of sample data into program
 
-.. _{explain how to simulate a missing/corrupted file and the expected behaviour}_
-
-_{ more test cases ... }_
+.. Move the `jar` file into the working directory.
+.. Copy the sample data from the link:{repoURL}/sample_data[GitHub Repo] into the working directory.
+.. Launch the `jar` file. Type `list` into the CLI to confirm that the data is loaded into the system.

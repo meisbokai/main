@@ -282,9 +282,9 @@ Example(s):
 Adds an account with the username of `JohnDoe1337`, password of `P455W0RD` and privilege level of `Admin`
 to the first person in the list.
 
-==== Delete the account of a person: `delacc` image:Admin.png[16,16]
+==== Delete the account of a person: `deleteacc` image:Admin.png[16,16]
 Deletes the account of the target person. +
-Format: `delacc INDEX`
+Format: `deleteacc INDEX`
 
 ****
 Deletes the account of the person with INDEX as specified by the last shown list.
@@ -293,7 +293,7 @@ Deletes the account of the person with INDEX as specified by the last shown list
 Example(s):
 
 * `list`  +
-`delacc 1` +
+`deleteacc 1` +
 Deletes the account of the first person in the list, provided that he has an account.
 
 ==== Login to an account: `login` image:Basic.png[16,16]
@@ -349,6 +349,11 @@ Example(s):
 
 * `addexam pe/2017 English Finals Paper 2 s/English d/01-12-2017 st/08:00 et/10:00 dt/No Pencils Allowed`
 
+==== Listing all exams : `listexams` image:Tutor.png[16,16]
+
+Shows a list of all exams in the exam book. +
+Format: `listexams`
+
 ==== Deleting an exam : `deleteexam` image:Tutor.png[16,16]
 Deletes the specified exam from the exam book. Irreversible. Persons registered for the corresponding exam will have the exam deleted as well. +
 Format: `deleteexam INDEX`
@@ -360,7 +365,7 @@ The index refers to the index number shown in the most recent exams listing.
 
 Example(s):
 
-* `examslist` +
+* `listexams` +
 `deleteexam 2` +
 Deletes the 2nd exam in the exam book.
 
@@ -381,16 +386,11 @@ PRIVATE_STATUS is denoted by `y` for private and `n` for non-private.
 
 Example(s):
 
-* `examslist` +
+* `listexams` +
 `editexam 2 p/y e/English 2018 Finals dt/In MPSH`
 
-* `examslist` +
+* `listexams` +
 `editexam 1 dt/Cancelled`
-
-==== Listing all exams : `examslist` image:Tutor.png[16,16]
-
-Shows a list of all exams in the exam book. +
-Format: `examslist`
 
 ==== Registering for an exam : `regexam` image:Tutor.png[16,16]
 
@@ -411,7 +411,7 @@ Exams registered for a person will not be shown in the `list` command and only v
 
 Example(s):
 
-* `examslist` +
+* `listexams` +
 `list` +
 `regexam 2 2` +
 Registers the 2nd person in the address book for the 2nd exam in the exam book.
@@ -429,7 +429,7 @@ The `EXAM_INDEX` refers to the index number shown in the most recent exams listi
 
 Example(s):
 
-* `examslist` +
+* `listexams` +
 `list` +
 `deregexam 2 2` +
 Deregisters the 2nd person in the address book for the 2nd exam in the exam book.
@@ -447,7 +447,7 @@ The index refers to the index number shown in the most recent persons listing.
 [NOTE]
 =====
 This command will work for all `INDEX` only when the user is of `Tutor` and `Admin` privileges. +
-If the user has `no` privileges, the user `must` be logged into an account and can execute the command to view `only` his own `non-private exams`.
+If the user has no privileges, the user must be logged into an account and can execute the command to view only his own non-private exams.   
 =====
 
 Example(s):
@@ -610,17 +610,15 @@ Format: `addgrades PERSON_INDEX ASSESSMENT_INDEX GRADES`
 ****
 Words in `UPPER_CASE` are the parameters. There are three parameters for this command, which are the index of the person
 or student, index of the appropriate assessment and the grades themselves. +
-1. Grades are numeric +
-2. Grade values can only be positive integers (>= 0) +
-3. No restriction on the upper limit! It is up to the teacher to decide what the total marks are. +
-4. In case of any mistake in the entry or necessity to update grade, you can overwrite a previously entered value by
+1. No restriction on upper limit! It is up to the teacher to decide what the total marks are. +
+2. In case of any mistake in the entry or necessity to update grade, you can overwrite a previously entered value by
 simply using the same function again! +
 `addgrades PERSON_INDEX ASSESSMENT_INDEX UPDATED_GRADES`
 ****
 
 [NOTE]
 ====
-*NOTE*: You MUST list all persons and assessments first before using this command! +
+You must list all persons and assessments first before using this command! +
 i.e. Indices are selected after first carrying out the `list` and `listassess` commands respectively
 ====
 
@@ -647,7 +645,7 @@ Example(s):
 The results will be displayed as a list of assessments the student has taken and their corresponding grades.
 
 ==== Deleting a grade : `deletegrades` image:Tutor.png[16,16]
-Deletes the specified assessment and respective grades of a student. It is irreversible. +
+Deletes the specified assessment and respective grades of a particular student. It is irreversible. +
 Format: `deletegrades PERSON_INDEX ASSESSMENT_INDEX`
 
 ****
@@ -666,9 +664,7 @@ Example(s):
 `listassess` +
 `deletegrades 1 2` +
 `listassess` -- Check the updated list +
-Deletes the grades corresponding to the 2nd assessment in the address book for the student at index 1 in the address book. +
-*IMPORTANT NOTE*: This does not delete grades for the second assessment as per the listing in view grades command, rather
-for the assessment in the second index as seen in list assess command.
+Deletes the grades corresponding to the 2nd assessment in the address book for the student at index 1 in the address book.
 
 ==== Adding a statistic : `addstatistics` image:Tutor.png[16,16]
 

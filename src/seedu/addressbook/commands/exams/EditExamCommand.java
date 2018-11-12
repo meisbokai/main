@@ -35,6 +35,8 @@ public class EditExamCommand extends IndexFormatCommand {
     public static final String MESSAGE_DUPLICATE_EXAM = "This exam already exists in the exam book!";
     public static final String MESSAGE_PRIVATE_CONSTRAINTS =
             "PRIVATE_STATUS is denoted by \"y\" or \"n\" only.";
+    private static final String PRIVATE_WORD = "y";
+    private static final String PUBLIC_WORD = "n";
 
     private Map<ExamField, String> changedDetails;
 
@@ -135,7 +137,7 @@ public class EditExamCommand extends IndexFormatCommand {
                 examDetails = newValue.trim();
             } else if (ExamField.isPrivate.equals(attribute)) {
                 if (isPrivateValid(newValue.trim())) {
-                    isPrivate = "y".equals(newValue.trim());
+                    isPrivate = PRIVATE_WORD.equals(newValue.trim());
                 } else {
                     throw new IllegalValueException(MESSAGE_PRIVATE_CONSTRAINTS);
                 }
@@ -150,7 +152,7 @@ public class EditExamCommand extends IndexFormatCommand {
      */
     private static boolean isPrivateValid(String value) {
         boolean isValid = true;
-        if (value != null && !"y".equals(value.trim()) && !"n".equals(value.trim())) {
+        if (value != null && !PRIVATE_WORD.equals(value) && !PUBLIC_WORD.equals(value)) {
             isValid = false;
         }
         return isValid;

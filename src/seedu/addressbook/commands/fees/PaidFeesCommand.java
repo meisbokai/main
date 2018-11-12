@@ -15,7 +15,7 @@ import seedu.addressbook.data.tag.Tag;
 import seedu.addressbook.formatter.PersonListFormat;
 
 /**
- * Remove due fees from a respective person
+ * Removes the due fees from a respective person
  */
 public class PaidFeesCommand extends IndexFormatCommand {
     public static final String COMMAND_WORD = "paidfees";

@@ -76,7 +76,7 @@ public abstract class Command {
     }
 
     /**
-     * Constructs a feedback message to summarise an operation that displayed a listing of persons.
+     * Constructs a feedback message to summarise an operation that displayed a listing of fees.
      *
      * @param feesList used to generate summary
      * @return summary message for persons displayed

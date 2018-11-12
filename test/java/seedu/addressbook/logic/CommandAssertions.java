@@ -154,7 +154,7 @@ public class CommandAssertions {
      *      - the internal address book data are same as those in the {@code expectedAddressBook} <br>
      *      - the internal 'last shown list' matches the {@code lastShownList} <br>
      *
-     *      if the command will write to file
+     *      if the command is mutating
      *      - the storage file content matches data in {@code expectedAddressBook} <br>
      */
     public static void assertCommandBehavior(String inputCommand,
@@ -253,8 +253,8 @@ public class CommandAssertions {
      *      - the internal exam book data are same as those in the {@code expectedExamBook} <br>
      *      - the internal 'last shown list' matches the {@code lastShownList} <br>
      *
-     *      if storage after execution is to be tested
-     *      - the storage file content matches data in {@code expectedExamBook} <br>
+     *      if the command is exam-mutating
+     *      - the storage exam file content matches data in {@code expectedExamBook} <br>
      */
     public static void assertCommandBehavior(String inputCommand,
                                              String expectedStatusMessage,
@@ -288,7 +288,7 @@ public class CommandAssertions {
      * also confirms that the following two parts of the Logic object's state are as expected:<br>
      *      - the internal statistics book data are same as those in the {@code expectedStatisticsBook} <br>
      *
-     *      if storage after execution is to be tested
+     *      if the command is mutating
      *      - the storage file content matches data in {@code expectedStatisticsBook} <br>
      */
     public static void assertCommandBehavior(String inputCommand,
@@ -320,7 +320,7 @@ public class CommandAssertions {
      *     - the internal 'last shown list' matches the {@code lastShownList} <br>
      *     - the internal 'last shown exam list' matches the {@code lastShownExamList} <br>
      *
-     *     if storage after execution is to be tested
+     *     if the command is mutating and exam-mutating
      *     - the storage file content matches data in {@code expectedAddressBook} <br>
      *     - the storage exam file content matches data in {@code expectedExamBook} <br>
      */
@@ -431,7 +431,7 @@ public class CommandAssertions {
      *              Expected ExamBook is empty
      *              No relevant persons expected
      *              Last shown list is empty
-     *              Is not mutating
+     *              Is not exam-mutating
      * @see #assertCommandBehavior(String, String, ExamBook, boolean, List, boolean)
      */
     public static void assertCommandBehaviorForExam(String inputCommand, String expectedMessage) throws Exception {
@@ -447,7 +447,7 @@ public class CommandAssertions {
      *              Expected ExamBook is empty
      *              No relevant persons expected
      *              Last shown list does not change
-     *              Is not mutating
+     *              Is not exam-mutating
      * @param commandWord to test assuming it targets a single exam in the last shown list based on visible index.
      */
     public static void assertInvalidIndexBehaviorForExamCommand(String commandWord) throws Exception {

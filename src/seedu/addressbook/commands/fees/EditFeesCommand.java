@@ -14,7 +14,7 @@ import seedu.addressbook.data.person.Person;
 import seedu.addressbook.data.person.UniquePersonList.PersonNotFoundException;
 
 /**
- * Adds fees to a respective person
+ * Edits the fees of an existing person in the addressbook
  */
 public class EditFeesCommand extends IndexFormatCommand {
     public static final String COMMAND_WORD = "editfees";

@@ -11,7 +11,7 @@ import seedu.addressbook.common.Utils;
 import seedu.addressbook.data.exception.DuplicateDataException;
 
 /**
- * A list of statistics per assignment. Does not allow null elements or duplicates.
+ * A list of statistics. Does not allow null elements or duplicates.
  *
  * @see AssignmentStatistics#equals(Object)
  * @see Utils#elementsAreUnique(Collection)
@@ -36,12 +36,12 @@ public class UniqueStatisticsList implements Iterable<AssignmentStatistics> {
     public static class StatisticsNotFoundException extends Exception {}
 
     /**
-     * Constructs empty result list.
+     * Constructs empty statistics list.
      */
     public UniqueStatisticsList() {}
 
     /**
-     * Constructs a result list with the given statistics.
+     * Constructs a statistics list with the given statistics.
      */
     public UniqueStatisticsList(AssignmentStatistics... statistics) throws DuplicateStatisticsException {
         final List<AssignmentStatistics> initialTags = Arrays.asList(statistics);
@@ -80,14 +80,14 @@ public class UniqueStatisticsList implements Iterable<AssignmentStatistics> {
     }
 
     /**
-     * Checks if the list contains an equivalent statistics as the given argument.
+     * Checks if the list contains an equivalent statistic as the given argument.
      */
     public boolean contains(AssignmentStatistics toCheck) {
         return internalList.contains(toCheck);
     }
 
     /**
-     * Adds a result to the list.
+     * Adds a statistic to the list.
      *
      * @throws DuplicateStatisticsException if the statistic to add is a duplicate of an existing statistic in the list.
      */

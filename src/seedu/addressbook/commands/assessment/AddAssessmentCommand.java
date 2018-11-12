@@ -10,14 +10,14 @@ import seedu.addressbook.data.person.Assessment;
 import seedu.addressbook.data.person.UniqueAssessmentsList;
 
 /**
- * Adds a person to the address book.
+ * Adds a new assessment to the address book.
  */
 public class AddAssessmentCommand extends Command {
 
     public static final String COMMAND_WORD = "addassess";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ":\n" + "Adds an assessment to the address book. "
-            + "Parameters: EXAM_NAME ...\n\t"
+            + "Parameters: ASSESSMENT_NAME\n\t"
             + "Example: " + COMMAND_WORD
             + " Math Midterm";
 
