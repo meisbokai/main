@@ -1218,6 +1218,68 @@ Use case ends.
 +
 Use case ends.
 
+[discrete]
+=== Use case: Taking attendance for student
+[discrete]
+==== Actor: Tutor
+<<mss, *MSS*>>
+
+1.  User requests to list people.
+2.  ClassRepo shows a list of people.
+3.  User request to update attendance of person with index x +
+4.  ClassRepo shows attendance of person with index x is updated +
+5.  User requests to change attendance of person with index x +
+6.  ClassRepo shows attendance of person with index x is replaced +
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 3a. User provided the invalid index. +
+** 3a1. ClassRepo shows an error message. +
+Use case ends.
+[none]
+* 3b. Person with index x already has attendance. +
+** 3b1. ClassRepo shows an error message and suggests to use replaceAtten command. +
+Use case ends.
+[none]
+* 5a. User provided the invalid index. +
+** 5a1. ClassRepo shows an error message. +
+Use case ends.
+[none]
+* 5b. Person with index x does not have existing attendance. +
+** 5b1. ClassRepo shows an error message and suggests to use attendance command. +
+Use case ends.
+
+[discrete]
+=== Use case: Viewing of attendance
+[discrete]
+==== Actor: Tutor
+<<mss, *MSS*>>
+
+1.  User requests to view attendance of person with index x +
+2.  ClassRepo shows attendance of person with index x +
+3.  User request to view attendances of people for date y +
+4.  ClassRepo shows list of people who are present and absent for date y +
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 1a. User provided the invalid index. +
+** 1a1. ClassRepo shows an error message. +
+Use case ends.
+[none]
+* 3a. User provided the invalid index. +
+** 3a1. ClassRepo shows an error message. +
+Use case ends.
+[none]
+* 4b. User input invalid date. +
+** 4b1. ClassRepo shows an error message. +
+Use case ends.
+
 _{More to be added}_
 
 +++ </div></details> +++
