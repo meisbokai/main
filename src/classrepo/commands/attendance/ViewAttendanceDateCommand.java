@@ -24,7 +24,8 @@ public class ViewAttendanceDateCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD + ":\n"
             + "Views the attendance of the date. \n"
             + "Parameters: d/DATE \n"
-            + "\tExample: " + COMMAND_WORD + " " + "d/28-10-2018";
+            + "\tExample: " + COMMAND_WORD + " " + "d/28-10-2018\n"
+            + "\tTo input today's date, input d/0";
     public static final String MESSAGE_SUCCESS = "Attendance for the given date, ";
 
     private String date;
