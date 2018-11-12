@@ -1620,7 +1620,7 @@ The master password for the `raise` commamd is `default_pw`.
 .. Prerequisites: List all persons using the `list` command. Multiple persons in the list. Logged in as tutor/admin. No attendance for the person has been taken.
 .. Test case: `viewAttenPerson 1` +
    Expected: Person has no attendance. Status console shows success message. Output console shows nil and nil.
-.. Prerequisites: List all persons using the `list` command. Multiple persons in the list. Logged in as tutor/admin.
+.. Prerequisites: List all persons using the `list` command. Multiple persons in the list. Logged in as tutor/admin. Attendance for person has been taken. 
 .. Test case: `viewAttenPerson 1`. +
    Expected: Attendance is updated for person. Status console show success message. Output console shows the list of attendance.
 
