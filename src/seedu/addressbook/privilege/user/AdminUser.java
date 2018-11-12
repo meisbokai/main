@@ -6,7 +6,10 @@ import java.util.List;
 import seedu.addressbook.commands.Command;
 import seedu.addressbook.commands.account.AddAccountCommand;
 import seedu.addressbook.commands.account.DeleteAccountCommand;
+import seedu.addressbook.commands.exams.AddExamCommand;
 import seedu.addressbook.commands.exams.ClearExamsCommand;
+import seedu.addressbook.commands.exams.DeleteExamCommand;
+import seedu.addressbook.commands.exams.EditExamCommand;
 import seedu.addressbook.commands.fees.EditFeesCommand;
 import seedu.addressbook.commands.fees.PaidFeesCommand;
 import seedu.addressbook.commands.person.AddCommand;
@@ -29,7 +32,10 @@ public class AdminUser extends TutorUser {
             new PaidFeesCommand(),
             new SetPermanentAdminCommand(),
             new AddAccountCommand(),
-            new DeleteAccountCommand()
+            new DeleteAccountCommand(),
+            new AddExamCommand(),
+            new DeleteExamCommand(),
+            new EditExamCommand()
     );
 
     public AdminUser() {
