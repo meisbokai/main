@@ -528,7 +528,7 @@ Example(s):
 Views fees of the 2nd person in the address book.
 
 * `find Betsy` +
-`viewall 1` +
+`viewfees 1` +
 Views fees of the 1st person in the results of the `find` command.
 
 ==== List all fees of every person : `listfees` image:Tutor.png[16,16]
