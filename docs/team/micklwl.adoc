@@ -40,10 +40,12 @@ I served as the project’s bug tester, to ensure that each feature added will b
 ** Contributions to project documentation:
 *** Helped to port over and adapted AddressBook - Level 4 documents to ensure working links for website: https://github.com/CS2113-AY1819S1-F10-1/main/pull/156[#156], https://github.com/CS2113-AY1819S1-F10-1/main/pull/206[#206]
 *** Standardised format for documentation: https://github.com/CS2113-AY1819S1-F10-1/main/pull/184[#184]
+*** Helped to update the AboutUs page: https://github.com/CS2113-AY1819S1-F10-1/main/pull/185[#185]
 ** Evidence of helping others:
 *** PRs reviewed (with non-trivial review comments): https://github.com/CS2113-AY1819S1-F10-1/main/pull/68[#68]
+*** Helped to write tests for others and increase coverage: https://github.com/CS2113-AY1819S1-T16-4/main/pull/284[#284]
 *** Manually tested all features in my team's application and reported any issues: https://github.com/CS2113-AY1819S1-F10-1/main/issues/161[#161], https://github.com/CS2113-AY1819S1-F10-1/main/issues/173[#173], https://github.com/CS2113-AY1819S1-F10-1/main/issues/246[#246], https://github.com/CS2113-AY1819S1-F10-1/main/issues/269[#269]
-*** Manually tested other teams' applications and reported any issues: https://github.com/CS2113-AY1819S1-T16-4/main/issues/192[#192], https://github.com/CS2113-AY1819S1-T16-4/main/issues/197[#197]  
+*** Manually tested other teams' applications and reported any issues: https://github.com/CS2113-AY1819S1-T16-4/main/issues/192[#192], https://github.com/CS2113-AY1819S1-T16-4/main/issues/197[#197], https://github.com/CS2113-AY1819S1-T16-4/main/issues/203[#203], https://github.com/CS2113-AY1819S1-T16-4/main/issues/211[#211]  
 
 == Contributions to the User Guide
 
