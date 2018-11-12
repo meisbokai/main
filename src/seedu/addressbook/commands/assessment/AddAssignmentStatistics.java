@@ -31,10 +31,6 @@ public class AddAssignmentStatistics extends IndexFormatCommand {
 
     private AssignmentStatistics toAdd;
 
-    public AssignmentStatistics getAssignmentStatistics() {
-        return toAdd;
-    }
-
     @Override
     public CommandResult execute() {
         try {
