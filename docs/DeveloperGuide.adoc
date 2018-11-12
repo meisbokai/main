@@ -1009,18 +1009,22 @@ Use case ends.
 
 [none]
 * 2a. The list is empty. +
++
 Use case ends.
 [none]
 * 3a. User is not a Tutor/Admin and is not logged in. +
 ** 3a1. ClassRepo shows an error message. +
++
 Use case ends.
 [none]
 * 3b. User is logged in as a Student and tries to view the exams of other students. +
 ** 3b1. ClassRepo shows an error message. +
++
 Use case ends.
 
 * 4a. User is logged in as a Student and tries to view his own exams. +
 ** 4a1. ClassRepo shows a list of his non-private exams. +
++
 Use case ends.
 
 
@@ -1029,8 +1033,8 @@ Use case ends.
 
 <<mss, *MSS*>>
 
-1.  User requests to view his own details
-2.  ClassRepo shows the details of the person associated with the logged-in account
+1.  User requests to view his own details +
+2.  ClassRepo shows the details of the person associated with the logged-in account +
 +
 Use case ends.
 
@@ -1039,16 +1043,17 @@ Use case ends.
 [none]
 * 1a. User is not logged in +
 ** 1a1. ClassRepo displays an error message. +
++
 Use case ends.
 
 [discrete]
 === Use case: Raise privilege to Admin
 <<mss, *MSS*>>
 
-1. User requests to increase his privilege
-2. ClassRepo requests authentication password
-3. User enters password
-4. ClassRepo increases the user's privileges to Admin
+1. User requests to increase his privilege +
+2. ClassRepo requests authentication password +
+3. User enters password +
+4. ClassRepo increases the user's privileges to Admin +
 +
 Use case ends.
 
@@ -1074,7 +1079,7 @@ Use case ends
 3. User enters the current password
 4. ClassRepo requests the new password
 5. User enters the new password
-6. ClassRepo changes the password to the new one
+6. ClassRepo changes the password to the new one +
 +
 Use case ends.
 
@@ -1095,39 +1100,33 @@ User case resumes from step 4
 ==== Actor: Admin
 <<mss, *MSS*>>
 
-1.  User requests to list persons
-2.  AddressBook shows a list of persons
-3.  User requests to add an account to a target person
-4.  ClassRepo adds the account to the person
+1.  User requests to list persons +
+2.  AddressBook shows a list of persons +
+3.  User requests to add an account to a target person +
+4.  ClassRepo adds the account to the person +
 +
 Use case ends.
 
 *Extensions*
 
 [none]
-* 2a. The list is empty.
+* 2a. The list is empty. +
 +
 Use case ends.
 
-* 3a. The given index is invalid.
-+
+* 3a. The given index is invalid. +
 [none]
-** 3a1. AddressBook shows an error message.
-+
+** 3a1. AddressBook shows an error message. +
 Use case resumes at step 2.
 
-* 3b. The account format is invalid.
-+
+* 3b. The account format is invalid. +
 [none]
-** 3b1. AddressBook shows an error message.
-+
+** 3b1. AddressBook shows an error message. +
 Use case resumes at step 2.
 
-* 3c. The target person has an existing account.
-+
+* 3c. The target person has an existing account. +
 [none]
-** 3c1. AddressBook shows an error message.
-+
+** 3c1. AddressBook shows an error message. +
 Use case resumes at step 2.
 
 [discrete]
@@ -1140,29 +1139,24 @@ Use case resumes at step 2.
 1.  User requests to list persons
 2.  AddressBook shows a list of persons
 3.  User requests to delete the account belonging to a specific person in the list
-4.  AddressBook deletes the account
+4.  AddressBook deletes the account +
 +
 Use case ends.
 
 *Extensions*
 
 [none]
-* 2a. The list is empty.
-+
+* 2a. The list is empty. +
 Use case ends.
 
-* 3a. The given index is invalid.
-+
+* 3a. The given index is invalid. +
 [none]
-** 3a1. AddressBook shows an error message.
-+
+** 3a1. AddressBook shows an error message. +
 Use case resumes at step 2.
 
-* 3b. Target person does not have an account.
-+
+* 3b. Target person does not have an account. +
 [none]
-** 3b1. AddressBook shows an error message.
-+
+** 3b1. AddressBook shows an error message. +
 Use case resumes at step 2.
 
 [discrete]
@@ -1170,34 +1164,29 @@ Use case resumes at step 2.
 
 <<mss, *MSS*>>
 
-1.  User requests to log in
-2.  AddressBook requests username and password
-3.  User enters username and password
-4.  AddressBook logs the user into the account
+1.  User requests to log in +
+2.  AddressBook requests username and password +
+3.  User enters username and password +
+4.  AddressBook logs the user into the account +
 +
 Use case ends.
 
 *Extensions*
 
 [none]
-* 3a. User provided the wrong number of arguments
-+
+* 3a. User provided the wrong number of arguments +
 [none]
-** 3a1. AddressBook shows an error message.
-+
+** 3a1. AddressBook shows an error message. +
 Use case ends.
 
-* 3b. No existing account has the given username.
-+
+* 3b. No existing account has the given username. +
 [none]
-** 3b1. AddressBook shows an error message.
-+
+** 3b1. AddressBook shows an error message. +
 Use case ends.
 
-* 3c. The password does not match the existing account with the given username.
-+
+* 3c. The password does not match the existing account with the given username. +
 [none]
-** 3c1. AddressBook shows an error message.
+** 3c1. AddressBook shows an error message. +
 +
 Use case ends.
 
@@ -1207,17 +1196,16 @@ Use case ends.
 <<mss, *MSS*>>
 
 1.  User requests to log out
-2.  ClassRepo logs the user out of his account
+2.  ClassRepo logs the user out of his account +
 +
 Use case ends.
 
 *Extensions*
 
 [none]
-* 2. User is not logged in
-+
+* 2. User is not logged in +
 [none]
-** 2a1. AddressBook shows an error message.
+** 2a1. AddressBook shows an error message. +
 +
 Use case ends.
 
@@ -1226,8 +1214,8 @@ Use case ends.
 
 <<mss, *MSS*>>
 
-1.  User requests to view his privilege
-2.  ClassRepo shows the privilege level and the account the user is logged in as
+1.  User requests to view his privilege +
+2.  ClassRepo shows the privilege level and the account the user is logged in as +
 +
 Use case ends.
 
