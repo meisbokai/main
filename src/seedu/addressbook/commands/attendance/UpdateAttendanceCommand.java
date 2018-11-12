@@ -19,7 +19,7 @@ public class UpdateAttendanceCommand extends IndexFormatCommand {
     public static final String COMMAND_WORD = "attendance";
     public static final String MESSAGE_USAGE = COMMAND_WORD + ":\n"
             + "Updates the attendance of a student. \n"
-            + "Parameters: INDEX d/DD-MM-YYYY att/ISPRESENT \n"
+            + "Parameters: INDEX d/DATE att/ISPRESENT \n"
             + "\tExample: " + COMMAND_WORD + " " + "1 d/29-09-2018 att/1 \n"
             + "\tTo input today's date, input d/0";
 
