@@ -58,7 +58,7 @@ public class AddGradesCommand extends IndexFormatCommand {
             return new CommandResult(String.format(MESSAGE_ADD_GRADE_SUCCESS, person.getName(), targetAssess));
 
         } catch (UniquePersonList.PersonNotFoundException pnf) {
-            return new CommandResult(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+            return new CommandResult(Messages.MESSAGE_PERSON_NOT_IN_ADDRESSBOOK);
         } catch (AssessmentIndexOutOfBoundsException aie) {
             return new CommandResult(Messages.MESSAGE_INVALID_ASSESSMENT_DISPLAYED_INDEX);
         } catch (IndexOutOfBoundsException pie) {

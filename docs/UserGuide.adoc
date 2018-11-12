@@ -611,16 +611,10 @@ Format: `addgrades PERSON_INDEX ASSESSMENT_INDEX GRADES`
 Words in `UPPER_CASE` are the parameters. There are three parameters for this command, which are the index of the person
 or student, index of the appropriate assessment and the grades themselves. +
 1. No restriction on upper limit! It is up to the teacher to decide what the total marks are. +
-2. In case of any mistake in the entry or necessity to update grade, you can overwrite a previously entered value by
+2. In case of any mistake in the entry or necessity to update the grade, you can overwrite a previously entered value by
 simply using the same function again! +
 `addgrades PERSON_INDEX ASSESSMENT_INDEX UPDATED_GRADES`
 ****
-
-[NOTE]
-====
-You must list all persons and assessments first before using this command! +
-i.e. Indices are selected after first carrying out the `list` and `listassess` commands respectively
-====
 
 Example(s):
 
@@ -653,11 +647,6 @@ Format: `deletegrades PERSON_INDEX ASSESSMENT_INDEX`
 Deletes grades for the specified `PERSON_INDEX` and their respective assessment at the specified `ASSESSMENT_INDEX`.
 The index refers to the index number shown in the most recent person and assessments listing respectively.
 ****
-
-[NOTE]
-====
-You must first list all persons and assessments before using this command!
-====
 
 Example(s):
 
@@ -851,6 +840,7 @@ a data saving operation. ClassRepo shuts itself down to ensure synchronisation o
 
 == Known Issues
 1. ClassRepo ASCII art may be formatted wrongly on OS's such as Mac.
+image:asciiArt.png[500,500]
 
 == Summary of All Commands
 Commands are sorted in terms of increasing privileges needed to run them.
@@ -882,13 +872,13 @@ Click to Expand
 |listfees |N |Y |Y
 |listdue |N |Y |Y
 |addassess |N |Y |Y
-|listassess |N |Y |Y
+|listassess |Y |Y |Y
 |deleteassess |N |Y |Y
 |addgrades |N |Y |Y
 |viewgrades |N |Y |Y
 |deletegrades |N |Y |Y
 |addstatistics |N |Y |Y
-|liststatistics |N |Y |Y
+|liststatistics |Y |Y |Y
 |deletestatistics |N |Y |Y
 |attendance |N |Y |Y
 |replaceAtten |N |Y |Y

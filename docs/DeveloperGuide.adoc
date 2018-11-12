@@ -306,10 +306,10 @@ and the grades for these assessments being stored in the AddressBook. The curren
 This is the class diagram for the assessments, grades and statistics combined:
 [[fig-AddAssessmentDiagram]]
 .Class Diagram
-image::AssessmentClassDiagram.png[width="800"]
+image::assessmentClassDiagram.png[width="800"]
 
 . A list of unique assessments can be stored in the addressbook.
-. Each assessment object contains a Hashmap, with Person as the Key and Grades as the Value. Hence, the grades of all
+. Each assessment object contains a Hash Map, with Person as the Key and Grades as the Value. Hence, the grades of all
 students for a particular assessment will be stored together in the same HashMap.
 . Each person object (or student) can have a list of assessments and respective grades under it. This makes sense
 logically since a student will have multiple assessments throughout the school year.
@@ -726,6 +726,16 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* * *` |tutor/admin |view the lists of exams|manage the exams
 
+|`* * *` |tutor/admin |add a new assessments | keep track of all assessments conducted in the semester
+
+|`* * *` |student/tutor/admin |view a list of all assessments|know about upcoming assessments and have a record of all past ones as well
+
+|`* * *` |tutor/admin |add grades to a student for a particular assessment | keep track of all grades and update student about their performance
+
+|`* * *` |tutor/admin |add a new statistic | view general performance of students in assessments
+
+|`* * *` |student/tutor/admin |view a list of all statistics|know about performance of students in school examinations
+
 |`* *` |user |view my privilege |know what commands I have access to
 
 |`* *` |user |view my own details |know my details
@@ -1026,6 +1036,135 @@ Use case ends.
 +
 Use case ends.
 
+[discrete]
+=== Use case: Add assessment
+[discrete]
+==== System: ClassRop
+[discrete]
+==== Actor: Tutor, Admin
+<<mss, *MSS*>>
+
+1. User requests to add an assessment.
+2. ClassRepo expects the name of the assessment to add.
+3. User enters the name of the assessment.
+4. ClassRepo adds the assessment to the AddressBook.
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 3a. The details entered are in an invalid format. +
+** 3a1. ClassRepo shows an error message. +
+Use case ends. +
+[none]
+* 3b. The assessment to add already exists in ClassRepo. +
+** 3b1. ClassRepo shows an error message (duplication of assessment). +
+Use case ends.
+
+[discrete]
+=== Use case: Viewing the assessments list
+[discrete]
+==== System: ClassRepo
+[discrete]
+==== Actor: Student, Tutor, Admin
+<<mss, *MSS*>>
+
+1.  User requests to list all assessments.
+2.  ClassRepo displays an indexed list of assessments.
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 2a. The list is empty.
++
+Use case ends.
+
+[discrete]
+=== Use case: Add grades for an assessment
+[discrete]
+==== System: ClassRepo
+[discrete]
+==== Actor: Tutor, Admin
+<<mss, *MSS*>>
+
+1.  User requests to list persons.
+2.  ClassRepo displays an indexed list of all persons in the addressbook.
+3.  User requests to list assessments.
+4.  ClassRepo displays an indexed list of all assessments in the addressbook.
+5.  User requests to add grades to a specific person in the person list for a specific assessment in the assessments list.
+6.  ClassRepo adds the grades to the appropriate person.
+
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 2a. The list is empty. +
+Use case ends.
+[none]
+* 4a. The list is empty. +
+Use case ends.
+[none]
+* 5a. The given person index is invalid. +
+** 5a1. ClassRepo shows an error message. +
+Use case resumes at step 4.
+[none]
+* 5b. The given assessment index is invalid. +
+** 5b1. ClassRepo shows an error message. +
+Use case resumes at step 4.
+* 5c. The given grades value is invalid. +
+** 5b1. ClassRepo shows an error message. +
+Use case resumes at step 4.
+
+[discrete]
+=== Use case: Add statistic
+[discrete]
+==== System: ClassRop
+[discrete]
+==== Actor: Tutor, Admin
+<<mss, *MSS*>>
+
+1. User requests to list assessments.
+2. ClassRepo displays an indexed list of all assessments in the addressbook.
+3. User requests to add a statistic for a specific assessment.
+4. ClassRepo calculates statistics for the assessment and adds it to the list
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 2a. The list is empty. +
+Use case ends.
+[none]
+* 3a. The given assessment index is invalid. +
+** 5a1. ClassRepo shows an error message. +
+Use case resumes at step 2.
+
+
+[discrete]
+=== Use case: Viewing the statistics list
+[discrete]
+==== System: ClassRepo
+[discrete]
+==== Actor: Student, Tutor, Admin
+<<mss, *MSS*>>
+
+1.  User requests to list all statistics.
+2.  ClassRepo displays an indexed list of statistics.
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 2a. The list is empty.
++
+Use case ends.
 
 [discrete]
 === Use case: View the user's own details
@@ -1047,6 +1186,7 @@ Use case ends.
 
 [discrete]
 === Use case: Raise privilege to Admin
+
 <<mss, *MSS*>>
 
 1. User requests to increase his privilege +
@@ -1097,6 +1237,7 @@ User case resumes from step 4
 === Use case: Add account to a person
 [discrete]
 ==== Actor: Admin
+
 <<mss, *MSS*>>
 
 1.  User requests to list persons +
@@ -1289,7 +1430,8 @@ _{More to be added}_
 
 .  Should work on any <<mainstream-os, mainstream OS>> as long as it has Java `9` or higher installed.
 .  Should be able to hold up to 1000 persons without a noticeable sluggishness in performance for typical usage.
-.  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
+.  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be
+able to accomplish most of the tasks faster using commands than using the mouse.
 
 _{More to be added}_
 

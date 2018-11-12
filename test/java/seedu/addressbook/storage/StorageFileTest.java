@@ -54,14 +54,14 @@ public class StorageFileTest {
     public void constructor_nullFilePath_exceptionThrown() throws Exception {
         thrown.expect(NullPointerException.class);
         new StorageFile(null, TEST_DATA_FOLDER + "/" + "examBook.txt",
-                TEST_DATA_FOLDER + "/" + "statistics.txt");
+                TEST_DATA_FOLDER + "/" + "statisticsBook.txt");
     }
 
     @Test
     public void constructor_nullExamFilePath_exceptionThrown() throws Exception {
         thrown.expect(NullPointerException.class);
         new StorageFile(TEST_DATA_FOLDER + "/" + "addressBook.txt", null,
-                TEST_DATA_FOLDER + "/" + "statistics.txt");
+                TEST_DATA_FOLDER + "/" + "statisticsBook.txt");
     }
 
     @Test

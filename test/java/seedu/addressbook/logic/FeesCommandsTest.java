@@ -10,7 +10,9 @@ import static seedu.addressbook.logic.CommandAssertions.assertCommandBehavior;
 import static seedu.addressbook.logic.CommandAssertions.assertInvalidIndexBehaviorForCommand;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -289,7 +291,7 @@ public class FeesCommandsTest {
         logic.setLastShownList(threePersons);
 
         assertCommandBehavior("paidfees 2",
-                String.format(String.format(PaidFeesCommand.MESSAGE_NO_FEES, p2.getAsTextShowOnlyName())),
+                String.format(PaidFeesCommand.MESSAGE_NO_FEES, p2.getAsTextShowOnlyName()),
                 expected,
                 false,
                 threePersons,
@@ -313,6 +315,34 @@ public class FeesCommandsTest {
 
         assertCommandBehavior("paidfees 2",
                 "Fees paid: Person 2\nNo Fees owed!\n",
+                expected,
+                true,
+                threePersons,
+                true);
+    }
+
+    @Test
+    public void executePaidFees_withPersonDue_successfulMessage() throws Exception {
+        TestDataHelper helper = new TestDataHelper();
+        Person p1 = helper.generatePerson(1, false);
+        Fees f1 = helper.makeFees(1);
+        p1.setFees(f1);
+        Set<Tag> temp = new HashSet<>();
+        temp.add(new Tag("feesdue"));
+        p1.setTags(temp);
+        Person p2 = helper.generatePerson(2, true);
+        Person p3 = helper.generatePerson(3, true);
+
+        List<Person> threePersons = helper.generatePersonList(p1, p2, p3);
+
+        AddressBook expected = helper.generateAddressBook(threePersons);
+        expected.findPerson(p2).setFees(helper.makeFees(1));
+
+        helper.addToAddressBook(addressBook, threePersons);
+        logic.setLastShownList(threePersons);
+
+        assertCommandBehavior("paidfees 1",
+                "Fees paid: Person 1\nNo Fees owed!\n",
                 expected,
                 true,
                 threePersons,
@@ -361,7 +391,7 @@ public class FeesCommandsTest {
         helper.addToAddressBook(addressBook, threePersons);
         logic.setLastShownList(threePersons);
         assertCommandBehavior("viewfees 2",
-                String.format(String.format(MESSAGE_VIEWFEE_PERSON_SUCCESS, p2.getName())),
+                String.format(MESSAGE_VIEWFEE_PERSON_SUCCESS, p2.getName()),
                 p2.getAsTextShowFee(),
                 expected,
                 false,
@@ -372,6 +402,22 @@ public class FeesCommandsTest {
     @Test
     public void executeViewFees_invalidIndex_invalidMessage() throws Exception {
         assertInvalidIndexBehaviorForCommand("viewfees");
+    }
+
+    @Test
+    public void executeViewFees_personMissingInAddressBook_personMissingMessage() throws Exception {
+        TestDataHelper helper = new TestDataHelper();
+        Person p1 = helper.generatePerson(1, false);
+        Person p2 = helper.generatePerson(2, false);
+        List<Person> lastShownList = helper.generatePersonList(p1, p2);
+        logic.setLastShownList(lastShownList);
+        addressBook.addPerson(p1);
+
+        AddressBook expected = new AddressBook();
+        expected.addPerson(p1);
+
+        assertCommandBehavior("viewfees 2", MESSAGE_PERSON_NOT_IN_ADDRESSBOOK,
+                expected, false, lastShownList, false);
     }
 
     @Test

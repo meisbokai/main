@@ -13,7 +13,7 @@ public class Messages {
     public static final String MESSAGE_STATISTIC_NOT_IN_STATISTICSBOOK = "Statistic could not be found in statistics "
             + "book!";
     public static final String MESSAGE_INVALID_STATISTICS_DISPLAYED_INDEX = "The statistics index provided is invalid. "
-            + "Run the list/find command to generate a list of statistics.";
+            + "Run the liststatistics command to generate a list of statistics.";
     public static final String MESSAGE_PERSONS_LISTED_OVERVIEW = "%1$d persons listed!";
     public static final String MESSAGE_PROGRAM_LAUNCH_ARGS_USAGE = "Launch command format: "
             + "java seedu.addressbook.Main [STORAGE_FILE_PATH]";
@@ -33,7 +33,7 @@ public class Messages {
     public static final String MESSAGE_INVALID_EXAM_DISPLAYED_INDEX = "The exam index provided is invalid. "
             + "Run the examslist command to generate a list of exams.";
     public static final String MESSAGE_INVALID_ASSESSMENT_DISPLAYED_INDEX = "The assessment index provided is invalid. "
-            + "Run the list/find command to generate a list of assessments.";
+            + "Run the listassess command to generate a list of assessments.";
     public static final String MESSAGE_ASSESSMENT_NOT_IN_ADDRESSBOOK = "Assessment could not be found in address book!";
     public static final String MESSAGE_ASSESSMENTS_LISTED_OVERVIEW = "%1$d assessments listed!";
     public static final String MESSAGE_DATE_CONSTRAINTS = "Date format should be in DD-MM-YYYY and be valid dates.\n";

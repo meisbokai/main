@@ -43,10 +43,6 @@ public class AddAssessmentCommand extends Command {
         this.toAdd = new Assessment(examName);
     }
 
-    public AddAssessmentCommand(Assessment toAdd) {
-        this.toAdd = toAdd;
-    }
-
     public Assessment getAssessment() {
         return toAdd;
     }

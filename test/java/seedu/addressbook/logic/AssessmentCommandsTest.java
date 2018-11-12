@@ -2,9 +2,11 @@ package seedu.addressbook.logic;
 
 import static seedu.addressbook.common.Messages.MESSAGE_INVALID_ASSESSMENT_DISPLAYED_INDEX;
 import static seedu.addressbook.common.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.addressbook.common.Messages.MESSAGE_INVALID_GRADES;
+import static seedu.addressbook.common.Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX;
 import static seedu.addressbook.common.Messages.MESSAGE_INVALID_STATISTICS_DISPLAYED_INDEX;
+import static seedu.addressbook.common.Messages.MESSAGE_PERSON_NOT_IN_ADDRESSBOOK;
 import static seedu.addressbook.common.Messages.MESSAGE_WRONG_NUMBER_ARGUMENTS;
-
 import static seedu.addressbook.logic.CommandAssertions.assertCommandBehavior;
 import static seedu.addressbook.logic.CommandAssertions.assertCommandBehaviorForExam;
 import static seedu.addressbook.logic.CommandAssertions.assertInvalidIndexBehaviorForCommand;
@@ -52,6 +54,7 @@ public class AssessmentCommandsTest {
     public TemporaryFolder saveFolder = new TemporaryFolder();
     private AddressBook addressBook;
     private Logic logic;
+    private StatisticsBook statisticsBook;
 
     @Before
     public void setUp() throws Exception {
@@ -61,13 +64,13 @@ public class AssessmentCommandsTest {
 
         addressBook = new AddressBook();
         ExamBook examBook = new ExamBook();
-        StatisticsBook statisticBook = new StatisticsBook();
+        statisticsBook = new StatisticsBook();
         // Privilege set to admin to allow all commands.
         // Privilege restrictions are tested separately under PrivilegeTest.
         Privilege privilege = new Privilege(new AdminUser());
 
-        logic = new Logic(stubFile, addressBook, examBook, statisticBook, privilege);
-        CommandAssertions.setData(stubFile, addressBook, logic, examBook, statisticBook);
+        logic = new Logic(stubFile, addressBook, examBook, statisticsBook, privilege);
+        CommandAssertions.setData(stubFile, addressBook, logic, examBook, statisticsBook);
     }
 
     @Test
@@ -186,20 +189,108 @@ public class AssessmentCommandsTest {
     public void executeAddGrades_invalidParsedArgs_invalidCommandMessage() throws Exception {
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddGradesCommand.MESSAGE_USAGE);
 
-        assertCommandBehaviorForExam("addgrades 1 1 not_a_number", expectedMessage);
-        assertCommandBehaviorForExam("addgrades 1 not_a_number 1", expectedMessage);
-        assertCommandBehaviorForExam("addgrades 1 not_a_number not_a_number", expectedMessage);
-        assertCommandBehaviorForExam("addgrades not_a_number 1 1", expectedMessage);
-        assertCommandBehaviorForExam("addgrades not_a_number 1 not_a_number", expectedMessage);
-        assertCommandBehaviorForExam("addgrades not_a_number not_a_number 1", expectedMessage);
-        assertCommandBehaviorForExam("addgrades not_a_number not_a_number not_a_number", expectedMessage);
+        assertCommandBehavior("addgrades 1 1 not_a_number", expectedMessage);
+        assertCommandBehavior("addgrades 1 not_a_number 1", expectedMessage);
+        assertCommandBehavior("addgrades 1 not_a_number not_a_number", expectedMessage);
+        assertCommandBehavior("addgrades not_a_number 1 1", expectedMessage);
+        assertCommandBehavior("addgrades not_a_number 1 not_a_number", expectedMessage);
+        assertCommandBehavior("addgrades not_a_number not_a_number 1", expectedMessage);
+        assertCommandBehavior("addgrades not_a_number not_a_number not_a_number", expectedMessage);
     }
 
     @Test
     public void executeAddGrades_noArgs_invalidCommandMessage() throws Exception {
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddGradesCommand.MESSAGE_USAGE);
-        assertCommandBehaviorForExam("addgrades", expectedMessage);
-        assertCommandBehaviorForExam("addgrades ", expectedMessage);
+        assertCommandBehavior("addgrades", expectedMessage);
+        assertCommandBehavior("addgrades ", expectedMessage);
+    }
+
+    @Test
+    public void executeAddGrades_invalidPersonIndex_invalidIndexMessage() throws Exception {
+        TestDataHelper helper = new TestDataHelper();
+        Assessment a1 = helper.generateAssessment(1);
+        List<Assessment> singleAssessment = helper.generateAssessmentsList(a1);
+        addressBook.addAssessment(a1);
+        logic.setLastShownAssessmentList(singleAssessment);
+
+        Person p1 = helper.generatePerson(1, false);
+        List<Person> personList = helper.generatePersonList(p1);
+        logic.setLastShownList(personList);
+
+        AddressBook expectedBook = new AddressBook();
+        expectedBook.addAssessment(a1);
+
+        assertCommandBehavior("addgrades 5 1 100",
+                MESSAGE_INVALID_PERSON_DISPLAYED_INDEX, "",
+                expectedBook, false, logic.getLastShownList(), false,
+                logic.getLastShownAssessmentList(), false);
+    }
+
+    @Test
+    public void executeAddGrades_invalidAssessmentIndex_invalidAssessmentIndexMessage() throws Exception {
+        TestDataHelper helper = new TestDataHelper();
+        Assessment a1 = helper.generateAssessment(1);
+        List<Assessment> singleAssessment = helper.generateAssessmentsList(a1);
+        addressBook.addAssessment(a1);
+        logic.setLastShownAssessmentList(singleAssessment);
+
+        Person p1 = helper.generatePerson(1, false);
+        List<Person> personList = helper.generatePersonList(p1);
+        logic.setLastShownList(personList);
+        addressBook.addPerson(p1);
+
+        AddressBook expectedBook = new AddressBook();
+        expectedBook.addAssessment(a1);
+        expectedBook.addPerson(p1);
+
+        assertCommandBehavior("addgrades 1 5 100",
+                MESSAGE_INVALID_ASSESSMENT_DISPLAYED_INDEX, "",
+                expectedBook, false, logic.getLastShownList(), false,
+                logic.getLastShownAssessmentList(), false);
+    }
+
+    @Test
+    public void executeAddGrades_invalidGrades_invalidGradesMessage() throws Exception {
+        TestDataHelper helper = new TestDataHelper();
+        Assessment a1 = helper.generateAssessment(1);
+        List<Assessment> singleAssessment = helper.generateAssessmentsList(a1);
+        addressBook.addAssessment(a1);
+        logic.setLastShownAssessmentList(singleAssessment);
+
+        Person p1 = helper.generatePerson(1, false);
+        List<Person> personList = helper.generatePersonList(p1);
+        logic.setLastShownList(personList);
+        addressBook.addPerson(p1);
+
+        AddressBook expectedBook = new AddressBook();
+        expectedBook.addAssessment(a1);
+        expectedBook.addPerson(p1);
+
+        assertCommandBehavior("addgrades 1 1 -20.45",
+                MESSAGE_INVALID_GRADES, "",
+                expectedBook, false, logic.getLastShownList(), false,
+                logic.getLastShownAssessmentList(), false);
+    }
+
+    @Test
+    public void executeAddGrades_personMissing_personMissingMessage() throws Exception {
+        TestDataHelper helper = new TestDataHelper();
+        Assessment a1 = helper.generateAssessment(1);
+        List<Assessment> singleAssessment = helper.generateAssessmentsList(a1);
+        addressBook.addAssessment(a1);
+        logic.setLastShownAssessmentList(singleAssessment);
+
+        Person p1 = helper.generatePerson(1, false);
+        List<Person> personList = helper.generatePersonList(p1);
+        logic.setLastShownList(personList);
+
+        AddressBook expectedBook = new AddressBook();
+        expectedBook.addAssessment(a1);
+
+        assertCommandBehavior("addgrades 1 1 100",
+                MESSAGE_PERSON_NOT_IN_ADDRESSBOOK, "",
+                expectedBook, false, logic.getLastShownList(), false,
+                logic.getLastShownAssessmentList(), false);
     }
 
     @Test
@@ -210,7 +301,7 @@ public class AssessmentCommandsTest {
 
         expectedMessage = String.format(MESSAGE_WRONG_NUMBER_ARGUMENTS, 3, 2,
                 AddGradesCommand.MESSAGE_USAGE);
-        assertCommandBehaviorForExam("addgrades 1 1", expectedMessage);
+        assertCommandBehavior("addgrades 1 1", expectedMessage);
     }
 
     @Test
@@ -252,6 +343,53 @@ public class AssessmentCommandsTest {
     }
 
     @Test
+    public void executeViewGrades_validArgs_success() throws Exception {
+        TestDataHelper helper = new TestDataHelper();
+        Person p1 = helper.generatePerson(1, false);
+        List<Person> personList = helper.generatePersonList(p1);
+        addressBook.addPerson(p1);
+        logic.setLastShownList(personList);
+
+        Grades grade = new Grades(100.00);
+        Assessment a1 = helper.generateAssessment(1);
+        a1.addGrade(p1, grade);
+        List<Assessment> singleAssessment = helper.generateAssessmentsList(a1);
+        addressBook.addAssessment(a1);
+
+        Person p1Expected = helper.generatePerson(1, false, 1, 100);
+        List<Person> personListExpected = helper.generatePersonList(p1Expected);
+        AddressBook expectedBook = helper.generateAddressBook(personListExpected);
+        helper.addAssessmentsToAddressBook(expectedBook, singleAssessment);
+
+        assertCommandBehavior("viewgrades 1",
+                String.format(ViewGradesCommand.MESSAGE_VIEW_GRADES_DETAILS, p1Expected.getAsTextShowAssess()), "",
+                expectedBook, false, logic.getLastShownList(), false,
+                logic.getLastShownAssessmentList(), false);
+    }
+
+    @Test
+    public void executeViewGrades_personMissing_personMissingMessage() throws Exception {
+        TestDataHelper helper = new TestDataHelper();
+        Person p1 = helper.generatePerson(1, false);
+        List<Person> personList = helper.generatePersonList(p1);
+        logic.setLastShownList(personList);
+
+        Grades grade = new Grades(100.00);
+        Assessment a1 = helper.generateAssessment(1);
+        a1.addGrade(p1, grade);
+        List<Assessment> singleAssessment = helper.generateAssessmentsList(a1);
+        addressBook.addAssessment(a1);
+
+        AddressBook expectedBook = new AddressBook();
+        helper.addAssessmentsToAddressBook(expectedBook, singleAssessment);
+
+        assertCommandBehavior("viewgrades 1",
+                MESSAGE_PERSON_NOT_IN_ADDRESSBOOK, "",
+                expectedBook, false, logic.getLastShownList(), false,
+                logic.getLastShownAssessmentList(), false);
+    }
+
+    @Test
     public void executeAddAssignmentStatistics_validArgs_successful() throws Exception {
         // setup expectations
         TestDataHelper helper = new TestDataHelper();
@@ -290,5 +428,48 @@ public class AssessmentCommandsTest {
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, ListStatisticsCommand.MESSAGE_USAGE);
         assertCommandBehavior("liststatistics 1 2", expectedMessage);
         assertCommandBehavior("liststatistics any other args", expectedMessage);
+    }
+
+    @Test
+    public void executeAddAssignmentStatistics_duplicateStatistics_duplicateStatsMessage() throws Exception {
+        // setup expectations
+        TestDataHelper helper = new TestDataHelper();
+        AssignmentStatistics toBeAdded = helper.stat();
+        statisticsBook.addStatistic(toBeAdded);
+
+        StatisticsBook expected = new StatisticsBook();
+        expected.addStatistic(toBeAdded);
+        Assessment assessment = new Assessment("Spanish Quiz");
+        addressBook.addAssessment(assessment);
+        Person person1 = helper.makeAdam();
+        Grades grade = new Grades(100);
+        assessment.addGrade(person1, grade);
+        addressBook.addPerson(person1);
+
+        List<Assessment> singleAssessment = List.of(assessment);
+        logic.setLastShownAssessmentList(singleAssessment);
+
+        assertCommandBehavior("addstatistics 1", AddAssignmentStatistics.MESSAGE_DUPLICATE_STATISTIC,
+                expected, false);
+    }
+
+    @Test
+    public void executeAddAssignmentStatistics_invalidIndex_invalidIndexMessage() throws Exception {
+        // setup expectations
+        TestDataHelper helper = new TestDataHelper();
+
+        StatisticsBook expected = new StatisticsBook();
+        Assessment assessment = new Assessment("Spanish Quiz");
+        addressBook.addAssessment(assessment);
+        Person person1 = helper.makeAdam();
+        Grades grade = new Grades(100);
+        assessment.addGrade(person1, grade);
+        addressBook.addPerson(person1);
+
+        List<Assessment> singleAssessment = List.of(assessment);
+        logic.setLastShownAssessmentList(singleAssessment);
+
+        assertCommandBehavior("addstatistics 2", MESSAGE_INVALID_ASSESSMENT_DISPLAYED_INDEX,
+                expected, false);
     }
 }
