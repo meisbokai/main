@@ -630,9 +630,9 @@ We have 3 types of test:
 ..  _Unit tests_ targeting the lowest level methods/classes. +
 e.g. `seedu.addressbook.commons.UtilsTest`
 ..  _Integration tests_ that are checking the integration of multiple code units (those code units are assumed to be working). +
-e.g. `seedu.addressbook.storage.StorageFileTest`
+e.g. `StorageFileTest`
 ..  Hybrids of unit and integration tests. These tests are checking multiple code units as well as how they are connected together. +
-e.g. `seedu.addressbook.logic.LogicTest`
+e.g. `LogicTest`
 
 == Dev Ops
 
@@ -1360,6 +1360,30 @@ Use case ends.
 Use case ends.
 
 [discrete]
+
+=== Use case: Adding Fees to a Person
+[discrete]
+==== Actor: Admin
+<<mss, *MSS*>>
+
+1.  User requests to list all the students in the address book +
+2.  ClassRepo shows all the current students in the console +
+3.  User requests to edit fees of a student to a certain value +
+4.  ClassRepo shows the new Fees values of the student +
++
+Use case ends.
+
+*Extensions*
+[none]
+* 1a. The list is empty. +
+** 1a1. ClassRepo shows that the list is empty. +
+Use case ends. +
+[none]
+* 3a. The person to edit fees for does not exist. +
+** 3a1. ClassRepo shows an error message. +
+Use case ends.
+
+[discrete]
 === Use case: Taking attendance for student
 [discrete]
 ==== Actor: Tutor
@@ -1375,7 +1399,6 @@ Use case ends.
 Use case ends.
 
 *Extensions*
-
 [none]
 * 3a. User provided the invalid index. +
 ** 3a1. ClassRepo shows an error message. +
@@ -1421,8 +1444,6 @@ Use case ends.
 ** 4b1. ClassRepo shows an error message. +
 Use case ends.
 
-_{More to be added}_
-
 +++ </div></details> +++
 
 [appendix]
@@ -1432,8 +1453,6 @@ _{More to be added}_
 .  Should be able to hold up to 1000 persons without a noticeable sluggishness in performance for typical usage.
 .  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be
 able to accomplish most of the tasks faster using commands than using the mouse.
-
-_{More to be added}_
 
 [appendix]
 == Glossary
