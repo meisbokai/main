@@ -25,8 +25,8 @@ Interested? Jump to the <<Quick Start>> to get started. Enjoy!
 == Quick Start
 
 .  Ensure you have Java version `9` or later installed in your Computer.
-.  Download the latest `addressbook.jar` link:{repoURL}/releases[here].
-.  Copy the file to the folder you want to use as the home folder for your Address Book.
+.  Download the latest `ClassRepo.jar` link:{repoURL}/releases[here].
+.  Copy the file to the folder you want to use as the home folder for your ClassRepo application.
 .  Double-click the file to start the app. The GUI should appear in a few seconds, as shown below.
 +
 .UI of ClassRepo
@@ -309,6 +309,11 @@ Example(s):
 
 * `login JohnDoe1337 P455W0RD` +
 Login an account with the username of `JohnDoe1337` and password of `P455W0RD`, provided it exists.
+
+[NOTE]
+=====
+Executing `login` while logged in will log you out before logging into the new account.
+=====
 
 ==== Logout of an account: `logout` image:Basic.png[16,16]
 Logout of the current account. +
@@ -865,6 +870,8 @@ Click to Expand
 |logout |Y |Y |Y
 |listacc |Y |Y |Y
 |viewexams |Y |Y |Y
+|liststatistics |Y |Y |Y
+|listassess |Y |Y |Y
 |listall |N |Y |Y
 |viewall |N |Y |Y
 |listexams |N |Y |Y
@@ -874,13 +881,11 @@ Click to Expand
 |listfees |N |Y |Y
 |listdue |N |Y |Y
 |addassess |N |Y |Y
-|listassess |Y |Y |Y
 |deleteassess |N |Y |Y
 |addgrades |N |Y |Y
 |viewgrades |N |Y |Y
 |deletegrades |N |Y |Y
 |addstatistics |N |Y |Y
-|liststatistics |Y |Y |Y
 |deletestatistics |N |Y |Y
 |attendance |N |Y |Y
 |replaceAtten |N |Y |Y

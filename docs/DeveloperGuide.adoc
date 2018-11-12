@@ -42,7 +42,7 @@ Do not disable them. If you have disabled them, go to `File` > `Settings` > `Plu
 
 === Verifying the setup
 
-. Run the `seedu.address.Main` and try a few commands
+. Run the `src.classrepo.Main` and try a few commands
 . <<Testing, Run the tests>> to ensure they all pass
 . Open the `StorageFile` file and check for any code errors
 .. Due to an ongoing https://youtrack.jetbrains.com/issue/IDEA-189060[issue] with some of the newer versions of IntelliJ, code errors may be detected even if the project can be built and run successfully
@@ -304,11 +304,11 @@ and the grades for these assessments being stored in the AddressBook. The curren
 . `Deleting a statistic`
 
 This is the class diagram for the assessments, grades and statistics combined:
-[[fig-AddAssessmentDiagram]]
+[[fig-AssessmentDiagram]]
 .Class Diagram
 image::AssessmentClassDiagram.png[width="800"]
 
-. A list of unique assessments can be stored in the addressbook.
+. A list of unique assessments can be stored in the AddressBook.
 . Each assessment object contains a Hash Map, with Person as the Key and Grades as the Value. Hence, the grades of all
 students for a particular assessment will be stored together in the same HashMap.
 . Each person object (or student) can have a list of assessments and respective grades under it. This makes sense
@@ -320,13 +320,13 @@ stats such as average score, total exam takers, max score and min score.
 An Example of how feature 2 - `Adding a new assessment to the AddressBook` works:
 
 . The user (teacher/ admin) will be able to use the 'addassess' command to add a new assessment.
-. This assessment will only be added to the Address Book if it is not already present. i.e. check for duplicate assessments
+. This assessment will only be added to the AddressBook if it is not already present. i.e. check for duplicate assessments
 is done.
 . These assessments reflect the exams/homework of the school in general. This list of assessments can then be used to add
   grades to a particular student.
 
 This is demonstrated by the following sequence diagram:
-[[fig-AddAssessmentDiagram]]
+[[fig-AddAssessmentSeqDiagram]]
 .Sequence Diagram of adding a new assessment
 image::Assessment_Seq_Diagram.png[width="800"]
 
@@ -384,7 +384,7 @@ Fees are an additional field to every `Person` object:
 
 . Each Person will have a Fees object
 . Fees contain both a String value as well as a String duedate
-. Users can thus check the Fees of a particular person, or list out all the fees of the Persons in the address book
+. Users can thus check the Fees of a particular person, or list out all the fees of the Persons in the AddressBook
 
 ==== Current Implementation
 An attribute under the Person class is initialised when a Person is added to the AddressBook. This attribute holds 2 Strings, one being the monetary value of
@@ -488,7 +488,7 @@ The AddressBook contains the attendance of each person for each date that his/he
 An example of how feature 1 - `Updating a person's attendance` works:
 
 . The user (teacher/ admin) will be able to use the 'attendance' command to update the attendance of a particular person (student).
-. The specific person is extracted from the Addressbook.
+. The specific person is extracted from the AddressBook.
 . A check is performed to check if the person already has his/her attendance taken.
 . If the attendance has already been taken, the user will be prompted to use another command `replaceAtten` to replace the attendance.
 . If the attendance has yet to be taken, the attendance of the specified person for the specified date will be taken as either 'present' or 'absent'.
@@ -628,7 +628,7 @@ We have 3 types of test:
 
 .  *Non-GUI Tests* - These are tests not involving the GUI. They include,
 ..  _Unit tests_ targeting the lowest level methods/classes. +
-e.g. `seedu.addressbook.commons.UtilsTest`
+e.g. `classrepo.commons.UtilsTest`
 ..  _Integration tests_ that are checking the integration of multiple code units (those code units are assumed to be working). +
 e.g. `StorageFileTest`
 ..  Hybrids of unit and integration tests. These tests are checking multiple code units as well as how they are connected together. +
@@ -662,7 +662,7 @@ Here are the steps to create a new release.
 
 === Managing Dependencies
 
-A project often depends on third-party libraries. For example, Address Book depends on the http://wiki.fasterxml.com/JacksonHome[Jackson library] for XML parsing. Managing these _dependencies_ can be automated using Gradle. For example, Gradle can download the dependencies automatically, which is better than these alternatives. +
+A project often depends on third-party libraries. For example, AddressBook depends on the http://wiki.fasterxml.com/JacksonHome[Jackson library] for XML parsing. Managing these _dependencies_ can be automated using Gradle. For example, Gradle can download the dependencies automatically, which is better than these alternatives. +
 a. Include those libraries in the repo (this bloats the repo size) +
 b. Require developers to download those libraries manually (this creates extra work for developers)
 
@@ -720,19 +720,21 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* * *` |admin |edit an exam |update the details of exam entries
 
+|`* * *` |admin |hide <<private-exam,private exams>> |not reveal to students the details before they are finalised
+
 |`* * *` |tutor/admin |register a user for an exam|allow the user to know of the exam and keep track of the number of exam-takers
 
 |`* * *` |tutor/admin |deregister a user for an exam|remove entries that I made wrongly or no longer need
 
 |`* * *` |tutor/admin |view the lists of exams|manage the exams
 
-|`* * *` |tutor/admin |add a new assessments | keep track of all assessments conducted in the semester
+|`* * *` |tutor/admin |add a new assessments |keep track of all assessments conducted in the semester
 
 |`* * *` |student/tutor/admin |view a list of all assessments|know about upcoming assessments and have a record of all past ones as well
 
-|`* * *` |tutor/admin |add grades to a student for a particular assessment | keep track of all grades and update student about their performance
+|`* * *` |tutor/admin |add grades to a student for a particular assessment |keep track of all grades and update student about their performance
 
-|`* * *` |tutor/admin |add a new statistic | view general performance of students in assessments
+|`* * *` |tutor/admin |add a new statistic |view general performance of students in assessments
 
 |`* * *` |student/tutor/admin |view a list of all statistics|know about performance of students in school examinations
 
@@ -740,7 +742,7 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* *` |user |view my own details |know my details
 
-|`* *` |student |view my non-private exams |know details of the exams I am going to take
+|`* *` |student |view my exams |know details of the exams I am going to take
 
 |`* *` |user |hide <<private-contact-detail,private contact details>> by default |minimize chance of someone else seeing them by accident
 
@@ -755,8 +757,6 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 |`*` |tutor | view my student(s)' attendance | review and analyse my student(s)'s attendance to see if any of them require help in their work
 |=======================================================================
 
-_{More to be added}_
-
 +++ </div></details> +++
 
 [appendix]
@@ -766,7 +766,7 @@ _{More to be added}_
 Click to Expand
 +++ </summary><div> +++
 
-(For all use cases below, the *System* is the `AddressBook` and the *Actor* is the `user`, unless specified otherwise)
+(For all use cases below, the *System* is the `ClassRepo` and the *Actor* is the `user`, unless specified otherwise)
 
 [discrete]
 === Use case: Add person
@@ -795,8 +795,6 @@ Use case ends.
 [discrete]
 === Use case: Delete person
 [discrete]
-==== System: AdressBook, ExamBook
-[discrete]
 ==== Actors: Tutor, Admin
 <<mss, *MSS*>>
 
@@ -823,8 +821,6 @@ Use case resumes at step 2.
 [discrete]
 === Use case: Add exam
 [discrete]
-==== System: ExamBook
-[discrete]
 ==== Actor: Admin
 <<mss, *MSS*>> 
 
@@ -849,8 +845,6 @@ Use case ends.
 [discrete]
 === Use case: Delete exam
 [discrete]
-==== System: AdressBook, ExamBook
-[discrete]
 ==== Actor: Admin
 <<mss, *MSS*>> 
 
@@ -874,8 +868,6 @@ Use case resumes at step 2.
 
 [discrete]
 === Use case: Edit exam
-[discrete]
-==== System: AdressBook, ExamBook
 [discrete]
 ==== Actor: Admin
 <<mss, *MSS*>> 
@@ -910,8 +902,6 @@ Use case resumes at step 2.
 
 [discrete]
 === Use case: Register for an exam
-[discrete]
-==== System: AdressBook, ExamBook
 [discrete]
 ==== Actor: Tutor, Admin
 <<mss, *MSS*>>
@@ -948,8 +938,6 @@ Use case resumes at step 4.
 [discrete]
 === Use case: Deregister for an exam
 [discrete]
-==== System: AdressBook, ExamBook
-[discrete]
 ==== Actor: Tutor, Admin
 <<mss, *MSS*>>
 
@@ -985,8 +973,6 @@ Use case resumes at step 4.
 [discrete]
 === Use case: Viewing the exams list
 [discrete]
-==== System: ExamBook
-[discrete]
 ==== Actor: Tutor, Admin
 <<mss, *MSS*>>
 
@@ -998,13 +984,11 @@ Use case ends.
 *Extensions*
 
 [none]
-* 2a. The list is empty.
-+
+* 2a. The list is empty. +
 Use case ends.
 
 [discrete]
 === Use case: View a person's exams
-
 <<mss, *MSS*>>
 
 1.  User requests to list persons.
@@ -1018,28 +1002,22 @@ Use case ends.
 
 [none]
 * 2a. The list is empty. +
-+
 Use case ends.
 [none]
 * 3a. User is not a Tutor/Admin and is not logged in. +
 ** 3a1. ClassRepo shows an error message. +
-+
 Use case ends.
 [none]
 * 3b. User is logged in as a Student and tries to view the exams of other students. +
 ** 3b1. ClassRepo shows an error message. +
-+
 Use case ends.
-
+[none]
 * 4a. User is logged in as a Student and tries to view his own exams. +
 ** 4a1. ClassRepo shows a list of his non-private exams. +
-+
 Use case ends.
 
 [discrete]
 === Use case: Add assessment
-[discrete]
-==== System: ClassRop
 [discrete]
 ==== Actor: Tutor, Admin
 <<mss, *MSS*>>
@@ -1056,7 +1034,7 @@ Use case ends.
 [none]
 * 3a. The details entered are in an invalid format. +
 ** 3a1. ClassRepo shows an error message. +
-Use case ends. +
+Use case ends.
 [none]
 * 3b. The assessment to add already exists in ClassRepo. +
 ** 3b1. ClassRepo shows an error message (duplication of assessment). +
@@ -1064,8 +1042,6 @@ Use case ends.
 
 [discrete]
 === Use case: Viewing the assessments list
-[discrete]
-==== System: ClassRepo
 [discrete]
 ==== Actor: Student, Tutor, Admin
 <<mss, *MSS*>>
@@ -1078,25 +1054,21 @@ Use case ends.
 *Extensions*
 
 [none]
-* 2a. The list is empty.
-+
+* 2a. The list is empty. +
 Use case ends.
 
 [discrete]
 === Use case: Add grades for an assessment
 [discrete]
-==== System: ClassRepo
-[discrete]
 ==== Actor: Tutor, Admin
 <<mss, *MSS*>>
 
 1.  User requests to list persons.
-2.  ClassRepo displays an indexed list of all persons in the addressbook.
+2.  ClassRepo displays an indexed list of all persons in the AddressBook.
 3.  User requests to list assessments.
-4.  ClassRepo displays an indexed list of all assessments in the addressbook.
+4.  ClassRepo displays an indexed list of all assessments in the AddressBook.
 5.  User requests to add grades to a specific person in the person list for a specific assessment in the assessments list.
 6.  ClassRepo adds the grades to the appropriate person.
-
 +
 Use case ends.
 
@@ -1123,13 +1095,11 @@ Use case resumes at step 4.
 [discrete]
 === Use case: Add statistic
 [discrete]
-==== System: ClassRop
-[discrete]
 ==== Actor: Tutor, Admin
 <<mss, *MSS*>>
 
 1. User requests to list assessments.
-2. ClassRepo displays an indexed list of all assessments in the addressbook.
+2. ClassRepo displays an indexed list of all assessments in the AddressBook.
 3. User requests to add a statistic for a specific assessment.
 4. ClassRepo calculates statistics for the assessment and adds it to the list
 +
@@ -1142,14 +1112,11 @@ Use case ends.
 Use case ends.
 [none]
 * 3a. The given assessment index is invalid. +
-** 5a1. ClassRepo shows an error message. +
+** 3a1. ClassRepo shows an error message. +
 Use case resumes at step 2.
-
 
 [discrete]
 === Use case: Viewing the statistics list
-[discrete]
-==== System: ClassRepo
 [discrete]
 ==== Actor: Student, Tutor, Admin
 <<mss, *MSS*>>
@@ -1162,17 +1129,15 @@ Use case ends.
 *Extensions*
 
 [none]
-* 2a. The list is empty.
-+
+* 2a. The list is empty. +
 Use case ends.
 
 [discrete]
 === Use case: View the user's own details
-
 <<mss, *MSS*>>
 
 1.  User requests to view his own details +
-2.  ClassRepo shows the details of the person associated with the logged-in account +
+2.  ClassRepo shows the details of the person associated with the logged-in account
 +
 Use case ends.
 
@@ -1181,18 +1146,16 @@ Use case ends.
 [none]
 * 1a. User is not logged in +
 ** 1a1. ClassRepo displays an error message. +
-+
 Use case ends.
 
 [discrete]
 === Use case: Raise privilege to Admin
-
 <<mss, *MSS*>>
 
 1. User requests to increase his privilege +
 2. ClassRepo requests authentication password +
 3. User enters password +
-4. ClassRepo increases the user's privileges to Admin +
+4. ClassRepo increases the user's privileges to Admin
 +
 Use case ends.
 
@@ -1205,7 +1168,7 @@ Use case ends.
 [none]
 * 3a. Incorrect password entered +
 ** 3a1. ClassRepo shows an error message +
-Use case ends
+Use case ends.
 
 [discrete]
 === Use case: Change master password
@@ -1218,32 +1181,34 @@ Use case ends
 3. User enters the current password
 4. ClassRepo requests the new password
 5. User enters the new password
-6. ClassRepo changes the password to the new one +
+6. ClassRepo changes the password to the new one
 +
 Use case ends.
 
+*Extensions*
+
+[none]
 * 3a. Incorrect password entered
 ** 3a1. ClassRepo shows an error message +
-User case resumes from step 2
-
+User case resumes from step 2.
+[none]
 * 5a. New password in the invalid format
 ** 5a1. ClassRepo shows an error message +
-User case resumes from step 4
+User case resumes from step 4.
 ** 5b1. The new password is the same as the old password +
-5b2. ClassRepo shows an error message +
-User case resumes from step 4
+** 5b2. ClassRepo shows an error message +
+User case resumes from step 4.
 
 [discrete]
 === Use case: Add account to a person
 [discrete]
 ==== Actor: Admin
-
 <<mss, *MSS*>>
 
-1.  User requests to list persons +
-2.  AddressBook shows a list of persons +
-3.  User requests to add an account to a target person +
-4.  ClassRepo adds the account to the person +
+1. User requests to list persons +
+2. ClassRepo shows a list of persons +
+3. User requests to add an account to a target person +
+4. ClassRepo adds the account to the person
 +
 Use case ends.
 
@@ -1251,35 +1216,30 @@ Use case ends.
 
 [none]
 * 2a. The list is empty. +
-+
 Use case ends.
-
+[none]
 * 3a. The given index is invalid. +
-[none]
-** 3a1. AddressBook shows an error message. +
+** 3a1. ClassRepo shows an error message. +
 Use case resumes at step 2.
-
+[none]
 * 3b. The account format is invalid. +
-[none]
-** 3b1. AddressBook shows an error message. +
+** 3b1. ClassRepo shows an error message. +
 Use case resumes at step 2.
-
-* 3c. The target person has an existing account. +
 [none]
-** 3c1. AddressBook shows an error message. +
+* 3c. The target person has an existing account. +
+** 3c1. ClassRepo shows an error message. +
 Use case resumes at step 2.
 
 [discrete]
 === Use case: Delete account
 [discrete]
 ==== Actor: Admin
-
 <<mss, *MSS*>>
 
-1.  User requests to list persons
-2.  AddressBook shows a list of persons
-3.  User requests to delete the account belonging to a specific person in the list
-4.  AddressBook deletes the account +
+1. User requests to list persons
+2. ClassRepo shows a list of persons
+3. User requests to delete the account belonging to a specific person in the list
+4. ClassRepo deletes the account
 +
 Use case ends.
 
@@ -1288,26 +1248,23 @@ Use case ends.
 [none]
 * 2a. The list is empty. +
 Use case ends.
-
+[none]
 * 3a. The given index is invalid. +
-[none]
-** 3a1. AddressBook shows an error message. +
+** 3a1. ClassRepo shows an error message. +
 Use case resumes at step 2.
-
-* 3b. Target person does not have an account. +
 [none]
-** 3b1. AddressBook shows an error message. +
+* 3b. Target person does not have an account. +
+** 3b1. ClassRepo shows an error message. +
 Use case resumes at step 2.
 
 [discrete]
 === Use case: Login to an account
-
 <<mss, *MSS*>>
 
-1.  User requests to log in +
-2.  AddressBook requests username and password +
-3.  User enters username and password +
-4.  AddressBook logs the user into the account +
+1. User requests to log in
+2. ClassRepo requests username and password
+3. User enters username and password
+4. ClassRepo logs the user into the account
 +
 Use case ends.
 
@@ -1315,28 +1272,23 @@ Use case ends.
 
 [none]
 * 3a. User provided the wrong number of arguments +
-[none]
-** 3a1. AddressBook shows an error message. +
+** 3a1. ClassRepo shows an error message. +
 Use case ends.
-
+[none]
 * 3b. No existing account has the given username. +
-[none]
-** 3b1. AddressBook shows an error message. +
+** 3b1. ClassRepo shows an error message. +
 Use case ends.
-
-* 3c. The password does not match the existing account with the given username. +
 [none]
-** 3c1. AddressBook shows an error message. +
-+
+* 3c. The password does not match the existing account with the given username. +
+** 3c1. ClassRepo shows an error message. +
 Use case ends.
 
 [discrete]
 === Use case: Logout of an account
-
 <<mss, *MSS*>>
 
-1.  User requests to log out
-2.  ClassRepo logs the user out of his account +
+1. User requests to log out
+2. ClassRepo logs the user out of his account
 +
 Use case ends.
 
@@ -1344,32 +1296,28 @@ Use case ends.
 
 [none]
 * 2. User is not logged in +
-[none]
-** 2a1. AddressBook shows an error message. +
-+
+** 2a1. ClassRepo shows an error message. +
 Use case ends.
 
 [discrete]
 === Use case: View your current privilege
-
 <<mss, *MSS*>>
 
-1.  User requests to view his privilege +
-2.  ClassRepo shows the privilege level and the account the user is logged in as +
+1. User requests to view his privilege
+2. ClassRepo shows the privilege level and the account the user is logged in as
 +
 Use case ends.
 
 [discrete]
-
 === Use case: Adding Fees to a Person
 [discrete]
 ==== Actor: Admin
 <<mss, *MSS*>>
 
-1.  User requests to list all the students in the address book +
-2.  ClassRepo shows all the current students in the console +
-3.  User requests to edit fees of a student to a certain value +
-4.  ClassRepo shows the new Fees values of the student +
+1. User requests to list all the students in the address book
+2. ClassRepo shows all the current students in the console
+3. User requests to edit fees of a student to a certain value
+4. ClassRepo shows the new Fees values of the student
 +
 Use case ends.
 
@@ -1377,7 +1325,7 @@ Use case ends.
 [none]
 * 1a. The list is empty. +
 ** 1a1. ClassRepo shows that the list is empty. +
-Use case ends. +
+Use case ends.
 [none]
 * 3a. The person to edit fees for does not exist. +
 ** 3a1. ClassRepo shows an error message. +
@@ -1389,12 +1337,12 @@ Use case ends.
 ==== Actor: Tutor
 <<mss, *MSS*>>
 
-1.  User requests to list people.
-2.  ClassRepo shows a list of people.
-3.  User request to update attendance of person with index x +
-4.  ClassRepo shows attendance of person with index x is updated +
-5.  User requests to change attendance of person with index x +
-6.  ClassRepo shows attendance of person with index x is replaced +
+1. User requests to list people.
+2. ClassRepo shows a list of people.
+3. User request to update attendance of person with index x
+4. ClassRepo shows attendance of person with index x is updated
+5. User requests to change attendance of person with index x
+6. ClassRepo shows attendance of person with index x is replaced
 +
 Use case ends.
 
@@ -1422,10 +1370,10 @@ Use case ends.
 ==== Actor: Tutor
 <<mss, *MSS*>>
 
-1.  User requests to view attendance of person with index x +
-2.  ClassRepo shows attendance of person with index x +
-3.  User request to view attendances of people for date y +
-4.  ClassRepo shows the lists of people who are present and absent for date y +
+1.  User requests to view attendance of person with index x
+2.  ClassRepo shows attendance of person with index x
+3.  User request to view attendances of people for date y
+4.  ClassRepo shows the lists of people who are present and absent for date y
 +
 Use case ends.
 
@@ -1502,9 +1450,9 @@ The below image shows the different interactable interfaces
 image::Interface.png[width="500"]
 
    
-=== Privilege/Account Feature
+=== Testing Privileges/Accounts
 
-The account available in the sample data. Avoid modifying them to ensure smooth testing.
+There are 3 accounts available in the sample data. Avoid modifying them to ensure smooth testing.
 [width="50%",cols="22%,<20%,<20%,<20%",options="header",]
 |=======================================================================
 |Person |Username |Password |Privilege
@@ -1512,7 +1460,7 @@ The account available in the sample data. Avoid modifying them to ensure smooth 
 |Lira |lira_username |lira_password |Tutor
 |John Doe |john_the_admin |pw123 |Admin
 |=======================================================================
-The master password is `default_pw`.
+The master password for the `raise` commamd is `default_pw`.
 
 . Logging in
 
@@ -1529,17 +1477,17 @@ The master password is `default_pw`.
 .. Test case: `logout` +
    `viewpri` +
    `viewself` +
-   Expected: Logout is successful.  Viewpri shows updated details on the output console. Viewself shows error on the status console + 
+   Expected: Logout is successful.  Viewpri shows updated details on the output console. Viewself shows error on the status console. + 
    
 .. Prerequisites: Not logged in/no privilege to relinquish.
-.. Test case: `logout`
+.. Test case: `logout` +
    Expected: Logout is unsuccessful, as shown in the status console. +
    
 . Raising privilege
 .. Prerequisites: Not logged in.
 .. Test case: `raise default_pw` +
    `viewpri` +
-   Expected: Raise privilege is successful. Viewpri shows updated privileges +
+   Expected: Raise privilege is successful. Viewpri shows updated privileges. +
    
 . Accessing a command without sufficient privilege level
 
@@ -1561,24 +1509,25 @@ The master password is `default_pw`.
 .. Other commands to try: For full list of commands testable, refer to <<UserGuide.adoc#command-summary, Command Summary>> +
    Expected: Commands execute only if the privilege level is sufficient.
 
-=== Deleting a person
+=== Deleting an exam
 
-. Deleting a person while all persons are listed
+. Deleting an exam while all exams are listed
 
-.. Prerequisites: List all persons using the `list` command. Multiple persons in the list. Logged in as admin.
-.. Test case: `delete 1` +
-   Expected: First contact is deleted from the list. Details of the deleted contact shown in the status console. List in the output console is updated.
+.. Prerequisites: List all exams using the `listexams` command. Multiple exams in the list. Logged in as admin.
+.. Test case: `deleteexam 1` +
+   Expected: First exam is deleted from the list. Details of the deleted exam shown in the status console. List in the output console is updated.
 .. Test case: `delete 0` +
-   Expected: No person is deleted. Error details are shown in the status console. Output console remains the same.
-.. Other incorrect delete commands to try: `delete`, `delete x` (where x is larger than the list size), `delete a` (where a is not an integer) +
+   Expected: No exam is deleted. Error details are shown in the status console. Output console remains the same.
+.. Other incorrect delete commands to try: `deleteexam`, `deleteexam x` (where x is larger than the list size), `deleteexam a` (where a is not an integer) +
    Expected: Similar to previous.
-.. Other similar commands to try: `deletexam`, `deleteassess` +
+.. Other similar commands to try: `delete`, `deleteassess` +
    Expected: Similar to previous.
 
 === Adding a duplicate person
 
-. Add a person while it already exists in the address book. Logged in as admin
+. Add a person while it already exists in the AddressBook
 
+.. Prerequisites: Logged in as admin.
 .. Test case: `add John Doe p/98765432 e/johnd@gmail.com a/311, Clementi Ave 2, #02-25 t/friends t/owesMoney` +
    Expected: Contact is added to the list. Details of the added contact shown in the status console. List in the output console is updated.
 .. Test case: `add John Doe p/98765432 e/johnd@gmail.com a/311, Clementi Ave 2, #02-25 t/friends t/owesMoney` after the previous test case was performed. +
@@ -1588,7 +1537,7 @@ The master password is `default_pw`.
 
 === Registering a person for an exam
 
-. Register a person in the addressbook for an exam in the exambook
+. Register a person in the AddressBook for an exam in the ExamBook
 
 .. Prerequisites: List all persons using the `list` command. Multiple persons in the list. List all exams using the `listexams` command. Multiple exams in the list. Logged in as tutor/admin.
 .. Test case: `regexam 1 1` +
@@ -1600,9 +1549,9 @@ The master password is `default_pw`.
 
 === Deregistering a person for an exam
 
-. Deregister a person in the addressbook for an exam in the exambook
+. Deregister a person in the AddressBook for an exam in the ExamBook
 
-.. Prerequisites: List all persons using the `list` command. Multiple persons in the list. List all exams using the `listexams` command. Multiple exams in the list. Logged in as tutor/admin.
+.. Prerequisites: List all persons using the `list` command. Multiple persons in the list. List all exams using the `listexams` command. Multiple exams in the list. Logged in as tutor/admin. Have the 1st person in the AddressBook be registered for the 1st exam in the exam book.
 .. Test case: `deregexam 1 1` +
    Expected: Exam is removed from person. Status console shows success message. Output console displays the exams of person.
 .. Test case: `deregexam 1 1` after the previous test case was performed. +
@@ -1628,6 +1577,18 @@ The master password is `default_pw`.
 .. Test case: `viewexams 2` +
    Expected: Status console shows error message. Output console remains the same.
 
+=== Editing fees for a person
+
+. Editing fees for a person while all persons are listed
+
+.. Prerequisites: List all persons using the `list` command. Multiple persons in the list. Logged in as admin.
+.. Test case: `editfees 1 34.50 11-12-2018` +
+   Expected: Fees is updated for person. After the first command, status console shows success message. Output console remains the same.
+.. Test case: `editfees 1 34.540 11-12-2018` +
+   Expected: Status console shows error message. Output console remains the same.
+.. Other similar situations to try: Enter an invalid date/date format. +
+   Expected: Similar to previous.
+   
 === Adding attendance for a person
 
 . Adding attendance for a person while all persons are listed
@@ -1673,8 +1634,8 @@ The master password is `default_pw`.
 . Dealing with missing data files
 
 .. Prerequisites: Run the application at least once to generate the storage files and add in some person and exam data. Register some persons for some exams.
-.. Delete `exams.txt`
+.. Delete `exams.txt`.
 .. Run the application again. +
-   Expected: The application is unable to be opened. Refer to the `log.txt` in the base folder to check for the error message, which should indicate an error for the phone number.
+   Expected: The application is unable to be opened. Refer to the `log.txt` in the base folder to check for the error message, which should indicate an error for missing data.
 .. Other similar edits can be made to `addressbook.txt` to try. +
    Expected: Similar to previous.      
