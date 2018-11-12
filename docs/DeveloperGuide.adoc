@@ -691,7 +691,7 @@ Click to Expand
 
 Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (unlikely to have) - `*`
 
-[width="59%",cols="22%,<23%,<25%,<30%",options="header",]
+[width="90%",cols="10%, 10%, 30%, 50%",options="header",]
 |=======================================================================
 |Priority |As a ... |I want to ... |So that I can...
 |`* * *` |new user |see usage instructions |refer to instructions when I forget how to use the App
@@ -746,9 +746,9 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* *` |user |hide <<private-contact-detail,private contact details>> by default |minimize chance of someone else seeing them by accident
 
-|`*` |user with many persons in the address book |sort persons by name |locate a person easily
+|`*` |user |sort persons by name |locate a person easily
 
-|`*` |user with many exams in the exam book |sort exams by a specified field |locate an exam easily
+|`*` |user |sort exams by a specified field |locate an exam easily
 
 |`*` |tutor | mark my student(s)s' attendance | keep track of their attendance and submit to the school
 
@@ -1281,6 +1281,10 @@ Use case ends.
 [none]
 * 3c. The password does not match the existing account with the given username. +
 ** 3c1. ClassRepo shows an error message. +
+Use case ends.
+[none]
+* 4a. User is logged in. +
+** 4a1. ClassRepo logs the user out before logging into the new account. +
 Use case ends.
 
 [discrete]
