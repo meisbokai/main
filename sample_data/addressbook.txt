@@ -75,6 +75,11 @@
             <value>0.00</value>
             <duedate>00-00-0000</duedate>
         </fees>
+        <account>
+            <username>fil_username</username>
+            <password>fil_password</password>
+            <privilege>Basic</privilege>
+        </account>
     </persons>
     <persons>
         <name>Gary</name>
@@ -116,7 +121,7 @@
         <address isPrivate="false">1377 Pennsylvania Avenue</address>
         <attendance/>
         <account>
-            <username>johnny</username>
+            <username>john_the_admin</username>
             <password>pw123</password>
             <privilege>Admin</privilege>
         </account>
@@ -146,6 +151,11 @@
             <value>0.00</value>
             <duedate>00-00-0000</duedate>
         </fees>
+        <account>
+            <username>lira_username</username>
+            <password>lira_password</password>
+            <privilege>Tutor</privilege>
+        </account>
     </persons>
     <persons>
         <name>Mufasa</name>

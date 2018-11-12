@@ -838,11 +838,13 @@ Refer to `log.txt` to find the underlying error. +
 a data saving operation. ClassRepo shuts itself down to ensure synchronisation of AppData and storage data. +
 *Solution*: Ensure that the data files are not set as read-only. 
 
+[[known-issues]]
 == Known Issues
 1. ClassRepo ASCII art may be formatted wrongly on OS's such as Mac.
 image:asciiArt.png[500,500]
 
 == Summary of All Commands
+[[command-summary]]
 Commands are sorted in terms of increasing privileges needed to run them.
 +++ <details><summary> +++
 Click to Expand
