@@ -714,11 +714,11 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* * *` |admin |delete accounts from people |remove the account from people who do not need it anymore
 
-|`* * *` |tutor/admin |add a new exam |
+|`* * *` |admin |add a new exam |
 
-|`* * *` |tutor/admin |delete an exam |remove entries that I no longer need
+|`* * *` |admin |delete an exam |remove entries that I no longer need
 
-|`* * *` |tutor/admin |edit an exam |update the details of exam entries
+|`* * *` |admin |edit an exam |update the details of exam entries
 
 |`* * *` |tutor/admin |register a user for an exam|allow the user to know of the exam and keep track of the number of exam-takers
 
@@ -815,8 +815,8 @@ Use case resumes at step 2.
 [discrete]
 ==== System: ExamBook
 [discrete]
-==== Actor: Tutor, Admin
-<<mss, *MSS*>>
+==== Actor: Admin
+<<mss, *MSS*>> 
 
 1. User requests to add exam.
 2. ClassRepo requests the details of the exam to add.
@@ -841,8 +841,8 @@ Use case ends.
 [discrete]
 ==== System: AdressBook, ExamBook
 [discrete]
-==== Actor: Tutor, Admin
-<<mss, *MSS*>>
+==== Actor: Admin
+<<mss, *MSS*>> 
 
 1.  User requests to list exams.
 2.  ClassRepo shows a list of exams.
@@ -867,8 +867,8 @@ Use case resumes at step 2.
 [discrete]
 ==== System: AdressBook, ExamBook
 [discrete]
-==== Actor: Tutor, Admin
-<<mss, *MSS*>>
+==== Actor: Admin
+<<mss, *MSS*>> 
 
 1.  User requests to list exams.
 2.  ClassRepo shows a list of exams.
@@ -905,7 +905,6 @@ Use case resumes at step 2.
 [discrete]
 ==== Actor: Tutor, Admin
 <<mss, *MSS*>>
-
 
 1.  User requests to list exams.
 2.  ClassRepo shows a list of exams.
@@ -1258,6 +1257,14 @@ Given below are instructions to test the app manually.
 [NOTE]
 These instructions only provide a starting point for testers to work on; testers are expected to do more _exploratory_ testing.
 
+=== Loading sample data
+
+. Loading of sample data into program
+
+.. Move the `jar` file into the working directory.
+.. Copy the sample data from the link:{repoURL}/sample_data[GitHub Repo] into the working directory.
+.. Launch the `jar` file. Type `list` into the CLI to confirm that the data is loaded into the system.
+
 === Launch and Shutdown
 
 . Initial launch
@@ -1276,37 +1283,103 @@ These instructions only provide a starting point for testers to work on; testers
 
 . Deleting a person while all persons are listed
 
-.. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
+.. Prerequisites: List all persons using the `list` command. Multiple persons in the list. Logged in as admin.
 .. Test case: `delete 1` +
-   Expected: First contact is deleted from the list. Details of the deleted contact shown in the status console.
+   Expected: First contact is deleted from the list. Details of the deleted contact shown in the status console. List in the output console is updated.
 .. Test case: `delete 0` +
-   Expected: No person is deleted. Error details are shown in the status console. Console bar remains the same.
+   Expected: No person is deleted. Error details shown in the status console. Output console remains the same.
 .. Other incorrect delete commands to try: `delete`, `delete x` (where x is larger than the list size), `delete a` (where a is not an integer) +
    Expected: Similar to previous.
-
+.. Other similar commands to try: `deletexam`, `deleteassess` +
+   Expected: Similar to previous.   
+   
 === Accessing a command of different privilege level
 
 . Accessing a command of different privilege level than of current user
 
-.. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
+.. Prerequisites: List all persons using the `list` command. Multiple persons in the list. Not logged in or logged in as student.
 .. Test case: `delete 1` +
-   Expected: No person is deleted. Error details are shown in the status console. Console bar remains the same.
-.. Other commands of different privilege to try: `examslist`, `listall`, `deleteexam 1` +
+   Expected: No person is deleted. Error details shown in the status console. Output console remains the same.
+.. Other commands of different privilege to try: `listexams`, `listall`, `deleteexam 1` +
    Expected: Similar to previous.
 
 === Adding a duplicate person
 
-. Add a person while it already exists in the address book.
+
+. Add a person while it already exists in the address book. Logged in as admin
+
 .. Test case: `add John Doe p/98765432 e/johnd@gmail.com a/311, Clementi Ave 2, #02-25 t/friends t/owesMoney` +
    Expected: Contact is added to the list. Details of the added contact shown in the status console. List in the output console is updated.
 .. Test case: `add John Doe p/98765432 e/johnd@gmail.com a/311, Clementi Ave 2, #02-25 t/friends t/owesMoney` after the previous test case was performed. +
-   Expected: No person is added. Error details are shown in the status console. Console bar remains the same.
+   Expected: No person is added. Error details shown in the status console. Output console remains the same.
 .. Other similar commands to try: `addexam`, `addassess` +
+   Expected: Similar to previous.   
+    
+=== Registering a person for an exam
+
+. Register a person in the addressbook for an exam in the exambook
+
+.. Prerequisites: List all persons using the `list` command. Multiple persons in the list. List all exams using the `listexams` command. Multiple exams in the list. Logged in as tutor/admin.
+.. Test case: `regexam 1 1` +
+   Expected: Exam is added to person. Status console shows success message. Output console displays the exams of person.
+.. Test case: `regexam 1 1` after the previous test case was performed. +
+   Expected: Exam is not added. Error details shown in the status console. Output console remains the same.
+.. Other similar commands to try: `addassess`, `addstatistics` +
    Expected: Similar to previous.
+
+=== Deregistering a person for an exam
+
+. Deregister a person in the addressbook for an exam in the exambook
+
+.. Prerequisites: List all persons using the `list` command. Multiple persons in the list. List all exams using the `listexams` command. Multiple exams in the list. Logged in as tutor/admin.
+.. Test case: `deregexam 1 1` +
+   Expected: Exam is removed from person. Status console shows success message. Output console displays the exams of person.
+.. Test case: `deregexam 1 1` after the previous test case was performed. +
+   Expected: Exam is not removed. Error details shown in the status console. Output console remains the same.
+
+=== Editing an exam
+
+. Edit an exam in the ExamBook and change its details
+
+.. Prerequisites: List all exams using the `listexams` command. Multiple exams in the list. Logged in as admin.
+.. Test case: `editexam 1 p/n` +
+   Expected: Exam is edited. Status console shows success message. Output console displays the updated list of exams.
+.. Test case: `editexam 1 p/n` after the previous test case was performed. +
+   Expected: Exam is not edited. Error details shown in the status console. Output console remains the same.
+   
+=== Viewing exams as a student
+
+. View non-private exams in a student account
+
+.. Prerequisites: Logged in with a student account of the 1st person in the AddressBook. AddressBook has mutiple persons.
+.. Test case: `viewexams 1` +
+   Expected: Status console shows success message. Output console displays the list of non-private exams of the 1st person in the AddressBook.
+.. Test case: `viewexams 2` +
+   Expected: Status console shows error message. Output console remains the same.
+
+=== Adding attendance for a person
+
+. Adding attendance for a person while all persons are listed
+
+.. Prerequisites: List all persons using the `list` command. Multiple persons in the list. Logged in as tutor/admin.
+.. Test case: `attendance 1 d/0 att/1` +
+   Expected: Attendance is updated for person. Status console shows success message. Output console remains the same.
+.. Test case: `attendance 1 d/0 att/1` after the previous test case was performed. +
+   Expected: Error details shown in the status console. Output console remains the same.
+
+=== Updating attendance for a person
+
+. Updating attendance for a person while all persons are listed
+
+.. Prerequisites: List all persons using the `list` command. Multiple persons in the list. Logged in as tutor/admin. Attendance was already taken once on same date. 
+.. Test case: `attendance 1 d/0 att/1` +
+   Expected: Attendance is updated for person. Status console shows success message. Output console remains the same.
+.. Test case: `attendance 1 d/10-10-2018 att/1`. +
+   Expected: Error details shown in the status console. Output console remains the same.
 
 === Data storage
 
-. Dealing with missing/corrupted data files
+. Dealing with corrupted data files
 
 .. Prerequisites: Run the application at least once to generate the storage files and add in some person's data.
 .. Open up `addressbook.txt`.
@@ -1314,16 +1387,13 @@ These instructions only provide a starting point for testers to work on; testers
 .. Run the application again. +
    Expected: The application is unable to be opened. Refer to the `log.txt` in the base folder to check for the error message, which should indicate an error for the phone number.
 .. Other similar edits can be made to `exams.txt` and `statistics.txt` to try. +
+   Expected: Similar to previous.
+   
+. Dealing with missing data files
+
+.. Prerequisites: Run the application at least once to generate the storage files and add in some person and exam data. Register some persons for some exams.
+.. Delete `exams.txt`
+.. Run the application again. +
+   Expected: The application is unable to be opened. Refer to the `log.txt` in the base folder to check for the error message, which should indicate an error for the phone number.
+.. Other similar edits can be made to `addressbook.txt` to try. +
    Expected: Similar to previous.      
-
-. _{explain how to simulate a missing/corrupted file and the expected behaviour}_
-
-_{ more test cases ... }_
-
-=== Instructions for Manual Testing
-
-. Loading of sample data into program
-
-.. Move the `jar` file into the working directory.
-.. Copy the sample data from the link:{repoURL}/sample_data[GitHub Repo] into the working directory.
-.. Launch the `jar` file. Type `list` into the CLI to confirm that the data is loaded into the system.

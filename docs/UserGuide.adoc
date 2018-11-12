@@ -333,7 +333,7 @@ Format: `listacc`
 === Exam Commands
 Below are the commands that deals with exam data:
 
-==== Adding an exam : `addexam` image:Tutor.png[16,16]
+==== Adding an exam : `addexam` image:Admin.png[16,16]
 
 Adds an exam to the exam book, with the number of takers initialised as `0`. +
 Format: `addexam [p]e/EXAM_NAME s/SUBJECT_NAME d/EXAM_DATE st/EXAM_START_TIME et/EXAM_END_TIME dt/EXAM_DETAILS`
@@ -354,7 +354,7 @@ Example(s):
 Shows a list of all exams in the exam book. +
 Format: `listexams`
 
-==== Deleting an exam : `deleteexam` image:Tutor.png[16,16]
+==== Deleting an exam : `deleteexam` image:Admin.png[16,16]
 Deletes the specified exam from the exam book. Irreversible. Persons registered for the corresponding exam will have the exam deleted as well. +
 Format: `deleteexam INDEX`
 
@@ -369,7 +369,7 @@ Example(s):
 `deleteexam 2` +
 Deletes the 2nd exam in the exam book.
 
-==== Editing an exam : `editexam` image:Tutor.png[16,16]
+==== Editing an exam : `editexam` image:Admin.png[16,16]
 Edits the specified exam from the exam book. Persons registered for the corresponding exam will have the exam details updated as well. +
 Format: `editexam INDEX [p/PRIVATE_STATUS] [e/EXAM_NAME] [s/SUBJECT_NAME] [d/EXAM_DATE] [st/EXAM_START_TIME] [et/EXAM_END_TIME] [dt/EXAM_DETAILS]`
 
@@ -462,7 +462,7 @@ Views the non-private exams of the 1st person in the address book, *if the logge
 `viewexams 1` +
 Views the exams of the 1st person in the address book, *if the logged-account belongs to a tutor/admin*.
 
-==== Clearing all entries : `clearexams` image:Tutor.png[16,16]
+==== Clearing all entries : `clearexams` image:Admin.png[16,16]
 
 Clears all entries from the exam book. All exams will be cleared in the address book as well. +
 Format: `clearexams`
@@ -851,3 +851,61 @@ a data saving operation. ClassRepo shuts itself down to ensure synchronisation o
 
 == Known Issues
 1. ClassRepo ASCII art may be formatted wrongly on OS's such as Mac.
+
+== Summary of All Commands
+Commands are sorted in terms of increasing privileges needed to run them.
++++ <details><summary> +++
+Click to Expand
++++ </summary><div> +++
+
+[width="50%",cols="22%,<20%,<20%,<20%",options="header",]
+|=======================================================================
+|Command |Basic |Tutor |Admin
+|help |Y |Y |Y
+|exit |Y |Y |Y
+|help |Y |Y |Y
+|raise |Y |Y |Y
+|viewpri |Y |Y |Y
+|view |Y |Y |Y
+|list |Y |Y |Y
+|find |Y |Y |Y
+|login |Y |Y |Y
+|logout |Y |Y |Y
+|listacc |Y |Y |Y
+|viewexams |Y |Y |Y
+|listall |N |Y |Y
+|viewall |N |Y |Y
+|listexams |N |Y |Y
+|regexam |N |Y |Y
+|deregexam |N |Y |Y
+|viewfees |N |Y |Y
+|listfees |N |Y |Y
+|listdue |N |Y |Y
+|addassess |N |Y |Y
+|listassess |N |Y |Y
+|deleteassess |N |Y |Y
+|addgrades |N |Y |Y
+|viewgrades |N |Y |Y
+|deletegrades |N |Y |Y
+|addstatistics |N |Y |Y
+|liststatistics |N |Y |Y
+|deletestatistics |N |Y |Y
+|attendance |N |Y |Y
+|replaceAtten |N |Y |Y
+|viewAttenPerson |N |Y |Y
+|viewAttenDate |N |Y |Y
+|editpw |N |N |Y
+|perm |N |N |Y
+|add |N |N |Y
+|delete |N |N |Y
+|clear |N |N |Y
+|addexam |N |N |Y
+|deleteexam |N |N |Y
+|editexam |N |N |Y
+|clearexams |N |N |Y
+|addacc |N |N |Y
+|deleteacc |N |N |Y
+|editfees |N |N |Y
+|paidfees |N |N |Y
+|=======================================================================
++++ </div></details> +++
